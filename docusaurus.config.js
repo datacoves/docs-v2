@@ -96,8 +96,8 @@ const config = {
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
-            label: 'GitHub',
+            href: 'https://datacoves.com/',
+            label: 'Datacoves Website',
             position: 'right',
           },
         ],

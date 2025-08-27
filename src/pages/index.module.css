@@ -21,3 +21,16 @@
   align-items: center;
   justify-content: center;
 }
+
+.heroButton {
+  background-color: #FFD101; /* yellow */
+  color: #000; /* black text for contrast */
+  border: none; /* remove white border */
+  border-radius: 8px;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.heroButton:hover {
+  background-color: #e6bc00; /* slightly darker yellow on hover */
+  transform: translateY(-2px); /* subtle lift */
+}

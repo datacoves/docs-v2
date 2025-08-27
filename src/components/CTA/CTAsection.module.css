@@ -1,0 +1,52 @@
+/* Light mode */
+.ctaSection {
+  background-color: #E8F4FE; /* light blue background */
+  color: black;              
+  text-align: left;
+  padding: 4rem 6rem; /* inside spacing*/
+  margin: 0;
+}
+
+.ctaSection h2 {
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+
+.ctaSection p {
+  font-size: 1rem;
+}
+
+/* Dark mode */
+[data-theme='dark'] .ctaSection {
+  background-color: #626262; /* dark gray background */
+  color: #FFFFFF;            /* white text */
+}
+
+
+.textHighlight {
+    color: var(--ifm-color-primary);
+}
+
+/* Light mode CTA button */
+.ctaButton {
+  background-color: #D9D9D9; /* light gray */
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.ctaButton:hover {
+  background-color: #C0C0C0; /* slightly darker gray on hover */
+  transform: translateY(-1px);
+}
+
+/* Dark mode CTA button */
+[data-theme='dark'] .ctaButton {
+  background-color: #A0A0A0; /* medium gray (lighter than #626262 background) */
+  color: #000;
+}
+
+[data-theme='dark'] .ctaButton:hover {
+  background-color: #8A8A8A; /* hover slightly darker */
+}

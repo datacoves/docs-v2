@@ -6,6 +6,7 @@ import HomepageFeatures from '@site/src/components/HomepageFeatures';
 
 import Heading from '@theme/Heading';
 import styles from './index.module.css';
+import CTASection from '../components/CTA/CTAsection';
 
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
@@ -18,9 +19,9 @@ function HomepageHeader() {
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
           <Link
-            className="button button--secondary button--lg"
+            className={clsx("button button--secondary button--lg", styles.heroButton)}
             to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
+            Getting Started
           </Link>
         </div>
       </div>
@@ -37,6 +38,7 @@ export default function Home() {
       <HomepageHeader />
       <main>
         <HomepageFeatures />
+       <CTASection />
       </main>
     </Layout>
   );

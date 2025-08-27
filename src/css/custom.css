@@ -7,24 +7,97 @@
 /* You can override the default Infima variables here. */
 :root {
   --ifm-color-primary: #3496E0;
-  --ifm-color-primary-dark: #00044A;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
+  --ifm-color-primary-dark: #626262;
+  --ifm-color-primary-darker: #53BAB9 ;
+  --ifm-color-primary-darkest: #00044A;
   --ifm-color-primary-light: #E8F4FE;
-  --ifm-color-primary-lighter:#FEEA8B ;
-  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-color-primary-lighter:#FEEA8B;
+  --ifm-color-primary-lightest:#E8F4FE;
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-border-color: #eaeaea;
+
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
+  --ifm-color-primary: #3496E0;
+  --ifm-color-primary-dark: #00044A;
+  --ifm-color-primary-darker: #626262;
+  --ifm-color-primary-darkest: #00044A;
+  --ifm-color-primary-light: #3496E0;
   --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
+  --ifm-color-primary-lightest: #FFD101;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-card-background: #353535; 
+  
+}
+
+
+
+/* AC added: Make Terms/Privacy smaller and Copyright/legal text styling --- */
+.footer__legal {
+  font-size: 0.8rem;
+  text-align: left;       /* left align instead of centered */
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ffffff30;
+  color: #ffffff;
+
+}
+
+.footer__legal a {
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0 4px;
+}
+
+.footer__legal a:hover {
+  color: #d7d6d6;
+}
+
+.footer__trademarks {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+  color: #ffffff;
+  text-align: left; 
+}
+.footer {
+  background-color: #00044A; /* Datacoves navy brand color */
+}
+
+.footer__logo img,
+.footer__brand-logo {
+  max-width: 160px; /* make logo smaller */
+  height: auto;
+}
+
+
+/* Optional: adjust the brand logo size */
+.footer__brand-logo {
+  max-width: 150px;  /* shrink logo */
+  height: auto;
+}
+
+/* Optional: text alignment */
+.footer__brand-desc {
+  text-align: left;
+}
+
+/* Make the brand column wider */
+.footer__brand--wide {
+  flex: 2;           /* make it wider than other columns */
+  max-width: 400px;  /* optional, prevents huge width */
+}
+
+/* Adjust the logo inside brand column */
+.footer__brand--wide .footer__brand-logo {
+  max-width: 150px;
+  height: auto;
+}
+
+/* Left-align the brand description */
+.footer__brand--wide .footer__brand-desc {
+  text-align: left;
 }

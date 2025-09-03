@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkmy_website=self.webpackChunkmy_website||[]).push([[4674],{9439:e=>{e.exports=JSON.parse('{"name":"@gabrielcsapo/docusaurus-search-local","id":"default"}')}}]);

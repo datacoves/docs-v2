@@ -788,6 +788,12 @@ You will want to set up notifications. Selet the option that works best for your
 
 # Configure your account with Datacoves
 
+:::danger[Attention]
+
+The appropriate git repo access is required to be able to add deployment keys. 
+Be sure that you can add SSH keys to the repo or setup will not be able to finish.
+
+:::
 >[!ATTENTION]
 > The appropriate git repo access is required to be able to add deployment keys. 
 > Be sure that you can add SSH keys to the repo or setup will not be able to finish.
@@ -796,11 +802,15 @@ You will want to set up notifications. Selet the option that works best for your
 
 Before the setup call with the Datacoves team, ensure you have the following ready.
 
->[!NOTE]
-> Email gomezn@datacoves.com and mayra@datacoves.com with the answers to the following two questions so we can be ready for the call.
+
+:::tip[Note]
 
 1. What version of dbt are you using?
 2. Do you use Google / Google Workspace or Microsoft to authenticate? Datacoves leverages your existing authentication service.
+
+:::
+
+
 
 ### Data Warehouse
 

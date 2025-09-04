@@ -1,12 +1,4 @@
-// File: explanation/README
-
-# Explanation
-
-**Explanation** give you an understanding as to the rationale for the suggestions we make
-
----
-
-// File: explanation/best-practices/README
+// File: best-practices/README
 
 # Best Practices
 
@@ -16,7 +8,7 @@ While not written to account for very complex environments, these principles can
 
 ---
 
-// File: explanation/best-practices/datacoves/README
+// File: best-practices/datacoves/README
 
 # Best practices on datacoves
 
@@ -24,7 +16,7 @@ Some recommendations on using datacoves.
 
 ---
 
-// File: explanation/best-practices/datacoves/folder-structure
+// File: best-practices/datacoves/folder-structure
 
 # Organizing your project
 
@@ -97,7 +89,7 @@ The `.vscode/settings.json` folder is used for customized settings in order to o
 
 ---
 
-// File: explanation/best-practices/dbt/README
+// File: best-practices/dbt/README
 
 # Overview <!-- {docsify-ignore-all} -->
 
@@ -139,7 +131,7 @@ Datacoves provides a web-based interface for AirByte, dbt, dbt Docs, Airflow, an
 
 ---
 
-// File: explanation/best-practices/dbt/dbt-guidelines
+// File: best-practices/dbt/dbt-guidelines
 
 # dbt Guidelines
 
@@ -179,7 +171,7 @@ Datacoves provides a web-based interface for AirByte, dbt, dbt Docs, Airflow, an
 
 ---
 
-// File: explanation/best-practices/dbt/inlets-bays-coves
+// File: best-practices/dbt/inlets-bays-coves
 
 # What are Inlets, Bays & Coves
 
@@ -235,7 +227,7 @@ The diagram below shows the qualities of data products.
 
 ---
 
-// File: explanation/best-practices/dbt/object-naming
+// File: best-practices/dbt/object-naming
 
 # Object naming standards
 
@@ -373,7 +365,7 @@ Any aggregation should be described in a suffix on the model/column: `customer_c
 
 ---
 
-// File: explanation/best-practices/git/README
+// File: best-practices/git/README
 
 # Git Overview
 
@@ -431,7 +423,7 @@ Once code is reviewed and UAT is approved, the merge request is completed to the
 
 ---
 
-// File: explanation/best-practices/snowflake/README
+// File: best-practices/snowflake/README
 
 # Snowflake
 
@@ -439,7 +431,7 @@ Here we present some guidance for Snowflake including setting up a scalable secu
 
 ---
 
-// File: explanation/best-practices/snowflake/security-model
+// File: best-practices/snowflake/security-model
 
 # Snowflake Security Model
 
@@ -491,7 +483,7 @@ As developers work in their own dev schemas, any data saved to a table in their 
 
 ---
 
-// File: explanation/best-practices/snowflake/time-travel
+// File: best-practices/snowflake/time-travel
 
 # Snowflake Time travel & GDPR
 
@@ -790,13 +782,15 @@ You will want to set up notifications. Selet the option that works best for your
 
 # Configure your account with Datacoves
 
->[!ATTENTION]The appropriate git repo access is required to be able to add deployment keys, be sure that you can add ssh keys to the repo or we will not be able to finish setup.
+>[!ATTENTION] 
+>The appropriate git repo access is required to be able to add deployment keys, be sure that you can add ssh keys to the repo or we will not be able to finish setup.
 
 ## Prerequisites
 
 Before the setup call with the Datacoves team, ensure you have the following ready.
 
->[!NOTE]Email gomezn@datacoves.com and mayra@datacoves.com with the answers to the following two questions so we can be ready for the call.
+>[!NOTE] 
+>Email gomezn@datacoves.com and mayra@datacoves.com with the answers to the following two questions so we can be ready for the call.
 
 1. What version of dbt are you using?
 2. Do you use Google / Google Workspace or Microsoft to authenticate? Datacoves leverages your existing authentication service.
@@ -838,7 +832,7 @@ To ensure a smooth call, please have the answers to the following questions read
 
 // File: getting-started/Admin/creating-airflow-dags
 
-# Creating Aiflow Dags
+# Creating Airflow Dags
 
 ## Pre-Requisites
 By now you should have:
@@ -1098,6 +1092,12 @@ This guide covers various aspects of using Datacoves for creating, editing, runn
 3. When users no longer need access to Datacoves, you can delete their accounts.
 
   [Deleting a Users](how-tos/datacoves/how_to_manage_users#delete-a-user)
+
+---
+
+// File: getting-started/README
+
+Getting started as an Admin or Developer
 
 ---
 

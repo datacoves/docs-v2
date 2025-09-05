@@ -53,7 +53,7 @@
 }
 
 .footer__legal a:hover {
-  color: #d7d6d6;
+  color: #3496E0;
 }
 
 .footer__trademarks {
@@ -74,21 +74,29 @@
 }
 
 
-/* Optional: adjust the brand logo size */
+/* adjust the brand logo size */
 .footer__brand-logo {
   max-width: 150px;  /* shrink logo */
   height: auto;
 }
 
-/* Optional: text alignment */
+/* text alignment to the left*/
 .footer__brand-desc {
   text-align: left;
 }
 
-/* Make the brand column wider */
-.footer__brand--wide {
-  flex: 2;           /* make it wider than other columns */
-  max-width: 400px;  /* optional, prevents huge width */
+/* Footer links container - default (mobile) stacked */
+.footer__links {
+  display: grid;
+  grid-template-columns: 1fr; /* stack columns vertically */
+  gap: 2rem; /* spacing between columns */
+}
+
+/* Desktop: first column wider */
+@media (min-width: 768px) {
+  .footer__links {
+    grid-template-columns: 2fr 1fr 1fr 1fr; /* first column 2x wider */
+  }
 }
 
 /* Adjust the logo inside brand column */
@@ -100,4 +108,142 @@
 /* Left-align the brand description */
 .footer__brand--wide .footer__brand-desc {
   text-align: left;
+}
+
+.social-media-footer {
+    display: flex;
+    gap: 20px;           /* replaces grid-column-gap and grid-row-gap */
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 55px;
+}
+
+.footer a:hover {
+    text-decoration: none; /* ensure hover doesn't add underline */
+}
+
+/* Target the search bar container */
+.DocSearch-Container {
+  font-family: var(--ifm-font-family-base);
+  color: var(--ifm-color-primary);
+  background-color: var(--ifm-color-background);
+}
+
+/* Target the input box */
+.DocSearch-Input {
+  border: 1px solid var(--ifm-color-primary);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-family: var(--ifm-font-family-base);
+  color: var(--ifm-color-primary);
+}
+
+/* =========================
+   Navbar Search Bar - Brand Styling with Cmd+K
+========================= */
+
+/* Outer button (visible search bar) */
+.DocSearch.DocSearch-Button {
+  display: flex;
+  align-items: center;      /* vertically center everything */
+  gap: 8px;                 /* space between icon, text, and shortcut */
+  border-radius: 9999px;    /* pill shape */
+  background-color: var(--ifm-color-primary-lightest);
+  padding: 6px 12px;
+  border: 2px solid var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+  font-family: var(--ifm-font-family-base);
+  cursor: pointer;
+  width: auto;
+  max-width: 280px;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+/* Magnifying glass icon */
+.DocSearch-Search-Icon {
+  color: var(--ifm-color-primary);
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+/* Placeholder text */
+.DocSearch-Button-Placeholder {
+  color: #626262;
+  font-style: italic;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+/* Shortcut container (Cmd+K) */
+.DocSearch-Button-Keys {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+/* Individual keys */
+.DocSearch-Button-Key {
+  background-color: var(--ifm-color-primary-light);
+  color: var(--ifm-color-primary-dark);
+  border-radius: 4px;
+  
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover effect */
+.DocSearch.DocSearch-Button:hover {
+  background-color: var(--ifm-color-primary-light); 
+}
+
+/* Focus outline */
+.DocSearch.DocSearch-Button:focus {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+
+/*styling the search container new window that popsup*/
+.searchInputContainer_BATj {
+    background-color: var(--ifm-color-primary-lightest) !important;
+    border-radius: 8px;
+    box-shadow: inset 0 0 0 2px var(--ifm-color-primary) !important; /* overrides green */
+  height: 50px;
+  margin: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+
+/* Input field inside the container */
+.searchInputContainer_BATj input[type="search"] {
+    border: none;
+    outline: none;
+    background: transparent;
+    flex: 1;
+    padding: 0 8px;
+    font-family: var(--ifm-font-family-base);
+    color: #1f1f1f; /* dark text */
+}
+
+/* Magnifying glass icon */
+.searchInputContainer_BATj svg {
+    color: var(--ifm-color-primary);
+    width: 18px;
+    height: 18px;
 }

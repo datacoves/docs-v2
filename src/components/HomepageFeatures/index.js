@@ -5,13 +5,14 @@ import Link from '@docusaurus/Link';
 import React from 'react';
 import CTASection from '../CTA/CTAsection';
 
+
 const FeatureList = [
   {
     title: 'How to',
     Svg: require('@site/static/img/how-to.svg').default,
     description: (
       <>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+       How to guides provide step-by-step instructions to accomplish tasks assuming a basic understanding of the platform. They include topics like Airflow, Datacoves, dbt, Git and Snowflake.
       </>
     ),
     link: '/',
@@ -21,7 +22,7 @@ const FeatureList = [
     Svg: require('@site/static/img/best-practice.svg').default,
     description: (
       <>
-       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+       Here we present some guidance to help you mature your analytics practice. This guidance comes from experience working at large enterprises.
       </>
     ),
     link: '/',
@@ -31,7 +32,7 @@ const FeatureList = [
     Svg: require('@site/static/img/resources.svg').default,
     description: (
       <>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam
+      Your go-to source for technical details on tools like the Administration Menu, Airflow, Datacoves, Metrics & Logs, Security and VS Code organized for easy lookup and practical use.
       </>
     ),
      link: '/',

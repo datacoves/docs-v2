@@ -1,3 +1,8 @@
+---
+title: Retry dbt tasks
+sidebar_position: 12
+---
+
 # Retry a dbt task
 
 ## Overview

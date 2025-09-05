@@ -1,3 +1,8 @@
+---
+title: Security model
+sidebar_position: 2
+---
+
 # Snowflake Security Model
 
 ## Overview

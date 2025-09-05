@@ -1,6 +1,6 @@
 ---
 title: Configure Airflow
-
+sidebar_position: 3
 ---
 # Configuring Airflow
 You don't need Airflow to begin using Datacoves, but at some point you will want to schedule your dbt jobs. The following steps will help you get started using Airflow. Keep in mind this is the basic setup, you can find additional Aiflow information in the how-tos and reference sections. 

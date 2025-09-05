@@ -1,6 +1,6 @@
 ---
 title: Configure Git Repository
-
+sidebar_position: 4
 ---
 # Update Repository for Airflow
 

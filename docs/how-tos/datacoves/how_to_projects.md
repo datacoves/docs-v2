@@ -1,3 +1,8 @@
+---
+title: How_to_projects
+sidebar_position: 14
+---
+
 # How to Create/Edit a Project
 Navigate to the Projects page
 

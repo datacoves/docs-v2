@@ -1,3 +1,8 @@
+---
+title: Csv in datacoves
+sidebar_position: 1
+---
+
 # CSVs in VS Code
 
 This page is all about working with CSV files in Datacoves' VS Code in the browser. 

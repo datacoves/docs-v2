@@ -1,3 +1,8 @@
+---
+title: Run adf pipeline
+sidebar_position: 13
+---
+
 # Use Microsoft Azure Data Factory Operators 
 
 You can use Airflow in Datacoves to trigger a Microsoft Azure Data Factory pipeline. This guide will walk you through the configuration process. 

@@ -1,3 +1,8 @@
+---
+title: How_to_connection_template
+sidebar_position: 8
+---
+
 # How to Create/Edit Connection Template
 
 Navigate to the Connection Template page

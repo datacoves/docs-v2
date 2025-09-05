@@ -1,3 +1,8 @@
+---
+title: Integrations
+sidebar_position: 4
+---
+
 # Integrations Admin
 
 ## Overview

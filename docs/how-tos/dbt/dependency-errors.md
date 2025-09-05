@@ -1,3 +1,8 @@
+---
+title: Dependency errors
+sidebar_position: 4
+---
+
 # How to Fix dbt Dependency Errors
 
 Dependency errors occur when your dbt models reference each other in ways that create conflicts or circular dependencies. These can be some of the most challenging errors to resolve.

@@ -1,6 +1,6 @@
 ---
 title: User Management
-
+sidebar_position: 7
 ---
 # User Management
 

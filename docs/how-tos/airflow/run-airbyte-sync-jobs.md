@@ -1,3 +1,8 @@
+---
+title: Run airbyte sync jobs
+sidebar_position: 14
+---
+
 # Run Airbyte sync jobs
 
 In our quest to simplify the way tools integrate in the Modern Data Stack, we developed the generate airflow-dags command in the <a href="https://github.com/datacoves/dbt-coves?tab=readme-ov-file#generate-airflow-dags" target="_blank" rel="noopener">dbt-coves</a> library.

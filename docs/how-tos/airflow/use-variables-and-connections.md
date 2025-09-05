@@ -1,3 +1,8 @@
+---
+title: Use variables and connections
+sidebar_position: 26
+---
+
 # Variables and Connections
 
 >[!NOTE]dbt-coves generate airflow-dags does not support reading variables/connections, but you may generate the initial Python Airflow DAG and add the connection / variable information.

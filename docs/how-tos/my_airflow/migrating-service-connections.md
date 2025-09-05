@@ -1,3 +1,8 @@
+---
+title: Migrating service connections
+sidebar_position: 1
+---
+
 # Migrating from Environment Service Connections to Airflow Service Connections
 
 To leverage **My Airflow** and **Datacoves Decorators**, you'll need to update your configurations and refactor your DAGs. This guide walks you through the necessary steps.

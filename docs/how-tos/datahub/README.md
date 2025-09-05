@@ -1,3 +1,7 @@
+---
+Title: Datahub
+sidebar_position: 4
+---
 # DataHub in Datacoves 
 
 These how to guides are dedicated to DataHub in Datacoves. See how to:

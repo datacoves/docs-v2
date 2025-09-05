@@ -1,3 +1,8 @@
+---
+title: Service_connections
+sidebar_position: 9
+---
+
 # Service Connections Admin
 
 ## Overview

@@ -1,3 +1,8 @@
+---
+title: Object naming
+sidebar_position: 3
+---
+
 # Object naming standards
 
 ## General Database Relation Naming

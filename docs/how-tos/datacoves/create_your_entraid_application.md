@@ -1,3 +1,8 @@
+---
+title: Create_your_entraid_application
+sidebar_position: 3
+---
+
 # Create your application
 
 If you do not have an Entra ID application created, you can do so by following these steps:

@@ -1,3 +1,8 @@
+---
+title: Initial setup
+sidebar_position: 9
+---
+
 # How to configure Airflow in Datacoves
 
 ## Turn on Airflow

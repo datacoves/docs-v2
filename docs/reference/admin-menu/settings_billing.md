@@ -1,3 +1,8 @@
+---
+title: Settings_billing
+sidebar_position: 10
+---
+
 # Account Settings & Billing
 
 ## Overview

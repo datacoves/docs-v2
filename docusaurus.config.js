@@ -113,15 +113,15 @@ const config = {
       position: 'left',
       items: [
         {
-          type: 'docSidebar',//AC: uncommented this to use custom sidebar
-          sidebarId: 'gettingStartedSidebar',//AC: uncommented this to use custom sidebar
+          //type: 'docSidebar',//AC: uncommented this to use custom sidebar
+          //sidebarId: 'gettingStartedSidebar',//AC: uncommented this to use custom sidebar
           label: 'Administrator', // You can add more internal doc links here
           to: '/docs/getting-started/Admin/',
         },
          {
-          type: 'docSidebar',//AC: uncommented this to use custom sidebar
+          //type: 'docSidebar',//AC: uncommented this to use custom sidebar
           label: 'Developer', // You can add more internal doc links here
-          sidebarId: 'gettingStartedSidebar',
+         // sidebarId: 'gettingStartedSidebar',
           to: '/docs/getting-started/developer/',
         },
         // Add more internal docs here if needed
@@ -135,62 +135,62 @@ const config = {
         {
           label: 'Airflow',
           to: '/docs/how-tos/airflow/',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'howToSidebar',
+          //type: 'docSidebar',//add sidebar 
+         //// sidebarId: 'howToSidebar',
         },
         {
           label: 'Datacoves',
           to: '/docs/how-tos/datacoves/',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'howToSidebar',
+          //type: 'docSidebar',//add sidebar 
+         //// sidebarId: 'howToSidebar',
         },
         {
           label: 'Datahub',
           to: '/docs/how-tos/datahub/',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'howToSidebar',
+          //type: 'docSidebar',//add sidebar 
+         //// sidebarId: 'howToSidebar',
         },
          {
           label: 'DataOps',
           to: '/docs/how-tos/dataops/',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'howToSidebar',
+          //type: 'docSidebar',//add sidebar 
+         //// sidebarId: 'howToSidebar',
         },
          {
           label: 'dbt',
           to: '/docs/how-tos/dbt',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'howToSidebar',
+          //type: 'docSidebar',//add sidebar 
+         //// sidebarId: 'howToSidebar',
         },
          {
           label: 'Git',
           to: '/docs/how-tos/git',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'howToSidebar',
+          //type: 'docSidebar',//add sidebar 
+         //// sidebarId: 'howToSidebar',
         },
          {
           label: 'My Airflow',
           to: '/docs/how-tos/my_airflow',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'howToSidebar',
+          //type: 'docSidebar',//add sidebar 
+         //// sidebarId: 'howToSidebar',
         },
          {
           label: 'Snowflake',
           to: '/docs/how-tos/snowflake',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'howToSidebar',
+          //type: 'docSidebar',//add sidebar 
+         // sidebarId: 'howToSidebar',
         },
          {
           label: 'Superset',
           to: '/docs/how-tos/superset',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'howToSidebar',
+          //type: 'docSidebar',//add sidebar 
+         // sidebarId: 'howToSidebar',
         },
          {
           label: 'VS Code',
           to: '/docs/how-tos/vscode',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'howToSidebar',
+          //type: 'docSidebar',//add sidebar 
+         // sidebarId: 'howToSidebar',
         },
         
       ],
@@ -203,26 +203,26 @@ const config = {
         {
           label: 'Datacoves',
           to: '/docs/best-practices/datacoves/',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'bestPracticesSidebar',
+          //type: 'docSidebar',//add sidebar 
+         // sidebarId: 'bestPracticesSidebar',
         },
         {
           label: 'dbt',
           to: '/docs/best-practices/dbt/dbt-guidelines',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'bestPracticesSidebar',
+          //type: 'docSidebar',//add sidebar 
+         // sidebarId: 'bestPracticesSidebar',
         },
         {
           label: 'Git',
           to: '/docs/best-practices/git/',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'bestPracticesSidebar',
+          //type: 'docSidebar',//add sidebar 
+         // sidebarId: 'bestPracticesSidebar',
         },
          {
           label: 'Snowflake',
           to: '/docs/best-practices/snowflake/',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'bestPracticesSidebar',
+          //type: 'docSidebar',//add sidebar 
+         // sidebarId: 'bestPracticesSidebar',
         },
          
         ],
@@ -235,39 +235,39 @@ const config = {
         {
           label: 'Administration Menu',
           to: '/docs/reference/admin-menu/',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'referenceSidebar',
+          //type: 'docSidebar',//add sidebar 
+         // sidebarId: 'referenceSidebar',
         },
         {
           label: 'Airflow',
           to: '/docs/reference/airflow/',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'referenceSidebar',
+          //type: 'docSidebar',//add sidebar 
+         // sidebarId: 'referenceSidebar',
   
         },
         {
           label: 'Datacoves',
           to: '/docs/reference/datacoves/',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'referenceSidebar',
+          //type: 'docSidebar',//add sidebar 
+         // sidebarId: 'referenceSidebar',
         },
         {
          label: 'dbt docs',
           to: 'https://docs.getdbt.com/',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'referenceSidebar',
+          //type: 'docSidebar',//add sidebar 
+         // sidebarId: 'referenceSidebar',
         },
          {
           label: 'Metrics & Logs',
           to: '/docs/reference/metrics-and-logs/',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'referenceSidebar',
+          //type: 'docSidebar',//add sidebar 
+         // sidebarId: 'referenceSidebar',
         },
          {
           label: 'Security',
           to: '/docs/reference/security/',
-          type: 'docSidebar',//add sidebar 
-          sidebarId: 'referenceSidebar',
+          //type: 'docSidebar',//add sidebar 
+         // sidebarId: 'referenceSidebar',
         },
      
         ],

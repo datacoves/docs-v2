@@ -1,3 +1,8 @@
+---
+title: Connection_templates
+sidebar_position: 1
+---
+
 # Connection Templates Admin
 
 ## Overview

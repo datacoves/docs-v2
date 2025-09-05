@@ -1,3 +1,8 @@
+---
+title: How_to_configure_aws_secrets_manager
+sidebar_position: 6
+---
+
 # Configuring AWS Secrets Manager
 
 ## Table of Contents

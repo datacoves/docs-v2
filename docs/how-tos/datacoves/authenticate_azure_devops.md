@@ -1,3 +1,8 @@
+---
+title: Authenticate_azure_devops
+sidebar_position: 2
+---
+
 # Authentication for Azure DevOps 
 
 Now you are ready to begin configuring your authentication method. This is the method Datacoves will use to clone your repo from Azure DevOps. You have two options: `secrets` and `certificates`.

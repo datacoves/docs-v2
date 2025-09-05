@@ -1,3 +1,8 @@
+---
+title: Create dag level docs
+sidebar_position: 3
+---
+
 # How to Add Docs at the DAG Level in Airflow
 
 ## Overview

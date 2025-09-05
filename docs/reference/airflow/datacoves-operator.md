@@ -1,3 +1,8 @@
+---
+title: Datacoves operator
+sidebar_position: 7
+---
+
 # Datacoves Operators & Generators
 
 >[!NOTE] All operators use Datacoves Service connections with `Delivery Mode` set to `Environment Variables`

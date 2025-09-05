@@ -1,5 +1,6 @@
 ---
 title: Datacoves
+sidebar_position: 4
 ---
 # Admin Configuration in Datacoves
 

@@ -1,3 +1,8 @@
+---
+title: Start my airflow
+sidebar_position: 4
+---
+
 # How to use My Airflow
 
 ## Spin up your individual Airflow instance 

@@ -1,3 +1,8 @@
+---
+title: Snowflake_setup
+sidebar_position: 10
+---
+
 # Snowflake Setup
 
 ## Setup Snowflake with Key Pair

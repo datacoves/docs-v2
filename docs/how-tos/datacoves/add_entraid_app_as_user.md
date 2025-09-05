@@ -1,3 +1,8 @@
+---
+title: Add_entraid_app_as_user
+sidebar_position: 1
+---
+
 # Add Application as a user in DevOps Portal
 
 <u>**Step 1**</u>

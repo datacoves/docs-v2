@@ -1,3 +1,8 @@
+---
+title: Invitations
+sidebar_position: 5
+---
+
 # Invitations Admin
 
 ## Overview

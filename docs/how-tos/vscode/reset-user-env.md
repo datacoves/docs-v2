@@ -1,3 +1,8 @@
+---
+title: Reset user env
+sidebar_position: 9
+---
+
 # Reset the User's Env if the git Repository is Changed in the Project. 
 
 If you need to reset your user environment because you change the repo associated with your environment after one has already been cloned or if the repo fails to clone, you will need to remove the workspace folder and reset the environment. 

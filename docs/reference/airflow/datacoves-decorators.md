@@ -1,3 +1,8 @@
+---
+title: Datacoves decorators
+sidebar_position: 6
+---
+
 # Datacoves Airflow Decorators
 
 With the introduction of the task flow API in Airflow we have released the Datacoves decorators to make writing DAGs simple! 

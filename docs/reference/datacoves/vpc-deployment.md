@@ -1,3 +1,8 @@
+---
+title: Vpc deployment
+sidebar_position: 3
+---
+
 # VPC Deployment
 
 Datacoves is designed to work on Public or Private Virtual Clouds.

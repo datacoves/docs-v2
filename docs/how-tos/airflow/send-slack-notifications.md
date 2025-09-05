@@ -1,3 +1,8 @@
+---
+title: Send slack notifications
+sidebar_position: 21
+---
+
 # How to send Slack notifications on DAG's status
 
 As stated in [how to send email notifications](/how-tos/airflow/send-emails.md), Airflow allows multiple ways to inform users about DAGs and tasks status.

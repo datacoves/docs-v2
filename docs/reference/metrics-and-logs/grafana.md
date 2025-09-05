@@ -1,3 +1,8 @@
+---
+title: Grafana
+sidebar_position: 1
+---
+
 # Grafana Dashboards
 
 ## Navigation menu

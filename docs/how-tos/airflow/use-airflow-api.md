@@ -1,3 +1,8 @@
+---
+title: Use airflow api
+sidebar_position: 24
+---
+
 # How to use the Airflow API
 
 >[!WARNING] Users must have Project Level Admin Group to use the Airflow API. The API will allow you to view secrets values in plain text. Always exercise the principle of least privilege. 

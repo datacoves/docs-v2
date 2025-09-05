@@ -1,3 +1,6 @@
+---
+sidebar_position: 7
+---
 # Admininstration Menu
 
 The Datacoves Administration menu provides access to configurations of projects, environments, users, and connections.

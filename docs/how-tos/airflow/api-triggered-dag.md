@@ -1,3 +1,8 @@
+---
+title: Api triggered dag
+sidebar_position: 2
+---
+
 # How to Trigger a DAG using Datasets
 
 ## Overview

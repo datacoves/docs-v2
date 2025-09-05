@@ -1,3 +1,6 @@
+---
+sidebar_position: 1
+---
 # Metrics and Logs How Tos
 
 Datacoves provides [Grafana](/reference/metrics-and-logs/grafana.md) to monitor Airflow, Docker image builds, and more! 

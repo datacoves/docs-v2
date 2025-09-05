@@ -1,3 +1,8 @@
+---
+title: How_to_configure_azure_DevOps
+sidebar_position: 7
+---
+
 # How to Clone with Azure DevOps
 
 To enable Datacoves cloning from Azure DevOps, you must complete a series of steps outlined in this guide.

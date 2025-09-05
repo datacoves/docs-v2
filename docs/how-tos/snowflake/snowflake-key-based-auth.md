@@ -1,3 +1,8 @@
+---
+title: Snowflake key based auth
+sidebar_position: 2
+---
+
 # How to set up Snowflake Key-Based Auth for CI Service Accounts
 
 ## Overview

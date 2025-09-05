@@ -1,6 +1,6 @@
 ---
 title: Configure Git Repository Using dbt-coves
-
+sidebar_position: 5
 ---
 # Initial Datacoves Repository Setup
 

@@ -1,3 +1,8 @@
+---
+title: How_to_secrets
+sidebar_position: 15
+---
+
 # How to Create/Edit a Secret
 
 Datacoves includes a built-in [Secrets Manager](reference/admin-menu/secrets.md) that allows you to securely store and manage secrets for both administrators and developers. Secrets can be stored at the project or environment level and easily shared across other tools in your stack, ensuring seamless integration and enhanced security. Follow this guide to create/edit a secret in the Datacoves Secrets Manager.

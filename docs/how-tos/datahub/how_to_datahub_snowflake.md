@@ -1,3 +1,8 @@
+---
+title: How_to_datahub_snowflake
+sidebar_position: 3
+---
+
 
 # How to ingest Snowflake metadata into DataHub
 

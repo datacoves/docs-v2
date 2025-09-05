@@ -1,3 +1,8 @@
+---
+title: S3 to snowflake
+sidebar_position: 18
+---
+
 # Loading S3 Files into Snowflake 
 
 ## Schema Evolution 

@@ -1,3 +1,8 @@
+---
+title: Environments
+sidebar_position: 2
+---
+
 # Environments Admin
 
 ## Overview

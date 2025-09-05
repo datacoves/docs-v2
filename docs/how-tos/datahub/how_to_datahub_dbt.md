@@ -1,3 +1,8 @@
+---
+title: How_to_datahub_dbt
+sidebar_position: 2
+---
+
 # Ingesting dbt Metadata into DataHub
 
 ## Prerequisites

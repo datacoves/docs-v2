@@ -1,3 +1,8 @@
+---
+title: Time travel
+sidebar_position: 3
+---
+
 # Snowflake Time travel & GDPR
 
 In order to comply with GDPRs right to be forgotten, Time Travel for PII data is set at 7 days for Production data, and 21 days for snapshots. Time Travel for non-PII is set to 30 days as default.

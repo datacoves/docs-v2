@@ -1,3 +1,8 @@
+---
+title: Advenced dbt debug
+sidebar_position: 1
+---
+
 # How to Debug dbt Models and Macros
 
 This guide covers advanced debugging techniques for dbt models, providing tools and strategies to diagnose and fix issues in your dbt projects.

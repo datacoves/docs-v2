@@ -1,5 +1,6 @@
 ---
 title: Administrator
+sidebar_position: 2
 ---
 # Datacoves Getting Started Guides - Admin
 

@@ -1,3 +1,8 @@
+---
+title: README
+sidebar_position: 1
+---
+
 # Datacoves Security
 
 Security and Privacy are fundamental pillars in Datacoves.

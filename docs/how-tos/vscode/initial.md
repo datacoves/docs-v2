@@ -1,3 +1,6 @@
+---
+sidebar_position: 4
+---
 # How to Configure your VS Code in the Datacoves Transform tab
 
 When you first log into Datacoves, you will see that VS Code is disabled.

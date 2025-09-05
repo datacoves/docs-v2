@@ -1,5 +1,6 @@
 ---
 title: Developer
+sidebar_position: 2
 ---
 # Datacoves Getting Started Guides - Developer
 

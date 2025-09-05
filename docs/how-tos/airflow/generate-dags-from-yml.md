@@ -1,3 +1,8 @@
+---
+title: Generate dags from yml
+sidebar_position: 7
+---
+
 # Generate DAGs from yml
 
 You have the option to write out your DAGs in python or you can write them using yml and then have dbt-coves generate the python DAG for you.

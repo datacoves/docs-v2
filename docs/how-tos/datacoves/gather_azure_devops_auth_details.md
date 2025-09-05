@@ -1,3 +1,8 @@
+---
+title: Gather_azure_devops_auth_details
+sidebar_position: 5
+---
+
 # Gather DevOps Authentication details
 
 You will need to gather the following application information to configure your project to use Azure DevOps for cloning.

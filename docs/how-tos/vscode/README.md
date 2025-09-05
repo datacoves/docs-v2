@@ -1,3 +1,6 @@
+---
+sidebar_position: 6
+---
 # VS Code in Datacoves
 
 These how to guides are dedicated to our Hosted VS Code. This powerful IDE gives you all the power you need along with the customization options. 

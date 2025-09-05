@@ -1,3 +1,8 @@
+---
+title: How_to_environments
+sidebar_position: 9
+---
+
 # How to Create/Edit an Environment
 
 Navigate to the Environments page

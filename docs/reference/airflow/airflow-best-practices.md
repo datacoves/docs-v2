@@ -1,3 +1,8 @@
+---
+title: Airflow best practices
+sidebar_position: 1
+---
+
 # Airflow Best Practices
 
 This page should serve as a reference for tips and tricks that we recommend for the best Airflow experience. Please read the official [Airflow Best Practices doc](https://airflow.apache.org/docs/apache-airflow/stable/best-practices.html) first.

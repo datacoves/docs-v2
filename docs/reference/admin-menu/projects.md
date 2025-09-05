@@ -1,3 +1,8 @@
+---
+title: Projects
+sidebar_position: 6
+---
+
 # Projects Admin
 
 ## Overview

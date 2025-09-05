@@ -1,5 +1,5 @@
 ---
 title: Getting Started
-
+sidebar_position: 2
 ---
-Getting started as an Admin or Developer
+# Datacoves Getting Started Guides 

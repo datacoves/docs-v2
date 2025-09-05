@@ -1,3 +1,8 @@
+---
+title: Airflow variables
+sidebar_position: 3
+---
+
 # Airflow Variables
 
 Datacoves injects several environment variables into Apache Airflow to streamline workflow configurations. Below is a list of important variables you may encounter:

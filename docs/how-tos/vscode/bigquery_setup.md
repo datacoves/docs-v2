@@ -1,3 +1,8 @@
+---
+title: Bigquery_setup
+sidebar_position: 1
+---
+
 # BigQuery Setup
 
 In the Database Connection Section, click `Add`

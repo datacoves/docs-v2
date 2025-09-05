@@ -1,3 +1,8 @@
+---
+title: Send ms teams notifications
+sidebar_position: 20
+---
+
 # How to send Microsoft Teams notifications on DAG's status
 
 As stated in [how to send email notifications](/how-tos/airflow/send-emails.md), Airflow allows multiple ways to inform users about DAGs and tasks status.

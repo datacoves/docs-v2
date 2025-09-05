@@ -1,3 +1,7 @@
+---
+title: Lineage View
+
+---
 # Lineage View 
 
 The **Lineage View** panel is a feature of the Datacoves VSCode extension that provides a visual representation of the lineage of your project. This tool helps you quickly understand how data flows between models, sources, and downstream dependencies within your dbt project.
@@ -31,7 +35,7 @@ You can also look up other dbt models and change the parent and child nodes disp
   -  `my_model+{n}`
   -  `{n}+my_model+{n}`
 
-![Lineage View Example](assets/lineage_view_with_model.png)
+![Lineage View Example](../assets/lineage_view_with_model.png)
 
 ## Configuration
 

@@ -1,3 +1,8 @@
+---
+title: Warehouses schemas roles
+sidebar_position: 3
+---
+
 # How to add Warehouses, Schemas, and Roles to Snowflake
 
 Since we want all changes to the warehouse to be driven by code, we employ Permifrost and some additional scripts to manage changes to Snowflake. (contact us for assistance configuring your repository with the additional scripts needed)

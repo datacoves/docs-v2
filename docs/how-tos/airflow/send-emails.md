@@ -1,3 +1,8 @@
+---
+title: Send emails
+sidebar_position: 19
+---
+
 # How to send email notifications on DAG's failure
 
 Getting notifications when there is a failure is critical for data teams and Airflow allows multiple ways to keep users informed about the status of a DAG.

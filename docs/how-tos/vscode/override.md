@@ -1,3 +1,8 @@
+---
+title: Override
+sidebar_position: 5
+---
+
 # How to override default VS Code settings
 
 Once you have [set up your Visual Studio Code](/how-tos/vscode/initial) environment, you have the possibility to override certain settings we provide by default. This is done in your Workspace settings.

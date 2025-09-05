@@ -1,3 +1,8 @@
+---
+title: Versioning
+sidebar_position: 2
+---
+
 # Datacoves versioning
 
 Datacoves uses [semantic versioning](https://semver.org/) in all our docker images, and Datacoves releases.

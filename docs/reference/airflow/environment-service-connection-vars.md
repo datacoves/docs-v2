@@ -1,3 +1,8 @@
+---
+title: Environment service connection vars
+sidebar_position: 8
+---
+
 # Warehouse Environment Variables
 
 When creating a service connection and setting the `Delivery Mode` to environment variables, Datacoves will inject the following environment variables in Airflow. 

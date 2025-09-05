@@ -1,3 +1,8 @@
+---
+title: Request resources on workers
+sidebar_position: 11
+---
+
 # How to request more memory or cpu resources on a particular DAG task
 
 Sometimes you need to run tasks that require more memory or compute power. Airflow task's definition that use a kubernetes execution environment allow for this type of configuration.

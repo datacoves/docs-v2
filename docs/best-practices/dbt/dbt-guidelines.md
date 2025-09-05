@@ -1,3 +1,8 @@
+---
+title: Dbt guidelines
+sidebar_position: 1
+---
+
 # dbt Guidelines
 
 ## dbt Recommendations

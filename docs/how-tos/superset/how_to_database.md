@@ -1,3 +1,6 @@
+---
+sidebar_position: 2
+---
 ## How to Add a Database Connection in Superset
 
 To use Superset you will need to create a connection to your database.

@@ -1,3 +1,8 @@
+---
+title: How_to_manage_users
+sidebar_position: 13
+---
+
 # How to Manage Users
 
 Navigate to the Users page

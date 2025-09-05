@@ -1,3 +1,8 @@
+---
+title: V2 llm config
+sidebar_position: 6
+---
+
 # Configure your LLM in Datacoves Copilot v2
 
 ## Create a Datacoves Secret

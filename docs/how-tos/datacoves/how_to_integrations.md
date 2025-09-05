@@ -1,3 +1,8 @@
+---
+title: How_to_integrations
+sidebar_position: 11
+---
+
 # How to Create/Edit an Integration
 
 Navigate to the Integrations Menu

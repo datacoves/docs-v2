@@ -1,3 +1,8 @@
+---
+title: Inlets bays coves
+sidebar_position: 2
+---
+
 # What are Inlets, Bays & Coves
 
 Before companies start creating data warehouses or data lakes, they typically run their business with spreadsheets. Different areas of the business do analysis by combining different data sets to produce the metrics they need.

@@ -1,3 +1,6 @@
+---
+sidebar_position: 1
+---
 # Git Overview
 
 While many see the advantage of dbt as a platform with unit testing, SQL for everything, and automatic documentation, these have all been available (to various extents) in data platforms for some time. The core innovation that dbt brought to DataOps is Context - the Transformation engine understands the relationship between models.

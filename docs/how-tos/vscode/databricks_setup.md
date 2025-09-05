@@ -1,3 +1,8 @@
+---
+title: Databricks_setup
+sidebar_position: 2
+---
+
 # Databricks Setup
 
 In the Database Connection Section, click `Add`

@@ -1,3 +1,8 @@
+---
+title: Customize worker environment
+sidebar_position: 4
+---
+
 # How to set up a custom environment for your Airflow workers
 
 If you need to run tasks on Airflow on a custom environment that comes with pre-installed libraries and tools, we recommend building your own custom docker image, upload it to a docker image repository such as dockerhub and reference it in your DAG's task operator.

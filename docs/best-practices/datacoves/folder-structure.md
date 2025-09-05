@@ -1,3 +1,8 @@
+---
+title: Folder structure
+sidebar_position: 1
+---
+
 # Organizing your project
 
 We recommend organizing your Datacoves project repository as described below so that different components are simple to find and maintain. View our <a href="https://github.com/datacoves/balboa" target="_blank" rel="noopener">sample analytics project</a> for an example of all the required and recommended folders.

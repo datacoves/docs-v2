@@ -1,3 +1,8 @@
+---
+title: Ssh keys
+sidebar_position: 2
+---
+
 # How to configure a SSH Key to clone a git repository
 
 ## Clone a Git repository for development purposes (write access required)

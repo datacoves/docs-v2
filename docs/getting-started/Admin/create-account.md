@@ -1,6 +1,6 @@
 ---
 title: Account Pre-reqs
-
+sidebar_position: 1
 ---
 # Configure your account with Datacoves
 

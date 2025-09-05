@@ -1,3 +1,8 @@
+---
+title: External python dag
+sidebar_position: 6
+---
+
 # External Python DAG 
 
 If you need additional libraries for your DAG such as pandas, let us know so that we can configure them in your environment. 

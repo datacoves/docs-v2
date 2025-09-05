@@ -1,3 +1,6 @@
+---
+sidebar_position: 1
+---
 # DataOps in Datacoves
 
 These how to guides cover what we define as DataOps best practices.

@@ -8,14 +8,6 @@ While not written to account for very complex environments, these principles can
 
 ---
 
-// File: best-practices/datacoves/README
-
-# Best practices on datacoves
-
-Some recommendations on using datacoves.
-
----
-
 // File: best-practices/datacoves/folder-structure
 
 # Organizing your project
@@ -89,45 +81,11 @@ The `.vscode/settings.json` folder is used for customized settings in order to o
 
 ---
 
-// File: best-practices/dbt/README
+// File: best-practices/datacoves/README
 
-# Overview <!-- {docsify-ignore-all} -->
+# Best practices on datacoves
 
-As any data environment grows, it can become difficult for new team members to unravel complex pieces of logic within the project.
-
-To assist with future change & onboarding, each model should contain only what it must to get to the next stage of complexity. The [dbt project guidelines](explanation/best-practices/dbt/dbt-guidelines.md) assist with decision-making to keep the environment clean.
-
-## Macros
-
-Any dbt macros created to apply repeated logic should be descriptively named with the action they accomplish:
-
-- add_load_timestamp_column
-- create_hash_key_from_columns
-- get_latest_record_for_key
-
-Macros in the *dbt-utils* package allow developers to develop in universal SQL syntax that can run on any modern database, giving the business flexibility to move between platforms as required in the future.
-
-Macros in *dbt-expectations* increases the testing suite significantly, including many statistical, multi-column, and aggregation tests.
-
-## Tools & Packages
-
-One of the significant advantages of joining the global dbt community is the wide array of [open source libraries](https://datacoves.com/dbt-libs) and [dbt packages](https://hub.getdbt.com) we have available to us.
-
-These tools allow companies to move faster, produce more reusable and readable code, and make it far easier for those who come after us to keep moving forward.
-
-There are 3 primary types of tool:
-
-1. Coding environment extensions and python libraries help find information quickly while developing data models, and make it easy to write good code quickly
-2. Macros and packages extend the capability of SQL, by allowing reuse of advanced pieces of logic in a centralized, repeatable way.
-3. Standards and expectations build trust in data and flag areas where the quality of code could be improved.
-
-Datacoves provides a web-based interface for AirByte, dbt, dbt Docs, Airflow, and Superset - streamlining the process of development by wrapping the below tools in a simple environment
-
-[dbt-coves](https://github.com/datacoves/dbt-coves) automates certain tasks such as creating source property(yml) files and initial staging models by querying the database eliminating tedious tasks.
-
-[sqlfluff](https://www.sqlfluff.com/) provides baseline expectations of clean code and flags many common logic issues as SQL is developed
-
-[dbt-checkpoint](https://github.com/dbt-checkpoint/dbt-checkpoint) helps perform governance checks like verifying the models have descriptions and table names are not hard coded
+Some recommendations on using datacoves.
 
 ---
 
@@ -365,6 +323,48 @@ Any aggregation should be described in a suffix on the model/column: `customer_c
 
 ---
 
+// File: best-practices/dbt/README
+
+# Overview <!-- {docsify-ignore-all} -->
+
+As any data environment grows, it can become difficult for new team members to unravel complex pieces of logic within the project.
+
+To assist with future change & onboarding, each model should contain only what it must to get to the next stage of complexity. The [dbt project guidelines](explanation/best-practices/dbt/dbt-guidelines.md) assist with decision-making to keep the environment clean.
+
+## Macros
+
+Any dbt macros created to apply repeated logic should be descriptively named with the action they accomplish:
+
+- add_load_timestamp_column
+- create_hash_key_from_columns
+- get_latest_record_for_key
+
+Macros in the *dbt-utils* package allow developers to develop in universal SQL syntax that can run on any modern database, giving the business flexibility to move between platforms as required in the future.
+
+Macros in *dbt-expectations* increases the testing suite significantly, including many statistical, multi-column, and aggregation tests.
+
+## Tools & Packages
+
+One of the significant advantages of joining the global dbt community is the wide array of [open source libraries](https://datacoves.com/dbt-libs) and [dbt packages](https://hub.getdbt.com) we have available to us.
+
+These tools allow companies to move faster, produce more reusable and readable code, and make it far easier for those who come after us to keep moving forward.
+
+There are 3 primary types of tool:
+
+1. Coding environment extensions and python libraries help find information quickly while developing data models, and make it easy to write good code quickly
+2. Macros and packages extend the capability of SQL, by allowing reuse of advanced pieces of logic in a centralized, repeatable way.
+3. Standards and expectations build trust in data and flag areas where the quality of code could be improved.
+
+Datacoves provides a web-based interface for AirByte, dbt, dbt Docs, Airflow, and Superset - streamlining the process of development by wrapping the below tools in a simple environment
+
+[dbt-coves](https://github.com/datacoves/dbt-coves) automates certain tasks such as creating source property(yml) files and initial staging models by querying the database eliminating tedious tasks.
+
+[sqlfluff](https://www.sqlfluff.com/) provides baseline expectations of clean code and flags many common logic issues as SQL is developed
+
+[dbt-checkpoint](https://github.com/dbt-checkpoint/dbt-checkpoint) helps perform governance checks like verifying the models have descriptions and table names are not hard coded
+
+---
+
 // File: best-practices/git/README
 
 # Git Overview
@@ -529,6 +529,80 @@ When a request for a person "to be forgotten" from the database comes in, the fo
 
 ---
 
+// File: getting-started/README
+
+# Datacoves Getting Started Guides
+
+---
+
+// File: getting-started/Admin/create-account
+
+# Configure your account with Datacoves
+
+:::danger[Attention]
+
+The appropriate git repo access is required to be able to add deployment keys. 
+Be sure that you can add SSH keys to the repo or setup will not be able to finish.
+
+:::
+
+## Prerequisites
+
+Before the setup call with the Datacoves team, ensure you have the following ready.
+
+
+:::note
+
+Email gomezn@datacoves.com with the answers to the following two questions so we can be ready for the call.
+
+:::
+
+1. What version of dbt are you using?
+2. Do you use Google / Google Workspace or Microsoft to authenticate? Datacoves leverages your existing authentication service.
+
+### Data Warehouse
+
+To set up your Datacoves account, you will need to know your data warehouse provider and have relevant access details handy. This includes the service account that Airflow will use.  
+
+| Data Warehouse Provider | Information Needed |
+| --- | --- |
+| Snowflake | Account, Warehouse, Database, Role, User, Password, Schema |
+| Redshift | Host, Database, User, Schema, Password |
+| Databricks | Host, Schema, HTTP Path, Token |
+| BigQuery | Dataset, Keyfile JSON |
+
+:::warning[Warning]
+
+For the Snowflake `Account` field you will need to find your account locator and replace `.` with `-`. 
+Check out [Snowflake Fields](how-tos/datacoves/how_to_connection_template.md#for-snowflake-the-available-fields-are) on how to find your Snowflake account locator.
+
+:::
+**Network Access:** Verify that your Data Warehouse is accessible from outside your network. You'll need to whitelist the Datacoves IP - `74.179.200.137`
+
+### Git
+
+To configure the git integration, you will need:
+
+**Git Access**  
+Ensure your user has access to add a deployment key to the repo, as well as access to clone and push changes.
+
+**Git Repo**  
+If this will be a new dbt project, create a new repo and ensure at least one file is in the `main` branch such as a `README.md`. Have your git clone URL handy.
+
+**dbt Docs**  
+Create a `dbt-docs` branch in your repo.
+
+## During Call with Datacoves
+
+To ensure a smooth call, please have the answers to the following questions ready to go. 
+
+- What do you want to call your account? (This is usually the company name)
+- What do you want to call your project? (This can be something like Marketing DW, Finance 360, etc)
+- Do you currently have a CI/CD process and associated script like GitHub Actions workflow? If not, do you plan on creating a CI/CD process?
+- Do you need any specific Python library on Airflow or VS Code? (outside the standard dbt-related items)
+
+---
+
 // File: getting-started/Admin/README
 
 # Datacoves Getting Started Guides - Admin
@@ -575,6 +649,105 @@ You don't need Airflow to begin using Datacoves, but at some point you will want
 
 ## Getting Started Next Steps
 Once Airflow is configured, you can begin scheduling your dbt jobs by [creating Airflow DAGs](getting-started/Admin/creating-airflow-dags.md)!
+
+---
+
+// File: getting-started/Admin/configure-repository
+
+# Update Repository for Airflow
+
+Now that you have configured your Airflow settings you must ensure that your repository has the correct folder structure to pick up the DAGs we create. You will need to add folders to your project repository in order to match the folder defaults we just configured for Airflow. These folders are `orchestrate/dags` and, optionally, `orchestrate/dags_yml_definitions`. 
+
+**Step 1:** Add a folder named `orchestrate` and a folder inside `orchestrate` named `dags`. `orchestrate/dags` is where you will be placing your DAGs as defined earlier in our Airflow settings with the  `Python DAGs path` field.
+
+**Step 2:** **ONLY If using Git Sync**. If you have not already done so, create a branch named `airflow_development` from `main`. This branch was defined as the sync branch earlier in our Airflow Settings with the `Git branch name` field. Best practice will be to keep this branch up-to-date with `main`.
+
+**Step 3:** **This step is optional** if you would like to make use of the [dbt-coves](https://github.com/datacoves/dbt-coves?tab=readme-ov-file#airflow-dags-generation-arguments) `dbt-coves generate airflow-dags` command. Create the `dags_yml_definitions` folder inside of your newly created `orchestrate` folder. This will leave you with two folders inside `orchestrate`- `orchestrate/dags` and `orchestrate/dags_yml_definitions`.
+
+**Step 4:** **This step is optional** if you would like to make use of the dbt-coves' extension `dbt-coves generate airflow-dags` command. You must create a config file for dbt-coves. Please follow the [generate DAGs from yml](how-tos/airflow/generate-dags-from-yml.md) docs.
+
+## Create a profiles.yml
+
+If the `delivery mode` of your service connection is [`Environment Variables`](/how-tos/datacoves/how_to_service_connections.md) then Airflow will need a `profiles.yml`. The available environment variables will vary based on your data warehouse. We have made it simple to set this up by completing the following steps. This profiles.yml will also be used in the CI/CD process. 
+
+To create your and your `profiles.yml`:
+
+**Step 1:** Create the `automate` folder at the root of your project
+
+**Step 2:** Create the `dbt` folder inside the `automate` folder 
+
+**Step 3:** Create the `profiles.yml` inside of your `automate` folder. ie) `automate/dbt/profiles.yml`
+
+**Step 4:** Copy the following configuration into your `profiles.yml`
+
+### Snowflake
+``` yaml
+default:
+  target: default_target
+  outputs:
+    default_target:
+      type: snowflake
+      threads: 8
+      client_session_keep_alive: true
+
+      account: "{{ env_var('DATACOVES__MAIN__ACCOUNT') }}"
+      database: "{{ env_var('DATACOVES__MAIN__DATABASE') }}"
+      schema: "{{ env_var('DATACOVES__MAIN__SCHEMA') }}"
+      user: "{{ env_var('DATACOVES__MAIN__USER') }}"
+      password: "{{ env_var('DATACOVES__MAIN__PASSWORD') }}"
+      role: "{{ env_var('DATACOVES__MAIN__ROLE') }}"
+      warehouse: "{{ env_var('DATACOVES__MAIN__WAREHOUSE') }}"
+```
+### Redshift 
+```yaml
+company-name:
+  target: dev
+  outputs:
+    dev:
+      type: redshift
+      host: "{{ env_var('DATACOVES__MAIN__HOST') }}"
+      user: "{{ env_var('DATACOVES__MAIN__USER') }}"
+      password: "{{ env_var('DATACOVES__MAIN__PASSWORD') }}"
+      dbname: "{{ env_var('DATACOVES__MAIN__DATABASE') }}"
+      schema: analytics
+      port: 5439
+```
+### BigQuery
+```yaml
+my-bigquery-db:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      project: GCP_PROJECT_ID
+      dataset:  "{{ env_var('DATACOVES__MAIN__DATASET') }}"
+      threads: 4 # Must be a value of 1 or greater
+      keyfile:  "{{ env_var('DATACOVES__MAIN__KEYFILE_JSON') }}"
+```
+### Databricks
+```yaml
+your_profile_name:
+  target: dev
+  outputs:
+    dev:
+      type: databricks
+      catalog: [optional catalog name if you are using Unity Catalog]
+      schema: "{{ env_var('DATACOVES__MAIN__SCHEMA') }}" # Required
+      host: "{{ env_var('DATACOVES__MAIN__HOST') }}" # Required
+      http_path: "{{ env_var('DATACOVES__MAIN__HTTP_PATH') }}" # Required
+      token: "{{ env_var('DATACOVES__MAIN__TOKEN') }}" # Required Personal Access Token (PAT) if using token-based authentication
+      threads: 4 
+```
+## Getting Started Next Steps 
+
+You will want to set up notifications. Selet the option that works best for your organization.
+
+- **Email:** [Setup Email Integration](/docs/how-tos/airflow/send-emails.md)
+
+- **MS Teams:** [Setup MS Teams Integration](/docs/how-tos/airflow/send-ms-teams-notifications)
+
+- **Slack:** [Setup Slack Integration](/docs/how-tos/airflow/send-slack-notifications)
 
 ---
 
@@ -681,173 +854,6 @@ By leveraging this setup process, data teams can focus on delivering value throu
 
 ---
 
-// File: getting-started/Admin/configure-repository
-
-# Update Repository for Airflow
-
-Now that you have configured your Airflow settings you must ensure that your repository has the correct folder structure to pick up the DAGs we create. You will need to add folders to your project repository in order to match the folder defaults we just configured for Airflow. These folders are `orchestrate/dags` and, optionally, `orchestrate/dags_yml_definitions`. 
-
-**Step 1:** Add a folder named `orchestrate` and a folder inside `orchestrate` named `dags`. `orchestrate/dags` is where you will be placing your DAGs as defined earlier in our Airflow settings with the  `Python DAGs path` field.
-
-**Step 2:** **ONLY If using Git Sync**. If you have not already done so, create a branch named `airflow_development` from `main`. This branch was defined as the sync branch earlier in our Airflow Settings with the `Git branch name` field. Best practice will be to keep this branch up-to-date with `main`.
-
-**Step 3:** **This step is optional** if you would like to make use of the [dbt-coves](https://github.com/datacoves/dbt-coves?tab=readme-ov-file#airflow-dags-generation-arguments) `dbt-coves generate airflow-dags` command. Create the `dags_yml_definitions` folder inside of your newly created `orchestrate` folder. This will leave you with two folders inside `orchestrate`- `orchestrate/dags` and `orchestrate/dags_yml_definitions`.
-
-**Step 4:** **This step is optional** if you would like to make use of the dbt-coves' extension `dbt-coves generate airflow-dags` command. You must create a config file for dbt-coves. Please follow the [generate DAGs from yml](how-tos/airflow/generate-dags-from-yml.md) docs.
-
-## Create a profiles.yml
-
-If the `delivery mode` of your service connection is [`Environment Variables`](/how-tos/datacoves/how_to_service_connections.md) then Airflow will need a `profiles.yml`. The available environment variables will vary based on your data warehouse. We have made it simple to set this up by completing the following steps. This profiles.yml will also be used in the CI/CD process. 
-
-To create your and your `profiles.yml`:
-
-**Step 1:** Create the `automate` folder at the root of your project
-
-**Step 2:** Create the `dbt` folder inside the `automate` folder 
-
-**Step 3:** Create the `profiles.yml` inside of your `automate` folder. ie) `automate/dbt/profiles.yml`
-
-**Step 4:** Copy the following configuration into your `profiles.yml`
-
-### Snowflake
-``` yaml
-default:
-  target: default_target
-  outputs:
-    default_target:
-      type: snowflake
-      threads: 8
-      client_session_keep_alive: true
-
-      account: "{{ env_var('DATACOVES__MAIN__ACCOUNT') }}"
-      database: "{{ env_var('DATACOVES__MAIN__DATABASE') }}"
-      schema: "{{ env_var('DATACOVES__MAIN__SCHEMA') }}"
-      user: "{{ env_var('DATACOVES__MAIN__USER') }}"
-      password: "{{ env_var('DATACOVES__MAIN__PASSWORD') }}"
-      role: "{{ env_var('DATACOVES__MAIN__ROLE') }}"
-      warehouse: "{{ env_var('DATACOVES__MAIN__WAREHOUSE') }}"
-```
-### Redshift 
-```yaml
-company-name:
-  target: dev
-  outputs:
-    dev:
-      type: redshift
-      host: "{{ env_var('DATACOVES__MAIN__HOST') }}"
-      user: "{{ env_var('DATACOVES__MAIN__USER') }}"
-      password: "{{ env_var('DATACOVES__MAIN__PASSWORD') }}"
-      dbname: "{{ env_var('DATACOVES__MAIN__DATABASE') }}"
-      schema: analytics
-      port: 5439
-```
-### BigQuery
-```yaml
-my-bigquery-db:
-  target: dev
-  outputs:
-    dev:
-      type: bigquery
-      method: service-account
-      project: GCP_PROJECT_ID
-      dataset:  "{{ env_var('DATACOVES__MAIN__DATASET') }}"
-      threads: 4 # Must be a value of 1 or greater
-      keyfile:  "{{ env_var('DATACOVES__MAIN__KEYFILE_JSON') }}"
-```
-### Databricks
-```yaml
-your_profile_name:
-  target: dev
-  outputs:
-    dev:
-      type: databricks
-      catalog: [optional catalog name if you are using Unity Catalog]
-      schema: "{{ env_var('DATACOVES__MAIN__SCHEMA') }}" # Required
-      host: "{{ env_var('DATACOVES__MAIN__HOST') }}" # Required
-      http_path: "{{ env_var('DATACOVES__MAIN__HTTP_PATH') }}" # Required
-      token: "{{ env_var('DATACOVES__MAIN__TOKEN') }}" # Required Personal Access Token (PAT) if using token-based authentication
-      threads: 4 
-```
-## Getting Started Next Steps 
-
-You will want to set up notifications. Selet the option that works best for your organization.
-
-- **Email:** [Setup Email Integration](/docs/how-tos/airflow/send-emails.md)
-
-- **MS Teams:** [Setup MS Teams Integration](/docs/how-tos/airflow/send-ms-teams-notifications)
-
-- **Slack:** [Setup Slack Integration](/docs/how-tos/airflow/send-slack-notifications)
-
----
-
-// File: getting-started/Admin/create-account
-
-# Configure your account with Datacoves
-
-:::danger[Attention]
-
-The appropriate git repo access is required to be able to add deployment keys. 
-Be sure that you can add SSH keys to the repo or setup will not be able to finish.
-
-:::
-
-## Prerequisites
-
-Before the setup call with the Datacoves team, ensure you have the following ready.
-
-
-:::note
-
-Email gomezn@datacoves.com with the answers to the following two questions so we can be ready for the call.
-
-:::
-
-1. What version of dbt are you using?
-2. Do you use Google / Google Workspace or Microsoft to authenticate? Datacoves leverages your existing authentication service.
-
-### Data Warehouse
-
-To set up your Datacoves account, you will need to know your data warehouse provider and have relevant access details handy. This includes the service account that Airflow will use.  
-
-| Data Warehouse Provider | Information Needed |
-| --- | --- |
-| Snowflake | Account, Warehouse, Database, Role, User, Password, Schema |
-| Redshift | Host, Database, User, Schema, Password |
-| Databricks | Host, Schema, HTTP Path, Token |
-| BigQuery | Dataset, Keyfile JSON |
-
-:::warning[Warning]
-
-For the Snowflake `Account` field you will need to find your account locator and replace `.` with `-`. 
-Check out [Snowflake Fields](how-tos/datacoves/how_to_connection_template.md#for-snowflake-the-available-fields-are) on how to find your Snowflake account locator.
-
-:::
-**Network Access:** Verify that your Data Warehouse is accessible from outside your network. You'll need to whitelist the Datacoves IP - `74.179.200.137`
-
-### Git
-
-To configure the git integration, you will need:
-
-**Git Access**  
-Ensure your user has access to add a deployment key to the repo, as well as access to clone and push changes.
-
-**Git Repo**  
-If this will be a new dbt project, create a new repo and ensure at least one file is in the `main` branch such as a `README.md`. Have your git clone URL handy.
-
-**dbt Docs**  
-Create a `dbt-docs` branch in your repo.
-
-## During Call with Datacoves
-
-To ensure a smooth call, please have the answers to the following questions ready to go. 
-
-- What do you want to call your account? (This is usually the company name)
-- What do you want to call your project? (This can be something like Marketing DW, Finance 360, etc)
-- Do you currently have a CI/CD process and associated script like GitHub Actions workflow? If not, do you plan on creating a CI/CD process?
-- Do you need any specific Python library on Airflow or VS Code? (outside the standard dbt-related items)
-
----
-
 // File: getting-started/Admin/creating-airflow-dags
 
 # Creating Airflow Dags
@@ -897,9 +903,88 @@ During the Airflow configuration step you added the `orchestrate` folder and the
 
 ---
 
-// File: getting-started/README
+// File: getting-started/developer/README
 
-Getting started as an Admin or Developer
+# Datacoves Getting Started Guides - Developer
+
+## Introduction
+Welcome Developer! 
+
+Please use these getting started guides to accelerate your onboarding. The guides cover everything from configuring your user settings to fundamental tips and shortcuts. 
+
+-Datacoves Team
+
+## Developer Essentials
+1. First, you will need to configure your user settings. You will not be able to access the transform tab if your user settings have not been properly configured.  
+
+   [Configure Your User Settings](/docs/how-tos/vscode/initial.md)
+
+2. Once your user settings have been configured and your git repo has been tested, you will be able to jump right in to your browser VS Code experience; everything you need, pre-configured at your fingertips. This is where the dbt magic happens.
+
+   [Transform Tab (VS Code)](/docs/getting-started/developer/transform-tab)
+
+3. With the Snowflake extension you don't have to leave the comfort of your Datacoves tab! Learn how to use this powerful extension, along with some handy tips and tricks. 
+
+   [Snowflake Extension](/docs/getting-started/developer/snowflake-extension)
+
+4. Have the best and most efficient dbt experience with Datacoves! We cover some nifty shortcuts and accelerators to help you hit the ground running with dbt.
+   
+   [Working with dbt in Datacoves](/docs/getting-started/developer/working-with-dbt-datacoves)
+
+5. Use git with ease via the VS Code Git Extension, our pre-configured git aliases, and more.
+   
+   [Using Git](/docs/getting-started/developer/using-git)
+
+---
+
+// File: getting-started/developer/snowflake-extension
+
+# Getting Started with the Snowflake Extension
+
+## This getting started video guide covers
+
+- Account sign in
+- Extension Interface overview
+- Object Exploration
+- Autocomplete
+- Running Queries
+
+For more information, please see the **[Snowflake VS Code Extension Docs](https://docs.snowflake.com/en/user-guide/vscode-ext)**
+
+<div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
+  <iframe
+    src="https://www.loom.com/embed/96272782ea2b4639b8372a0ec85c9268?sid=68867e61-005a-4a6a-9863-0fb3728ef6c2"
+    frameBorder="0"
+    webkitAllowFullScreen
+    mozAllowFullScreen
+    allowFullScreen
+    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+  />
+</div>
+
+---
+
+// File: getting-started/developer/transform-tab
+
+# Getting Started with the VS Code in the browser via the Transform Tab
+
+## This video guide covers:
+
+- [User Settings Configurations](how-tos/vscode/initial.md)
+- Terminal setup
+- A high level overview of VS Code editor
+- How to reset your environment
+
+<div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
+  <iframe
+    src="https://www.loom.com/embed/1bb974c0650347549db8a02bf64269ff?sid=ae70920f-abc8-4e5d-977a-909d2a63daac"
+    frameBorder="0"
+    webkitAllowFullScreen
+    mozAllowFullScreen
+    allowFullScreen
+    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+  />
+</div>
 
 ---
 
@@ -980,137 +1065,7 @@ For more in-depth information and advanced usage, please consult the **[Source C
 
 ---
 
-// File: getting-started/developer/README
-
-# Datacoves Getting Started Guides - Developer
-
-## Introduction
-Welcome Developer! 
-
-Please use these getting started guides to accelerate your onboarding. The guides cover everything from configuring your user settings to fundamental tips and shortcuts. 
-
--Datacoves Team
-
-## Developer Essentials
-1. First, you will need to configure your user settings. You will not be able to access the transform tab if your user settings have not been properly configured.  
-
-   [Configure Your User Settings](/docs/how-tos/vscode/initial.md)
-
-2. Once your user settings have been configured and your git repo has been tested, you will be able to jump right in to your browser VS Code experience; everything you need, pre-configured at your fingertips. This is where the dbt magic happens.
-
-   [Transform Tab (VS Code)](/docs/getting-started/developer/transform-tab)
-
-3. With the Snowflake extension you don't have to leave the comfort of your Datacoves tab! Learn how to use this powerful extension, along with some handy tips and tricks. 
-
-   [Snowflake Extension](/docs/getting-started/developer/snowflake-extension)
-
-4. Have the best and most efficient dbt experience with Datacoves! We cover some nifty shortcuts and accelerators to help you hit the ground running with dbt.
-   
-   [Working with dbt in Datacoves](/docs/getting-started/developer/working-with-dbt-datacoves)
-
-5. Use git with ease via the VS Code Git Extension, our pre-configured git aliases, and more.
-   
-   [Using Git](/docs/getting-started/developer/using-git)
-
----
-
-// File: getting-started/developer/lineage-view
-
-# Lineage View 
-
-The **Lineage View** panel is a feature of the Datacoves VSCode extension that provides a visual representation of the lineage of your project. This tool helps you quickly understand how data flows between models, sources, and downstream dependencies within your dbt project.
-
-## What is the Lineage View?
-
-The Lineage View displays a graph of your dbt model's relationships, showing both upstream and downstream dependencies. This visualization makes it easy to:
-
-- See which sources and models feed into your current model
-- Identify all models and reports that depend on your current model
-- Understand the impact of changes to a model across your project
-
-## Usage
-
-The basic usage of Lineage View consists of the following steps:
-
-1. **Open a dbt model or yml file** in your VSCode workspace.
-2. Locate the **Lineage View** panel, typically found in the lower panel (alongside Terminal, Output, Datacoves)
-3. The panel will automatically display the lineage graph for the currently sql or yml file.
-
-### Additional features
-
-In addition to seeing your model(s) lineage, you can also:
-
-- **Single-click** on a node to open the SQL file.
-- **Double-click** on a node to open the YML file.
-- **Right click** a node and perform a dbt action(run, test, compile, open files, etc)
-
-You can also look up other dbt models and change the parent and child nodes displayed using one of the following:
-  -  `{n}+my_model`
-  -  `my_model+{n}`
-  -  `{n}+my_model+{n}`
-
-![Lineage View Example](assets/lineage_view_with_model.png)
-
-## Configuration
-
-Lineage Panel has 3 configurable settings. As with any VSCode setting, these can be [overridden](/docs/how-tos/vscode/override) in the `settings.json` file located in `workspace/.vscode/settings.json`:
-
-- Default Expansion (`dbt.lineage.defaultExpansion`: number): How many nodes should expand by default for the currently-opened model.
-
----
-
-// File: getting-started/developer/snowflake-extension
-
-# Getting Started with the Snowflake Extension
-
-## This getting started video guide covers
-
-- Account sign in
-- Extension Interface overview
-- Object Exploration
-- Autocomplete
-- Running Queries
-
-For more information, please see the **[Snowflake VS Code Extension Docs](https://docs.snowflake.com/en/user-guide/vscode-ext)**
-
-<div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
-  <iframe
-    src="https://www.loom.com/embed/96272782ea2b4639b8372a0ec85c9268?sid=68867e61-005a-4a6a-9863-0fb3728ef6c2"
-    frameBorder="0"
-    webkitAllowFullScreen
-    mozAllowFullScreen
-    allowFullScreen
-    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-  />
-</div>
-
----
-
-// File: getting-started/developer/transform-tab
-
-# Getting Started with the VS Code in the browser via the Transform Tab
-
-## This video guide covers:
-
-- [User Settings Configurations](how-tos/vscode/initial.md)
-- Terminal setup
-- A high level overview of VS Code editor
-- How to reset your environment
-
-<div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
-  <iframe
-    src="https://www.loom.com/embed/1bb974c0650347549db8a02bf64269ff?sid=ae70920f-abc8-4e5d-977a-909d2a63daac"
-    frameBorder="0"
-    webkitAllowFullScreen
-    mozAllowFullScreen
-    allowFullScreen
-    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-  />
-</div>
-
----
-
-// File: getting-started/developer/working-with-dbt-datacoves
+// File: getting-started/developer/working-with-dbt-datacoves/index
 
 # Getting Started with dbt in Datacoves
 
@@ -1171,6 +1126,51 @@ This guide covers various aspects of using Datacoves for creating, editing, runn
     style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
   />
 </div>
+
+---
+
+// File: getting-started/developer/working-with-dbt-datacoves/lineage-view
+
+# Lineage View 
+
+The **Lineage View** panel is a feature of the Datacoves VSCode extension that provides a visual representation of the lineage of your project. This tool helps you quickly understand how data flows between models, sources, and downstream dependencies within your dbt project.
+
+## What is the Lineage View?
+
+The Lineage View displays a graph of your dbt model's relationships, showing both upstream and downstream dependencies. This visualization makes it easy to:
+
+- See which sources and models feed into your current model
+- Identify all models and reports that depend on your current model
+- Understand the impact of changes to a model across your project
+
+## Usage
+
+The basic usage of Lineage View consists of the following steps:
+
+1. **Open a dbt model or yml file** in your VSCode workspace.
+2. Locate the **Lineage View** panel, typically found in the lower panel (alongside Terminal, Output, Datacoves)
+3. The panel will automatically display the lineage graph for the currently sql or yml file.
+
+### Additional features
+
+In addition to seeing your model(s) lineage, you can also:
+
+- **Single-click** on a node to open the SQL file.
+- **Double-click** on a node to open the YML file.
+- **Right click** a node and perform a dbt action(run, test, compile, open files, etc)
+
+You can also look up other dbt models and change the parent and child nodes displayed using one of the following:
+  -  `{n}+my_model`
+  -  `my_model+{n}`
+  -  `{n}+my_model+{n}`
+
+![Lineage View Example](../assets/lineage_view_with_model.png)
+
+## Configuration
+
+Lineage Panel has 3 configurable settings. As with any VSCode setting, these can be [overridden](/docs/how-tos/vscode/override) in the `settings.json` file located in `workspace/.vscode/settings.json`:
+
+- Default Expansion (`dbt.lineage.defaultExpansion`: number): How many nodes should expand by default for the currently-opened model.
 
 ---
 
@@ -4076,22 +4076,6 @@ connections_dag()
 
 ---
 
-// File: how-tos/datacoves/README
-
-# Admin Configuration in Datacoves
-
-These how to guides are dedicated to **Datacoves admin configurations**. See how to configure:
-
-- Projects
-- Environments
-- Connection templates
-- Environments
-- User invitations
-
-And more!
-
----
-
 // File: how-tos/datacoves/add_entraid_app_as_user
 
 # Add Application as a user in DevOps Portal
@@ -4240,6 +4224,22 @@ If you do not have an Entra ID application created, you can do so by following t
 <img src="/how-tos/datacoves/assets/azure_devops_register_application.png" alt="Register Application" width="700" height="600" />
 
 ✅ Next you will want to [Add Application as a user in DevOps Portal](/how-tos/datacoves/add_entraid_app_as_user.md)
+
+---
+
+// File: how-tos/datacoves/README
+
+# Admin Configuration in Datacoves
+
+These how to guides are dedicated to **Datacoves admin configurations**. See how to configure:
+
+- Projects
+- Environments
+- Connection templates
+- Environments
+- User invitations
+
+And more!
 
 ---
 
@@ -4747,18 +4747,6 @@ In the following step, you will update your repository by incorporating the nece
 
 ---
 
-// File: how-tos/datahub/README
-
-# DataHub in Datacoves 
-
-These how to guides are dedicated to DataHub in Datacoves. See how to:
-
-- Manage your DataHub instance from the VS Code terminal
-- Configure dbt ingestion
-- Configure Snowflake ingestion
-
----
-
 // File: how-tos/datahub/how_to_datahub_cli
 
 # How to use DataHub's CLI from your VS Code terminal
@@ -4994,6 +4982,18 @@ source:
 
 ---
 
+// File: how-tos/datahub/README
+
+# DataHub in Datacoves 
+
+These how to guides are dedicated to DataHub in Datacoves. See how to:
+
+- Manage your DataHub instance from the VS Code terminal
+- Configure dbt ingestion
+- Configure Snowflake ingestion
+
+---
+
 // File: how-tos/dataops/README
 
 # DataOps in Datacoves
@@ -5078,14 +5078,6 @@ Before a story is added to development backlog:
 1. Check sources are available in Snowflake for story or add story to ingest new data
 2. Initial discovery of data is performed to understand the data and determine what steps may be required to deliver the requested output. Any data model design is agreed and work is broken up into sprint tasks
 3. Assure any other requirements are well defined in story e.g. column descriptions, model layout, required tests, etc.
-
----
-
-// File: how-tos/dbt/README
-
-# dbt in Datacoves
-
-These how to guides cover how to resolve common dbt issues
 
 ---
 
@@ -5635,6 +5627,14 @@ Remember: Sometimes the best solution is to rethink your data model structure ra
 
 ---
 
+// File: how-tos/dbt/README
+
+# dbt in Datacoves
+
+These how to guides cover how to resolve common dbt issues
+
+---
+
 // File: how-tos/dbt/runtime-errors
 
 # How to Fix dbt Runtime Errors
@@ -5836,46 +5836,6 @@ Select `View in Explorer` to see the Graph and other information.
 
 ---
 
-// File: how-tos/my_airflow/README
-
-# My Airflow 101
-
-Datacoves makes it easy to test DAGs quickly with My Airflow, a stand alone user instance of Airflow which tracks whatever branch the user is making changes to in VS Code. My Airflow allows developers to test their DAGs without need to push to their changes to a branch such as `airflow_development`. My Airflow is meant to test DAG naming, import errors, and basic configurations of a DAG. It has limitations and thus it is important to test your DAG in Team Airflow before pushing to production. That is because Team Airflow is more robust as it is configured to match your Production Airflow instance and runs using the Kubernetes Executor. 
-
-<div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
-  <iframe
-    src="https://www.loom.com/embed/279354dd8ea042c690ee731333f8f8a8?sid=3076574f-01f5-4a77-a4d0-26a021f8b78e"
-    frameBorder="0"
-    webkitAllowFullScreen
-    mozAllowFullScreen
-    allowFullScreen
-    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-  />
-</div>
-
-## Limitations
-
-While My Airflow will make writing and testing DAGs quick it is important to cover its limitations.
-1. My Airflow uses Sqlite
-2. My Airflow **cannot** run tasks in parallel. It will run one task at a time.
-3. Connections and variables from Team Airflow **will not** be automatically ported over to My Airflow. You will need to perform a variable import either manually or using the [`datacoves my import`](/how-tos/my_airflow/my-import.md) command in your terminal.
-4. Emailing is not available in My Airflow.
-5. Slack and Teams notifications are not available in My Airflow.
-
-## Banner Colors
-
-You can differentiate My Airflow from Team Airflow by the color of the banner
-
-My Airflow = Light Blue 
-
-![My Airlfow banner](assets/airflow_my.jpg)
-
-Team Airflow = Dark Blue
-
-![Team Airflow](assets/airflow_team.jpg)
-
----
-
 // File: how-tos/my_airflow/migrating-service-connections
 
 # Migrating from Environment Service Connections to Airflow Service Connections
@@ -5932,6 +5892,46 @@ Only connections that correspont to dbt adapter will be imported to My Airflow. 
 datacoves my import
 ```
 ![Datacoves My Import](assets/airflow_myimport.jpg)
+
+---
+
+// File: how-tos/my_airflow/README
+
+# My Airflow 101
+
+Datacoves makes it easy to test DAGs quickly with My Airflow, a stand alone user instance of Airflow which tracks whatever branch the user is making changes to in VS Code. My Airflow allows developers to test their DAGs without need to push to their changes to a branch such as `airflow_development`. My Airflow is meant to test DAG naming, import errors, and basic configurations of a DAG. It has limitations and thus it is important to test your DAG in Team Airflow before pushing to production. That is because Team Airflow is more robust as it is configured to match your Production Airflow instance and runs using the Kubernetes Executor. 
+
+<div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
+  <iframe
+    src="https://www.loom.com/embed/279354dd8ea042c690ee731333f8f8a8?sid=3076574f-01f5-4a77-a4d0-26a021f8b78e"
+    frameBorder="0"
+    webkitAllowFullScreen
+    mozAllowFullScreen
+    allowFullScreen
+    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+  />
+</div>
+
+## Limitations
+
+While My Airflow will make writing and testing DAGs quick it is important to cover its limitations.
+1. My Airflow uses Sqlite
+2. My Airflow **cannot** run tasks in parallel. It will run one task at a time.
+3. Connections and variables from Team Airflow **will not** be automatically ported over to My Airflow. You will need to perform a variable import either manually or using the [`datacoves my import`](/how-tos/my_airflow/my-import.md) command in your terminal.
+4. Emailing is not available in My Airflow.
+5. Slack and Teams notifications are not available in My Airflow.
+
+## Banner Colors
+
+You can differentiate My Airflow from Team Airflow by the color of the banner
+
+My Airflow = Light Blue 
+
+![My Airlfow banner](assets/airflow_my.jpg)
+
+Team Airflow = Dark Blue
+
+![Team Airflow](assets/airflow_team.jpg)
 
 ---
 
@@ -6216,17 +6216,6 @@ Once the file has been configured you can run `secure/run_permifrost.sh` to appl
 
 ---
 
-// File: how-tos/superset/README
-
-# Superset in Datacoves 
-
-These how to guides are dedicated to Superset in Datacoves. See how to:
-
-- Add a database
-- Add adataset
-
----
-
 // File: how-tos/superset/how_to_data_set
 
 # How to Add a Dataset in Superset
@@ -6281,16 +6270,14 @@ Finally, enter your Snowflake credentials (these will be shared by all users, so
 
 ---
 
-// File: how-tos/vscode/README
+// File: how-tos/superset/README
 
-# VS Code in Datacoves
+# Superset in Datacoves 
 
-These how to guides are dedicated to our Hosted VS Code. This powerful IDE gives you all the power you need along with the customization options. 
-These steps are essential to our Transform Tab.
+These how to guides are dedicated to Superset in Datacoves. See how to:
 
-- Connectiong to your git repo
-- Connecting to your data warehouse
-- Overriding default settings
+- Add a database
+- Add adataset
 
 ---
 
@@ -6343,20 +6330,377 @@ Click `Save`
 
 ---
 
-// File: how-tos/vscode/datacoves-copilot/README
+// File: how-tos/vscode/environment-variables
 
-# AI LLMs for Datacoves Copilot
-Datacoves can integrate seamlessly with your existing ChatGPT or Azure Open AI LLMs. These how tos will go over configuration and usage of AI within Datacoves.
+# How to add Environment variables to VS Code
 
-### Prereqs
-- Have an existing LLM such as ChatGPT or [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/assistants-quickstart?tabs=command-line%2Ckeyless%2Ctypescript-keyless&pivots=ai-foundry-portal)
-- Have access to API and Endpoint url credentials.
-- Have `Admin` access to configure credentials in Datacoves
+## Table of Contents
+- [Overview of Environment Variables in VS Code](#overview-of-environment-variables-in-vs-code)
+- [User Level Environment Variables](#user-level)
+- [Environment Level Environment Variables](#environment-level)
+- [Project Level Environment Variables](#project-level)
+- [Creating Environment Variables](#creating-variables)
+- [Deleting Environment Variables](#deleting-variables)
 
-## How to's
+## Overview of Environment Variables in VS Code
 
-- [LLM Config](/how-tos/vscode/datacoves-copilot/llm-config.md)
-- [Working with an LLM in Datacoves](/how-tos/vscode/datacoves-copilot/llm.md)
+Datacoves injects several[ environment variables](/reference/vscode/datacoves-env-vars.md) on your behalf. However, you may need to add additional variables to run scripts, test code etc.  This doc will walk you through adding your own environment variables at the user, environment and project level. These variables are only available in your VS Code, not Airflow. For Airflow we recommend you use Airflow Variables or [Datacoves Secrets](/reference/admin-menu/secrets.md)
+
+## User Level 
+
+Environment variables set at the user level will only be available to the workspace environment of the individual who created them. 
+
+### Step 1: Navigate to your user settings in the top right-hand corner
+
+![User Settings](assets/menu_user_settings.gif)
+
+### Step 2: Navigate to `VS Code Environment Variables`
+### Step 3: Select `Add`
+
+![Environment Variables](assets/env_vars_user.png)
+
+
+## Environment Level
+
+>[!NOTE] You must have admin permissions to add variables across the project or user environments. 
+
+Environment level variables will be available to everyone with access to the environment ie) The Development Environment. 
+
+### Step 1: Navigate to the environment menu
+
+![Environment Menu](../datacoves/assets/menu_environments.gif)
+
+### Step 2: Navigate to `VS Code Environment Variables`
+
+![Environment variables menu](assets/env_var_environment_menu.png)
+
+### Step 3: Select `Add`
+
+![alt text](assets/env_var_environment_add.png)
+
+## Project Level
+
+Project level variables will be available across all environments in a project. 
+
+### Step 1: Navigate to the project menu
+
+![Project Menu](../datacoves/assets/menu_projects.gif)
+
+### Step 2: Navigate to `VS Code Environment Variables`
+
+![Environment variables menu](assets/env_var_project_menu.png)
+
+### Step 3: Select `Add`
+
+![alt text](assets/env_var_project_add.png)
+
+## Creating variables
+
+Creating variables is simple. Add the key following the correct format and add the desired value.
+
+![Create variables](assets/env_var_environment_create.png)
+
+## Deleting variables
+
+Deleting variables is also simple. Simply navigate to the Project or Environment settings. 
+
+### Step 1: Toggle the delete option or the red trashcan
+
+### Step 2: Save Changes
+
+If you do not save changes, the variable will not be deleted.
+
+![Delete variables](assets/env_var_project_delete.png)
+
+---
+
+// File: how-tos/vscode/initial
+
+# How to Configure your VS Code in the Datacoves Transform tab
+
+When you first log into Datacoves, you will see that VS Code is disabled.
+
+We need to connect to your git repository and to your data warehouse and configure your dbt profiles.yml. To do this, you need to update your user settings.
+
+## Open Your User Settings
+
+At the top right corner of the page, click the User icon and select _Settings_
+
+![User Settings](./assets/menu_user_settings.gif)
+
+## Setup git connection credentials
+
+On the settings page scroll down to the Git SSH keys section.
+
+![Git Settings](./assets/user_settings_git.png)
+
+Click the Add drop down and select whether you want to provide an existing private key or have Datacoves auto generate one for you.
+
+![Git Settings Add](./assets/user_settings_git2.png)
+
+Datacoves will generate and display the corresponding public key, you will need to configure the public key for your git provider.
+
+![Git Settings Public Key](./assets/user_settings_git3.png)
+
+Click the _Copy_ button and follow the instructions to configure the public key for your git server.
+
+[Github SSH Key Configuration Instructions](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
+
+[Gitlab SSH Key Configuration Instructions](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/How-to-configure-GitLab-SSH-keys-for-secure-Git-connections#:~:text=Configure%20GitLab%20SSH%20keys,-Log%20into%20GitLab%20and%20click)
+
+[Bitbucket SSH Key Configuration Instructions](https://dev.to/jorge_rockr/configuring-ssh-key-for-bitbucket-repositories-2925)
+
+Once your public SSH key has been added to your git server, test your connection.
+
+![Git Settings Test](./assets/user_settings_git4.png)
+
+If Datacoves is able to connect to your Git repository, you will see _Tested_ next to the repository url.
+
+![Git Settings Tested](./assets/user_settings_git5.png)
+
+# Set up Database Connection 
+
+>[!NOTE]Below you will see a reference chart with the information you will need based on your data warehouse provider. **Select your data warehouse provider from the table below to see the how to guide.** 
+
+| Data Warehouse Provider | Information Needed |
+| --- | --- |
+| [BigQuery](how-tos/vscode/bigquery_setup.md)| Dataset, Keyfile JSON |
+| [Databricks](how-tos/vscode/databricks_setup.md) | Host, Schema, HTTP Path, Token |
+| [Redshift](how-tos/vscode/redshift_setup.md) | Host, Database, User, Schema, Password |
+| [Snowflake](how-tos/vscode/snowflake_setup.md) | Account, Warehouse, Database, Role, User, Password, Schema |
+
+## Once your data warehouse is configured you are now ready to transform your data with dbt
+
+- Scroll to the top of the screen, click `Launchpad` or the Datacoves logo.
+
+- Click `Open` to go into your development environment.
+
+>[!NOTE]Datacoves will take a couple of minutes to apply the new settings, clone your repo, and finish setting up your environment for the first time.
+
+![Workbench Link](./assets/navigation_launchpad.gif)
+
+---
+
+// File: how-tos/vscode/override
+
+# How to override default VS Code settings
+
+Once you have [set up your Visual Studio Code](/how-tos/vscode/initial) environment, you have the possibility to override certain settings we provide by default. This is done in your Workspace settings.
+
+## Create your workspace settings file
+
+Create a VS Code `settings.json` file under `.vscode/` in your repository root (make sure to add it to your `.gitignore` to keep it out of version control)
+
+![](./assets/create_workspace_settings.png)
+
+## Override settings
+
+To override a setting, simply specify it's `key:value`.
+
+For example, to change the line length at which VS Code shows it's ruler:
+
+```json
+{
+  "editor.rulers": [140]
+}
+```
+
+## How to customize the Status Bar
+
+The defaults can be overridden for customization such as what buttons appear in the status bar, the order and more. The status bar is the blue bar at the bottom of the screen.
+
+### Read default Datacoves settings
+
+To see our default settings, which will serve as example for you to overwrite in your own workspace `settings.json`, press `F1` to open VS Code's command palette and select `Open User Settings (JSON)`.
+
+![Open User Settings](./assets/open_user_settings.png)
+![User Settings JSON](./assets/user_settings_json.png)
+
+### Copy the betterStatusBar.commands
+
+>[!NOTE]Only the commands you copy over to your settings.json will be available to you, so we recommend copying over all of them to avoid losing any during the customization process. 
+
+Paste them in your .vscode/settings.json file
+
+![Copy Button Commands](./assets/vscode_copy_buttons.gif)
+
+### Edit the buttons that show up in the bar
+
+Below you can see the structure of the command entry.
+
+```JSON
+    {
+      "id": "30",
+      "label": "✔️ Run checks",
+      "command": "pre-commit run",
+      // "command": "pre-commit run --from-ref origin/main --to-ref HEAD",
+      "color": "lightgray",
+      "alignment": 1,
+      "priority": 10,
+      "tooltip": null,
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "datacoves"
+      }
+    },
+```
+**You may wish to edit:**
+
+- **Order of commands**: The order the commands are displayed in the `More` dropdown as well as the status bar is determined by the order in which the commands are defined in the settings.json
+  
+  ie) If you want `Run checks` to come up first in the `More` drop down as well as first (left to right) in the bar, then simply take the entry and place it at the top. You can move all of your displayed buttons to the top of the list and organize them.
+  
+- **label**: To change the text that shows up on the button and in the `More` dropdown, edit the "label" variable.
+  
+- **color**: To change the color of the text for the button edit the "color" variable. This can be a color name or a hex code eg) "purple" or "#800080"
+  
+- **showButton**: You can customize the buttons displayed in the status bar to fit your needs. To do this simply change "showButton": `true` for the button to populate in the bar and `false` to remove the button from the bar.
+  
+- **Tool tips**: To change the hover message, edit the "tooltip" variable and add a string with the message you'd like to display upon hovering. If you decide to add a button to the status bar that was not there by default, its tooltip will likely be `null`. This will default to `"betterStatusBar.<id>"`
+
+>[!ATTENTION]These customizations will only be available in the individual user workspace. To fix this, the settings.json can be committed to version control and shared across developers, however, if you choose this method **DO NOT store any secrets in the the settings.json** since they will be committed to version control.
+
+---
+
+// File: how-tos/vscode/README
+
+# VS Code in Datacoves
+
+These how to guides are dedicated to our Hosted VS Code. This powerful IDE gives you all the power you need along with the customization options. 
+These steps are essential to our Transform Tab.
+
+- Connectiong to your git repo
+- Connecting to your data warehouse
+- Overriding default settings
+
+---
+
+// File: how-tos/vscode/redshift_setup
+
+# Redshift Setup
+
+In the Database Connection Section, click `Add`
+
+![Redshift Setup Connection](./assets/connection_redshift_dropdown.png)
+
+Give the connection a name. 
+
+>[!TIP]This will be used as your dbt target name and is typically `dev`. 
+
+Next select a connection template. A connection template will have defaults pre-configured by your administrator.
+
+## Fill in connection details 
+
+Datacoves will test the connection and display `Tested` next to the connection if successful. 
+
+
+![Redshift Fields](./assets/connection_redshift_fields.png)
+
+Click `Save`
+
+---
+
+// File: how-tos/vscode/reset-git
+
+# Reset git 
+
+If you would like to reset your git clone in your environment, simply delete the .git file with the following command.
+
+```bash
+rm -rf /config/workspace/.git
+```
+
+- Click `Transform` tab
+- Select `Reset my Environment` 
+- Select `OK, Go ahead`
+
+---
+
+// File: how-tos/vscode/reset-user-env
+
+# Reset the User's Env if the git Repository is Changed in the Project. 
+
+If you need to reset your user environment because you change the repo associated with your environment after one has already been cloned or if the repo fails to clone, you will need to remove the workspace folder and reset the environment. 
+
+- Open terminal and enter the following commands. If you get an error when opening the terminal because you don't have a `transform` folder or similar, simply right click in the file area and select `Open in Integrated Terminal`
+
+```bash
+cd ~/
+```
+```bash
+rm -rf workspace
+```
+```bash
+mkdir workspace
+```
+
+- Click `Transform` tab
+- Select `Reset my Environment` 
+- Select `OK, Go ahead`
+
+---
+
+// File: how-tos/vscode/snowflake_setup
+
+# Snowflake Setup
+
+## Setup Snowflake with Key Pair
+
+When connecting to Snowflake, you can use either key based authentication or username/password authentication.
+
+>[!NOTE]To enable key-pair authentication, you admin must select `Inferred from user info using a custom template` when setting up the [Connection Template](/how-tos/datacoves/how_to_connection_template.md). The Snowflake username must match the username associated with the email used to authenticate with Datacoves for example `some_user` would be the snowflake username for `some_user@example.com`, please let us know if your username is different.
+
+If using key based authentication, you will need to provide or generate a key which will need to be added to Snowflake manually or contact us for information on how to automate this integration with Snowflake.
+
+Provide or automatically generate your keys. Then add the public key to Snowflake.
+
+![Snowflake Settings Generate Keys](./assets/user_settings_snowflake.png)
+
+## Assign the public key to the Snowflake User
+
+```
+alter user <username> set rsa_public_key='<public key>';
+```
+
+More information can be found in the [Snowflake Documentation](https://docs.snowflake.com/en/user-guide/key-pair-auth.html#step-4-assign-the-public-key-to-a-snowflake-user)
+
+## Complete the connection
+
+In the Database Connection Section, click `Add`
+
+![Snowflake Setup Connection](./assets/user_settings_snowflake2.png)
+
+Give the connection a name. 
+
+>[!TIP]This will be used as your dbt target name and is typically `dev`. 
+
+Next select a connection template. A connection template will have defaults pre-configured by your administrator.
+
+![Snowflake Setup Connection Details](./assets/user_settings_snowflake3.png)
+
+## Fill in connection details
+
+Datacoves will test the connection and display `Tested` next to the connection if successful. 
+
+>[!NOTE]You can create additional dbt targets as shown below. This will allow you to execute dbt commands passing a specific target such as `dbt run my_model -t prd`
+
+![Snowflake Setup Connection Tested](./assets/user_settings_snowflake4.png)
+
+### Key Pair 
+
+If using key pair, you will need to change the auth method to key-pair.
+
+![Select Auth](./assets/connection_select_auth.png)
+
+Select the drop down and your key you configured earlier should populate.
+
+![Select Key](./assets/connection_select_key.png)
+
+Click `Save`
 
 ---
 
@@ -6440,31 +6784,20 @@ To start a new chat click on the `New Chat` button.
 
 ---
 
-// File: how-tos/vscode/datacoves-copilot/v1-llm-config
+// File: how-tos/vscode/datacoves-copilot/README
 
-# Configure your LLM for Datacoves Copilot v1
+# AI LLMs for Datacoves Copilot
+Datacoves can integrate seamlessly with your existing ChatGPT or Azure Open AI LLMs. These how tos will go over configuration and usage of AI within Datacoves.
 
-> [!NOTE] Datacoves Copilot v1 only support the 4o model gpt model.
+### Prereqs
+- Have an existing LLM such as ChatGPT or [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/assistants-quickstart?tabs=command-line%2Ckeyless%2Ctypescript-keyless&pivots=ai-foundry-portal)
+- Have access to API and Endpoint url credentials.
+- Have `Admin` access to configure credentials in Datacoves
 
-### Step 1: Create a Datacoves Secret
+## How to's
 
-Creating a [Datacoves Secret](/how-tos/datacoves/how_to_secrets.md) requires some key fields to be filled out:
-
-- **Name:** The secret must be named `datacoves-copilot-llm-api`
-- **Description:** Provide a simple description such as: `Open AI config`
-- **Format:** Select `Raw JSON`
-- **Value**: The value will vary based on the LLM you are utilizing.
-  - **Open AI:** You only need your API key. Head to [Open AI](https://platform.openai.com/api-keys) to create your key. `{"OPENAI_API_KEY": "Your key here"}`
-  - **Azure Open AI:** This requires two credentials. Head to [ai.azure.com](https://ai.azure.com) to find your credentials under the [Deployments](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/working-with-models?tabs=powershell#model-deployment-upgrade-configuration) tab. `{"AZURE_OPENAI_ENDPOINT": "Your endpoint here", "AZURE_OPENAI_API_KEY"  : "Your key here"}`
-- **Scope:** Select the desired scope, either `Project` or `Environment`.
-- **Project/Environment:** Select the `Project` or `Environment` that will access this LLM.
-
-Lastly, be sure to toggle on the `Share with developers` option so that users with developer access will be able to use the LLM.
-![Share with Devs](assets/llm_share_with_devs.png)
-
-### Example Secret
-
-![Example ](assets/llm_example.png)
+- [LLM Config](/how-tos/vscode/datacoves-copilot/llm-config.md)
+- [Working with an LLM in Datacoves](/how-tos/vscode/datacoves-copilot/llm.md)
 
 ---
 
@@ -6550,6 +6883,34 @@ To start a new chat click on the `New Chat` button.
     style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
   />
 </div>
+
+---
+
+// File: how-tos/vscode/datacoves-copilot/v1-llm-config
+
+# Configure your LLM for Datacoves Copilot v1
+
+> [!NOTE] Datacoves Copilot v1 only support the 4o model gpt model.
+
+### Step 1: Create a Datacoves Secret
+
+Creating a [Datacoves Secret](/how-tos/datacoves/how_to_secrets.md) requires some key fields to be filled out:
+
+- **Name:** The secret must be named `datacoves-copilot-llm-api`
+- **Description:** Provide a simple description such as: `Open AI config`
+- **Format:** Select `Raw JSON`
+- **Value**: The value will vary based on the LLM you are utilizing.
+  - **Open AI:** You only need your API key. Head to [Open AI](https://platform.openai.com/api-keys) to create your key. `{"OPENAI_API_KEY": "Your key here"}`
+  - **Azure Open AI:** This requires two credentials. Head to [ai.azure.com](https://ai.azure.com) to find your credentials under the [Deployments](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/working-with-models?tabs=powershell#model-deployment-upgrade-configuration) tab. `{"AZURE_OPENAI_ENDPOINT": "Your endpoint here", "AZURE_OPENAI_API_KEY"  : "Your key here"}`
+- **Scope:** Select the desired scope, either `Project` or `Environment`.
+- **Project/Environment:** Select the `Project` or `Environment` that will access this LLM.
+
+Lastly, be sure to toggle on the `Share with developers` option so that users with developer access will be able to use the LLM.
+![Share with Devs](assets/llm_share_with_devs.png)
+
+### Example Secret
+
+![Example ](assets/llm_example.png)
 
 ---
 
@@ -6849,367 +7210,6 @@ This section describes how to configure and use Datacoves Copilot v2, which come
 
 ---
 
-// File: how-tos/vscode/environment-variables
-
-# How to add Environment variables to VS Code
-
-## Table of Contents
-- [Overview of Environment Variables in VS Code](#overview-of-environment-variables-in-vs-code)
-- [User Level Environment Variables](#user-level)
-- [Environment Level Environment Variables](#environment-level)
-- [Project Level Environment Variables](#project-level)
-- [Creating Environment Variables](#creating-variables)
-- [Deleting Environment Variables](#deleting-variables)
-
-## Overview of Environment Variables in VS Code
-
-Datacoves injects several[ environment variables](/reference/vscode/datacoves-env-vars.md) on your behalf. However, you may need to add additional variables to run scripts, test code etc.  This doc will walk you through adding your own environment variables at the user, environment and project level. These variables are only available in your VS Code, not Airflow. For Airflow we recommend you use Airflow Variables or [Datacoves Secrets](/reference/admin-menu/secrets.md)
-
-## User Level 
-
-Environment variables set at the user level will only be available to the workspace environment of the individual who created them. 
-
-### Step 1: Navigate to your user settings in the top right-hand corner
-
-![User Settings](assets/menu_user_settings.gif)
-
-### Step 2: Navigate to `VS Code Environment Variables`
-### Step 3: Select `Add`
-
-![Environment Variables](assets/env_vars_user.png)
-
-
-## Environment Level
-
->[!NOTE] You must have admin permissions to add variables across the project or user environments. 
-
-Environment level variables will be available to everyone with access to the environment ie) The Development Environment. 
-
-### Step 1: Navigate to the environment menu
-
-![Environment Menu](../datacoves/assets/menu_environments.gif)
-
-### Step 2: Navigate to `VS Code Environment Variables`
-
-![Environment variables menu](assets/env_var_environment_menu.png)
-
-### Step 3: Select `Add`
-
-![alt text](assets/env_var_environment_add.png)
-
-## Project Level
-
-Project level variables will be available across all environments in a project. 
-
-### Step 1: Navigate to the project menu
-
-![Project Menu](../datacoves/assets/menu_projects.gif)
-
-### Step 2: Navigate to `VS Code Environment Variables`
-
-![Environment variables menu](assets/env_var_project_menu.png)
-
-### Step 3: Select `Add`
-
-![alt text](assets/env_var_project_add.png)
-
-## Creating variables
-
-Creating variables is simple. Add the key following the correct format and add the desired value.
-
-![Create variables](assets/env_var_environment_create.png)
-
-## Deleting variables
-
-Deleting variables is also simple. Simply navigate to the Project or Environment settings. 
-
-### Step 1: Toggle the delete option or the red trashcan
-
-### Step 2: Save Changes
-
-If you do not save changes, the variable will not be deleted.
-
-![Delete variables](assets/env_var_project_delete.png)
-
----
-
-// File: how-tos/vscode/initial
-
-# How to Configure your VS Code in the Datacoves Transform tab
-
-When you first log into Datacoves, you will see that VS Code is disabled.
-
-We need to connect to your git repository and to your data warehouse and configure your dbt profiles.yml. To do this, you need to update your user settings.
-
-## Open Your User Settings
-
-At the top right corner of the page, click the User icon and select _Settings_
-
-![User Settings](./assets/menu_user_settings.gif)
-
-## Setup git connection credentials
-
-On the settings page scroll down to the Git SSH keys section.
-
-![Git Settings](./assets/user_settings_git.png)
-
-Click the Add drop down and select whether you want to provide an existing private key or have Datacoves auto generate one for you.
-
-![Git Settings Add](./assets/user_settings_git2.png)
-
-Datacoves will generate and display the corresponding public key, you will need to configure the public key for your git provider.
-
-![Git Settings Public Key](./assets/user_settings_git3.png)
-
-Click the _Copy_ button and follow the instructions to configure the public key for your git server.
-
-[Github SSH Key Configuration Instructions](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
-
-[Gitlab SSH Key Configuration Instructions](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/How-to-configure-GitLab-SSH-keys-for-secure-Git-connections#:~:text=Configure%20GitLab%20SSH%20keys,-Log%20into%20GitLab%20and%20click)
-
-[Bitbucket SSH Key Configuration Instructions](https://dev.to/jorge_rockr/configuring-ssh-key-for-bitbucket-repositories-2925)
-
-Once your public SSH key has been added to your git server, test your connection.
-
-![Git Settings Test](./assets/user_settings_git4.png)
-
-If Datacoves is able to connect to your Git repository, you will see _Tested_ next to the repository url.
-
-![Git Settings Tested](./assets/user_settings_git5.png)
-
-# Set up Database Connection 
-
->[!NOTE]Below you will see a reference chart with the information you will need based on your data warehouse provider. **Select your data warehouse provider from the table below to see the how to guide.** 
-
-| Data Warehouse Provider | Information Needed |
-| --- | --- |
-| [BigQuery](how-tos/vscode/bigquery_setup.md)| Dataset, Keyfile JSON |
-| [Databricks](how-tos/vscode/databricks_setup.md) | Host, Schema, HTTP Path, Token |
-| [Redshift](how-tos/vscode/redshift_setup.md) | Host, Database, User, Schema, Password |
-| [Snowflake](how-tos/vscode/snowflake_setup.md) | Account, Warehouse, Database, Role, User, Password, Schema |
-
-## Once your data warehouse is configured you are now ready to transform your data with dbt
-
-- Scroll to the top of the screen, click `Launchpad` or the Datacoves logo.
-
-- Click `Open` to go into your development environment.
-
->[!NOTE]Datacoves will take a couple of minutes to apply the new settings, clone your repo, and finish setting up your environment for the first time.
-
-![Workbench Link](./assets/navigation_launchpad.gif)
-
----
-
-// File: how-tos/vscode/override
-
-# How to override default VS Code settings
-
-Once you have [set up your Visual Studio Code](/how-tos/vscode/initial) environment, you have the possibility to override certain settings we provide by default. This is done in your Workspace settings.
-
-## Create your workspace settings file
-
-Create a VS Code `settings.json` file under `.vscode/` in your repository root (make sure to add it to your `.gitignore` to keep it out of version control)
-
-![](./assets/create_workspace_settings.png)
-
-## Override settings
-
-To override a setting, simply specify it's `key:value`.
-
-For example, to change the line length at which VS Code shows it's ruler:
-
-```json
-{
-  "editor.rulers": [140]
-}
-```
-
-## How to customize the Status Bar
-
-The defaults can be overridden for customization such as what buttons appear in the status bar, the order and more. The status bar is the blue bar at the bottom of the screen.
-
-### Read default Datacoves settings
-
-To see our default settings, which will serve as example for you to overwrite in your own workspace `settings.json`, press `F1` to open VS Code's command palette and select `Open User Settings (JSON)`.
-
-![Open User Settings](./assets/open_user_settings.png)
-![User Settings JSON](./assets/user_settings_json.png)
-
-### Copy the betterStatusBar.commands
-
->[!NOTE]Only the commands you copy over to your settings.json will be available to you, so we recommend copying over all of them to avoid losing any during the customization process. 
-
-Paste them in your .vscode/settings.json file
-
-![Copy Button Commands](./assets/vscode_copy_buttons.gif)
-
-### Edit the buttons that show up in the bar
-
-Below you can see the structure of the command entry.
-
-```JSON
-    {
-      "id": "30",
-      "label": "✔️ Run checks",
-      "command": "pre-commit run",
-      // "command": "pre-commit run --from-ref origin/main --to-ref HEAD",
-      "color": "lightgray",
-      "alignment": 1,
-      "priority": 10,
-      "tooltip": null,
-      "showButton": false,
-      "terminal": {
-        "cwd": "/config/workspace/transform",
-        "singleInstance": true,
-        "clear": true,
-        "focus": false,
-        "name": "datacoves"
-      }
-    },
-```
-**You may wish to edit:**
-
-- **Order of commands**: The order the commands are displayed in the `More` dropdown as well as the status bar is determined by the order in which the commands are defined in the settings.json
-  
-  ie) If you want `Run checks` to come up first in the `More` drop down as well as first (left to right) in the bar, then simply take the entry and place it at the top. You can move all of your displayed buttons to the top of the list and organize them.
-  
-- **label**: To change the text that shows up on the button and in the `More` dropdown, edit the "label" variable.
-  
-- **color**: To change the color of the text for the button edit the "color" variable. This can be a color name or a hex code eg) "purple" or "#800080"
-  
-- **showButton**: You can customize the buttons displayed in the status bar to fit your needs. To do this simply change "showButton": `true` for the button to populate in the bar and `false` to remove the button from the bar.
-  
-- **Tool tips**: To change the hover message, edit the "tooltip" variable and add a string with the message you'd like to display upon hovering. If you decide to add a button to the status bar that was not there by default, its tooltip will likely be `null`. This will default to `"betterStatusBar.<id>"`
-
->[!ATTENTION]These customizations will only be available in the individual user workspace. To fix this, the settings.json can be committed to version control and shared across developers, however, if you choose this method **DO NOT store any secrets in the the settings.json** since they will be committed to version control.
-
----
-
-// File: how-tos/vscode/redshift_setup
-
-# Redshift Setup
-
-In the Database Connection Section, click `Add`
-
-![Redshift Setup Connection](./assets/connection_redshift_dropdown.png)
-
-Give the connection a name. 
-
->[!TIP]This will be used as your dbt target name and is typically `dev`. 
-
-Next select a connection template. A connection template will have defaults pre-configured by your administrator.
-
-## Fill in connection details 
-
-Datacoves will test the connection and display `Tested` next to the connection if successful. 
-
-
-![Redshift Fields](./assets/connection_redshift_fields.png)
-
-Click `Save`
-
----
-
-// File: how-tos/vscode/reset-git
-
-# Reset git 
-
-If you would like to reset your git clone in your environment, simply delete the .git file with the following command.
-
-```bash
-rm -rf /config/workspace/.git
-```
-
-- Click `Transform` tab
-- Select `Reset my Environment` 
-- Select `OK, Go ahead`
-
----
-
-// File: how-tos/vscode/reset-user-env
-
-# Reset the User's Env if the git Repository is Changed in the Project. 
-
-If you need to reset your user environment because you change the repo associated with your environment after one has already been cloned or if the repo fails to clone, you will need to remove the workspace folder and reset the environment. 
-
-- Open terminal and enter the following commands. If you get an error when opening the terminal because you don't have a `transform` folder or similar, simply right click in the file area and select `Open in Integrated Terminal`
-
-```bash
-cd ~/
-```
-```bash
-rm -rf workspace
-```
-```bash
-mkdir workspace
-```
-
-- Click `Transform` tab
-- Select `Reset my Environment` 
-- Select `OK, Go ahead`
-
----
-
-// File: how-tos/vscode/snowflake_setup
-
-# Snowflake Setup
-
-## Setup Snowflake with Key Pair
-
-When connecting to Snowflake, you can use either key based authentication or username/password authentication.
-
->[!NOTE]To enable key-pair authentication, you admin must select `Inferred from user info using a custom template` when setting up the [Connection Template](/how-tos/datacoves/how_to_connection_template.md). The Snowflake username must match the username associated with the email used to authenticate with Datacoves for example `some_user` would be the snowflake username for `some_user@example.com`, please let us know if your username is different.
-
-If using key based authentication, you will need to provide or generate a key which will need to be added to Snowflake manually or contact us for information on how to automate this integration with Snowflake.
-
-Provide or automatically generate your keys. Then add the public key to Snowflake.
-
-![Snowflake Settings Generate Keys](./assets/user_settings_snowflake.png)
-
-## Assign the public key to the Snowflake User
-
-```
-alter user <username> set rsa_public_key='<public key>';
-```
-
-More information can be found in the [Snowflake Documentation](https://docs.snowflake.com/en/user-guide/key-pair-auth.html#step-4-assign-the-public-key-to-a-snowflake-user)
-
-## Complete the connection
-
-In the Database Connection Section, click `Add`
-
-![Snowflake Setup Connection](./assets/user_settings_snowflake2.png)
-
-Give the connection a name. 
-
->[!TIP]This will be used as your dbt target name and is typically `dev`. 
-
-Next select a connection template. A connection template will have defaults pre-configured by your administrator.
-
-![Snowflake Setup Connection Details](./assets/user_settings_snowflake3.png)
-
-## Fill in connection details
-
-Datacoves will test the connection and display `Tested` next to the connection if successful. 
-
->[!NOTE]You can create additional dbt targets as shown below. This will allow you to execute dbt commands passing a specific target such as `dbt run my_model -t prd`
-
-![Snowflake Setup Connection Tested](./assets/user_settings_snowflake4.png)
-
-### Key Pair 
-
-If using key pair, you will need to change the auth method to key-pair.
-
-![Select Auth](./assets/connection_select_auth.png)
-
-Select the drop down and your key you configured earlier should populate.
-
-![Select Key](./assets/connection_select_key.png)
-
-Click `Save`
-
----
-
 // File: reference/README
 
 # Reference Guides
@@ -7217,18 +7217,6 @@ Click `Save`
 **Reference guides** give you detailed information on a given topic
 
 >[!NOTE]If you have recommendations for reference guides, please send us an email at support@datacoves.com
-
----
-
-// File: reference/admin-menu/README
-
-# Admininstration Menu
-
-The Datacoves Administration menu provides access to configurations of projects, environments, users, and connections.
-
-The following pages explain each area in more detail.
-
-![Account Administration](./assets/menu_admin.gif)
 
 ---
 
@@ -7418,6 +7406,18 @@ Testing your repo connection ensures that services like dbt docs and Orchestrati
 
 ---
 
+// File: reference/admin-menu/README
+
+# Admininstration Menu
+
+The Datacoves Administration menu provides access to configurations of projects, environments, users, and connections.
+
+The following pages explain each area in more detail.
+
+![Account Administration](./assets/menu_admin.gif)
+
+---
+
 // File: reference/admin-menu/secrets
 
 # Secrets Admin
@@ -7536,12 +7536,6 @@ Each row contains 2 action buttons:
 
 - Edit
 - Delete
-
----
-
-// File: reference/airflow/README
-
-# Airflow Reference
 
 ---
 
@@ -8237,6 +8231,12 @@ The name of the service connection will be used to dynamically create the follow
 
 ---
 
+// File: reference/airflow/README
+
+# Airflow Reference
+
+---
+
 // File: reference/datacoves/README
 
 # Datacoves reference
@@ -8332,16 +8332,6 @@ __(*)__ min. requirements may vary depending on the number of environments
 
 ---
 
-// File: reference/metrics-and-logs/README
-
-# Metrics & Logs
-
-The Metrics & Logs menu link provides access to Grafana, where you'll find charts that show how services are performing, in addition to a query editor where logs can be analyzed.
-
-![Metrics & Logs](./assets/metrics-and-logs-nav.png)
-
----
-
 // File: reference/metrics-and-logs/grafana
 
 # Grafana Dashboards
@@ -8369,6 +8359,16 @@ Grafana comes with a set of prebuilt dashboards that you can use right away.
 . Kubernetes / Proxy  
 . Kubernetes / Scheduler  
 . Node Exporter / (all)
+
+---
+
+// File: reference/metrics-and-logs/README
+
+# Metrics & Logs
+
+The Metrics & Logs menu link provides access to Grafana, where you'll find charts that show how services are performing, in addition to a query editor where logs can be analyzed.
+
+![Metrics & Logs](./assets/metrics-and-logs-nav.png)
 
 ---
 
@@ -8463,12 +8463,6 @@ Please email us at support@datacoves.com if you think you have found an issue or
 
 ---
 
-// File: reference/vscode/README
-
-# Datacoves Reference
-
----
-
 // File: reference/vscode/csv-in-datacoves
 
 # CSVs in VS Code
@@ -8528,6 +8522,12 @@ env | grep DATACOVES | sort
 **DATACOVES__REPOSITORY_URL**: Repository associated with your project. Set in your user settings.
 
 **DATACOVES__USER_EMAIL**: Email associated with your account.
+
+---
+
+// File: reference/vscode/README
+
+# Datacoves Reference
 
 ---
 

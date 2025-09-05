@@ -1,3 +1,8 @@
+---
+title: V1 llm config
+sidebar_position: 4
+---
+
 # Configure your LLM for Datacoves Copilot v1
 
 > [!NOTE] Datacoves Copilot v1 only support the 4o model gpt model.

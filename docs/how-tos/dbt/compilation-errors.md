@@ -1,3 +1,8 @@
+---
+title: Compilation errors
+sidebar_position: 2
+---
+
 # How to Fix dbt Compilation Errors
 
 Compilation errors occur when dbt cannot successfully parse your Jinja templates or YAML files. These errors typically appear before any SQL is executed.

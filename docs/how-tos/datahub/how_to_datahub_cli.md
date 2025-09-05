@@ -1,3 +1,8 @@
+---
+title: How_to_datahub_cli
+sidebar_position: 1
+---
+
 
 # How to use DataHub's CLI from your VS Code terminal
 

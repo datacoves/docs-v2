@@ -1,3 +1,8 @@
+---
+title: Airflow config defaults
+sidebar_position: 2
+---
+
 # Airflow Config Defaults
 
 For security reasons, we do not expose the Airflow config to end users via the `Airflow *Admin -> Configuration` menu option. 

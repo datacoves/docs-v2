@@ -1,3 +1,6 @@
+---
+sidebar_position: 4
+---
 # Overview <!-- {docsify-ignore-all} -->
 
 As any data environment grows, it can become difficult for new team members to unravel complex pieces of logic within the project.

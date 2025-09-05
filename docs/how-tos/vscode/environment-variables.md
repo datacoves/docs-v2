@@ -1,3 +1,8 @@
+---
+title: Environment variables
+sidebar_position: 3
+---
+
 # How to add Environment variables to VS Code
 
 ## Table of Contents

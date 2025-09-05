@@ -1,3 +1,8 @@
+---
+title: Redshift_setup
+sidebar_position: 7
+---
+
 # Redshift Setup
 
 In the Database Connection Section, click `Add`

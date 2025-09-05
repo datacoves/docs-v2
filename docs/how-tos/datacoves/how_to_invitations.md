@@ -1,3 +1,8 @@
+---
+title: How_to_invitations
+sidebar_position: 12
+---
+
 # How to Invite a User to your Account 
 
 Navigate to the invitations page

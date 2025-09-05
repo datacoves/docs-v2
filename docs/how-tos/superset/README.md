@@ -1,3 +1,6 @@
+---
+sidebar_position: 3
+---
 # Superset in Datacoves 
 
 These how to guides are dedicated to Superset in Datacoves. See how to:

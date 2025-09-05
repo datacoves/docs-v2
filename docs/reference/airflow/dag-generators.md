@@ -1,3 +1,8 @@
+---
+title: Dag generators
+sidebar_position: 4
+---
+
 # DAG Generators
 
 Within `dbt-coves generate airflow-dags`, DAG Generators are responsible of outputting Python code for Airflow Task Groups from other services.

@@ -724,11 +724,11 @@ your_profile_name:
 
 You will want to set up notifications. Selet the option that works best for your organization.
 
-- **Email:** [Setup Email Integration](how-tos/airflow/send-emails)
+- **Email:** [Setup Email Integration](/docs/how-tos/airflow/send-emails.md)
 
-- **MS Teams:** [Setup MS Teams Integration](how-tos/airflow/send-ms-teams-notifications)
+- **MS Teams:** [Setup MS Teams Integration](/docs/how-tos/airflow/send-ms-teams-notifications)
 
-- **Slack:** [Setup Slack Integration](how-tos/airflow/send-slack-notifications)
+- **Slack:** [Setup Slack Integration](/docs/how-tos/airflow/send-slack-notifications)
 
 ---
 
@@ -814,8 +814,9 @@ The update process:
 - Adds any new components you select (it will remove the components you selected at Setup time but didn't select at Update time)
 - Maintains backward compatibility where possible
 
->[!NOTE] When running an update, you will be prompted for the services you want to setup / update, if you saved the answers file from when you first ran set, your original choices pre-selected. If you unselect one of these, that content will be deleted
-
+:::note
+ When running an update, you will be prompted for the services you want to setup / update, if you saved the answers file from when you first ran set, your original choices pre-selected. If you unselect one of these, that content will be deleted
+:::
 ## Benefits for Data Teams
 
 This approach to repository setup and maintenance offers several advantages:
@@ -853,15 +854,15 @@ During the Airflow configuration step you added the `orchestrate` folder and the
 ## DAG 101 in Datacoves
 1. If you are eager to see Airflow and dbt in action within Datacoves, here is the simplest way to run dbt with Airflow.
 
-  [Run dbt](how-tos/airflow/run-dbt)
+   [Run dbt](/docs/how-tos/airflow/run-dbt)
 
 2. You have 2 options when it comes to writing DAGs in Datacoves. You can write them out using Python and place them in the `orchestrate/dags` directory, or you can generate your DAGs with `dbt-coves` from a YML definition. 
     
-  [Generate DAGs from yml definitions](how-tos/airflow/generate-dags-from-yml) this is simpler for users not accustomed to using Python
+   [Generate DAGs from yml definitions](/docs/how-tos/airflow/generate-dags-from-yml) this is simpler for users not accustomed to using Python
 
 3. You may also wish to use external libraries in your DAGs such as Pandas. In order to do that effectively, you can create custom Python scripts in a separate directory such as `orchestrate/python_scripts` and use the `DatacovesBashOperator` to handle all the behind the scenes work as well as run your custom script.**You will need to contact us beforehand to pre-configure any python libraries you need.**
 
-  [External Python DAG](how-tos/airflow/external-python-dag)
+   [External Python DAG](/docs/how-tos/airflow/external-python-dag)
 
 ---
 
@@ -871,15 +872,15 @@ During the Airflow configuration step you added the `orchestrate` folder and the
 
 1. To get your users up and running, you need to invite them to the platform and grant them access to projects or specific environments. 
 
-  [Invite Users](how-tos/datacoves/how_to_invitations.md)
+   [Invite Users](/docs/how-tos/datacoves/how_to_invitations.md)
 
 2. You can change the permissions for users via the Users admin screen.
 
-  [Edit Users](how-tos/datacoves/how_to_manage_users#edit-a-user)
+   [Edit Users](/docs/how-tos/datacoves/how_to_manage_users#edit-a-user)
 
 3. When users no longer need access to Datacoves, you can delete their accounts.
 
-  [Deleting a Users](how-tos/datacoves/how_to_manage_users#delete-a-user)
+   [Deleting a Users](/docs/how-tos/datacoves/how_to_manage_users#delete-a-user)
 
 ---
 
@@ -902,81 +903,60 @@ You have the important role of configuring the Datacoves platform to fit your ne
 
 ---
 
-// File: getting-started/developer/README
+// File: getting-started/developer/working-with-dbt-datacoves
 
-# Datacoves Getting Started Guides - Developer
+# Getting Started with dbt in Datacoves
 
-## Introduction
-Welcome Developer! 
+This guide covers various aspects of using Datacoves for creating, editing, running, and testing models and sources.
 
-Please use these getting started guides to accelerate your onboarding. The guides cover everything from configuring your user settings to fundamental tips and shortcuts. 
+## Creating and Editing Models and Sources
 
--Datacoves Team
+- **Manually creating dbt Sources and Model:** Learn how to create models and sources within Datacoves.
 
-## Developer Essentials
-1. First, you will need to configure your user settings. You will not be able to access the transform tab if your user settings have not been properly configured.  
+- **Usage of [dbt-coves generate sources](https://github.com/datacoves/dbt-coves#readme):** Explore how to use the `dbt-coves` tool to generate sources efficiently.
 
-  [Configure Your User Settings](how-tos/vscode/initial.md)
+- **Handling variant columns and auto-generated SQL and YAML files:** Understand how to deal with variant columns and work with auto-generated SQL and YAML files.
 
-2. Once your user settings have been configured and your git repo has been tested, you will be able to jump right in to your browser VS Code experience; everything you need, pre-configured at your fingertips. This is where the dbt magic happens.
+## Running a Model
 
-  [Transform Tab (VS Code)](getting-started/developer/transform-tab.md)
+- **Running man icon:** Learn how to run a model using the man icon.
 
-3. With the Snowflake extension you don't have to leave the comfort of your Datacoves tab! Learn how to use this powerful extension, along with some handy tips and tricks. 
+- **Right-click menu option:** Discover the options available in the right-click menu for running models.
 
-  [Snowflake Extension](getting-started/developer/snowflake-extension.md)
+- **Run current button:** Understand how to use the "Run current" button to execute models.
 
-4. Have the best and most efficient dbt experience with Datacoves! We cover some nifty shortcuts and accelerators to help you hit the ground running with dbt.
-   
-  [Working with dbt in Datacoves](getting-started/developer/working-with-dbt-datacoves.md)
+## Opening a Model and Auto Complete
 
-5. Use git with ease via the VS Code Git Extension, our pre-configured git aliases, and more.
-   
-  [Using Git](getting-started/developer/using-git.md)
+- **Quick model access using Cmd/Ctrl + P:** Learn how to quickly access models using the keyboard shortcut.
 
----
+- **Auto-complete feature for efficient coding:** Discover the auto-complete feature to streamline your development process.
 
-// File: getting-started/developer/snowflake-extension
+- **Cmd/Ctrl + Enter shortcut for CTE previews:** Utilize the Cmd/Ctrl + Enter shortcut to preview Common Table Expressions (CTEs).
 
-# Getting Started with the Snowflake Extension
+- **SQL linting for error checking and best practices adherence:** Learn about SQL linting for error checking and adherence to best practices.
 
-## This getting started video guide covers
+## Compiled SQL vs Run SQL
 
-- Account sign in
-- Extension Interface overview
-- Object Exploration
-- Autocomplete
-- Running Queries
+- **Viewing the compiled model for debugging:** Explore how to use the `compiled dbt` preview to debug dbt issues or to get SQL you can run in your Data Warehouse.
 
-For more information, please see the **[Snowflake VS Code Extension Docs](https://docs.snowflake.com/en/user-guide/vscode-ext)**
+- **Accessing compiled SQL:** Learn how to access compiled SQL code.
 
-<div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
-  <iframe
-    src="https://www.loom.com/embed/96272782ea2b4639b8372a0ec85c9268?sid=68867e61-005a-4a6a-9863-0fb3728ef6c2"
-    frameBorder="0"
-    webkitAllowFullScreen
-    mozAllowFullScreen
-    allowFullScreen
-    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-  />
-</div>
+## Testing Models
 
----
+- **Testing icon:** Understand how to initiate testing for your models.
 
-// File: getting-started/developer/transform-tab
+- **More - Shows various options:** Explore additional testing options.
 
-# Getting Started with the VS Code in the browser via the Transform Tab
+- **Datacoves Power User - Run Individual tests or all tests:** For power users, run individual tests or all tests for comprehensive testing.
 
-## This video guide covers:
+## Closing Tabs
 
-- [User Settings Configurations](how-tos/vscode/initial.md)
-- Terminal setup
-- A high level overview of VS Code editor
-- How to reset your environment
+- **Closing models with Ctrl + Option/Alt + W:** Learn how to close tabs quickly.
+
 
 <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
   <iframe
-    src="https://www.loom.com/embed/1bb974c0650347549db8a02bf64269ff?sid=ae70920f-abc8-4e5d-977a-909d2a63daac"
+    src="https://www.loom.com/embed/fee7bd54660d4fb7884cc5beb040409f?sid=0f8c025f-623f-431b-9786-9099a5ac9f0d"
     frameBorder="0"
     webkitAllowFullScreen
     mozAllowFullScreen
@@ -1064,60 +1044,126 @@ For more in-depth information and advanced usage, please consult the **[Source C
 
 ---
 
-// File: getting-started/developer/working-with-dbt-datacoves
+// File: getting-started/developer/README
 
-# Getting Started with dbt in Datacoves
+# Datacoves Getting Started Guides - Developer
 
-This guide covers various aspects of using Datacoves for creating, editing, running, and testing models and sources.
+## Introduction
+Welcome Developer! 
 
-## Creating and Editing Models and Sources
+Please use these getting started guides to accelerate your onboarding. The guides cover everything from configuring your user settings to fundamental tips and shortcuts. 
 
-- **Manually creating dbt Sources and Model:** Learn how to create models and sources within Datacoves.
+-Datacoves Team
 
-- **Usage of [dbt-coves generate sources](https://github.com/datacoves/dbt-coves#readme):** Explore how to use the `dbt-coves` tool to generate sources efficiently.
+## Developer Essentials
+1. First, you will need to configure your user settings. You will not be able to access the transform tab if your user settings have not been properly configured.  
 
-- **Handling variant columns and auto-generated SQL and YAML files:** Understand how to deal with variant columns and work with auto-generated SQL and YAML files.
+   [Configure Your User Settings](/docs/how-tos/vscode/initial.md)
 
-## Running a Model
+2. Once your user settings have been configured and your git repo has been tested, you will be able to jump right in to your browser VS Code experience; everything you need, pre-configured at your fingertips. This is where the dbt magic happens.
 
-- **Running man icon:** Learn how to run a model using the man icon.
+   [Transform Tab (VS Code)](/docs/getting-started/developer/transform-tab)
 
-- **Right-click menu option:** Discover the options available in the right-click menu for running models.
+3. With the Snowflake extension you don't have to leave the comfort of your Datacoves tab! Learn how to use this powerful extension, along with some handy tips and tricks. 
 
-- **Run current button:** Understand how to use the "Run current" button to execute models.
+   [Snowflake Extension](/docs/getting-started/developer/snowflake-extension)
 
-## Opening a Model and Auto Complete
+4. Have the best and most efficient dbt experience with Datacoves! We cover some nifty shortcuts and accelerators to help you hit the ground running with dbt.
+   
+   [Working with dbt in Datacoves](/docs/getting-started/developer/working-with-dbt-datacoves)
 
-- **Quick model access using Cmd/Ctrl + P:** Learn how to quickly access models using the keyboard shortcut.
+5. Use git with ease via the VS Code Git Extension, our pre-configured git aliases, and more.
+   
+   [Using Git](/docs/getting-started/developer/using-git)
 
-- **Auto-complete feature for efficient coding:** Discover the auto-complete feature to streamline your development process.
+---
 
-- **Cmd/Ctrl + Enter shortcut for CTE previews:** Utilize the Cmd/Ctrl + Enter shortcut to preview Common Table Expressions (CTEs).
+// File: getting-started/developer/lineage-view
 
-- **SQL linting for error checking and best practices adherence:** Learn about SQL linting for error checking and adherence to best practices.
+# Lineage View 
 
-## Compiled SQL vs Run SQL
+The **Lineage View** panel is a feature of the Datacoves VSCode extension that provides a visual representation of the lineage of your project. This tool helps you quickly understand how data flows between models, sources, and downstream dependencies within your dbt project.
 
-- **Viewing the compiled model for debugging:** Explore how to use the `compiled dbt` preview to debug dbt issues or to get SQL you can run in your Data Warehouse.
+## What is the Lineage View?
 
-- **Accessing compiled SQL:** Learn how to access compiled SQL code.
+The Lineage View displays a graph of your dbt model's relationships, showing both upstream and downstream dependencies. This visualization makes it easy to:
 
-## Testing Models
+- See which sources and models feed into your current model
+- Identify all models and reports that depend on your current model
+- Understand the impact of changes to a model across your project
 
-- **Testing icon:** Understand how to initiate testing for your models.
+## Usage
 
-- **More - Shows various options:** Explore additional testing options.
+The basic usage of Lineage View consists of the following steps:
 
-- **Datacoves Power User - Run Individual tests or all tests:** For power users, run individual tests or all tests for comprehensive testing.
+1. **Open a dbt model or yml file** in your VSCode workspace.
+2. Locate the **Lineage View** panel, typically found in the lower panel (alongside Terminal, Output, Datacoves)
+3. The panel will automatically display the lineage graph for the currently sql or yml file.
 
-## Closing Tabs
+### Additional features
 
-- **Closing models with Ctrl + Option/Alt + W:** Learn how to close tabs quickly.
+In addition to seeing your model(s) lineage, you can also:
 
+- **Single-click** on a node to open the SQL file.
+- **Double-click** on a node to open the YML file.
+- **Right click** a node and perform a dbt action(run, test, compile, open files, etc)
+
+You can also look up other dbt models and change the parent and child nodes displayed using one of the following:
+  -  `{n}+my_model`
+  -  `my_model+{n}`
+  -  `{n}+my_model+{n}`
+
+![Lineage View Example](assets/lineage_view_with_model.png)
+
+## Configuration
+
+Lineage Panel has 3 configurable settings. As with any VSCode setting, these can be [overridden](/docs/how-tos/vscode/override) in the `settings.json` file located in `workspace/.vscode/settings.json`:
+
+- Default Expansion (`dbt.lineage.defaultExpansion`: number): How many nodes should expand by default for the currently-opened model.
+
+---
+
+// File: getting-started/developer/snowflake-extension
+
+# Getting Started with the Snowflake Extension
+
+## This getting started video guide covers
+
+- Account sign in
+- Extension Interface overview
+- Object Exploration
+- Autocomplete
+- Running Queries
+
+For more information, please see the **[Snowflake VS Code Extension Docs](https://docs.snowflake.com/en/user-guide/vscode-ext)**
 
 <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
   <iframe
-    src="https://www.loom.com/embed/fee7bd54660d4fb7884cc5beb040409f?sid=0f8c025f-623f-431b-9786-9099a5ac9f0d"
+    src="https://www.loom.com/embed/96272782ea2b4639b8372a0ec85c9268?sid=68867e61-005a-4a6a-9863-0fb3728ef6c2"
+    frameBorder="0"
+    webkitAllowFullScreen
+    mozAllowFullScreen
+    allowFullScreen
+    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+  />
+</div>
+
+---
+
+// File: getting-started/developer/transform-tab
+
+# Getting Started with the VS Code in the browser via the Transform Tab
+
+## This video guide covers:
+
+- [User Settings Configurations](how-tos/vscode/initial.md)
+- Terminal setup
+- A high level overview of VS Code editor
+- How to reset your environment
+
+<div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
+  <iframe
+    src="https://www.loom.com/embed/1bb974c0650347549db8a02bf64269ff?sid=ae70920f-abc8-4e5d-977a-909d2a63daac"
     frameBorder="0"
     webkitAllowFullScreen
     mozAllowFullScreen
@@ -3426,7 +3472,7 @@ Start [developing DAGs](getting-started/Admin/creating-airflow-dags.md)
 
 ---
 
-// File: how-tos/airflow/sync-databaset
+// File: how-tos/airflow/sync-database
 
 # Sync Airflow database
 
@@ -3891,43 +3937,39 @@ if __name__ == "__main__":
 
 # How to use Datacoves Secrets Manager in Airflow
 
-Datacoves includes a built-in [Secrets Manager](reference/admin-menu/secrets.md) that allows you to securely store and manage secrets for both administrators and developers. Secrets can be stored at the project or environment level and easily shared across other tools in your stack, ensuring seamless integration and enhanced security. [Creating or editing a secret](/how-tos/datacoves/how_to_secrets.md) in the Datacoves Secret Manager is straightforward. Be sure to prefix all secrets stored in Datacoves Secrets Manager with `datacoves-`
+Datacoves includes a built-in [Secrets Manager](reference/admin-menu/secrets.md) that allows you to securely store and manage secrets for both administrators and developers. Secrets can be stored at the project or environment level and easily shared across other tools in your stack, ensuring seamless integration and enhanced security. [Creating or editing a secret](/how-tos/datacoves/how_to_secrets.md) in the Datacoves Secret Manager is straightforward. Be sure to prefix all secrets stored in Datacoves Secrets Manager with `datacoves-`.
 
-## Read variable from Datacoves Secrets manager
+## Read variable from Datacoves Secrets Manager
 
-Once you save your variable in the Datacoves Secret Manager you are ready to use your variable in a DAG. This is done using `Variable.get`. Airflow will look in several places to find the variable. 
+Once you save your variable in the Datacoves Secret Manager you are ready to use your variable in a DAG. This is done using `Variable.get`. Airflow will look in several places to find the variable.
 
 ### The order of places it will look for are as follows:
 
-1. AWS Secrets Manager (If configured)
-2. Datacoves Secrets Manager
-3. Airflow variables
+1. AWS Secrets Manager (if configured)  
+2. Datacoves Secrets Manager  
+3. Airflow variables  
 
-Once a variable is found Airflow will stop its search. 
+Once a variable is found, Airflow will stop its search.
 
-![secrets flowchart](assets/variablle_flow.png)
+![Secrets flowchart](assets/variablle_flow.png)
 
-### Best practices to follow when using a Secrets Manager variable
+### Best practices when using a Secrets Manager variable
 
-There are some best practices that we recommend when using the Datacoves Secrets manager which will improve performance and cost.
+1. Always call your `Variable.get` from within the Datacoves Task Decorators. This ensures the variable is only fetched at runtime.  
+2. Use prefixes based on where your variable is stored, like `datacoves-` (Datacoves Secrets Manager only searches for secrets with this prefix), `aws_`, or `airflow_` to help identify and debug variables. For example: `datacoves-mayras_secret`.
 
-1. Always call your `Variable.get` from within the Datacoves Task Decorators. This ensures the variable is only fetched at runtime.
-2. Make use of prefixes based on where your variable is stored like `datacoves-`(Datacoves secrets manager will only search for secrets with this prefix), `aws_`, `airflow_` and so on to help you identify and debug your variables. eg) `datacoves-mayras_secret` seen in the example below. 
-
+### Example DAG using Datacoves Secrets Manager
 
 ```python
 from airflow.decorators import dag, task
 from pendulum import datetime
 from airflow.models import Variable
 
-doc = """## Datacoves Bash Decorator DAG
-This DAG is a sample using the Datacoves decorators with variable calls."""
-
 @dag(
     default_args={
         "start_date": datetime(2024, 1, 1),
-        "owner": "Mayra Pena",
-        "email": "Mayra @example.com",
+        "owner": "Amy Chan",
+        "email": "amy@example.com",
         "email_on_failure": True,
     },
     catchup=False,
@@ -3938,18 +3980,17 @@ This DAG is a sample using the Datacoves decorators with variable calls."""
 def task_decorators_example():
 
     @task.datacoves_bash
-    def calling_vars_in_decorators() -> str:
-        my_var = Variable.get("datacoves-mayras_secret") # Call variable within @task.datacoves_bash
-        return f"My variable is: {my_var}"
+    def calling_vars_in_decorator() -> str:
+        my_var = Variable.get("datacoves-mayras_secret")
+        return "My variable is: " + my_var
 
-    calling_vars_in_decorator() # Call task function
+    calling_vars_in_decorator()
 
-# Invoke Dag
 dag = task_decorators_example()
-dag.doc_md = doc
 ```
-
->[!TIP]To auto mask your secret you can use `secret` or `password` in the secret name since this will set `hide_sensitive_var_conn_fields` to True. eg) aws_mayras_password. Please see [this documentation](https://www.astronomer.io/docs/learn/airflow-variables#hide-sensitive-information-in-airflow-variables) for a full list of masking words.
+:::tip
+ To auto mask your secret you can use `secret` or `password` in the secret name since this will set `hide_sensitive_var_conn_fields` to True. eg `aws_mayras_password`. Please see [this documentation](https://www.astronomer.io/docs/learn/airflow-variables#hide-sensitive-information-in-airflow-variables) for a full list of masking words.
+:::
 
 ---
 
@@ -6319,34 +6360,6 @@ Datacoves can integrate seamlessly with your existing ChatGPT or Azure Open AI L
 
 ---
 
-// File: how-tos/vscode/datacoves-copilot/llm-config
-
-# Configure your LLM in Datacoves
-
->[!NOTE] We currently only support the 4o model gpt model.
-
-### Step 1: Create a Datacoves Secret
-
-Creating a [Datacoves Secret](/how-tos/datacoves/how_to_secrets.md) requires some key fields to be filled out: 
-
-- **Name:** The secret must be named `datacoves-copilot-llm-api`
-- **Description:** Provide a simple description such as: `Open AI config`
-- **Format:** Select `Raw JSON`  
-- **Value**: The value will vary based on the LLM you are utilizing.
-  - **Open AI:** You only need your API key. Head to [Open AI](https://platform.openai.com/api-keys) to create your key. `{"OPENAI_API_KEY": "Your key here"}`
-  - **Azure Open AI:** This requires two credentials. Head to [ai.azure.com](https://ai.azure.com) to find your credentials under the [Deployments](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/working-with-models?tabs=powershell#model-deployment-upgrade-configuration) tab. `{"AZURE_OPENAI_ENDPOINT": "Your endpoint here", "AZURE_OPENAI_API_KEY"  : "Your key here"}`
-- **Scope:** Select the desired scope, either `Project` or `Environment`. 
-- **Project/Environment:** Select the `Project` or `Environment` that will access this LLM.
-
-Lastly, be sure to toggle on the `Share with developers` option so that users with developer access will be able to use the LLM.
-![Share with Devs](assets/llm_share_with_devs.png)
-
-### Example Secret
-
-![Example ](assets/llm_example.png)
-
----
-
 // File: how-tos/vscode/datacoves-copilot/llm
 
 # Working with an LLM in Datacoves Copilot
@@ -6424,6 +6437,415 @@ To start a new chat click on the `New Chat` button.
     style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
   />
 </div>
+
+---
+
+// File: how-tos/vscode/datacoves-copilot/v1-llm-config
+
+# Configure your LLM for Datacoves Copilot v1
+
+> [!NOTE] Datacoves Copilot v1 only support the 4o model gpt model.
+
+### Step 1: Create a Datacoves Secret
+
+Creating a [Datacoves Secret](/how-tos/datacoves/how_to_secrets.md) requires some key fields to be filled out:
+
+- **Name:** The secret must be named `datacoves-copilot-llm-api`
+- **Description:** Provide a simple description such as: `Open AI config`
+- **Format:** Select `Raw JSON`
+- **Value**: The value will vary based on the LLM you are utilizing.
+  - **Open AI:** You only need your API key. Head to [Open AI](https://platform.openai.com/api-keys) to create your key. `{"OPENAI_API_KEY": "Your key here"}`
+  - **Azure Open AI:** This requires two credentials. Head to [ai.azure.com](https://ai.azure.com) to find your credentials under the [Deployments](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/working-with-models?tabs=powershell#model-deployment-upgrade-configuration) tab. `{"AZURE_OPENAI_ENDPOINT": "Your endpoint here", "AZURE_OPENAI_API_KEY"  : "Your key here"}`
+- **Scope:** Select the desired scope, either `Project` or `Environment`.
+- **Project/Environment:** Select the `Project` or `Environment` that will access this LLM.
+
+Lastly, be sure to toggle on the `Share with developers` option so that users with developer access will be able to use the LLM.
+![Share with Devs](assets/llm_share_with_devs.png)
+
+### Example Secret
+
+![Example ](assets/llm_example.png)
+
+---
+
+// File: how-tos/vscode/datacoves-copilot/v1-llm
+
+# Working with an LLM in Datacoves Copilot v1
+
+Once you have [configured your LLM](/how-tos/vscode/datacoves-copilot/v1-llm-config.md), working with the AI chat is a breeze!
+
+## Pre-configured presets
+
+While there are many use cases for AI in the development workflow there are a couple of tasks that come up regularly. To improve the user experience, we have created some presets that provide the LLM with specific instructions to get the best result. Use these or configure your own custom presets.
+
+Current out of the box presents include:
+
+- **Document dbt model:** Will provide descriptions for yml file you have open and provided as context.
+- **Explain dbt model:** Will explain a dbt model file you have open and provided as context.
+- **Explain dbt macro:** Will explain a dbt macro file you have open and provided as context.
+- **Add descriptions to CSV:** Will provide descriptions for CSV files you have open and provided as context.
+
+## How to use the Chat/Presets
+
+### Extension UI/UX
+
+To use your LLM head to the Datacoves Power User extension and open up `Copilot`.
+
+<img src="/how-tos/vscode/datacoves-copilot/assets/llm_menu.png" alt="LLM Menu" width="250" height="500"/>
+
+### Provide files for context
+
+The most important thing to remember is providing context to the LLM. In order to do this simply open up the file you wish to work with.
+
+![llm file open](assets/llm_file_open.png)
+
+### Send specific lines of code for context
+
+Highlight the lines of code you wish to send.
+
+![context lines](assets/llm_line_context.png)
+
+### Don't provide context
+
+In the case that you don't want to send an open file for context you can select the icon below.
+
+![llm context](assets/llm_context.gif)
+
+## Using LLM code
+
+Datacoves Copilot makes copying AI generated code simple with 3 options.
+
+![Code Options](assets/llm_code_options.png)
+
+### Replace
+
+Replace the entire code file with the LLM code.
+
+![llm Replace](assets/llm_replace.gif)
+
+### Insert
+
+Insert LLM code into your file.
+
+![llm Insert](assets/llm_insert.gif)
+
+### Copy
+
+Traditional copy and paste.
+
+![llm Copy](assets/llm_copy.gif)
+
+### New Chat
+
+To start a new chat click on the `New Chat` button.
+
+![New Chat](assets/llm_new_chat.png)
+
+## Prefer a Video?
+<div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+  <iframe
+    src="https://www.loom.com/embed/b6e987152c114c3c8d44dc7712aa3e22?sid=d8847855-38cc-4a84-90b3-6be7e660f8b5"
+    frameBorder="0"
+    allowFullScreen
+    style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+  />
+</div>
+
+---
+
+// File: how-tos/vscode/datacoves-copilot/v1
+
+# Datacoves Copilot v1
+
+This section describes how to configure and use Datacoves Copilot v1.
+
+Datacoves Copilot v1 supports ChatGPT and Azure Open AI LLMs, Datacoves v4+ includes Datacoves Copilot 2.0 which enhances the experience and supports many more LLM providers.
+
+# How Tos
+
+- [LLM Config](/how-tos/vscode/datacoves-copilot/v1-llm-config.md)
+- [Working with an LLM in Datacoves](/how-tos/vscode/datacoves-copilot/v1-llm.md)
+
+---
+
+// File: how-tos/vscode/datacoves-copilot/v2-llm-config
+
+# Configure your LLM in Datacoves Copilot v2
+
+## Create a Datacoves Secret
+
+Creating a [Datacoves Secret](/how-tos/datacoves/how_to_secrets.md) requires some key fields to be filled out:
+
+- **Name:** The secret must be named `datacoves-copilot-api-configs`
+- **Description:** Provide a simple description such as: `Datacoves Copilot config`
+- **Format:** Select `Raw JSON`
+- **Value**: The value will vary depending on the LLM you are utilizing, see `Value formats by LLM Provider` section.
+- **Scope:** Select the desired scope, either `Project` or `Environment`.
+- **Project/Environment:** Select the `Project` or `Environment` that will access this LLM.
+
+Lastly, be sure to toggle on the `Share with developers` option so that users with developer access will be able to use the LLM.
+![Share with Devs](assets/llm_share_with_devs.png)
+
+### Value formats by LLM Provider
+
+#### Amazon Bedrock
+
+```json
+{
+  "default": {
+    "apiModelId": "<MODEL ID>",
+    "awsAccessKey": "<YOUR ACCESS KEY>",
+    "awsSecretKey": "<YOUR ACCESS SECRET KEY>",
+    "awsSessionToken": "<YOUR SESSION TOKEN>",
+    "awsRegion": "<REGION ID>",
+    "awsCustomArn": "",
+    "apiProvider": "bedrock",
+    "id": "default"
+  }
+}
+```
+
+#### Anthropic
+
+```json
+{
+  "default": {
+    "todoListEnabled": true,
+    "consecutiveMistakeLimit": 3,
+    "apiKey": "<YOUR API KEY>",
+    "apiProvider": "anthropic",
+    "id": "default"
+  }
+}
+```
+
+#### Cerebras
+
+```json
+{
+  "default": {
+    "apiModelId": "<MODEL ID>",
+    "cerebrasApiKey": "<YOUR API KEY>",
+    "apiProvider": "cerebras",
+    "id": "default"
+  }
+}
+```
+
+#### Chutes AI
+
+```json
+{
+  "default": {
+    "apiModelId": "<MODEL ID>",
+    "chutesApiKey": "<YOUR API KEY>",
+    "apiProvider": "chutes",
+    "id": "default"
+  }
+}
+```
+
+#### DeepSeek
+
+```json
+{
+  "default": {
+    "apiModelId": "<MODEL ID>",
+    "deepSeekApiKey": "<YOUR API KEY>",
+    "apiProvider": "deepseek",
+    "id": "default"
+  }
+}
+```
+
+#### Glama
+
+```json
+{
+  "default": {
+    "glamaModelId": "<MODEL ID>",
+    "glamaApiKey": "<YOUR API KEY>",
+    "apiProvider": "glama",
+    "id": "default"
+  }
+}
+```
+
+#### Google Gemini
+
+```json
+{
+  "default": {
+    "apiModelId": "<MODEL ID>",
+    "geminiApiKey": "<YOUR API KEY>",
+    "apiProvider": "gemini",
+    "id": "default"
+  }
+}
+```
+
+#### Hugging Face
+
+```json
+{
+  "default": {
+    "huggingFaceApiKey": "<YOUR API KEY>",
+    "huggingFaceModelId": "<MODEL ID>",
+    "huggingFaceInferenceProvider": "auto",
+    "apiProvider": "huggingface",
+    "id": "default"
+  }
+}
+```
+
+#### Mistral
+
+```json
+{
+  "default": {
+    "apiModelId": "<MODEL ID>",
+    "mistralApiKey": "<YOUR API KEY>",
+    "apiProvider": "mistral",
+    "id": "default"
+  }
+}
+```
+
+#### Ollama
+
+```json
+{
+  "default": {
+    "ollamaModelId": "<MODEL ID>",
+    "ollamaBaseUrl": "<BASE URL>",
+    "ollamaApiKey": "<YOUR API KEY>",
+    "apiProvider": "ollama",
+    "id": "default"
+  }
+}
+```
+
+#### OpenAI
+
+```json
+{
+  "default": {
+    "reasoningEffort": "medium",
+    "apiModelId": "<MODEL ID>",
+    "openAiNativeApiKey": "<YOUR API KEY>",
+    "apiProvider": "openai-native",
+    "id": "default"
+  }
+}
+```
+
+#### OpenAI Compatible
+
+```json
+{
+  "default": {
+    "reasoningEffort": "medium",
+    "openAiBaseUrl": "<BASE URL>",
+    "openAiApiKey": "<YOUR API KEY>",
+    "openAiModelId": "<MODEL ID>",
+    "openAiUseAzure": false,
+    "azureApiVersion": "",
+    "openAiHeaders": {},
+    "apiProvider": "openai",
+    "id": "default"
+  }
+}
+```
+
+Set `"openAiUseAzure": true` when using Azure, and optionally a specific version `"azureApiVersion": "<VERSION>"`.
+
+Fine tune model usage using this additional key:
+
+```json
+"openAiCustomModelInfo": {
+    "maxTokens": -1,
+    "contextWindow": 128000,
+    "supportsImages": true,
+    "supportsPromptCache": false,
+    "inputPrice": 0,
+    "outputPrice": 0,
+    "reasoningEffort": "medium"
+}
+```
+
+#### Open Router
+
+```json
+{
+  "default": {
+    "reasoningEffort": "medium",
+    "openRouterApiKey": "<YOUR API KEY>",
+    "openRouterModelId": "<MODEL ID>",
+    "apiProvider": "openrouter",
+    "id": "default"
+  }
+}
+```
+
+#### Requesty
+
+```json
+{
+  "default": {
+    "reasoningEffort": "medium",
+    "requestyApiKey": "<YOUR API KEY>",
+    "requestyModelId": "<MODEL ID>",
+    "apiProvider": "requesty",
+    "id": "default"
+  }
+}
+```
+
+#### xAI Grok
+
+```json
+{
+  "default": {
+    "reasoningEffort": "medium",
+    "apiModelId": "<MODEL ID>",
+    "xaiApiKey": "<YOUR API KEY>",
+    "apiProvider": "xai",
+    "id": "default"
+  }
+}
+```
+
+### Example Secret
+
+![Example ](assets/v2_llm_example.png)
+
+---
+
+// File: how-tos/vscode/datacoves-copilot/v2
+
+# Datacoves Copilot v2
+
+This section describes how to configure and use Datacoves Copilot v2, which comes installed on Datacoves v4+, enhancing the experience and supporting the following LLM providers:
+
+- Amazon Bedrock
+- Anthropic
+- Cerebras
+- Chutes AI
+- DeepSeek
+- Glama
+- Google Gemini
+- Hugging Face
+- Mistral
+- Ollama
+- OpenAI
+- OpenAI Compatible (i.e. Azure)
+- Open Router
+- Requesty
+- xAI (Grok)
+
+# How Tos
+
+- [LLM Config](/how-tos/vscode/datacoves-copilot/v2-llm-config.md)
 
 ---
 

@@ -553,6 +553,7 @@ Before the setup call with the Datacoves team, ensure you have the following rea
 
 :::note
 
+:::
 Email gomezn@datacoves.com with the answers to the following two questions so we can be ready for the call.
 
 :::
@@ -573,6 +574,7 @@ To set up your Datacoves account, you will need to know your data warehouse prov
 
 :::warning[Warning]
 
+:::
 For the Snowflake `Account` field you will need to find your account locator and replace `.` with `-`. 
 Check out [Snowflake Fields](how-tos/datacoves/how_to_connection_template.md#for-snowflake-the-available-fields-are) on how to find your Snowflake account locator.
 
@@ -784,6 +786,7 @@ During the setup process, you'll be guided through a series of configuration que
 :::note
 It is recommended that you commit the answers file in your repo for future updates (see below)
 :::
+:::
 ## What Gets Created
 
 The `dbt-coves setup` command generates a comprehensive project structure that includes:
@@ -835,6 +838,7 @@ The update process:
 
 :::note
  When running an update, you will be prompted for the services you want to setup / update, if you saved the answers file from when you first ran set, your original choices pre-selected. If you unselect one of these, that content will be deleted
+:::
 :::
 ## Benefits for Data Teams
 
@@ -1198,9 +1202,9 @@ Edit the desired environment and click on the `Stack Services` tab. Ensure that 
 
 ## Airflow Configurations
 
->[!ATTENTION] You will need to add folders to your project repository in order to match the folder defaults for Airflow; These folders are `orchestrate/dags` and `orchestrate/dags_yml_definitions`. Please see the recommended [folder structure](explanation/best-practices/datacoves/folder-structure.md) for all folder structure recommendations.
-
+:::info You will need to add folders to your project repository in order to match the folder defaults for Airflow; These folders are `orchestrate/dags` and `orchestrate/dags_yml_definitions`. Please see the recommended [folder structure](explanation/best-practices/datacoves/folder-structure.md) for all folder structure recommendations.
 Once you enabled Airflow, click on the `Services configuration > Airflow Settings` tab and configure each of the following fields accordingly:
+:::
 
 ### Fields Reference: 
 
@@ -1238,8 +1242,10 @@ Once configured, you will need to configure your CI/CD process to clone your pro
 
 ### Logs Configuration - Private Deployment ONLY. Not applicable in SaaS.
 
->[!ATTENTION] Log Storage limit: 15 days. Airflow logs are not stored indefinitely and will be deleted after 15 days. 
-
+:::info  
+Log Storage limit: 15 days. Airflow logs are not stored indefinitely and will be deleted after 15 days. 
+:::
+:::
 There are **2 options** for logs - **EFS** and **S3**. Below you will see the fields required for each:
 
 - **EFS**
@@ -1258,8 +1264,9 @@ There are **2 options** for logs - **EFS** and **S3**. Below you will see the fi
 
 # How to use the Airflow API
 
->[!WARNING] Users must have Project Level Admin Group to use the Airflow API. The API will allow you to view secrets values in plain text. Always exercise the principle of least privilege. 
-
+:::warning
+ Users must have Project Level Admin Group to use the Airflow API. The API will allow you to view secrets values in plain text. Always exercise the principle of least privilege. 
+:::
 This how to will walk you through configuring the Airflow API and using it in a DAG.
 
 ### Step 1: Navigate to your target environment
@@ -1399,8 +1406,9 @@ if __name__ == "__main__":
 
 It is now possible to synchronize the Datacoves Airflow database to your Data Warehouse
 
-> [!NOTE]This is currently only available for Snowflake and Redshift warehouses.
-
+:::note
+This is currently only available for Snowflake and Redshift warehouses.
+:::
 ## Data Sync Decorator
 
 To synchronize the Airflow database, we can use an Airflow DAG with the Datacoves Airflow Decorator below.
@@ -1409,8 +1417,9 @@ To synchronize the Airflow database, we can use an Airflow DAG with the Datacove
 @task.datacoves_airflow_db_sync
 ``` 
 
-> [!NOTE]To avoid synchronizing unnecessary Airflow tables, the following Airflow tables are synced by default: `ab_permission`, `ab_role`, `ab_user`, `dag`, `dag_run`, `dag_tag`, `import_error`, `job`, `task_fail`, `task_instance`
-
+:::note
+To avoid synchronizing unnecessary Airflow tables, the following Airflow tables are synced by default: `ab_permission`, `ab_role`, `ab_user`, `dag`, `dag_run`, `dag_tag`, `import_error`, `job`, `task_fail`, `task_instance`
+:::
 These decorator can receive:
 
 - `db_type`: the destination warehouse type, "snowflake" or "redshift"
@@ -1455,59 +1464,10 @@ def airflow_data_sync():
 airflow_data_sync()
 ```
 
-> [!NOTE]The example DAG above uses the service connection `main`
-
+:::note
+The example DAG above uses the service connection `main`
+:::
 ![Service Connection main](assets/service_connections_main.png)
-
----
-
-// File: how-tos/airflow/orchestrate-load
-
-# How to Orchestrate your Load
-
-A service account should already exist that points to your Transform and is named main. 
-
-Creating a service connection for your loading will help further seperate the EL from your T. 
-
-This will create the following
-
-Access Variables: ####### ADD HOW os.getenv? 
-Once this is fully configured, you will have access to the following environment variables in your scripts.
-
-DATACOVES__LOAD__ROLE
-
-DATACOVES__LOAD__ACCOUNT
-
-DATACOVES__LOAD__WAREHOUSE
-
-DATACOVES__LOAD__DATABASE
-
-DATACOVES__LOAD__SCHEMA
-
-DATACOVES__LOAD__USER
-
-DATACOVES__LOAD__PASSWORD
-
----
-
-// File: how-tos/airflow/README
-
-# Airflow in Datacoves
-
-These how to guides are dedicated to Airflow within Datacoves. Here you will find information on how to **Enable and configure Airflow**
-
-* Create Airflow jobs(DAGs)
-* Run dbt with in an Airflow DAG
-* Sending notifications
-* Customizing Airflow worker environments (docker images)
-* Requesting Airflow worker resources
-
-And more! 
-
-## What to know
-- `Ruff` is installed to show unused imports and unused variables as well as python linting. 
-- [Datacoves Decorators](/reference/airflow/datacoves-decorators.md) simplify working with dbt, syncing databases, and running commands in Airflow.
-- [My Airflow](/how-tos/my_airflow/) can help speed up your DAG writing experience.
 
 ---
 
@@ -1718,7 +1678,77 @@ dag = data_aware_consumer_dag()
 ```
 
 
->[!NOTE] Ensure the Dataset you are sending an event to exists in Airflow. It will be created automatically when a DAG is created. If a dataset does not exist when the API event is sent, the API call will fail.
+:::note
+Ensure the Dataset you are sending an event to exists in Airflow. It will be created automatically when a DAG is created. If a dataset does not exist when the API event is sent, the API call will fail.
+:::
+
+---
+
+// File: how-tos/airflow/use-key-pair-authentication
+
+# Using Key-Pair Authentication in Airflow
+
+:::note
+This documentation will presume you have knowledge of Datacoves' [Service Connections](/how-tos/datacoves/how_to_service_connections.md) and how to configure them.
+:::
+
+Using RSA Keys is only supported through Airflow Connections, not Environment Variables. Make sure your Datacoves Service Connection is using this `delivery mode`.
+
+![alt text](./assets/delivery_mode_airflow_connection.png)
+
+Also, make sure to select `Authentication mechanism: RSA Key-pair` and [assign the generated key to your Snowflake user](https://docs.snowflake.com/en/user-guide/key-pair-auth#assign-the-public-key-to-a-snowflake-user).
+
+![authentication_mechanism_copy](./assets/authentication_mechanism_copy.png)
+
+Once you have properly configured your Service Connection, your Airflow instance will restart. This process may take up to 10 minutes.
+
+To confirm the above worked correctly, you can access your Airflow `Admin -> Connections` menu, and make sure your Service Connection  is now an Airflow Connection.
+
+![airflow_admin_connections](./assets/airflow_admin_connections.png)
+
+## Usage
+
+Thanks to our new [`dbt` Airflow Decorator](/reference/airflow/datacoves-decorators.md), you can run dbt against your warehouse using the Airflow Connection you just created, by simply passing the Service Connection name to our decorator's `connection_id` parameter.
+
+
+
+```python
+@dag(
+    [...]
+)
+def dbt_dag():
+
+    @task.datacoves_dbt(
+        connection_id="main_key_pair" # your service connection name
+    )
+    def run_dbt():
+        return "dbt debug" # return any dbt command
+
+    run_dbt()
+
+dbt_dag()
+```
+
+---
+
+// File: how-tos/airflow/README
+
+# Airflow in Datacoves
+
+These how to guides are dedicated to Airflow within Datacoves. Here you will find information on how to **Enable and configure Airflow**
+
+* Create Airflow jobs(DAGs)
+* Run dbt with in an Airflow DAG
+* Sending notifications
+* Customizing Airflow worker environments (docker images)
+* Requesting Airflow worker resources
+
+And more! 
+
+## What to know
+- `Ruff` is installed to show unused imports and unused variables as well as python linting. 
+- [Datacoves Decorators](/reference/airflow/datacoves-decorators.md) simplify working with dbt, syncing databases, and running commands in Airflow.
+- [My Airflow](/how-tos/my_airflow/) can help speed up your DAG writing experience.
 
 ---
 
@@ -1783,8 +1813,9 @@ datacoves_sample_dag()
 
 If you need additional libraries for your DAG such as pandas, let us know so that we can configure them in your environment. 
 
->[!NOTE]Below we make use of a `python_scripts` folder inside the `orchestrate` folder and develop as a best practice we locate our custom scripts in this location.
-
+:::note
+Below we make use of a `python_scripts` folder inside the `orchestrate` folder and develop as a best practice we locate our custom scripts in this location.
+:::
 ## orchestrate/python_scripts
 
 ```python
@@ -1813,8 +1844,9 @@ Create a DAG in the `dags` folder.
 
 To run the custom script from an Airflow DAG, you will use the `@task.datacoves_bash` decorator as seen in the `python_task` below.
 
->[!TIP]See [Datacoves Decorators](reference/airflow/datacoves-decorators.md) documentation for more information on the Datacoves Airflow Decorators.
-
+:::tip 
+See [Datacoves Decorators](reference/airflow/datacoves-decorators.md) documentation for more information on the Datacoves Airflow Decorators.
+:::
 ```python
 from airflow.decorators import dag, task
 from pendulum import datetime
@@ -1937,8 +1969,9 @@ dbt-coves will read settings from `<dbt_project_path>/.dbt_coves/config.yml`. We
 
 **Step 1:** Create the `.dbt-coves` folder at the root of your dbt project (where the dbt_project.yml file is located). Then create a file called `config.yml` inside of `.dbt-coves`. 
 
->[!NOTE]Datacoves' recommended dbt project location is `transform/` eg) `transform/.dbt-coves/config.yml`. This will require some minor refactoring and ensuring that the  `dbt project path ` in your environment settings reflects accordingly. 
-
+:::note 
+Datacoves' recommended dbt project location is `transform/` eg) `transform/.dbt-coves/config.yml`. This will require some minor refactoring and ensuring that the  `dbt project path ` in your environment settings reflects accordingly. 
+:::
 **Step 2:** We use environment variables such as `DATACOVES__AIRFLOW_DAGS_YML_PATH` that are pre-configured for you. For more information on these variables see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
 - `yml_path`: This is where dbt-coves will look for the yml files to generate your Python DAGs.
 - `dags_path`: This is where dbt-coves will place your generated python DAGs.
@@ -1956,15 +1989,16 @@ generate:
 ...
 ```
 
->[!TIP]If using an Extract and Load tool in your DAG you can dynamically generate your sources; however, additional configuration will be needed inside the config.yml file. See [Airbyte](how-tos/airflow/run-airbyte-sync-jobs.md#configure-transformdbt-covesconfigyml-file). For [Fivetran](how-tos/airflow/run-fivetran-sync-jobs.md#configure-transformdbt-covesconfigyml-file) contact us to complete the setup.
-
+:::tip 
+If using an Extract and Load tool in your DAG you can dynamically generate your sources; however, additional configuration will be needed inside the config.yml file. See [Airbyte](how-tos/airflow/run-airbyte-sync-jobs.md#configure-transformdbt-covesconfigyml-file). For [Fivetran](how-tos/airflow/run-fivetran-sync-jobs.md#configure-transformdbt-covesconfigyml-file) contact us to complete the setup.
+:::
 ## Create the yml file for your Airflow DAG
 
 dbt-coves will look for your yml inside your `orchestrate/dags_yml_definition` folder to generate your Python DAGs. Please create these folders if you have not already done so.
- 
->[!NOTE]When you create a DAG with YAML the name of the file will be the name of the DAG.
+:::note
+When you create a DAG with YAML the name of the file will be the name of the DAG.
 eg) `yml_dbt_dag.yml` generates a dag named `yml_dbt_dag`
-
+:::
 Let's create our first DAG using YAML. 
 
 **Step 1**: Create a new file named `my_first_yml.yml` in your `orchestrate/dags_yml_definition` folder.
@@ -1989,8 +2023,9 @@ nodes:
     operator: operators.datacoves.dbt.DatacovesDbtOperator
     bash_command: "dbt run -s personal_loans" 
 ```
->[!TIP]In the examples we make use of the Datacoves Operators which handle things like copying and running dbt deps. For more information on what these operators handle, see [Datacoves Operators](reference/airflow/datacoves-operator.md)
-
+:::tip
+In the examples we make use of the Datacoves Operators which handle things like copying and running dbt deps. For more information on what these operators handle, see [Datacoves Operators](reference/airflow/datacoves-operator.md)
+:::
 ### How to create your own task group with YAML
 
 The example below shows how to create your own task group with YAML.
@@ -2001,8 +2036,9 @@ The example below shows how to create your own task group with YAML.
 - **tooltip**: Hover message for the task group. 
 - **tasks**: Here is where you will define the individual tasks in the task group.
 
->[!NOTE] Specify the "task group" and "task" names at the beginning of their respective sections, as illustrated below:
-
+:::note
+Specify the "task group" and "task" names at the beginning of their respective sections, as illustrated below:
+:::
 ```yaml
 nodes:
   extract_and_load_dlt: # The name of the task group
@@ -2230,67 +2266,6 @@ Our variant table now looks like this:
 
 ---
 
-// File: how-tos/airflow/use-datacoves-secrets-manager
-
-# How to use Datacoves Secrets Manager in Airflow
-
-Datacoves includes a built-in [Secrets Manager](reference/admin-menu/secrets.md) that allows you to securely store and manage secrets for both administrators and developers. Secrets can be stored at the project or environment level and easily shared across other tools in your stack, ensuring seamless integration and enhanced security. [Creating or editing a secret](/how-tos/datacoves/how_to_secrets.md) in the Datacoves Secret Manager is straightforward. Be sure to prefix all secrets stored in Datacoves Secrets Manager with `datacoves-`.
-
-## Read variable from Datacoves Secrets Manager
-
-Once you save your variable in the Datacoves Secret Manager you are ready to use your variable in a DAG. This is done using `Variable.get`. Airflow will look in several places to find the variable.
-
-### The order of places it will look for are as follows:
-
-1. AWS Secrets Manager (if configured)  
-2. Datacoves Secrets Manager  
-3. Airflow variables  
-
-Once a variable is found, Airflow will stop its search.
-
-![Secrets flowchart](assets/variablle_flow.png)
-
-### Best practices when using a Secrets Manager variable
-
-1. Always call your `Variable.get` from within the Datacoves Task Decorators. This ensures the variable is only fetched at runtime.  
-2. Use prefixes based on where your variable is stored, like `datacoves-` (Datacoves Secrets Manager only searches for secrets with this prefix), `aws_`, or `airflow_` to help identify and debug variables. For example: `datacoves-mayras_secret`.
-
-### Example DAG using Datacoves Secrets Manager
-
-```python
-from airflow.decorators import dag, task
-from pendulum import datetime
-from airflow.models import Variable
-
-@dag(
-    default_args={
-        "start_date": datetime(2024, 1, 1),
-        "owner": "Amy Chan",
-        "email": "amy@example.com",
-        "email_on_failure": True,
-    },
-    catchup=False,
-    tags=["version_1"],
-    description="Testing task decorators",
-    schedule_interval="0 0 1 */12 *",
-)
-def task_decorators_example():
-
-    @task.datacoves_bash
-    def calling_vars_in_decorator() -> str:
-        my_var = Variable.get("datacoves-mayras_secret")
-        return "My variable is: " + my_var
-
-    calling_vars_in_decorator()
-
-dag = task_decorators_example()
-```
-:::tip
- To auto mask your secret you can use `secret` or `password` in the secret name since this will set `hide_sensitive_var_conn_fields` to True. eg `aws_mayras_password`. Please see [this documentation](https://www.astronomer.io/docs/learn/airflow-variables#hide-sensitive-information-in-airflow-variables) for a full list of masking words.
-:::
-
----
-
 // File: how-tos/airflow/run-adf-pipeline
 
 # Use Microsoft Azure Data Factory Operators 
@@ -2345,14 +2320,19 @@ You can use Airflow in Datacoves to trigger a Microsoft Azure Data Factory pipel
   
 - **Subscription ID:** Your `SUBSCRIPTION_ID` 
 
->[!NOTE] Replace the values in the screenshot below with the actual values found above.
+:::note
+ Replace the values in the screenshot below with the actual values found above.
+:::
+ :::
 
 ![adf connection](assets/airflow_adf_connection.png)
  
 ## Example DAG 
 
->[!NOTE] You will need to update the `pipeline_name`, `resource_group_name`, and `factory_name` arguments below with the correct names.
-
+:::note
+You will need to update the `pipeline_name`, `resource_group_name`, and `factory_name` arguments below with the correct names.
+:::
+:::
 Once you have configured your Databricks connection and variables, you are ready to create your DAG. Head into the `Transform` tab to begin writing your DAG inside `orchestrate/dags`.
 
 ```python
@@ -2416,8 +2396,9 @@ In our quest to simplify the way tools integrate in the Modern Data Stack, we de
 
 The main idea behind this concept is to use tags defined on dbt sources and determine which data to load via different tools (e.g. Airbyte or Fivetran). Using this information, we can dynamically create _Extract and Load_ tasks in an Airflow DAG before running dbt.
 
->[!NOTE]Support for Fivetran Tasks coming soon. More Information in [run Fivetran sync jobs](/how-tos/airflow/run-fivetran-sync-jobs).
-
+:::note
+Support for Fivetran Tasks coming soon. More Information in [run Fivetran sync jobs](/how-tos/airflow/run-fivetran-sync-jobs).
+:::
 ## Before you start
 
 ### Ensure your Airflow environment is properly configured
@@ -2432,8 +2413,9 @@ To view this connection, a user with the Datacoves sysadmin group can go to the 
 
 ![Admin Connections](./assets/admin-connections.png)
 
->[!NOTE] `host` is created using your environment (3 letters + 3 digits like xyz123) `<environment slug> + "-airbyte-airbyte-server-svc"`.
-
+:::note
+ `host` is created using your environment (3 letters + 3 digits like xyz123) `<environment slug> + "-airbyte-airbyte-server-svc"`.
+:::
 ![Admin Connections](./assets/airbyte-connection-details.png)
 
 ### Turn off Airbyte's scheduler
@@ -2453,8 +2435,9 @@ To connect Extract & Load with Transform in your DAG, you must configure your db
 - **airbyte_connection_id**: Id of the airflow connection that holds the information to connect to Airbyte system. (this was set up above)
 
 
->[!TIP]We make use of environment variables that we have configured for you upon set up. For more information on these variables please see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
-
+:::tip
+We make use of environment variables that we have configured for you upon set up. For more information on these variables please see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
+:::
 ```yml
 generate:
   ...
@@ -2486,8 +2469,9 @@ generate:
 
 Now you are ready to write out your DAG using yml. In the following example DAG, you can notice a special task `load` that uses a `generator` instead of an `operator`. This will allow for the information to be pulled dynamically from airbyte such as connection_id. 
 
->[!TIP]We make use of special generators from the dbt-coves extension. For more information please see [DAG Generators](reference/airflow/dag-generators.md)
-
+:::tip
+We make use of special generators from the dbt-coves extension. For more information please see [DAG Generators](reference/airflow/dag-generators.md)
+:::
 
 ### Field reference:
 
@@ -2543,10 +2527,11 @@ This means that you can simply run `dbt <dbt subcommand>` in your Airflow DAG an
 
 If your dbt command like `dbt run` works in your development environment(**Try dbt run in your terminal**), then you should be able to create an Airflow DAG that will run this command automatically.
 
->[!TIP]Keep in mind that in an Airflow context `dbt` is installed in an isolated Python Virtual Environment to avoid clashing with Airflow python dependencies. Datacoves default Python's virtualenv is located in `/opt/datacoves/virtualenvs/main`. No need to worry about the complexity when using the `@task.datacoves_dbt` decorator because it will automatically activate that environment amongst other actions.
+:::tip 
+Keep in mind that in an Airflow context `dbt` is installed in an isolated Python Virtual Environment to avoid clashing with Airflow python dependencies. Datacoves default Python's virtualenv is located in `/opt/datacoves/virtualenvs/main`. No need to worry about the complexity when using the `@task.datacoves_dbt` decorator because it will automatically activate that environment amongst other actions.
 
 See [Datacoves Decorators](reference/airflow/datacoves-decorators.md) for more information.
-
+:::
 ### Lets create a DAG!
 
 **Step 1:** If using Git Sync, switch to your configured branch (`airflow_development` or `main`), create a python file inside of `orchestrate/dags` named `my_sample_dag.py`
@@ -2849,13 +2834,13 @@ dag = databricks_example_run()
 
 # Run Fivetran sync jobs
 
-In Addition to triggering Airbyte loads jobs [run Airbyte sync jobs](/how-tos/airflow/run-airbyte-sync-jobs) you can also trigger Fivetran jobs from your Airflow DAG.
+In Addition to triggering Airbyte loads jobs [run Airbyte sync jobs](/docs/how-tos/airflow/run-airbyte-sync-jobs) you can also trigger Fivetran jobs from your Airflow DAG.
 
 ## Before you start
 
 ### Ensure your Airflow environment is properly configured
 
-Follow this guide on [How to set up Airflow](/how-tos/airflow/initial-setup)'s environment.
+Follow this guide on [How to set up Airflow](/docs/how-tos/airflow/initial-setup)'s environment.
 
 ### Fivetran connection
 
@@ -2869,8 +2854,9 @@ Create a new connection using the following details:
 
 ![Admin Connections](./assets/fivetran-connection-details.png)
 
->[!TIP]Once your Fivetran API key and secret have been generated, for security reasons, the secret cannot be viewed again through the Fivetran interface. If you lose or forget your API secret, you will need to generate a new API key and secret pair so be sure to store them somewhere secure for reference later. See <a href="https://fivetran.com/docs/rest-api/getting-started" target="_blank" rel="noopener">Fivetran Documentation</a> on how to generate your Fivetran `API Key` and `API Secret`. 
-
+:::tip
+Once your Fivetran API key and secret have been generated, for security reasons, the secret cannot be viewed again through the Fivetran interface. If you lose or forget your API secret, you will need to generate a new API key and secret pair so be sure to store them somewhere secure for reference later. See <a href="https://fivetran.com/docs/rest-api/getting-started" target="_blank" rel="noopener">Fivetran Documentation</a> on how to generate your Fivetran `API Key` and `API Secret`. 
+:::
 ### Configure your transform/.dbt-coves/config.yml file
 
 By default, dbt-coves cannot query the necessary information for Fivetran connections. You will need to configure these in your yml DAG manually, or contact us to configure Datacoves with the necessary information.
@@ -2880,8 +2866,9 @@ Below are the configurations in for dbt-coves airflow-dags. You will need to con
 - **yml_path**: Relative path to dbt project where yml to generate python DAGs will be stored
 - **dags_path**: Relative path to dbt project where generated python DAGs will be stored
 
->[!TIP]We make use of environment variables that we have configured for you upon set up. For more information on these variables please see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
-
+:::tip
+We make use of environment variables that we have configured for you upon set up. For more information on these variables please see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
+:::
 ```yaml
 generate:
 ...
@@ -3277,16 +3264,18 @@ By integrating this workflow, you can ensure Airflow DAGs meet quality standards
 
 # Variables and Connections
 
->[!NOTE]dbt-coves generate airflow-dags does not support reading variables/connections, but you may generate the initial Python Airflow DAG and add the connection / variable information.
-
+:::note
+dbt-coves generate airflow-dags does not support reading variables/connections, but you may generate the initial Python Airflow DAG and add the connection / variable information.
+:::
 The best way to store and retrieve information within Airflow is to use `Variables` and `Connections`, both available on the `Admin` upper dropdown.
 
 ![select More](./assets/variables_connections_ui.png)
 
 The main difference between them is that [Variables](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/variable.html) is a generic multi-purpose store, while [Connections](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/connection.html) are aimed at third-party providers.
 
->[!TIP]Rather than using connections or variables stored in Airflow’s database, we recommend using a Secrets Manager. These secrets are encrypted and can be stored either in [Datacoves Secrets manager](/how-tos/airflow/use-datacoves-secrets-manager.md) or a third-party secrets manager like [AWS Secrets Manager](/how-tos/airflow/use-aws-secrets-manager)
-
+:::tip
+Rather than using connections or variables stored in Airflow’s database, we recommend using a Secrets Manager. These secrets are encrypted and can be stored either in [Datacoves Secrets manager](/docs/how-tos/airflow/use-datacoves-secrets-manager.md) or a third-party secrets manager like [AWS Secrets Manager](/docs/how-tos/airflow/use-aws-secrets-manager)
+:::
 ## Usage
 
 ### Variables
@@ -3400,8 +3389,8 @@ In Datacoves 3.3 and up, the `SMTP` will be automatically added to your environm
 
 Viola!🎉 The Airflow service will be restarted shortly and will now include the SMTP configuration required to send emails.
 
->[!NOTE] **Getting Started Guide:** If you are making your way through our [getting started guide](/getting-started/Admin/), please continue on to [developing DAGs](getting-started/Admin/creating-airflow-dags.md).
-
+:::note **Getting Started Guide:** If you are making your way through our [getting started guide](/getting-started/Admin/), please continue on to [developing DAGs](getting-started/Admin/creating-airflow-dags.md).
+:::
 ## Set up a custom SMTP (Optional)
 
 If you do not wish to use the default SMTP server, you can configure your own.
@@ -3454,7 +3443,9 @@ If you have already created a DAG it's time to modify your DAG to make use of ou
 
 Simply provide a `default_args` dict like so:
 
->[!TIP]You can add as many email recipients needed by passing a list into the email field. eg) `email: ["gomezn@example.com", "mayra@example.com", "walter@example.com"]` 
+:::tip 
+You can add as many email recipients needed by passing a list into the email field. eg) `email: ["gomezn@example.com", "mayra@example.com", "walter@example.com"]` 
+:::
 
 ### Python version
 
@@ -3514,8 +3505,8 @@ nodes:
 
 ## DRY default_args 
 
->[!TIP] We recommend placing your default_args in its own file and importing it for reusability. In the example below we created a file inside of orchestrate/utils/
-
+:::tip We recommend placing your default_args in its own file and importing it for reusability. In the example below we created a file inside of orchestrate/utils/
+:::
 ```python
 # orchestrate/utils/default_args.py
 from datetime import datetime, timedelta
@@ -3575,9 +3566,9 @@ Click `Configure`, give it a name, and optionally select an image to use as the 
 
 ![Create Incoming Webhook](./assets/create-incoming-webhook.png)
 
-> [!ATTENTION] Store this URL in a safe place as you will need it in a subsequent step and anyone with this link can send notification to that MS Teams channel
-
+:::info Store this URL in a safe place as you will need it in a subsequent step and anyone with this link can send notification to that MS Teams channel
 ## Prepare Airflow
+:::
 
 ### Create a new Integration
 
@@ -3593,7 +3584,10 @@ Provide a name and select `MS Teams`.
 
 Provide the required details and `Save` changes.
 
-> [!NOTE] The name you specify will be used to create the Airflow-Teams connection. It will be uppercased and joined by underscores -> `'ms teams'` will become `MS_TEAMS`. You will need this name below.
+:::note
+The name you specify will be used to create the Airflow-Teams connection. It will be uppercased and joined by underscores -> `'ms teams'` will become :::
+:::
+`MS_TEAMS`. You will need this name below.
 
 ### Add integration to an Environment
 
@@ -3625,7 +3619,9 @@ MS Teams will receive a message with a 'View Log' link that users can click on a
 
 In the examples below, we will send a notification on failing tasks or when the full DAG completes successfully using our custom callbacks: `inform_failure` and `inform_success`.
 
-> [!NOTE]In addition to `inform_failure` and `inform_success`, we support these callbacks `inform_failure`, `inform_success`, `inform_retry`, `inform_sla_miss`.
+:::note
+In addition to `inform_failure` and `inform_success`, we support these callbacks `inform_failure`, `inform_success`, `inform_retry`, `inform_sla_miss`.
+:::
 
 To send MS Teams notifications, in the Airflow DAG we need to import the appropriate notifier and use it with the following parameters:
 
@@ -3634,9 +3630,9 @@ To send MS Teams notifications, in the Airflow DAG we need to import the appropr
 - `message`: the body of the message
 - `theme_color`: theme color of the MS Teams card
 
->[!ATTENTION] `on_failure_callback` will throw an error if using lists causing your task to fail.
-
+:::info  `on_failure_callback` will throw an error if using lists causing your task to fail.
 ### Python version
+:::
 
 ```python
 from pendulum import datetime
@@ -3671,8 +3667,10 @@ def dbt_run():
 dag = dbt_run()
 ```
 
-> [!NOTE] Quotation marks are not needed when setting the custom message. However, making use of Jinja in a YAML file requires the message to be wrapped in quotations to be parsed properly. eg) `{{ dag.dag_id }} failed`
-
+:::note
+Quotation marks are not needed when setting the custom message. However, making use of Jinja in a YAML file requires the message to be wrapped in quotations to be parsed properly. eg) `{{ dag.dag_id }} failed`
+:::
+:::
 
 ### YAML version
 
@@ -3778,8 +3776,9 @@ Provide a name and select `Slack`.
 
 Provide the required details and `Save` changes.
 
-> [!TIP]The name you specify will be used to create the Airflow-Slack connection. It will be uppercased and joined by underscores -> `'SLACK NOTIFICATIONS'` will become `SLACK_NOTIFICATIONS`. You will need this name below.
+:::tipThe name you specify will be used to create the Airflow-Slack connection. It will be uppercased and joined by underscores -> `'SLACK NOTIFICATIONS'` will become `SLACK_NOTIFICATIONS`. You will need this name below.
 
+:::
 ### Add integration to an Environment
 
 Once the `Slack` integration is created, it needs to be associated with the Airflow service within a Datacoves environment.
@@ -3808,15 +3807,16 @@ Slack will receive a message with a 'Logs' link that users can click on and go d
 
 In the examples below, we will send a notification on failing tasks or when the full DAG completes successfully using our custom callbacks: `inform_failure` and `inform_success`.
 
-> [!NOTE]In addition to `inform_failure` and `inform_success`, we support these callbacks `inform_failure`, `inform_success`, `inform_retry`, `inform_sla_miss`
+:::noteIn addition to `inform_failure` and `inform_success`, we support these callbacks `inform_failure`, `inform_success`, `inform_retry`, `inform_sla_miss`
 
+:::
 To send Slack notifications, in the Airflow DAG we need to import the appropriate callbacks and call them with:
 
 - `slack_webhook_conn_id`: the name of the Datacoves Integration created above
 - `text`: to customize the message sent to Slack.
 
->[!ATTENTION] `on_failure_callback` will throw an error if using lists causing your task to fail.
-
+:::warning `on_failure_callback` will throw an error if using lists causing your task to fail.
+:::
 ### Python version
 
 ```python
@@ -3901,6 +3901,192 @@ nodes:
 ## Getting Started Next Steps
 
 Start [developing DAGs](getting-started/Admin/creating-airflow-dags.md)
+
+---
+
+// File: how-tos/airflow/use-aws-secrets-manager
+
+# How to use AWS Secrets Manager in Airflow
+
+Datacoves integrates with the Airflow Secrets Backend Interface, offering support for both its native Datacoves Secrets Backend and AWS Secrets Manager. For other Airflow-compatible Secrets Managers, please reach out to us.
+
+Secrets backends are configured per project. See [configure your AWS Secrets Manager](/how-tos/datacoves/how_to_configure_aws_secrets_manager.md) for details.
+
+## Read variable from AWS Secrets Manager
+
+Airflow's `Variable.get` searches multiple places:
+
+1. AWS Secrets Manager (if configured)  
+2. Datacoves Secrets Manager  
+3. Airflow environment variables  
+
+Once a variable is found, Airflow stops searching.
+
+![Secrets flowchart](assets/variablle_flow.png)
+
+### Best practices
+
+1. Call `Variable.get` from within an Airflow/Datacoves decorator to fetch at runtime only.  
+2. Use `connections_lookup_pattern` and `variables_lookup_pattern` to filter prefixes (e.g., `aws_`) to reduce unnecessary API calls. Example: `aws_my_secret`.
+
+### Example DAG using AWS Secrets Manager
+
+```python
+from airflow.decorators import dag, task
+from pendulum import datetime
+from airflow.models import Variable
+
+@dag(
+    catchup=False,
+    default_args={
+        "start_date": datetime(2024, 1, 1),
+        "owner": "Mayra Pena",
+        "email": "mayra@example.com",
+        "email_on_failure": True,
+    },
+    tags=["version_1"],
+    description="Testing task decorators",
+    schedule_interval="0 0 1 */12 *",
+)
+def task_decorators_example():
+
+    @task.datacoves_bash(connection_id="main")
+    def calling_vars_in_decorator() -> str:
+        my_var = Variable.get("aws_my_secret")
+        return "My variable is: " + my_var
+
+    calling_vars_in_decorator()
+
+dag = task_decorators_example()
+```
+
+:::tip
+To auto mask your secret you can use `secret` or `password` in the secret name since this will set `hide_sensitive_var_conn_fields` to True. eg `aws_my_password`. Please see [this documentation](https://www.astronomer.io/docs/learn/airflow-variables#hide-sensitive-information-in-airflow-variables) for a full list of masking words.
+:::
+
+## Using a secrets manager directly from Airflow
+
+While not recommended, you can bypass the Datacoves secrets manager integration by configuring an Airflow connection and using the `SecretsManagerHook` in an Airflow DAG.
+
+### Configure an Airflow Connection
+Create a new Airflow Connection with the following parameters:
+
+Connection Id: aws_secrets_manager  
+Connection Type: Amazon Web Services  
+AWS Access Key ID: ....  
+AWS Secret Access Key: ....  
+
+Extra:
+
+```json
+{
+  "region_name": "us-west-2"
+}
+```
+
+```python
+from airflow.decorators import dag, task
+from pendulum import datetime
+from airflow.providers.amazon.aws.hooks.secrets_manager import SecretsManagerHook
+
+@dag(
+    catchup=False,
+    default_args={
+        "start_date": datetime(2024, 1, 1),
+        "owner": "Noel Gomez",
+        "email": "noel@example.com",
+        "email_on_failure": True,
+    },
+    tags=["sample"],
+    description="Testing task decorators",
+    schedule_interval="0 0 1 */12 *",
+)
+def variable_usage():
+
+    @task.datacoves_bash
+    def aws_var():
+        secrets_manager_hook = SecretsManagerHook(aws_conn_id='aws_secrets_manager')
+        var = secrets_manager_hook.get_secret("airflow/variables/aws_ngtest")
+        return f"export MY_VAR={var} && echo $MY_VAR"
+
+    aws_var()
+
+dag = variable_usage()
+```
+
+## Check when secret is being fetched from AWS
+
+It is a good idea to verify that Secrets are only being fetched when expected. To do this, you can use AWS CloudTrail.
+
+1. From the AWS Console, go to `CloudTrail`
+2. Click `Event History`
+3. Click `Clear Filter`
+4. In the `Lookup Attributes` dropdown, select `Event Name`
+5. In the `Enter an Event Name` input box, enter `GetSecretValue`
+
+Review the `Resource name` and `Event time`.  
+Note: it may take a few minutes for fetch events to show up in CloudTrail.
+
+---
+
+// File: how-tos/airflow/use-datacoves-secrets-manager
+
+# How to use Datacoves Secrets Manager in Airflow
+
+Datacoves includes a built-in [Secrets Manager](reference/admin-menu/secrets.md) that allows you to securely store and manage secrets for both administrators and developers. Secrets can be stored at the project or environment level and easily shared across other tools in your stack, ensuring seamless integration and enhanced security. [Creating or editing a secret](/how-tos/datacoves/how_to_secrets.md) in the Datacoves Secret Manager is straightforward. Be sure to prefix all secrets stored in Datacoves Secrets Manager with `datacoves-`.
+
+## Read variable from Datacoves Secrets Manager
+
+Once you save your variable in the Datacoves Secret Manager you are ready to use your variable in a DAG. This is done using `Variable.get`. Airflow will look in several places to find the variable.
+
+### The order of places it will look for are as follows:
+
+1. AWS Secrets Manager (if configured)  
+2. Datacoves Secrets Manager  
+3. Airflow variables  
+
+Once a variable is found, Airflow will stop its search.
+
+![Secrets flowchart](assets/variablle_flow.png)
+
+### Best practices when using a Secrets Manager variable
+
+1. Always call your `Variable.get` from within the Datacoves Task Decorators. This ensures the variable is only fetched at runtime.  
+2. Use prefixes based on where your variable is stored, like `datacoves-` (Datacoves Secrets Manager only searches for secrets with this prefix), `aws_`, or `airflow_` to help identify and debug variables. For example: `datacoves-mayras_secret`.
+
+### Example DAG using Datacoves Secrets Manager
+
+```python
+from airflow.decorators import dag, task
+from pendulum import datetime
+from airflow.models import Variable
+
+@dag(
+    default_args={
+        "start_date": datetime(2024, 1, 1),
+        "owner": "Amy Chan",
+        "email": "amy@example.com",
+        "email_on_failure": True,
+    },
+    catchup=False,
+    tags=["version_1"],
+    description="Testing task decorators",
+    schedule_interval="0 0 1 */12 *",
+)
+def task_decorators_example():
+
+    @task.datacoves_bash
+    def calling_vars_in_decorator() -> str:
+        my_var = Variable.get("datacoves-mayras_secret")
+        return "My variable is: " + my_var
+
+    calling_vars_in_decorator()
+
+dag = task_decorators_example()
+```
+:::tip
+ To auto mask your secret you can use `secret` or `password` in the secret name since this will set `hide_sensitive_var_conn_fields` to True. eg `aws_mayras_password`. Please see [this documentation](https://www.astronomer.io/docs/learn/airflow-variables#hide-sensitive-information-in-airflow-variables) for a full list of masking words.
+:::
 
 ---
 
@@ -4002,8 +4188,9 @@ Similarly to how you [overrode a worker's running environment](/how-tos/airflow/
 
 In the following example, we're requesting a minimum of 8Gb of memory and 1000m of cpu in the `requests` dict to run the task. [Click here](https://pwittrock.github.io/docs/tasks/configure-pod-container/assign-cpu-ram-container/) to learn more about resources requests and limits on a kubernetes running environment.
 
->[!NOTE] Keep in mind that if you request more resources than a node in the cluster could allocate the task will never run and the DAG will fail.
-
+:::note 
+Keep in mind that if you request more resources than a node in the cluster could allocate the task will never run and the DAG will fail.
+:::
 ```python
 from datetime import datetime
 from airflow.decorators import dag, task
@@ -6873,8 +7060,9 @@ To start a new chat click on the `New Chat` button.
 
 # Configure your LLM for Datacoves Copilot v1
 
-> [!NOTE] Datacoves Copilot v1 only support the 4o model gpt model.
+:::note Datacoves Copilot v1 only support the 4o model gpt model.
 
+:::
 ### Step 1: Create a Datacoves Secret
 
 Creating a [Datacoves Secret](/how-tos/datacoves/how_to_secrets.md) requires some key fields to be filled out:
@@ -7216,7 +7404,10 @@ Datacoves can integrate seamlessly with your existing ChatGPT or Azure Open AI L
 
 **Reference guides** give you detailed information on a given topic
 
->[!NOTE]If you have recommendations for reference guides, please send us an email at support@datacoves.com
+:::note
+If you have recommendations for reference guides, please send us an email at support@datacoves.com
+:::
+:::
 
 ---
 
@@ -7872,8 +8063,10 @@ nodes:
 
 With the introduction of the task flow API in Airflow we have released the Datacoves decorators to make writing DAGs simple! 
 
->[!NOTE] While the Datacoves decorators are recommended, the [Datacoves Operators](/reference/airflow/datacoves-operator.md), are still supported. 
-
+:::note
+ While the Datacoves decorators are recommended, the [Datacoves Operators](/reference/airflow/datacoves-operator.md), are still supported. 
+:::
+:::
 ## Decorators 
 
 ### @task.datacoves_bash
@@ -7948,8 +8141,10 @@ The examples above use the Airflow connection `main` which is added automaticall
 
 From Datacoves 3.4 onwards, the `datacoves_dbt` decorator allows users to upload and download dbt execution results and metadata to our `dbt API`
 
->[!NOTE] dbt-API is a feature that is not enabled by default. Please contact support for further assistance.
-
+:::note
+dbt-API is a feature that is not enabled by default. Please contact support for further assistance.
+:::
+:::
 This is particularly useful for performing [dbt retries](/how-tos/airflow/retry-dbt-tasks.md).
 
 
@@ -7966,8 +8161,9 @@ The new datacoves_dbt parameters are:
 - `upload_sources_json` (Default: `True`): Whether the `sources.json` dbt file will be uploaded.
 - `download_sources_json` (Default: `False`): Whether the `sources.json` dbt file will be downloaded.
 
->[!NOTE]
+:::note
 >**Static Artifacts**  
+:::
 >The static artifacts are important dbt-generated files that help with dbt's operations:
 >
 >- `target/graph_summary.json`: Contains a summary of the DAG structure of your dbt project.
@@ -7976,12 +8172,12 @@ The new datacoves_dbt parameters are:
 >- `target/semantic_manifest.json`: Contains semantic information about your dbt project.
 >
 >These files are downloaded by default (when `download_static_artifacts=True`) and are tagged as "latest" when uploaded.
-
+:::
 ### @task.datacoves_airflow_db_sync
 
->[!NOTE] The following Airflow tables are synced by default: ab_permission, ab_role, ab_user, dag, dag_run, dag_tag, import_error, job, task_fail, task_instance. 
-
+:::note The following Airflow tables are synced by default: ab_permission, ab_role, ab_user, dag, dag_run, dag_tag, import_error, job, task_fail, task_instance. 
 **Params:**
+:::
 
 - `db_type`: The data warehouse you are using. Currently supports `redshift` or `snowflake`.
 - `destination_schema`: The destination schema where the Airflow tables will end-up. By default, the schema will be named as follows: `airflow-{datacoves environment slug}` for example `airflow-qwe123`.
@@ -8092,9 +8288,9 @@ The name of the service connection will be used to dynamically create the follow
 
 # Datacoves Operators & Generators
 
->[!NOTE] All operators use Datacoves Service connections with `Delivery Mode` set to `Environment Variables`
-
+:::note All operators use Datacoves Service connections with `Delivery Mode` set to `Environment Variables`
 When utilizing dbt-coves to generate DAGs, it's crucial to grasp the functionality of the two frequently used operators and their behind-the-scenes operations, enhancing your Airflow experience.
+:::
 
 ## Datacoves Bash Operator
 
@@ -8147,8 +8343,9 @@ simple_datacoves_dag()
 
 ## Datacoves dbt Operator
 
->[!WARNING]If you have either `dbt_modules` or `dbt_packages` folders in your project repo Datacoves won't run `dbt deps`.
-
+:::waring
+If you have either `dbt_modules` or `dbt_packages` folders in your project repo Datacoves won't run `dbt deps`.
+:::
 ``` 
 from operators.datacoves.dbt import DatacovesDbtOperator
 ```
@@ -8200,8 +8397,10 @@ Datacoves has the following Airflow Data Sync Operators: `DatacovesDataSyncOpera
 
 Both of them receive the same arguments, so we won't differentiate examples. Select the appropriate provider for your Data Warehouse.
 
-> [!NOTE]To avoid synchronizing unnecessary Airflow tables, the following Airflow tables are synced by default: `ab_permission`, `ab_role`, `ab_user`, `dag`, `dag_run`, `dag_tag`, `import_error`, `job`, `task_fail`, `task_instance`
-
+:::note
+To avoid synchronizing unnecessary Airflow tables, the following Airflow tables are synced by default: `ab_permission`, `ab_role`, `ab_user`, `dag`, `dag_run`, `dag_tag`, `import_error`, `job`, `task_fail`, `task_instance`
+:::
+:::
 These operators can receive:
 
 - `tables`: a list of tables to override the default ones. _Warning:_ An empty list `[]` will perform a full-database sync.

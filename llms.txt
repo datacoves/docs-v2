@@ -3565,9 +3565,8 @@ Click `Configure`, give it a name, and optionally select an image to use as the 
 ![Create Incoming Webhook](./assets/create-incoming-webhook.png)
 
 :::info Store this URL in a safe place as you will need it in a subsequent step and anyone with this link can send notification to that MS Teams channel
-## Prepare Airflow
 :::
-
+## Prepare Airflow
 ### Create a new Integration
 
 In Datacoves, create a new integration of type `MS Teams` by navigating to the Integrations admin page.
@@ -3667,7 +3666,6 @@ dag = dbt_run()
 
 :::note
 Quotation marks are not needed when setting the custom message. However, making use of Jinja in a YAML file requires the message to be wrapped in quotations to be parsed properly. eg) `{{ dag.dag_id }} failed`
-:::
 :::
 
 ### YAML version

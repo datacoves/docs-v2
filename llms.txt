@@ -903,40 +903,6 @@ During the Airflow configuration step you added the `orchestrate` folder and the
 
 ---
 
-// File: getting-started/developer/README
-
-# Datacoves Getting Started Guides - Developer
-
-## Introduction
-Welcome Developer! 
-
-Please use these getting started guides to accelerate your onboarding. The guides cover everything from configuring your user settings to fundamental tips and shortcuts. 
-
--Datacoves Team
-
-## Developer Essentials
-1. First, you will need to configure your user settings. You will not be able to access the transform tab if your user settings have not been properly configured.  
-
-   [Configure Your User Settings](/docs/how-tos/vscode/initial.md)
-
-2. Once your user settings have been configured and your git repo has been tested, you will be able to jump right in to your browser VS Code experience; everything you need, pre-configured at your fingertips. This is where the dbt magic happens.
-
-   [Transform Tab (VS Code)](/docs/getting-started/developer/transform-tab)
-
-3. With the Snowflake extension you don't have to leave the comfort of your Datacoves tab! Learn how to use this powerful extension, along with some handy tips and tricks. 
-
-   [Snowflake Extension](/docs/getting-started/developer/snowflake-extension)
-
-4. Have the best and most efficient dbt experience with Datacoves! We cover some nifty shortcuts and accelerators to help you hit the ground running with dbt.
-   
-   [Working with dbt in Datacoves](/docs/getting-started/developer/working-with-dbt-datacoves)
-
-5. Use git with ease via the VS Code Git Extension, our pre-configured git aliases, and more.
-   
-   [Using Git](/docs/getting-started/developer/using-git)
-
----
-
 // File: getting-started/developer/snowflake-extension
 
 # Getting Started with the Snowflake Extension
@@ -1065,6 +1031,40 @@ For more in-depth information and advanced usage, please consult the **[Source C
 
 ---
 
+// File: getting-started/developer/README
+
+# Datacoves Getting Started Guides - Developer
+
+## Introduction
+Welcome Developer! 
+
+Please use these getting started guides to accelerate your onboarding. The guides cover everything from configuring your user settings to fundamental tips and shortcuts. 
+
+-Datacoves Team
+
+## Developer Essentials
+1. First, you will need to configure your user settings. You will not be able to access the transform tab if your user settings have not been properly configured.  
+
+   [Configure Your User Settings](/docs/how-tos/vscode/initial.md)
+
+2. Once your user settings have been configured and your git repo has been tested, you will be able to jump right in to your browser VS Code experience; everything you need, pre-configured at your fingertips. This is where the dbt magic happens.
+
+   [Transform Tab (VS Code)](/docs/getting-started/developer/transform-tab)
+
+3. With the Snowflake extension you don't have to leave the comfort of your Datacoves tab! Learn how to use this powerful extension, along with some handy tips and tricks. 
+
+   [Snowflake Extension](/docs/getting-started/developer/snowflake-extension)
+
+4. Have the best and most efficient dbt experience with Datacoves! We cover some nifty shortcuts and accelerators to help you hit the ground running with dbt.
+   
+   [Working with dbt in Datacoves](/docs/getting-started/developer/working-with-dbt-datacoves)
+
+5. Use git with ease via the VS Code Git Extension, our pre-configured git aliases, and more.
+   
+   [Using Git](/docs/getting-started/developer/using-git)
+
+---
+
 // File: getting-started/developer/working-with-dbt-datacoves/index
 
 # Getting Started with dbt in Datacoves
@@ -1179,6 +1179,314 @@ Lineage Panel has 3 configurable settings. As with any VSCode setting, these can
 # How to
 
 How-to guides to help you accomplish a given task assuming you have some basic understanding.
+
+---
+
+// File: how-tos/airflow/initial-setup
+
+# How to configure Airflow in Datacoves
+
+## Turn on Airflow
+
+Go to the `Environments` admin screen.
+
+![Environments admin](./assets/menu_environments.gif)
+
+Edit the desired environment and click on the `Stack Services` tab. Ensure that you turned on `ORCHESTRATE`.
+
+![Setup environment services](./assets/environment-stack-services.png)
+
+## Airflow Configurations
+
+>[!ATTENTION] You will need to add folders to your project repository in order to match the folder defaults for Airflow; These folders are `orchestrate/dags` and `orchestrate/dags_yml_definitions`. Please see the recommended [folder structure](explanation/best-practices/datacoves/folder-structure.md) for all folder structure recommendations.
+
+Once you enabled Airflow, click on the `Services configuration > Airflow Settings` tab and configure each of the following fields accordingly:
+
+### Fields Reference: 
+
+- **Python DAGs path** Relative path to the folder where Python DAGs are located. The default is `orchestrate/dags`. 
+- **YAML DAG Path** Relative path to the folder where YAML DAGs for dbt-coves `generate airflow-dags` command are located. The default is `orchestrate/dags_yml_definitions`. 
+- **dbt profiles path** Relative path to a folder where a dbt profiles.yml file is located, used to run `dbt` commands. This file should use Environment variables and  should be placed in the recommended folder `automate/dbt/profiles.yml`. Please refer to our example [profiles.yml](https://github.com/datacoves/balboa/blob/main/automate/dbt/profiles.yml) in our [Sample Analytics project](https://github.com/datacoves/balboa).
+
+  ![Airflow Settings](./assets/environments_airflow_config.gif)
+
+### DAGs Sync Configuration
+
+There are **2 options** to choose from for your DAGs sync: **Git Sync** and **S3 Sync**. 
+Each requires specific information to be provided during configuration. Our recommended default is Git Sync.
+
+**Git Sync**
+
+- **Provider** Select `Git`
+- **Git branch name** The branch airflow will monitor for changes. If you have more than 1 environment (Development and Production), we suggest `airflow_development` for the development environment and `main` for the production environment. Note: You would need to create an  `airflow_development` branch in your repo. If only have 1 environment, then the `Git branch name` should be `main`. 
+
+>[!TIP]We recommend combining your dbt transformations in the same project as your Airflow orchestration. However, you may wish to separate orchestration from transformation into different git projects. In Datacoves you can achieve this by having two projects. Each project will be associated with one git repo. Find out how to configure a [project](how-tos/datacoves/how_to_projects.md).
+        
+**S3 Sync** 
+
+You must create the s3 bucket and IAM user before this step.
+
+- **Provider** Select `S3`
+- **Bucket Path** The bucket and path that airflow will monitor and sync to the Airflow file system.
+- **Auth Mechanism** Choose the auth method. Below you will see the fields required.
+  - **IAM User**
+    - **Access Key and Secret Key**
+  - **IAM Role**
+    - **Role ARN**
+
+Once configured, you will need to configure your CI/CD process to clone your project into the S3 bucket.
+
+### Logs Configuration - Private Deployment ONLY. Not applicable in SaaS.
+
+>[!ATTENTION] Log Storage limit: 15 days. Airflow logs are not stored indefinitely and will be deleted after 15 days. 
+
+There are **2 options** for logs - **EFS** and **S3**. Below you will see the fields required for each:
+
+- **EFS**
+  - **Volume Handle**
+- **S3**
+  - **Bucket Path**
+  - **Access Key**
+  - **Secret Key**
+
+## Getting Started Next Steps 
+[Setup Service Connection](how-tos/datacoves/how_to_service_connections.md)
+
+---
+
+// File: how-tos/airflow/use-airflow-api
+
+# How to use the Airflow API
+
+>[!WARNING] Users must have Project Level Admin Group to use the Airflow API. The API will allow you to view secrets values in plain text. Always exercise the principle of least privilege. 
+
+This how to will walk you through configuring the Airflow API and using it in a DAG.
+
+### Step 1: Navigate to your target environment
+
+- A user with the appropriate access can navigate to the `Environments` in the navigation menu.
+
+![Environments](../datacoves/assets/menu_environments.gif)
+
+- Then Select the Pad lock icon for the Airflow environment you wish to access.
+
+![Pad lock](assets/environments_api_edit.jpg)
+
+
+### Step 2: Copy the API URL
+
+Copy the `Airflow API URL`
+
+![API URL](assets/environment_api_url.jpg)
+
+### Step 3:Generate the API KEY
+
+Generate your API key and copy it somewhere secure. Once you click away it will not be shown again.
+
+![Generate API](assets/environment_api_key.jpg)
+
+### Step 4: Add your credentials to a .env file
+
+Create a `.env` file inside your `orchestrate/` directory and be sure to add the file to your `.gitignore`. Add your credentials there.
+
+```env
+AIRFLOW_API_URL = "https://..."
+DATACOVES_API_KEY = "...."
+```
+
+### Step 5: Use it in a python script
+
+Below is a sample script that makes use of the Airflow API.
+
+**This script does the following:**
+- Initializes the Airflow API client using authentication details from environment variables.
+
+- Fetches a list of all DAGs from the Airflow API.
+
+- Prints a sorted list of DAG IDs for better readability.
+
+- Triggers a new DAG run for a specified DAG using the API.
+
+- Updates an Airflow dataset using the API.
+
+- Handles API errors and retries requests if necessary.
+
+```python
+# airflow_api_call.py
+import requests
+import os
+import json
+from dotenv import load_dotenv
+
+load_dotenv()
+API_URL =  os.getenv("AIRFLOW_API_URL")
+API_KEY =  os.getenv("DATACOVES_API_KEY")
+
+def update_dataset(name):
+    url=f"{API_URL}/datasets/events"
+
+    response = requests.post(
+        url=url,
+        headers = {
+            "Authorization": f"Token {API_KEY}",
+        },
+        json={"dataset_uri": "upstream_data",}
+    )
+    return response.json()
+
+
+def trigger_dag(dag_id):
+    url=f"{API_URL}/dags/{dag_id}/dagRuns"
+
+    response = requests.post(
+        url=url,
+        headers = {
+            "Authorization": f"Token {API_KEY}",
+        },
+        json={"note": "Trigger from API",}
+    )
+    return response.json()
+
+
+def list_dags():
+    url=f"{API_URL}/dags"
+
+    response = requests.get(
+        url=url,
+        headers = {
+            "Authorization": f"Token {API_KEY}",
+             "Content-Type": "application/json",
+        },
+    )
+
+    # Extract just the DAG names from the response
+    dags_data = response.json()
+    dag_names = [dag['dag_id'] for dag in dags_data['dags']]
+
+    # Sort the names alphabetically for better readability
+    dag_names.sort()
+    return dag_names
+
+
+def print_response(response):
+    if response:
+        msg = json.dumps(response, indent=2)
+        print(f"Event posted successfully:\n{'='*30}\n\n {msg}")
+
+
+if __name__ == "__main__":
+
+    # Update an Airflow Dataset
+    # dataset_name = "upstream_data"
+    # response = update_dataset(dataset_name)
+    # print_response(response)
+
+    # Trigger a DAG
+    # dag_id = "bad_variable_usage"
+    # response = trigger_dag(dag_id)
+    # print_response(response)
+
+    # List DAGs
+    response = list_dags()
+    print_response(response)
+```
+
+---
+
+// File: how-tos/airflow/sync-database
+
+# Sync Airflow database
+
+It is now possible to synchronize the Datacoves Airflow database to your Data Warehouse
+
+> [!NOTE]This is currently only available for Snowflake and Redshift warehouses.
+
+## Data Sync Decorator
+
+To synchronize the Airflow database, we can use an Airflow DAG with the Datacoves Airflow Decorator below.
+
+```python
+@task.datacoves_airflow_db_sync
+``` 
+
+> [!NOTE]To avoid synchronizing unnecessary Airflow tables, the following Airflow tables are synced by default: `ab_permission`, `ab_role`, `ab_user`, `dag`, `dag_run`, `dag_tag`, `import_error`, `job`, `task_fail`, `task_instance`
+
+These decorator can receive:
+
+- `db_type`: the destination warehouse type, "snowflake" or "redshift"
+- `connection_id`: the name of the Airflow Service Connection in Datacoves that will be used by the operator. 
+- `tables`: a list of tables to override the default ones. _Warning:_ An empty list `[]` will perform a full-database sync.
+- `additional_tables`: a list of additional tables you would want to add to the default set.
+- `destination_schema`: the destination schema where the Airflow tables will end-up. By default, the schema will be named as follows: `airflow-\{datacoves environment slug\}` for example `airflow-qwe123`
+
+![airflow_load](assets/service_connection_airflow_raw.png)
+## Example DAG
+
+```python
+from pendulum import datetime
+
+from airflow.decorators import dag, task
+
+@dag(
+    default_args={
+        "start_date": datetime(2022, 10, 10),
+        "owner": "Bruno",
+        "email": "bruno@example.com",
+        "email_on_failure": False,
+        "retries": 3
+    },
+    description="Sample DAG for dbt build",
+    schedule="0 0 1 */12 *",
+    tags=["extract_and_load"],
+    catchup=False,
+)
+def airflow_data_sync():
+    @task.datacoves_airflow_db_sync(
+        db_type="snowflake",
+        destination_schema="airflow_dev",
+        connection_id="main",
+        # additional_tables=["additional_table_1", "additional_table_2"],
+    )
+    def sync_airflow_db():
+        pass
+
+    sync_airflow_db()
+
+airflow_data_sync()
+```
+
+> [!NOTE]The example DAG above uses the service connection `main`
+
+![Service Connection main](assets/service_connections_main.png)
+
+---
+
+// File: how-tos/airflow/orchestrate-load
+
+# How to Orchestrate your Load
+
+A service account should already exist that points to your Transform and is named main. 
+
+Creating a service connection for your loading will help further seperate the EL from your T. 
+
+This will create the following
+
+Access Variables: ####### ADD HOW os.getenv? 
+Once this is fully configured, you will have access to the following environment variables in your scripts.
+
+DATACOVES__LOAD__ROLE
+
+DATACOVES__LOAD__ACCOUNT
+
+DATACOVES__LOAD__WAREHOUSE
+
+DATACOVES__LOAD__DATABASE
+
+DATACOVES__LOAD__SCHEMA
+
+DATACOVES__LOAD__USER
+
+DATACOVES__LOAD__PASSWORD
 
 ---
 
@@ -1469,39 +1777,47 @@ datacoves_sample_dag()
 
 ---
 
-// File: how-tos/airflow/customize-worker-environment
+// File: how-tos/airflow/external-python-dag
 
-# How to set up a custom environment for your Airflow workers
+# External Python DAG 
 
-If you need to run tasks on Airflow on a custom environment that comes with pre-installed libraries and tools, we recommend building your own custom docker image, upload it to a docker image repository such as dockerhub and reference it in your DAG's task operator.
+If you need additional libraries for your DAG such as pandas, let us know so that we can configure them in your environment. 
 
-## Using the custom image in your DAGs
+>[!NOTE]Below we make use of a `python_scripts` folder inside the `orchestrate` folder and develop as a best practice we locate our custom scripts in this location.
 
-Every task in an Airflow DAG can use a different docker image. Operators accept an `executor_config` argument that can be used to customize the executor context.
-
-Given that Datacoves runs Airflow on a kubernetes execution context, you need to pass a `dict` with a `pod_override` key that will override the worker pod's configuration, as seen in the `TRANSFORM_CONFIG` dict in the example below. The variable name for the Config dict will depend on what DAG task you are requesting more resources for. 
-
-eg) When writing your yaml, if you add the config under ` marketing_automation` the `CONFIG` variable will be dynamically named `MARKETING_AUTOMATION_CONFIG`. In the yml examples below, we added the config in a transform task so the `CONFIG` variable is named `TRANSFORM_CONFIG`.
-
-### Python version
+## orchestrate/python_scripts
 
 ```python
-from pendulum import datetime
-from airflow.decorators import dag, task
-from kubernetes.client import models as k8s
+#sample_script.py
 
-TRANSFORM_CONFIG = {
-    "pod_override": k8s.V1Pod(
-        spec=k8s.V1PodSpec(
-            containers=[
-                k8s.V1Container(
-                    name="base",
-                    image="<IMAGE REPO>:<IMAGE TAG>",
-                )
-            ]
-        )
-    ),
-}
+import pandas as pd
+
+def print_sample_dataframe():
+
+    # Creating a simple DataFrame
+    data = {'Name': ['Alice', 'Bob', 'Charlie'],
+            'Age': [25, 30, 35],
+            'City': ['New York', 'San Francisco', 'Los Angeles']}
+
+    df = pd.DataFrame(data)
+
+    # Displaying the DataFrame
+    print("DataFrame created using Pandas:")
+    print(df)
+
+print_sample_dataframe()
+```
+
+## orchestrate/dags
+Create a DAG in the `dags` folder.
+
+To run the custom script from an Airflow DAG, you will use the `@task.datacoves_bash` decorator as seen in the `python_task` below.
+
+>[!TIP]See [Datacoves Decorators](reference/airflow/datacoves-decorators.md) documentation for more information on the Datacoves Airflow Decorators.
+
+```python
+from airflow.decorators import dag, task
+from pendulum import datetime
 
 @dag(
     default_args={
@@ -1510,47 +1826,20 @@ TRANSFORM_CONFIG = {
         "email": "gomezn@example.com",
         "email_on_failure": True,
     },
-    description="Sample DAG with custom image",
-    schedule="0 0 1 */12 *",  # Using 'schedule' instead of deprecated 'schedule_interval'
-    tags=["version_2"],
     catchup=False,
+    tags=["version_6"],
+    description="Datacoves Sample DAG",
+    schedule="0 0 1 */12 *",
 )
-def yaml_teams_dag():
+def datacoves_sample_dag():
+    
+    @task.datacoves_bash()
+    def run_python_script():
+        return "python orchestrate/python_scripts/sample_script.py"
 
-    @task.datacoves_bash(executor_config=TRANSFORM_CONFIG)
-    def transform():
-        return "echo SUCCESS!"
+    run_python_script()
 
-    transform()
-
-yaml_teams_dag()
-```
-
-### YAML version
-In the yml dag you can configure the image.
-
-```yaml
-description: "Sample DAG with custom image"
-schedule_interval: "0 0 1 */12 *"
-tags:
-  - version_2
-default_args:
-  start_date: 2022-10-10
-  owner: Noel Gomez
-  email: gomezn@example.com
-  email_on_failure: true
-catchup: false
-
-# DAG Tasks
-nodes:
-  transform:
-    operator: operators.datacoves.bash.DatacovesBashOperator
-    type: task
-    config:
-      # Replace with your custom docker image <IMAGE REPO>:<IMAGE TAG>
-      image: <IMAGE REPO>:<IMAGE TAG>
-
-    bash_command: "echo SUCCESS!"
+datacoves_sample_dag()
 ```
 
 ---
@@ -1629,73 +1918,6 @@ def datacoves_sample_dag():
         return "dbt debug"
 
     run_dbt_task()
-
-datacoves_sample_dag()
-```
-
----
-
-// File: how-tos/airflow/external-python-dag
-
-# External Python DAG 
-
-If you need additional libraries for your DAG such as pandas, let us know so that we can configure them in your environment. 
-
->[!NOTE]Below we make use of a `python_scripts` folder inside the `orchestrate` folder and develop as a best practice we locate our custom scripts in this location.
-
-## orchestrate/python_scripts
-
-```python
-#sample_script.py
-
-import pandas as pd
-
-def print_sample_dataframe():
-
-    # Creating a simple DataFrame
-    data = {'Name': ['Alice', 'Bob', 'Charlie'],
-            'Age': [25, 30, 35],
-            'City': ['New York', 'San Francisco', 'Los Angeles']}
-
-    df = pd.DataFrame(data)
-
-    # Displaying the DataFrame
-    print("DataFrame created using Pandas:")
-    print(df)
-
-print_sample_dataframe()
-```
-
-## orchestrate/dags
-Create a DAG in the `dags` folder.
-
-To run the custom script from an Airflow DAG, you will use the `@task.datacoves_bash` decorator as seen in the `python_task` below.
-
->[!TIP]See [Datacoves Decorators](reference/airflow/datacoves-decorators.md) documentation for more information on the Datacoves Airflow Decorators.
-
-```python
-from airflow.decorators import dag, task
-from pendulum import datetime
-
-@dag(
-    default_args={
-        "start_date": datetime(2022, 10, 10),
-        "owner": "Noel Gomez",
-        "email": "gomezn@example.com",
-        "email_on_failure": True,
-    },
-    catchup=False,
-    tags=["version_6"],
-    description="Datacoves Sample DAG",
-    schedule="0 0 1 */12 *",
-)
-def datacoves_sample_dag():
-    
-    @task.datacoves_bash()
-    def run_python_script():
-        return "python orchestrate/python_scripts/sample_script.py"
-
-    run_python_script()
 
 datacoves_sample_dag()
 ```
@@ -1868,293 +2090,204 @@ cat /opt/airflow/dags/.git/HEAD | sed 's~ref: refs/heads/~~'
 
 ---
 
-// File: how-tos/airflow/initial-setup
+// File: how-tos/airflow/s3-to-snowflake
 
-# How to configure Airflow in Datacoves
+# Loading S3 Files into Snowflake 
 
-## Turn on Airflow
+## Schema Evolution 
 
-Go to the `Environments` admin screen.
+Snowflake has a built-in feature for [schema evolution](https://docs.snowflake.com/en/user-guide/data-load-schema-evolution). It allows us to create the initial table using a file as a template and then it will automatically handle any changes to the schema going forward. 
 
-![Environments admin](./assets/menu_environments.gif)
+### Caveats and limitations
 
-Edit the desired environment and click on the `Stack Services` tab. Ensure that you turned on `ORCHESTRATE`.
+Schema evolution is [limited to a change that adds a maximum of 10 columns or evolving no more than 1 schema per COPY operation](https://docs.snowflake.com/en/user-guide/data-load-schema-evolution#usage-notes)
 
-![Setup environment services](./assets/environment-stack-services.png)
+You cannot go from a column containing `NUMBER` values to `VARCHAR`, but you can go from `VARCHAR` to `NUMBER` as it will insert it as `VARCHAR`.  
 
-## Airflow Configurations
+**Step 1:** In a Snowflake SQL worksheet Navigate to the database and schema where you will be loading the data to. 
 
->[!ATTENTION] You will need to add folders to your project repository in order to match the folder defaults for Airflow; These folders are `orchestrate/dags` and `orchestrate/dags_yml_definitions`. Please see the recommended [folder structure](explanation/best-practices/datacoves/folder-structure.md) for all folder structure recommendations.
+**Step 2:** Create a custom file format for the data that you are planning to load. In this example we are using a custom CSV file format. 
 
-Once you enabled Airflow, click on the `Services configuration > Airflow Settings` tab and configure each of the following fields accordingly:
+```sql
+CREATE OR REPLACE FILE FORMAT MY_CSV_FORMAT
+TYPE = 'CSV' 
+PARSE_HEADER = TRUE
+ERROR_ON_COLUMN_COUNT_MISMATCH = FALSE;
+```
+**Step 3:** Now we will create a Snowflake stage and link our custom file format to it. 
+```sql
+CREATE OR REPLACE STAGE TEST_STAGE
+    FILE_FORMAT = MY_CSV_FORMAT;
+```
 
-### Fields Reference: 
+**Step 4:** We are now going to upload a csv file to this Snowflake stage that we will use as a template to create the table where data will be loaded. You can do this via the Snowflake UI or by using the SnowSQL command line tool.  
 
-- **Python DAGs path** Relative path to the folder where Python DAGs are located. The default is `orchestrate/dags`. 
-- **YAML DAG Path** Relative path to the folder where YAML DAGs for dbt-coves `generate airflow-dags` command are located. The default is `orchestrate/dags_yml_definitions`. 
-- **dbt profiles path** Relative path to a folder where a dbt profiles.yml file is located, used to run `dbt` commands. This file should use Environment variables and  should be placed in the recommended folder `automate/dbt/profiles.yml`. Please refer to our example [profiles.yml](https://github.com/datacoves/balboa/blob/main/automate/dbt/profiles.yml) in our [Sample Analytics project](https://github.com/datacoves/balboa).
+This example will use SnowSQL and our data looks like this: 
 
-  ![Airflow Settings](./assets/environments_airflow_config.gif)
+![Sample data](assets/s3_sample_data.jpg)
 
-### DAGs Sync Configuration
+The SnowSQL command to upload the file to the Snowflake stage is below: 
+```
+PUT file://test_file.csv @TEST_STAGE;
+```
 
-There are **2 options** to choose from for your DAGs sync: **Git Sync** and **S3 Sync**. 
-Each requires specific information to be provided during configuration. Our recommended default is Git Sync.
+Where test_file.csv is in the same folder from where we are running the SnowSQL command. 
 
-**Git Sync**
+**Step 5:** Once the file has been uploaded to the test stage, we create the initial table using it as a template and enabling schema evolution. 
 
-- **Provider** Select `Git`
-- **Git branch name** The branch airflow will monitor for changes. If you have more than 1 environment (Development and Production), we suggest `airflow_development` for the development environment and `main` for the production environment. Note: You would need to create an  `airflow_development` branch in your repo. If only have 1 environment, then the `Git branch name` should be `main`. 
+```sql
+CREATE OR REPLACE TABLE TEST_TABLE
+    ENABLE_SCHEMA_EVOLUTION== TRUE
+    USING TEMPLATE (
+        SELECT ARRAY_AGG(OBJECT_CONSTRUCT(*))
+            FROM TABLE(
+                INFER_SCHEMA(
+                    LOCATION->'@TEST_STAGE/test_file.csv.gz,
+                    FILE_FORMAT=>'my_csv_format'
+                )
+            )
+    );
+```
 
->[!TIP]We recommend combining your dbt transformations in the same project as your Airflow orchestration. However, you may wish to separate orchestration from transformation into different git projects. In Datacoves you can achieve this by having two projects. Each project will be associated with one git repo. Find out how to configure a [project](how-tos/datacoves/how_to_projects.md).
-        
-**S3 Sync** 
+The TEST_TABLE schema now looks like this: 
 
-You must create the s3 bucket and IAM user before this step.
+![test_table](assets/s3_test_table_schema.jpg)
 
-- **Provider** Select `S3`
-- **Bucket Path** The bucket and path that airflow will monitor and sync to the Airflow file system.
-- **Auth Mechanism** Choose the auth method. Below you will see the fields required.
-  - **IAM User**
-    - **Access Key and Secret Key**
-  - **IAM Role**
-    - **Role ARN**
+However, the table does not have any data loaded into it. 
 
-Once configured, you will need to configure your CI/CD process to clone your project into the S3 bucket.
+![Empty test_table](assets/s3_test_table_empty.jpg)
 
-### Logs Configuration - Private Deployment ONLY. Not applicable in SaaS.
+**Step 6:** To load the data from the file we used as a template we use the following COPY INTO SQL. 
 
->[!ATTENTION] Log Storage limit: 15 days. Airflow logs are not stored indefinitely and will be deleted after 15 days. 
+```sql
+COPY INTO TEST_TABLE
+    FROM '@TEST_STAGE/test_file.csv.gz'
+    FILE_FORMAT =  'my_csv_format'
+    MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE;
+```
 
-There are **2 options** for logs - **EFS** and **S3**. Below you will see the fields required for each:
+And we can now see the data in the table: 
 
-- **EFS**
-  - **Volume Handle**
-- **S3**
-  - **Bucket Path**
-  - **Access Key**
-  - **Secret Key**
+![test_table copied](assets/s3_test_table_copied.jpg)
 
-## Getting Started Next Steps 
-[Setup Service Connection](how-tos/datacoves/how_to_service_connections.md)
+**Step 7:** Now we’re going to load another file into TEST_TABLE that has an additional column. 
+
+![Test data additional column](assets/s3_test_table_additional_col.jpg)
+
+Again, we will use the SnowSQL PUT command seen below: 
+
+```
+PUT files://test_file_copy.csv @TEST_STAGE;
+```
+
+**Step 8:** Now we can run another COPY INTO statement that references the new file. 
+```sql
+COPY INTO TEST_TABLE
+    FROM '@TEST_STAGE/test_file_copy.csv.gz'
+    FILE_FORMAT = 'my_csv_format'
+    MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE;
+```
+
+And now the table has an additional column called COUNTRY_CODE: 
+
+![test_table additional column](assets/s3_test_table_additional_call_snowflake.jpg)
+
+## Loading JSON data into a variant column 
+
+If the data that you want to load is in JSON format and the schema is likely to change then a recommended pattern is to load the JSON into a single Snowflake variant column. This allows you to parse out and model the data downstream without having to worry about the change in schema. 
+
+**Step 1:** 1. Create a Snowflake table with a single variant column. 
+
+```sql
+CREATE OR REPLACE TABLE VARIABLE_TABLE (MAIN_COLUMN VARIANT);
+```
+
+**Step 2:**  Now create a custom file format for the JSON data.
+
+```sql
+CREATE OR REPLACE FILE FORMAT MY_JSON_FORMAT
+    TYPE = 'JSON'
+    STRIP_OUTER_ARRAY = TRUE;
+```
+
+**Step 3:** After this we create a Snowflake stage that uses the JSON custom file format. 
+
+```sql
+CREATE OR REPLACE STAGE JSON_STAGE
+    FILE_FORMAT = MY_JSON_FORMAT;
+```
+
+**Step 4:** We can now load JSON files that have been staged using the following COPY INTO command. 
+
+```sql
+COPY INTO VARIANT_TABLE 
+    FROM @JSON_STAGE
+```
+
+Our variant table now looks like this: 
+
+![json variant table](assets/json_variant_table.jpg)
 
 ---
 
-// File: how-tos/airflow/orchestrate-load
+// File: how-tos/airflow/use-datacoves-secrets-manager
 
-# How to Orchestrate your Load
+# How to use Datacoves Secrets Manager in Airflow
 
-A service account should already exist that points to your Transform and is named main. 
+Datacoves includes a built-in [Secrets Manager](reference/admin-menu/secrets.md) that allows you to securely store and manage secrets for both administrators and developers. Secrets can be stored at the project or environment level and easily shared across other tools in your stack, ensuring seamless integration and enhanced security. [Creating or editing a secret](/how-tos/datacoves/how_to_secrets.md) in the Datacoves Secret Manager is straightforward. Be sure to prefix all secrets stored in Datacoves Secrets Manager with `datacoves-`.
 
-Creating a service connection for your loading will help further seperate the EL from your T. 
+## Read variable from Datacoves Secrets Manager
 
-This will create the following
+Once you save your variable in the Datacoves Secret Manager you are ready to use your variable in a DAG. This is done using `Variable.get`. Airflow will look in several places to find the variable.
 
-Access Variables: ####### ADD HOW os.getenv? 
-Once this is fully configured, you will have access to the following environment variables in your scripts.
+### The order of places it will look for are as follows:
 
-DATACOVES__LOAD__ROLE
+1. AWS Secrets Manager (if configured)  
+2. Datacoves Secrets Manager  
+3. Airflow variables  
 
-DATACOVES__LOAD__ACCOUNT
+Once a variable is found, Airflow will stop its search.
 
-DATACOVES__LOAD__WAREHOUSE
+![Secrets flowchart](assets/variablle_flow.png)
 
-DATACOVES__LOAD__DATABASE
+### Best practices when using a Secrets Manager variable
 
-DATACOVES__LOAD__SCHEMA
+1. Always call your `Variable.get` from within the Datacoves Task Decorators. This ensures the variable is only fetched at runtime.  
+2. Use prefixes based on where your variable is stored, like `datacoves-` (Datacoves Secrets Manager only searches for secrets with this prefix), `aws_`, or `airflow_` to help identify and debug variables. For example: `datacoves-mayras_secret`.
 
-DATACOVES__LOAD__USER
-
-DATACOVES__LOAD__PASSWORD
-
----
-
-// File: how-tos/airflow/request-resources-on-workers
-
-# How to request more memory or cpu resources on a particular DAG task
-
-Sometimes you need to run tasks that require more memory or compute power. Airflow task's definition that use a kubernetes execution environment allow for this type of configuration.
-
-Similarly to how you [overrode a worker's running environment](/how-tos/airflow/customize-worker-environment.md), you need to specify the `resources` argument on the container spec.
-
-## Example DAG
-
-In the following example, we're requesting a minimum of 8Gb of memory and 1000m of cpu in the `requests` dict to run the task. [Click here](https://pwittrock.github.io/docs/tasks/configure-pod-container/assign-cpu-ram-container/) to learn more about resources requests and limits on a kubernetes running environment.
-
->[!NOTE] Keep in mind that if you request more resources than a node in the cluster could allocate the task will never run and the DAG will fail.
+### Example DAG using Datacoves Secrets Manager
 
 ```python
-from datetime import datetime
 from airflow.decorators import dag, task
-from kubernetes.client import models as k8s
-
-# Configuration for Kubernetes Pod Override with Resource Requests
-TRANSFORM_CONFIG = {
-    "pod_override": k8s.V1Pod(
-        spec=k8s.V1PodSpec(
-            containers=[
-                k8s.V1Container(
-                    name="transform",
-                    resources=k8s.V1ResourceRequirements(
-                        requests={"memory": "8Gi", "cpu": "1000m"}
-                    ),
-                )
-            ]
-        )
-    ),
-}
+from pendulum import datetime
+from airflow.models import Variable
 
 @dag(
     default_args={
-        "start_date": datetime(2022, 10, 10),
-        "owner": "Noel Gomez",
-        "email": "gomezn@example.com",
+        "start_date": datetime(2024, 1, 1),
+        "owner": "Amy Chan",
+        "email": "amy@example.com",
         "email_on_failure": True,
     },
-    description="Sample DAG with custom resources",
-    schedule="0 0 1 */12 *",
-    tags=["version_2"],
     catchup=False,
+    tags=["version_1"],
+    description="Testing task decorators",
+    schedule_interval="0 0 1 */12 *",
 )
-def request_resources_dag():
+def task_decorators_example():
 
-    @task.datacoves_bash(executor_config=TRANSFORM_CONFIG)
-    def transform():
-        return "echo 'Resource request DAG executed successfully!'"
+    @task.datacoves_bash
+    def calling_vars_in_decorator() -> str:
+        my_var = Variable.get("datacoves-mayras_secret")
+        return "My variable is: " + my_var
 
-    transform()
+    calling_vars_in_decorator()
 
-request_resources_dag()
+dag = task_decorators_example()
 ```
-
-### YAML version
-In the yml DAG you can configure the memory and cpu resources.
-
-```yaml
-description: "Sample DAG with custom resources"
-schedule_interval: "0 0 1 */12 *"
-tags:
-  - version_2
-default_args:
-  start_date: 2022-10-10
-  owner: Noel Gomez
-  email: gomezn@example.com
-  email_on_failure: true
-catchup: false
-
-# DAG Tasks
-nodes:
-  transform:
-    operator: operators.datacoves.bash.DatacovesBashOperator
-    type: task
-    config:
-      resources:
-        memory: 8Gi
-        cpu: 1000m
-```
-
----
-
-// File: how-tos/airflow/retry-dbt-tasks
-
-# Retry a dbt task
-
-## Overview
-
-Retrying failed dbt models is a common workflow requirement when working with data transformations. This guide explains how to implement dbt task retry functionality in Airflow using Datacoves' custom `datacoves_dbt` decorator.
-
-## Prerequisites
-
-- Datacoves version 3.4 or later
-- dbt API feature enabled in your environment (contact support for further assistance)
-
-## How dbt Retries Work
-
-The retry mechanism works by:
-
-1. **Capturing results** of a dbt run including any failures
-2. **Storing these results** using the dbt API
-3. **Retrieving the previous run state** when a retry is initiated
-4. **Selectively running** only the failed models and their downstream dependencies
-
-## Implementing dbt Retries
-
-### Step 1: Configure the `datacoves_dbt` Decorator
-
-When defining your task, enable the necessary parameters for retries:
-
-```python
-@task.datacoves_dbt(
-    connection_id="your_connection",
-    dbt_api_enabled=True,        # Enable dbt API functionality
-    download_run_results=True,   # Allow downloading previous run results
-)
-```
-
-### Step 2: Add Conditional Logic for Retry
-
-Implement logic in your task function to check for existing results and execute the appropriate dbt command:
-
-```python
-@task.datacoves_dbt(
-    connection_id="your_connection",
-    dbt_api_enabled=True,
-    download_run_results=True,
-)
-def dbt_build(expected_files: list = []):
-    if expected_files:
-        return "dbt build -s result:error+ --state logs"
-    else:
-        return "dbt build -s your_models+"
-```
-
-### Step 3: Call the Task with Expected Files Parameter
-
-```python
-dbt_build(expected_files=["run_results.json"])
-```
-
-## Complete Example
-
-Here's a complete DAG implementation:
-
-```python
-"""
-## Retry dbt Example
-This DAG demonstrates how to retry a DAG that fails during a run
-"""
-
-from airflow.decorators import dag, task
-from orchestrate.utils import datacoves_utils
-
-
-@dag(
-    doc_md = __doc__,
-    catchup = False,
-    default_args=datacoves_utils.set_default_args(
-        owner = "Your Name",
-        owner_email = "your.email@example.com"
-    ),
-    schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
-    description="Sample DAG demonstrating how to run the dbt models that fail",
-    tags=["dbt_retry"],
-)
-def retry_dbt_failures():
-    @task.datacoves_dbt(
-        connection_id="your_connection",
-        dbt_api_enabled=True,
-        download_run_results=True,
-    )
-    def dbt_build(expected_files: list = []):
-        if expected_files:
-            return "dbt build -s result:error+ --state logs"
-        else:
-            return "dbt build -s model_a+ model_b+"
-
-    dbt_build(expected_files=["run_results.json"])
-
-retry_dbt_failures()
-```
+:::tip
+ To auto mask your secret you can use `secret` or `password` in the secret name since this will set `hide_sensitive_var_conn_fields` to True. eg `aws_mayras_password`. Please see [this documentation](https://www.astronomer.io/docs/learn/airflow-variables#hide-sensitive-information-in-airflow-variables) for a full list of masking words.
+:::
 
 ---
 
@@ -2392,6 +2525,199 @@ nodes:
 
 ---
 
+// File: how-tos/airflow/run-dbt
+
+# How to run dbt from an Airflow worker
+
+Airflow synchronizes a git repository's [configured git branch](/how-tos/datacoves/how_to_environments#services-configuration) every minute. (The branch specified in  the `Git branch name` field in the environment's DAGs sync configuration)
+
+To run `dbt` commands easily, we provide a pre-configured virtual environment with the necessary python dependencies such as dbt. Our Airflow Operator also does the following automatically:
+
+- Copies the cloned dbt project to a writable folder within the Airflow file system
+- Runs `dbt deps` if `dbt_modules` and `dbt_packages` folders do not exist
+- Sets the current directory to the dbt_project_folder
+
+This means that you can simply run `dbt <dbt subcommand>` in your Airflow DAG and we will handle the rest.
+
+## Create a DAG that uses the script
+
+If your dbt command like `dbt run` works in your development environment(**Try dbt run in your terminal**), then you should be able to create an Airflow DAG that will run this command automatically.
+
+>[!TIP]Keep in mind that in an Airflow context `dbt` is installed in an isolated Python Virtual Environment to avoid clashing with Airflow python dependencies. Datacoves default Python's virtualenv is located in `/opt/datacoves/virtualenvs/main`. No need to worry about the complexity when using the `@task.datacoves_dbt` decorator because it will automatically activate that environment amongst other actions.
+
+See [Datacoves Decorators](reference/airflow/datacoves-decorators.md) for more information.
+
+### Lets create a DAG!
+
+**Step 1:** If using Git Sync, switch to your configured branch (`airflow_development` or `main`), create a python file inside of `orchestrate/dags` named `my_sample_dag.py`
+
+**Step 2:** Paste in the code below and be sure to replace information such as name, email and model name with your own.
+
+### Python version
+
+```python
+from pendulum import datetime
+from airflow.decorators import dag, task
+
+@dag(
+    default_args={
+        "start_date": datetime(2024, 1, 1),
+        "owner": "Noel Gomez",  # Replace with name
+        "email": "gomezn@example.com",  # Replace with your email
+        "email_on_failure": True,
+    },
+    description="Sample DAG for dbt run",
+    schedule="0 0 1 */12 *",  # Replace with your desired schedule
+    tags=["version_2"],
+    catchup=False,
+)
+def my_sample_dag():
+
+    @task.datacoves_dbt(connection_id="main")
+    def run_dbt():
+        return "dbt run -s personal_loans"  # Replace with your model
+
+    run_dbt()
+
+my_sample_dag()
+```
+
+**Step 3:** Push your changes to the branch.
+
+**Step 4:** Head over to Airflow in the Datacoves UI and refresh. It may take a minute but you should see your DAG populate. 
+
+**Step 5:** Regardless of the schedule you set, the default during development is to have the DAG paused. You can trigger the DAG to see it in action or turn it on to test the schedule.
+
+### YAML version
+If you are making use of the `dbt-coves generate airflow-dags` command, you can write DAGs using YML.
+
+The name of the file will used as the DAG name. 
+
+```yaml
+description: "Sample DAG for dbt run"
+schedule: "0 0 1 */12 *"
+tags:
+  - version_2
+default_args:
+  start_date: 2024-01-01
+  owner: Noel Gomez # Replace with your name
+  # Replace with the email of the recipient for failures
+  email: gomezn@example.com 
+  email_on_failure: true
+catchup: false
+
+nodes:
+  run_dbt:
+    type: task
+    operator: operators.datacoves.dbt.DatacovesDbtOperator
+    bash_command: "dbt run -s personal_loans" # Replace with your model name
+```
+
+---
+
+// File: how-tos/airflow/retry-dbt-tasks
+
+# Retry a dbt task
+
+## Overview
+
+Retrying failed dbt models is a common workflow requirement when working with data transformations. This guide explains how to implement dbt task retry functionality in Airflow using Datacoves' custom `datacoves_dbt` decorator.
+
+## Prerequisites
+
+- Datacoves version 3.4 or later
+- dbt API feature enabled in your environment (contact support for further assistance)
+
+## How dbt Retries Work
+
+The retry mechanism works by:
+
+1. **Capturing results** of a dbt run including any failures
+2. **Storing these results** using the dbt API
+3. **Retrieving the previous run state** when a retry is initiated
+4. **Selectively running** only the failed models and their downstream dependencies
+
+## Implementing dbt Retries
+
+### Step 1: Configure the `datacoves_dbt` Decorator
+
+When defining your task, enable the necessary parameters for retries:
+
+```python
+@task.datacoves_dbt(
+    connection_id="your_connection",
+    dbt_api_enabled=True,        # Enable dbt API functionality
+    download_run_results=True,   # Allow downloading previous run results
+)
+```
+
+### Step 2: Add Conditional Logic for Retry
+
+Implement logic in your task function to check for existing results and execute the appropriate dbt command:
+
+```python
+@task.datacoves_dbt(
+    connection_id="your_connection",
+    dbt_api_enabled=True,
+    download_run_results=True,
+)
+def dbt_build(expected_files: list = []):
+    if expected_files:
+        return "dbt build -s result:error+ --state logs"
+    else:
+        return "dbt build -s your_models+"
+```
+
+### Step 3: Call the Task with Expected Files Parameter
+
+```python
+dbt_build(expected_files=["run_results.json"])
+```
+
+## Complete Example
+
+Here's a complete DAG implementation:
+
+```python
+"""
+## Retry dbt Example
+This DAG demonstrates how to retry a DAG that fails during a run
+"""
+
+from airflow.decorators import dag, task
+from orchestrate.utils import datacoves_utils
+
+
+@dag(
+    doc_md = __doc__,
+    catchup = False,
+    default_args=datacoves_utils.set_default_args(
+        owner = "Your Name",
+        owner_email = "your.email@example.com"
+    ),
+    schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
+    description="Sample DAG demonstrating how to run the dbt models that fail",
+    tags=["dbt_retry"],
+)
+def retry_dbt_failures():
+    @task.datacoves_dbt(
+        connection_id="your_connection",
+        dbt_api_enabled=True,
+        download_run_results=True,
+    )
+    def dbt_build(expected_files: list = []):
+        if expected_files:
+            return "dbt build -s result:error+ --state logs"
+        else:
+            return "dbt build -s model_a+ model_b+"
+
+    dbt_build(expected_files=["run_results.json"])
+
+retry_dbt_failures()
+```
+
+---
+
 // File: how-tos/airflow/run-databricks-notebook
 
 # Run Databricks Notebooks 
@@ -2516,96 +2842,6 @@ dag = databricks_example_run()
 - We’re passing a [Notebook task object](https://docs.databricks.com/api/workspace/jobs/submit#notebook_task) with the source set to `GIT`, meaning the notebook will be retrieved from Databricks Repos, which is synced with a version-controlled Git repository. Alternatively, you can set the source to `WORKSPACE` to pull the notebook code directly from the local Databricks workspace. Using `GIT` is generally more reliable for production environments because it ensures that the notebook code is managed through a version-controlled system, providing consistency and traceability.
   
 - And lastly, we have customized the `run_name`. In a non-example DAG, you would want this to be unique so you can better identify the runs in Airflow and Databricks.
-
----
-
-// File: how-tos/airflow/run-dbt
-
-# How to run dbt from an Airflow worker
-
-Airflow synchronizes a git repository's [configured git branch](/how-tos/datacoves/how_to_environments#services-configuration) every minute. (The branch specified in  the `Git branch name` field in the environment's DAGs sync configuration)
-
-To run `dbt` commands easily, we provide a pre-configured virtual environment with the necessary python dependencies such as dbt. Our Airflow Operator also does the following automatically:
-
-- Copies the cloned dbt project to a writable folder within the Airflow file system
-- Runs `dbt deps` if `dbt_modules` and `dbt_packages` folders do not exist
-- Sets the current directory to the dbt_project_folder
-
-This means that you can simply run `dbt <dbt subcommand>` in your Airflow DAG and we will handle the rest.
-
-## Create a DAG that uses the script
-
-If your dbt command like `dbt run` works in your development environment(**Try dbt run in your terminal**), then you should be able to create an Airflow DAG that will run this command automatically.
-
->[!TIP]Keep in mind that in an Airflow context `dbt` is installed in an isolated Python Virtual Environment to avoid clashing with Airflow python dependencies. Datacoves default Python's virtualenv is located in `/opt/datacoves/virtualenvs/main`. No need to worry about the complexity when using the `@task.datacoves_dbt` decorator because it will automatically activate that environment amongst other actions.
-
-See [Datacoves Decorators](reference/airflow/datacoves-decorators.md) for more information.
-
-### Lets create a DAG!
-
-**Step 1:** If using Git Sync, switch to your configured branch (`airflow_development` or `main`), create a python file inside of `orchestrate/dags` named `my_sample_dag.py`
-
-**Step 2:** Paste in the code below and be sure to replace information such as name, email and model name with your own.
-
-### Python version
-
-```python
-from pendulum import datetime
-from airflow.decorators import dag, task
-
-@dag(
-    default_args={
-        "start_date": datetime(2024, 1, 1),
-        "owner": "Noel Gomez",  # Replace with name
-        "email": "gomezn@example.com",  # Replace with your email
-        "email_on_failure": True,
-    },
-    description="Sample DAG for dbt run",
-    schedule="0 0 1 */12 *",  # Replace with your desired schedule
-    tags=["version_2"],
-    catchup=False,
-)
-def my_sample_dag():
-
-    @task.datacoves_dbt(connection_id="main")
-    def run_dbt():
-        return "dbt run -s personal_loans"  # Replace with your model
-
-    run_dbt()
-
-my_sample_dag()
-```
-
-**Step 3:** Push your changes to the branch.
-
-**Step 4:** Head over to Airflow in the Datacoves UI and refresh. It may take a minute but you should see your DAG populate. 
-
-**Step 5:** Regardless of the schedule you set, the default during development is to have the DAG paused. You can trigger the DAG to see it in action or turn it on to test the schedule.
-
-### YAML version
-If you are making use of the `dbt-coves generate airflow-dags` command, you can write DAGs using YML.
-
-The name of the file will used as the DAG name. 
-
-```yaml
-description: "Sample DAG for dbt run"
-schedule: "0 0 1 */12 *"
-tags:
-  - version_2
-default_args:
-  start_date: 2024-01-01
-  owner: Noel Gomez # Replace with your name
-  # Replace with the email of the recipient for failures
-  email: gomezn@example.com 
-  email_on_failure: true
-catchup: false
-
-nodes:
-  run_dbt:
-    type: task
-    operator: operators.datacoves.dbt.DatacovesDbtOperator
-    bash_command: "dbt run -s personal_loans" # Replace with your model name
-```
 
 ---
 
@@ -2783,143 +3019,339 @@ nodes:
 
 ---
 
-// File: how-tos/airflow/s3-to-snowflake
+// File: how-tos/airflow/test-dags
 
-# Loading S3 Files into Snowflake 
+# Run DAG tests in your CI/CD 
 
-## Schema Evolution 
+In Datacoves you can easily test your Airflow DAGs using [pytest](/reference/airflow/datacoves-commands.md#datacoves-my-pytest) in the command line. However you can also run these validations in your CI/CD pipeline. 
 
-Snowflake has a built-in feature for [schema evolution](https://docs.snowflake.com/en/user-guide/data-load-schema-evolution). It allows us to create the initial table using a file as a template and then it will automatically handle any changes to the schema going forward. 
+To do this follow these steps:
 
-### Caveats and limitations
+### Step 1: Create your pytest validations file in the `orchestrate/test_dags` directory. 
 
-Schema evolution is [limited to a change that adds a maximum of 10 columns or evolving no more than 1 schema per COPY operation](https://docs.snowflake.com/en/user-guide/data-load-schema-evolution#usage-notes)
+Here is an example script:
 
-You cannot go from a column containing `NUMBER` values to `VARCHAR`, but you can go from `VARCHAR` to `NUMBER` as it will insert it as `VARCHAR`.  
+```python
+# orchestrate/test_dags/validate_dags.py
+"""Example DAGs test. This test ensures that all Dags have tags, retries set to two, and no import errors.
+This is an example pytest and may not be fit the context of your DAGs. Feel free to add and remove tests."""
 
-**Step 1:** In a Snowflake SQL worksheet Navigate to the database and schema where you will be loading the data to. 
+import os
+import logging
+from contextlib import contextmanager
+import pytest
+import warnings
+from airflow.models import DagBag
 
-**Step 2:** Create a custom file format for the data that you are planning to load. In this example we are using a custom CSV file format. 
+APPROVED_TAGS = {'extract_and_load',
+                'transform',
+                'python_script',
+                'ms_teams_notification',
+                'slack_notification',
+                'marketing_automation',
+                'update_catalog',
+                'parameters',
+                'sample'}
 
-```sql
-CREATE OR REPLACE FILE FORMAT MY_CSV_FORMAT
-TYPE = 'CSV' 
-PARSE_HEADER = TRUE
-ERROR_ON_COLUMN_COUNT_MISMATCH = FALSE;
+ALLOWED_OPERATORS = [
+    "_PythonDecoratedOperator",  # this allows the @task decorator
+    "DatacovesBashOperator",
+    "DatacovesDbtOperator",
+    "DatacovesDataSyncOperatorSnowflake",
+    "_DatacovesDataSyncSnowflakeDecoratedOperator",
+    "_DatacovesDataSyncRedshiftDecoratedOperator",
+    "AirbyteTriggerSyncOperator",
+    'FivetranOperator',
+    'FivetranSensor',
+]
+
+@contextmanager
+def suppress_logging(namespace):
+    logger = logging.getLogger(namespace)
+    old_value = logger.disabled
+    logger.disabled = True
+    try:
+        yield
+    finally:
+        logger.disabled = old_value
+
+### Custom tests start here ###
+def get_import_errors():
+    """
+    Generate a tuple for import errors in the dag bag
+    """
+    with suppress_logging("airflow"):
+        dag_bag = DagBag(include_examples=False)
+
+        def strip_path_prefix(path):
+            return os.path.relpath(path, os.environ.get("AIRFLOW_HOME"))
+
+        # prepend "(None,None)" to ensure that a test object is always created even if it's a no op.
+        return [(None, None)] + [
+            (strip_path_prefix(k), v.strip()) for k, v in dag_bag.import_errors.items()
+        ]
+
+
+def get_dags():
+    """
+    Generate a tuple of dag_id, <DAG objects> in the DagBag
+    """
+    with suppress_logging("airflow"):
+        dag_bag = DagBag(include_examples=False)
+
+    def strip_path_prefix(path):
+        return os.path.relpath(path, os.environ.get("AIRFLOW__CORE__DAGS_FOLDER"))
+
+    return [(k, v, strip_path_prefix(v.fileloc)) for k, v in dag_bag.dags.items()]
+
+
+@pytest.mark.parametrize(
+    "rel_path,rv", get_import_errors(), ids=[x[0] for x in get_import_errors()]
+)
+def test_file_imports(rel_path, rv):
+    """Test for import errors on a file"""
+    if rel_path and rv:
+        raise Exception(f"{rel_path} failed to import with message \n {rv}")
+
+
+
+@pytest.mark.parametrize(
+    "dag_id,dag,fileloc", get_dags(), ids=[x[2] for x in get_dags()]
+)
+def test_dag_tags(dag_id, dag, fileloc):
+    """
+    test if a DAG is tagged and if TAGs are in the approved list
+    """
+    assert dag.tags, f"{dag_id} in {fileloc} has no tags"
+    if APPROVED_TAGS:
+        assert not set(dag.tags) - APPROVED_TAGS
+
+
+@pytest.mark.parametrize(
+    "dag_id,dag, fileloc", get_dags(), ids=[x[2] for x in get_dags()]
+)
+def test_dag_has_catchup_false(dag_id, dag, fileloc):
+    """
+    test if a DAG has catchup set to False
+    """
+    assert (
+        dag.catchup == False
+    ), f"{dag_id} in {fileloc} must have catchup set to False."
+
+
+
+@pytest.mark.parametrize(
+    "dag_id, dag, fileloc", get_dags(), ids=[x[0] for x in get_dags()]
+)
+def test_dag_uses_allowed_operators_only(dag_id, dag, fileloc):
+    """
+    Test if a DAG uses only allowed operators.
+    """
+    for task in dag.tasks:
+        assert any(
+            task.task_type == allowed_op for allowed_op in ALLOWED_OPERATORS
+        ), f"{task.task_id} in {dag_id} ({fileloc}) uses {task.task_type}, which is not in the list of allowed operators."
+
+
+@pytest.mark.parametrize(
+    "dag_id,dag, fileloc", get_dags(), ids=[x[2] for x in get_dags()]
+)
+def test_dag_retries(dag_id, dag, fileloc):
+    """
+    test if a DAG has retries set
+    """
+    num_retries = dag.default_args.get("retries", 0)
+
+    if num_retries == 0 or num_retries is None:
+        pytest.fail(f"{dag_id} in {fileloc} must have task retries >= 1 it currently has {num_retries}.")
+    elif num_retries < 3:
+        warnings.warn(f"{dag_id} in {fileloc} should have task retries >= 3 it currently has {num_retries}.", UserWarning)
+    else:
+        assert num_retries >= 3, f"{dag_id} in {fileloc} must have task retries >= 2 it currently has {num_retries}."
 ```
-**Step 3:** Now we will create a Snowflake stage and link our custom file format to it. 
-```sql
-CREATE OR REPLACE STAGE TEST_STAGE
-    FILE_FORMAT = MY_CSV_FORMAT;
+**Summary** 
+
+This file defines a set of pytest-based validation tests for Airflow DAGs. It ensures that:
+
+- DAG Import Validation – Detects and reports any import errors in DAG files.
+- Tag Compliance – Checks that all DAGs have at least one tag and that tags are within an approved list.
+- Catchup Settings – Ensures that all DAGs have catchup set to False to prevent unintended backfills.
+- Operator Validation – Restricts DAGs to use only a predefined set of allowed operators.
+- Retry Configuration – Validates that DAGs have a retry setting of at least 1 and warns if it is less than 3.
+
+### Step 2 Add the `conftest.py` file to your `orchestrate/test_dags` directory.
+
+This file will import custom tests that the Datacoves team has created such as validating [variable calls are not made at the highest level](/how-tos/airflow/use-aws-secrets-manager.md) of a DAG. 
+
+```python
+# orchestrate/test_dags/conftest.py
+from datacoves_airflow_provider.testing.custom_reporter import *
 ```
 
-**Step 4:** We are now going to upload a csv file to this Snowflake stage that we will use as a template to create the table where data will be loaded. You can do this via the Snowflake UI or by using the SnowSQL command line tool.  
+### Step 3: Add the following file to your github actions.
 
-This example will use SnowSQL and our data looks like this: 
+```yaml
+# 10_integrate_airflow_changes.yml
+name: 🎯 Airflow Validations
 
-![Sample data](assets/s3_sample_data.jpg)
+on:  # yamllint disable-line rule:truthy
+  pull_request:
+    paths:
+      - orchestrate/*
+      - orchestrate/**/*
 
-The SnowSQL command to upload the file to the Snowflake stage is below: 
-```
-PUT file://test_file.csv @TEST_STAGE;
-```
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
-Where test_file.csv is in the same folder from where we are running the SnowSQL command. 
+# This cancels a run if another change is pushed to the same branch
+concurrency:
+  group: orchestrate-${{ github.ref }}
+  cancel-in-progress: true
 
-**Step 5:** Once the file has been uploaded to the test stage, we create the initial table using it as a template and enabling schema evolution. 
+jobs:
+  airflow:
+    name: Pull Request Airflow Tests
+    runs-on: ubuntu-latest
+    # container: datacoves/ci-airflow-dbt-snowflake:3.3
+    container: datacoves/ci-airflow-dbt-snowflake:3.3
 
-```sql
-CREATE OR REPLACE TABLE TEST_TABLE
-    ENABLE_SCHEMA_EVOLUTION== TRUE
-    USING TEMPLATE (
-        SELECT ARRAY_AGG(OBJECT_CONSTRUCT(*))
-            FROM TABLE(
-                INFER_SCHEMA(
-                    LOCATION->'@TEST_STAGE/test_file.csv.gz,
-                    FILE_FORMAT=>'my_csv_format'
-                )
-            )
-    );
-```
+    env:
+      AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate/dags
+      AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
+      AIRFLOW__ARTIFACTS_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate
+      DATACOVES__DBT_HOME: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/transform
+      DATACOVES__REPO_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+      PYTHONPATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+      FORCE_COLOR: 1
+      OUTPUT_FILE: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test_output.md
 
-The TEST_TABLE schema now looks like this: 
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
 
-![test_table](assets/s3_test_table_schema.jpg)
+      - name: Test DAGs Load time and variable usage at top level
+        id: test_load_time_variables
+        run: python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage --write-output --filename "$OUTPUT_FILE"
 
-However, the table does not have any data loaded into it. 
+      # if write-output is set in the prior step, the following step will run
+      - name: Add PR comment of results of test_load_time_variables tests
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          filePath: ${{ env.OUTPUT_FILE }}
+          comment_tag: Test DAGs Load time and variable usage at top level
 
-![Empty test_table](assets/s3_test_table_empty.jpg)
+      - name: Custom Airflow Validation Tests
+        env:
+          NO_COLOR: 1
+        run: pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py --output-file "$OUTPUT_FILE"
 
-**Step 6:** To load the data from the file we used as a template we use the following COPY INTO SQL. 
 
-```sql
-COPY INTO TEST_TABLE
-    FROM '@TEST_STAGE/test_file.csv.gz'
-    FILE_FORMAT =  'my_csv_format'
-    MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE;
-```
-
-And we can now see the data in the table: 
-
-![test_table copied](assets/s3_test_table_copied.jpg)
-
-**Step 7:** Now we’re going to load another file into TEST_TABLE that has an additional column. 
-
-![Test data additional column](assets/s3_test_table_additional_col.jpg)
-
-Again, we will use the SnowSQL PUT command seen below: 
-
-```
-PUT files://test_file_copy.csv @TEST_STAGE;
-```
-
-**Step 8:** Now we can run another COPY INTO statement that references the new file. 
-```sql
-COPY INTO TEST_TABLE
-    FROM '@TEST_STAGE/test_file_copy.csv.gz'
-    FILE_FORMAT = 'my_csv_format'
-    MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE;
-```
-
-And now the table has an additional column called COUNTRY_CODE: 
-
-![test_table additional column](assets/s3_test_table_additional_call_snowflake.jpg)
-
-## Loading JSON data into a variant column 
-
-If the data that you want to load is in JSON format and the schema is likely to change then a recommended pattern is to load the JSON into a single Snowflake variant column. This allows you to parse out and model the data downstream without having to worry about the change in schema. 
-
-**Step 1:** 1. Create a Snowflake table with a single variant column. 
-
-```sql
-CREATE OR REPLACE TABLE VARIABLE_TABLE (MAIN_COLUMN VARIANT);
+      - name: Add PR comment of results of custom Airflow validation tests
+        if: always()
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          # filePath: formatted_output.md
+          filePath: ${{ env.OUTPUT_FILE }}
+          comment_tag: Custom Tests
+          GITHUB_TOKEN: ${{ github.token }}
 ```
 
-**Step 2:**  Now create a custom file format for the JSON data.
+**Summary**
 
-```sql
-CREATE OR REPLACE FILE FORMAT MY_JSON_FORMAT
-    TYPE = 'JSON'
-    STRIP_OUTER_ARRAY = TRUE;
+This GitHub Actions workflow automatically:
+
+- Triggers when changes are made to the orchestrate directory.
+
+- Tests for variable usage at the top level in DAGs to prevent costly issues.
+
+- Runs custom validation tests and comments results on the PR.
+
+By integrating this workflow, you can ensure Airflow DAGs meet quality standards before deployment.
+
+---
+
+// File: how-tos/airflow/use-variables-and-connections
+
+# Variables and Connections
+
+>[!NOTE]dbt-coves generate airflow-dags does not support reading variables/connections, but you may generate the initial Python Airflow DAG and add the connection / variable information.
+
+The best way to store and retrieve information within Airflow is to use `Variables` and `Connections`, both available on the `Admin` upper dropdown.
+
+![select More](./assets/variables_connections_ui.png)
+
+The main difference between them is that [Variables](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/variable.html) is a generic multi-purpose store, while [Connections](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/connection.html) are aimed at third-party providers.
+
+>[!TIP]Rather than using connections or variables stored in Airflow’s database, we recommend using a Secrets Manager. These secrets are encrypted and can be stored either in [Datacoves Secrets manager](/how-tos/airflow/use-datacoves-secrets-manager.md) or a third-party secrets manager like [AWS Secrets Manager](/how-tos/airflow/use-aws-secrets-manager)
+
+## Usage
+
+### Variables
+
+After creating a variable in Airflow's UI, using it is as simple as importing the `Variable` model in your DAG and `getting` it's name. If a variable contains `SECRET` on it's name, value will be hidden:
+
+
+![select More](./assets/variable_creation.png)
+
+```python
+from pendulum import datetime
+from airflow.decorators import dag, task
+from airflow.models import Variable
+
+@dag(
+    default_args={"start_date": datetime(2024, 1, 1)},
+    description="DAG that outputs a Variable",
+    schedule="0 0 1 */12 *",
+    tags=["version_1"],
+    catchup=False,
+)
+def variables_dag():
+
+    @task.datacoves_bash(="main")
+    def transform():
+        daily_run_tag = Variable.get("DBT_DAILY_RUN_TAG") 
+        return f"dbt build -s 'tag:{daily_run_tag}'"
+
+    transform()
+
+variables_dag()
 ```
 
-**Step 3:** After this we create a Snowflake stage that uses the JSON custom file format. 
+### Connections
 
-```sql
-CREATE OR REPLACE STAGE JSON_STAGE
-    FILE_FORMAT = MY_JSON_FORMAT;
+Consuming connections data is also straightforward, though you need to take it's attributes into consideration, as they'll vary depending on the provider.
+
+In the following example, a connection of `type Airbyte` is created, and it's `host` is echoed in a DAG.
+
+![select More](./assets/connection_creation.png)
+
+```python
+from pendulum import datetime
+
+from airflow.decorators import dag, task
+from airflow.models import Connection
+
+@dag(
+    default_args={"start_date": datetime(2024, 1, 1)},
+    description="DAG that outputs Airbyte Hostname",
+    schedule="0 0 1 */12 *",
+    tags=["version_1"],
+    catchup=False,
+)
+def connections_dag():
+    
+    @task.datacoves_bash()
+    def echo_airbyte_host():
+        airbyte_connection = Connection.get_connection_from_secrets(conn_id="AIRBYTE_CONNECTION") 
+        return f"echo 'Airbyte hostname is {airbyte_connection.host}'"
+
+    echo_airbyte_host()
+
+connections_dag()
 ```
-
-**Step 4:** We can now load JSON files that have been staged using the following COPY INTO command. 
-
-```sql
-COPY INTO VARIANT_TABLE 
-    FROM @JSON_STAGE
-```
-
-Our variant table now looks like this: 
-
-![json variant table](assets/json_variant_table.jpg)
 
 ---
 
@@ -3472,758 +3904,175 @@ Start [developing DAGs](getting-started/Admin/creating-airflow-dags.md)
 
 ---
 
-// File: how-tos/airflow/sync-database
+// File: how-tos/airflow/customize-worker-environment
 
-# Sync Airflow database
+# How to set up a custom environment for your Airflow workers
 
-It is now possible to synchronize the Datacoves Airflow database to your Data Warehouse
+If you need to run tasks on Airflow on a custom environment that comes with pre-installed libraries and tools, we recommend building your own custom docker image, upload it to a docker image repository such as dockerhub and reference it in your DAG's task operator.
 
-> [!NOTE]This is currently only available for Snowflake and Redshift warehouses.
+## Using the custom image in your DAGs
 
-## Data Sync Decorator
+Every task in an Airflow DAG can use a different docker image. Operators accept an `executor_config` argument that can be used to customize the executor context.
 
-To synchronize the Airflow database, we can use an Airflow DAG with the Datacoves Airflow Decorator below.
+Given that Datacoves runs Airflow on a kubernetes execution context, you need to pass a `dict` with a `pod_override` key that will override the worker pod's configuration, as seen in the `TRANSFORM_CONFIG` dict in the example below. The variable name for the Config dict will depend on what DAG task you are requesting more resources for. 
 
-```python
-@task.datacoves_airflow_db_sync
-``` 
+eg) When writing your yaml, if you add the config under ` marketing_automation` the `CONFIG` variable will be dynamically named `MARKETING_AUTOMATION_CONFIG`. In the yml examples below, we added the config in a transform task so the `CONFIG` variable is named `TRANSFORM_CONFIG`.
 
-> [!NOTE]To avoid synchronizing unnecessary Airflow tables, the following Airflow tables are synced by default: `ab_permission`, `ab_role`, `ab_user`, `dag`, `dag_run`, `dag_tag`, `import_error`, `job`, `task_fail`, `task_instance`
-
-These decorator can receive:
-
-- `db_type`: the destination warehouse type, "snowflake" or "redshift"
-- `connection_id`: the name of the Airflow Service Connection in Datacoves that will be used by the operator. 
-- `tables`: a list of tables to override the default ones. _Warning:_ An empty list `[]` will perform a full-database sync.
-- `additional_tables`: a list of additional tables you would want to add to the default set.
-- `destination_schema`: the destination schema where the Airflow tables will end-up. By default, the schema will be named as follows: `airflow-\{datacoves environment slug\}` for example `airflow-qwe123`
-
-![airflow_load](assets/service_connection_airflow_raw.png)
-## Example DAG
+### Python version
 
 ```python
 from pendulum import datetime
-
 from airflow.decorators import dag, task
+from kubernetes.client import models as k8s
+
+TRANSFORM_CONFIG = {
+    "pod_override": k8s.V1Pod(
+        spec=k8s.V1PodSpec(
+            containers=[
+                k8s.V1Container(
+                    name="base",
+                    image="<IMAGE REPO>:<IMAGE TAG>",
+                )
+            ]
+        )
+    ),
+}
 
 @dag(
     default_args={
         "start_date": datetime(2022, 10, 10),
-        "owner": "Bruno",
-        "email": "bruno@example.com",
-        "email_on_failure": False,
-        "retries": 3
-    },
-    description="Sample DAG for dbt build",
-    schedule="0 0 1 */12 *",
-    tags=["extract_and_load"],
-    catchup=False,
-)
-def airflow_data_sync():
-    @task.datacoves_airflow_db_sync(
-        db_type="snowflake",
-        destination_schema="airflow_dev",
-        connection_id="main",
-        # additional_tables=["additional_table_1", "additional_table_2"],
-    )
-    def sync_airflow_db():
-        pass
-
-    sync_airflow_db()
-
-airflow_data_sync()
-```
-
-> [!NOTE]The example DAG above uses the service connection `main`
-
-![Service Connection main](assets/service_connections_main.png)
-
----
-
-// File: how-tos/airflow/test-dags
-
-# Run DAG tests in your CI/CD 
-
-In Datacoves you can easily test your Airflow DAGs using [pytest](/reference/airflow/datacoves-commands.md#datacoves-my-pytest) in the command line. However you can also run these validations in your CI/CD pipeline. 
-
-To do this follow these steps:
-
-### Step 1: Create your pytest validations file in the `orchestrate/test_dags` directory. 
-
-Here is an example script:
-
-```python
-# orchestrate/test_dags/validate_dags.py
-"""Example DAGs test. This test ensures that all Dags have tags, retries set to two, and no import errors.
-This is an example pytest and may not be fit the context of your DAGs. Feel free to add and remove tests."""
-
-import os
-import logging
-from contextlib import contextmanager
-import pytest
-import warnings
-from airflow.models import DagBag
-
-APPROVED_TAGS = {'extract_and_load',
-                'transform',
-                'python_script',
-                'ms_teams_notification',
-                'slack_notification',
-                'marketing_automation',
-                'update_catalog',
-                'parameters',
-                'sample'}
-
-ALLOWED_OPERATORS = [
-    "_PythonDecoratedOperator",  # this allows the @task decorator
-    "DatacovesBashOperator",
-    "DatacovesDbtOperator",
-    "DatacovesDataSyncOperatorSnowflake",
-    "_DatacovesDataSyncSnowflakeDecoratedOperator",
-    "_DatacovesDataSyncRedshiftDecoratedOperator",
-    "AirbyteTriggerSyncOperator",
-    'FivetranOperator',
-    'FivetranSensor',
-]
-
-@contextmanager
-def suppress_logging(namespace):
-    logger = logging.getLogger(namespace)
-    old_value = logger.disabled
-    logger.disabled = True
-    try:
-        yield
-    finally:
-        logger.disabled = old_value
-
-### Custom tests start here ###
-def get_import_errors():
-    """
-    Generate a tuple for import errors in the dag bag
-    """
-    with suppress_logging("airflow"):
-        dag_bag = DagBag(include_examples=False)
-
-        def strip_path_prefix(path):
-            return os.path.relpath(path, os.environ.get("AIRFLOW_HOME"))
-
-        # prepend "(None,None)" to ensure that a test object is always created even if it's a no op.
-        return [(None, None)] + [
-            (strip_path_prefix(k), v.strip()) for k, v in dag_bag.import_errors.items()
-        ]
-
-
-def get_dags():
-    """
-    Generate a tuple of dag_id, <DAG objects> in the DagBag
-    """
-    with suppress_logging("airflow"):
-        dag_bag = DagBag(include_examples=False)
-
-    def strip_path_prefix(path):
-        return os.path.relpath(path, os.environ.get("AIRFLOW__CORE__DAGS_FOLDER"))
-
-    return [(k, v, strip_path_prefix(v.fileloc)) for k, v in dag_bag.dags.items()]
-
-
-@pytest.mark.parametrize(
-    "rel_path,rv", get_import_errors(), ids=[x[0] for x in get_import_errors()]
-)
-def test_file_imports(rel_path, rv):
-    """Test for import errors on a file"""
-    if rel_path and rv:
-        raise Exception(f"{rel_path} failed to import with message \n {rv}")
-
-
-
-@pytest.mark.parametrize(
-    "dag_id,dag,fileloc", get_dags(), ids=[x[2] for x in get_dags()]
-)
-def test_dag_tags(dag_id, dag, fileloc):
-    """
-    test if a DAG is tagged and if TAGs are in the approved list
-    """
-    assert dag.tags, f"{dag_id} in {fileloc} has no tags"
-    if APPROVED_TAGS:
-        assert not set(dag.tags) - APPROVED_TAGS
-
-
-@pytest.mark.parametrize(
-    "dag_id,dag, fileloc", get_dags(), ids=[x[2] for x in get_dags()]
-)
-def test_dag_has_catchup_false(dag_id, dag, fileloc):
-    """
-    test if a DAG has catchup set to False
-    """
-    assert (
-        dag.catchup == False
-    ), f"{dag_id} in {fileloc} must have catchup set to False."
-
-
-
-@pytest.mark.parametrize(
-    "dag_id, dag, fileloc", get_dags(), ids=[x[0] for x in get_dags()]
-)
-def test_dag_uses_allowed_operators_only(dag_id, dag, fileloc):
-    """
-    Test if a DAG uses only allowed operators.
-    """
-    for task in dag.tasks:
-        assert any(
-            task.task_type == allowed_op for allowed_op in ALLOWED_OPERATORS
-        ), f"{task.task_id} in {dag_id} ({fileloc}) uses {task.task_type}, which is not in the list of allowed operators."
-
-
-@pytest.mark.parametrize(
-    "dag_id,dag, fileloc", get_dags(), ids=[x[2] for x in get_dags()]
-)
-def test_dag_retries(dag_id, dag, fileloc):
-    """
-    test if a DAG has retries set
-    """
-    num_retries = dag.default_args.get("retries", 0)
-
-    if num_retries == 0 or num_retries is None:
-        pytest.fail(f"{dag_id} in {fileloc} must have task retries >= 1 it currently has {num_retries}.")
-    elif num_retries < 3:
-        warnings.warn(f"{dag_id} in {fileloc} should have task retries >= 3 it currently has {num_retries}.", UserWarning)
-    else:
-        assert num_retries >= 3, f"{dag_id} in {fileloc} must have task retries >= 2 it currently has {num_retries}."
-```
-**Summary** 
-
-This file defines a set of pytest-based validation tests for Airflow DAGs. It ensures that:
-
-- DAG Import Validation – Detects and reports any import errors in DAG files.
-- Tag Compliance – Checks that all DAGs have at least one tag and that tags are within an approved list.
-- Catchup Settings – Ensures that all DAGs have catchup set to False to prevent unintended backfills.
-- Operator Validation – Restricts DAGs to use only a predefined set of allowed operators.
-- Retry Configuration – Validates that DAGs have a retry setting of at least 1 and warns if it is less than 3.
-
-### Step 2 Add the `conftest.py` file to your `orchestrate/test_dags` directory.
-
-This file will import custom tests that the Datacoves team has created such as validating [variable calls are not made at the highest level](/how-tos/airflow/use-aws-secrets-manager.md) of a DAG. 
-
-```python
-# orchestrate/test_dags/conftest.py
-from datacoves_airflow_provider.testing.custom_reporter import *
-```
-
-### Step 3: Add the following file to your github actions.
-
-```yaml
-# 10_integrate_airflow_changes.yml
-name: 🎯 Airflow Validations
-
-on:  # yamllint disable-line rule:truthy
-  pull_request:
-    paths:
-      - orchestrate/*
-      - orchestrate/**/*
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# This cancels a run if another change is pushed to the same branch
-concurrency:
-  group: orchestrate-${{ github.ref }}
-  cancel-in-progress: true
-
-jobs:
-  airflow:
-    name: Pull Request Airflow Tests
-    runs-on: ubuntu-latest
-    # container: datacoves/ci-airflow-dbt-snowflake:3.3
-    container: datacoves/ci-airflow-dbt-snowflake:3.3
-
-    env:
-      AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate/dags
-      AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
-      AIRFLOW__ARTIFACTS_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate
-      DATACOVES__DBT_HOME: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/transform
-      DATACOVES__REPO_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
-      PYTHONPATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
-      FORCE_COLOR: 1
-      OUTPUT_FILE: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test_output.md
-
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Test DAGs Load time and variable usage at top level
-        id: test_load_time_variables
-        run: python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage --write-output --filename "$OUTPUT_FILE"
-
-      # if write-output is set in the prior step, the following step will run
-      - name: Add PR comment of results of test_load_time_variables tests
-        uses: thollander/actions-comment-pull-request@v2
-        with:
-          filePath: ${{ env.OUTPUT_FILE }}
-          comment_tag: Test DAGs Load time and variable usage at top level
-
-      - name: Custom Airflow Validation Tests
-        env:
-          NO_COLOR: 1
-        run: pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py --output-file "$OUTPUT_FILE"
-
-
-      - name: Add PR comment of results of custom Airflow validation tests
-        if: always()
-        uses: thollander/actions-comment-pull-request@v2
-        with:
-          # filePath: formatted_output.md
-          filePath: ${{ env.OUTPUT_FILE }}
-          comment_tag: Custom Tests
-          GITHUB_TOKEN: ${{ github.token }}
-```
-
-**Summary**
-
-This GitHub Actions workflow automatically:
-
-- Triggers when changes are made to the orchestrate directory.
-
-- Tests for variable usage at the top level in DAGs to prevent costly issues.
-
-- Runs custom validation tests and comments results on the PR.
-
-By integrating this workflow, you can ensure Airflow DAGs meet quality standards before deployment.
-
----
-
-// File: how-tos/airflow/use-airflow-api
-
-# How to use the Airflow API
-
->[!WARNING] Users must have Project Level Admin Group to use the Airflow API. The API will allow you to view secrets values in plain text. Always exercise the principle of least privilege. 
-
-This how to will walk you through configuring the Airflow API and using it in a DAG.
-
-### Step 1: Navigate to your target environment
-
-- A user with the appropriate access can navigate to the `Environments` in the navigation menu.
-
-![Environments](../datacoves/assets/menu_environments.gif)
-
-- Then Select the Pad lock icon for the Airflow environment you wish to access.
-
-![Pad lock](assets/environments_api_edit.jpg)
-
-
-### Step 2: Copy the API URL
-
-Copy the `Airflow API URL`
-
-![API URL](assets/environment_api_url.jpg)
-
-### Step 3:Generate the API KEY
-
-Generate your API key and copy it somewhere secure. Once you click away it will not be shown again.
-
-![Generate API](assets/environment_api_key.jpg)
-
-### Step 4: Add your credentials to a .env file
-
-Create a `.env` file inside your `orchestrate/` directory and be sure to add the file to your `.gitignore`. Add your credentials there.
-
-```env
-AIRFLOW_API_URL = "https://..."
-DATACOVES_API_KEY = "...."
-```
-
-### Step 5: Use it in a python script
-
-Below is a sample script that makes use of the Airflow API.
-
-**This script does the following:**
-- Initializes the Airflow API client using authentication details from environment variables.
-
-- Fetches a list of all DAGs from the Airflow API.
-
-- Prints a sorted list of DAG IDs for better readability.
-
-- Triggers a new DAG run for a specified DAG using the API.
-
-- Updates an Airflow dataset using the API.
-
-- Handles API errors and retries requests if necessary.
-
-```python
-# airflow_api_call.py
-import requests
-import os
-import json
-from dotenv import load_dotenv
-
-load_dotenv()
-API_URL =  os.getenv("AIRFLOW_API_URL")
-API_KEY =  os.getenv("DATACOVES_API_KEY")
-
-def update_dataset(name):
-    url=f"{API_URL}/datasets/events"
-
-    response = requests.post(
-        url=url,
-        headers = {
-            "Authorization": f"Token {API_KEY}",
-        },
-        json={"dataset_uri": "upstream_data",}
-    )
-    return response.json()
-
-
-def trigger_dag(dag_id):
-    url=f"{API_URL}/dags/{dag_id}/dagRuns"
-
-    response = requests.post(
-        url=url,
-        headers = {
-            "Authorization": f"Token {API_KEY}",
-        },
-        json={"note": "Trigger from API",}
-    )
-    return response.json()
-
-
-def list_dags():
-    url=f"{API_URL}/dags"
-
-    response = requests.get(
-        url=url,
-        headers = {
-            "Authorization": f"Token {API_KEY}",
-             "Content-Type": "application/json",
-        },
-    )
-
-    # Extract just the DAG names from the response
-    dags_data = response.json()
-    dag_names = [dag['dag_id'] for dag in dags_data['dags']]
-
-    # Sort the names alphabetically for better readability
-    dag_names.sort()
-    return dag_names
-
-
-def print_response(response):
-    if response:
-        msg = json.dumps(response, indent=2)
-        print(f"Event posted successfully:\n{'='*30}\n\n {msg}")
-
-
-if __name__ == "__main__":
-
-    # Update an Airflow Dataset
-    # dataset_name = "upstream_data"
-    # response = update_dataset(dataset_name)
-    # print_response(response)
-
-    # Trigger a DAG
-    # dag_id = "bad_variable_usage"
-    # response = trigger_dag(dag_id)
-    # print_response(response)
-
-    # List DAGs
-    response = list_dags()
-    print_response(response)
-```
-
----
-
-// File: how-tos/airflow/use-datacoves-secrets-manager
-
-# How to use Datacoves Secrets Manager in Airflow
-
-Datacoves includes a built-in [Secrets Manager](reference/admin-menu/secrets.md) that allows you to securely store and manage secrets for both administrators and developers. Secrets can be stored at the project or environment level and easily shared across other tools in your stack, ensuring seamless integration and enhanced security. [Creating or editing a secret](/how-tos/datacoves/how_to_secrets.md) in the Datacoves Secret Manager is straightforward. Be sure to prefix all secrets stored in Datacoves Secrets Manager with `datacoves-`.
-
-## Read variable from Datacoves Secrets Manager
-
-Once you save your variable in the Datacoves Secret Manager you are ready to use your variable in a DAG. This is done using `Variable.get`. Airflow will look in several places to find the variable.
-
-### The order of places it will look for are as follows:
-
-1. AWS Secrets Manager (if configured)  
-2. Datacoves Secrets Manager  
-3. Airflow variables  
-
-Once a variable is found, Airflow will stop its search.
-
-![Secrets flowchart](assets/variablle_flow.png)
-
-### Best practices when using a Secrets Manager variable
-
-1. Always call your `Variable.get` from within the Datacoves Task Decorators. This ensures the variable is only fetched at runtime.  
-2. Use prefixes based on where your variable is stored, like `datacoves-` (Datacoves Secrets Manager only searches for secrets with this prefix), `aws_`, or `airflow_` to help identify and debug variables. For example: `datacoves-mayras_secret`.
-
-### Example DAG using Datacoves Secrets Manager
-
-```python
-from airflow.decorators import dag, task
-from pendulum import datetime
-from airflow.models import Variable
-
-@dag(
-    default_args={
-        "start_date": datetime(2024, 1, 1),
-        "owner": "Amy Chan",
-        "email": "amy@example.com",
+        "owner": "Noel Gomez",
+        "email": "gomezn@example.com",
         "email_on_failure": True,
     },
-    catchup=False,
-    tags=["version_1"],
-    description="Testing task decorators",
-    schedule_interval="0 0 1 */12 *",
-)
-def task_decorators_example():
-
-    @task.datacoves_bash
-    def calling_vars_in_decorator() -> str:
-        my_var = Variable.get("datacoves-mayras_secret")
-        return "My variable is: " + my_var
-
-    calling_vars_in_decorator()
-
-dag = task_decorators_example()
-```
-:::tip
- To auto mask your secret you can use `secret` or `password` in the secret name since this will set `hide_sensitive_var_conn_fields` to True. eg `aws_mayras_password`. Please see [this documentation](https://www.astronomer.io/docs/learn/airflow-variables#hide-sensitive-information-in-airflow-variables) for a full list of masking words.
-:::
-
----
-
-// File: how-tos/airflow/use-variables-and-connections
-
-# Variables and Connections
-
->[!NOTE]dbt-coves generate airflow-dags does not support reading variables/connections, but you may generate the initial Python Airflow DAG and add the connection / variable information.
-
-The best way to store and retrieve information within Airflow is to use `Variables` and `Connections`, both available on the `Admin` upper dropdown.
-
-![select More](./assets/variables_connections_ui.png)
-
-The main difference between them is that [Variables](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/variable.html) is a generic multi-purpose store, while [Connections](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/connection.html) are aimed at third-party providers.
-
->[!TIP]Rather than using connections or variables stored in Airflow’s database, we recommend using a Secrets Manager. These secrets are encrypted and can be stored either in [Datacoves Secrets manager](/how-tos/airflow/use-datacoves-secrets-manager.md) or a third-party secrets manager like [AWS Secrets Manager](/how-tos/airflow/use-aws-secrets-manager)
-
-## Usage
-
-### Variables
-
-After creating a variable in Airflow's UI, using it is as simple as importing the `Variable` model in your DAG and `getting` it's name. If a variable contains `SECRET` on it's name, value will be hidden:
-
-
-![select More](./assets/variable_creation.png)
-
-```python
-from pendulum import datetime
-from airflow.decorators import dag, task
-from airflow.models import Variable
-
-@dag(
-    default_args={"start_date": datetime(2024, 1, 1)},
-    description="DAG that outputs a Variable",
-    schedule="0 0 1 */12 *",
-    tags=["version_1"],
+    description="Sample DAG with custom image",
+    schedule="0 0 1 */12 *",  # Using 'schedule' instead of deprecated 'schedule_interval'
+    tags=["version_2"],
     catchup=False,
 )
-def variables_dag():
+def yaml_teams_dag():
 
-    @task.datacoves_bash(="main")
+    @task.datacoves_bash(executor_config=TRANSFORM_CONFIG)
     def transform():
-        daily_run_tag = Variable.get("DBT_DAILY_RUN_TAG") 
-        return f"dbt build -s 'tag:{daily_run_tag}'"
+        return "echo SUCCESS!"
 
     transform()
 
-variables_dag()
+yaml_teams_dag()
 ```
 
-### Connections
+### YAML version
+In the yml dag you can configure the image.
 
-Consuming connections data is also straightforward, though you need to take it's attributes into consideration, as they'll vary depending on the provider.
+```yaml
+description: "Sample DAG with custom image"
+schedule_interval: "0 0 1 */12 *"
+tags:
+  - version_2
+default_args:
+  start_date: 2022-10-10
+  owner: Noel Gomez
+  email: gomezn@example.com
+  email_on_failure: true
+catchup: false
 
-In the following example, a connection of `type Airbyte` is created, and it's `host` is echoed in a DAG.
+# DAG Tasks
+nodes:
+  transform:
+    operator: operators.datacoves.bash.DatacovesBashOperator
+    type: task
+    config:
+      # Replace with your custom docker image <IMAGE REPO>:<IMAGE TAG>
+      image: <IMAGE REPO>:<IMAGE TAG>
 
-![select More](./assets/connection_creation.png)
+    bash_command: "echo SUCCESS!"
+```
+
+---
+
+// File: how-tos/airflow/request-resources-on-workers
+
+# How to request more memory or cpu resources on a particular DAG task
+
+Sometimes you need to run tasks that require more memory or compute power. Airflow task's definition that use a kubernetes execution environment allow for this type of configuration.
+
+Similarly to how you [overrode a worker's running environment](/how-tos/airflow/customize-worker-environment.md), you need to specify the `resources` argument on the container spec.
+
+## Example DAG
+
+In the following example, we're requesting a minimum of 8Gb of memory and 1000m of cpu in the `requests` dict to run the task. [Click here](https://pwittrock.github.io/docs/tasks/configure-pod-container/assign-cpu-ram-container/) to learn more about resources requests and limits on a kubernetes running environment.
+
+>[!NOTE] Keep in mind that if you request more resources than a node in the cluster could allocate the task will never run and the DAG will fail.
 
 ```python
-from pendulum import datetime
-
+from datetime import datetime
 from airflow.decorators import dag, task
-from airflow.models import Connection
+from kubernetes.client import models as k8s
+
+# Configuration for Kubernetes Pod Override with Resource Requests
+TRANSFORM_CONFIG = {
+    "pod_override": k8s.V1Pod(
+        spec=k8s.V1PodSpec(
+            containers=[
+                k8s.V1Container(
+                    name="transform",
+                    resources=k8s.V1ResourceRequirements(
+                        requests={"memory": "8Gi", "cpu": "1000m"}
+                    ),
+                )
+            ]
+        )
+    ),
+}
 
 @dag(
-    default_args={"start_date": datetime(2024, 1, 1)},
-    description="DAG that outputs Airbyte Hostname",
+    default_args={
+        "start_date": datetime(2022, 10, 10),
+        "owner": "Noel Gomez",
+        "email": "gomezn@example.com",
+        "email_on_failure": True,
+    },
+    description="Sample DAG with custom resources",
     schedule="0 0 1 */12 *",
-    tags=["version_1"],
+    tags=["version_2"],
     catchup=False,
 )
-def connections_dag():
-    
-    @task.datacoves_bash()
-    def echo_airbyte_host():
-        airbyte_connection = Connection.get_connection_from_secrets(conn_id="AIRBYTE_CONNECTION") 
-        return f"echo 'Airbyte hostname is {airbyte_connection.host}'"
+def request_resources_dag():
 
-    echo_airbyte_host()
+    @task.datacoves_bash(executor_config=TRANSFORM_CONFIG)
+    def transform():
+        return "echo 'Resource request DAG executed successfully!'"
 
-connections_dag()
+    transform()
+
+request_resources_dag()
 ```
 
----
-
-// File: how-tos/datacoves/add_entraid_app_as_user
-
-# Add Application as a user in DevOps Portal
-
-<u>**Step 1**</u>
-
-- In another tab (you will need to return to your application later), sign in to your [Azure DevOps Portal](https://dev.azure.com) and click `Organization settings` at the bottom of the left navigation.
-
-<img src="/how-tos/datacoves/assets/azure_devops_organization_settings.png" alt="Organization Settings" width="200" height="500" />
-
-<u>**Step 2**</u>
-
-- Select `Users` in the left navigation menu.
-
-<img src="/how-tos/datacoves/assets/azure_devops_user_nav.png" alt="Organization Navbar" width="200" height="500" />
-
-<u>**Step 3**</u>
-
-- Select `Add Users` to add the application to the user list.
-
-<img src="/how-tos/datacoves/assets/azure_devops_add_user_button.png" alt="Add User button" />
-
-<u>**Step 4**</u>
-
-- Set the user as the application you created above, give it Basic Access.
-
-<img src="/how-tos/datacoves/assets/azure_devops_add_user_menu.png" alt="Add User menu" />
-
-<u>**Step 5**</u>
-
-- Select the project you wish to add the application to to using the `Add to projects` dropdown, and select the  `Send email invites` checkbox.
-
-<img src="/how-tos/datacoves/assets/azure_devops_assign_to_project.png" alt="Add to project" width="500" height="500" />
-
-
-✅ Now that you have created your EntraID application and added it as a user in the DevOps Portal you will need to set up an [authentication method ](/how-tos/datacoves/authenticate_azure_devops.md)
-
----
-
-// File: how-tos/datacoves/authenticate_azure_devops
-
-# Authentication for Azure DevOps 
-
-Now you are ready to begin configuring your authentication method. This is the method Datacoves will use to clone your repo from Azure DevOps. You have two options: `secrets` and `certificates`.
-
-<u>**Step 1**</u> 
-
-- Navigate back to the tab where you created your application in the Azure Portal. You should be inside your newly created application.
-
-- Select the `Certificates & Secrets` option in the left navigation menu.
-
-<img src="/how-tos/datacoves/assets/azure_devops_secret_nav.jpg" alt="Navigation" width="800" height="600" />
-
-### `secret` or `certificate` Authentification Method
-
-As mentioned above, you have two authentication methods available: `secrets` or `certificates`. Please select one to continue to the next steps.
-
-<!-- tabs:start -->
-
-#### **Secret-Based Authentication**
-
-### Secret-Based Authentication
-
-<u>**Step 2**</u> 
-
-- Select `Client Secrets` in the top navigation menu and `+ New Secret`.
-
-<u>**Step 3**</u> 
-
-- Give it a meaningful description and set your desired expiration date.
-
-<u>**Step 4**</u> Copy the Value onto a notepad.
-
-<img src="/how-tos/datacoves/assets/azure_devops_secret.jpg" alt="Azure Secret" />
-
-✅ Congrats, you are now ready to [configure your project](how-tos/datacoves/how_to_projects.md).
-
-#### **Certificate-Based Authentication**
-
-### Certificate-Based Authentication
-
-🚨 This configuration requires some back and forth between Azure DevOps and Datacoves.
-
-<u>**Step 2**</u>
-
-- Select `Certificates` from the top navigation menu.
-
-<img src="/how-tos/datacoves/assets/azure_devops_upload_certificate.png" alt="Upload Certificate" />
-
-<u>**Step 3**</u> 
-
-- To generate a certificate PEM file, you will need to begin [configuring your Datacoves project](how-tos/datacoves/how_to_projects.md). 
-
-<u>**Step 4**</u>
-
-- Select `Azure DevOps Certificate` as your Cloning Strategy. 
-
-<img src="/how-tos/datacoves/assets/azure_devops_certificate.jpg" alt="Certificates" />
-
-<u>**Step 5**</u>
-
-- Copy the certificate and save it as a plain text file on your desktop with a `.pem` extension `datacoves_cert.pem`.
-
-<img src="/how-tos/datacoves/assets/azure_devops_certificate_copy.jpg" alt="Certificate PEM file" />
-
-<u>**Step 6**</u>
-
-- Navigate back to your Azure Portal tab and select `Upload certificate`. Upload the PEM file you saved in the previous step.
-
-<img src="/how-tos/datacoves/assets/azure_devops_upload_certificate.png" alt="Upload Certificate" />
-
-<u>**Step 7**</u>
-
-- Give it a description and select `Add`.
-
-<!-- tabs:end -->
-
----
-
-// File: how-tos/datacoves/create_your_entraid_application
-
-# Create your application
-
-If you do not have an Entra ID application created, you can do so by following these steps:
-
-<u>**Step 1**</u> 
-
-- From your [Azure Portal](https://portal.azure.com), search for EntraID.
-
-<u>**Step 2**</u> 
-
-- Select `App Registrations` from the left navigation menu.
-
-<img src="/how-tos/datacoves/assets/azure_devops_overview.png" alt="App Registration" width="200" height="450" />
-
-<u>**Step 3**</u> 
-
-- Select `+ New registration` and fill out the fields as seen below:
-  - **Name:** Give your application a meaningful name
-  - **Supported account types**: Select `Accounts in this organizational directory only`
-    
-<u>**Step 4**</u> 
-
-- Click `Register`
-
-<img src="/how-tos/datacoves/assets/azure_devops_register_application.png" alt="Register Application" width="700" height="600" />
-
-✅ Next you will want to [Add Application as a user in DevOps Portal](/how-tos/datacoves/add_entraid_app_as_user.md)
+### YAML version
+In the yml DAG you can configure the memory and cpu resources.
+
+```yaml
+description: "Sample DAG with custom resources"
+schedule_interval: "0 0 1 */12 *"
+tags:
+  - version_2
+default_args:
+  start_date: 2022-10-10
+  owner: Noel Gomez
+  email: gomezn@example.com
+  email_on_failure: true
+catchup: false
+
+# DAG Tasks
+nodes:
+  transform:
+    operator: operators.datacoves.bash.DatacovesBashOperator
+    type: task
+    config:
+      resources:
+        memory: 8Gi
+        cpu: 1000m
+```
 
 ---
 
@@ -4240,162 +4089,6 @@ These how to guides are dedicated to **Datacoves admin configurations**. See how
 - User invitations
 
 And more!
-
----
-
-// File: how-tos/datacoves/gather_azure_devops_auth_details
-
-# Gather DevOps Authentication details
-
-You will need to gather the following application information to configure your project to use Azure DevOps for cloning.
-
-## Application (Client) ID and Directory (Tenant) ID
-
-<u>**Step 1**</u>
-
-- From your [Azure Portal](https://portal.azure.com), search for EntraID.
-
-<u>**Step 2**</u>
-
-- Select `App Registrations` from the left navigation menu.
-
-<img src="/how-tos/datacoves/assets/azure_devops_overview.png" alt="App Registration" width="200" height="450" />
-
-<u>**Step 3**</u>
-
-- Select `All Applications` and select your newly created app.
-
-<u>**Step 4**</u>
-
-- Copy your Application (Client) ID and Directory (Tenant) ID.
-
-<img src="/how-tos/datacoves/assets/azure_devops_app_details.jpg" alt="Azure DevOps Details" />
-
-### Repo SSH and HTTP urls
-
-You will need to copy the SSH or HTTP clone url.
-
-<u>**Step 1**</u>
-
-- Log in to your [Azure DevOps Portal](https://dev.azure.com).
-
-<u>**Step 2**</u>
-
-- Navigate to your project.
-
-<u>**Step 3**</u>
-
-- Navigate to your repo and select the `Clone` button.
-
-<u>**Step 4**</u> 
-
-- Copy **both** the SSH **and** HTTP urls and enter in the appropriate fields in the project setup screen in Datacoves.
-
-<img src="/how-tos/datacoves/assets/azure_devops_https.png" alt="SSH and HTTP" />
-
-✅ Be sure to save all of these details on a safe notepad. Now you can begin setting up your [Azure DevOps authentication](/how-tos/datacoves/authenticate_azure_devops.md)
-
----
-
-// File: how-tos/datacoves/how_to_configure_aws_secrets_manager
-
-# Configuring AWS Secrets Manager
-
-## Table of Contents
-- [Prereqs](/how-tos/datacoves/how_to_configure_aws_secrets_manager.md#prereqs)
-- [Create your Secret in AWS Secrets Manager](/how-tos/datacoves/how_to_configure_aws_secrets_manager.md#create-your-secret-in-aws-secrets-manager)
-- [Configure your Secrets Backend in Project settings](/how-tos/datacoves/how_to_configure_aws_secrets_manager.md#configure-your-secrets-backend-in-project-settings)
-
-## Prereqs
-
-1. Create an IAM user with permissions to manage secrets
-2. Configure access to AWS Secrets Manager on the project settings page
-
-Please follow the how to below to achieve these requirements.
-
-### Create an IAM user with permissions to manage secrets
-
-**Step 1:** On AWS, create an IAM User with an attached policy like this one:
-
->[!NOTE]Be sure to replace the ARN for the resource below to your ARN.
-
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "secretsmanager:GetResourcePolicy",
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:DescribeSecret",
-                "secretsmanager:ListSecretVersionIds"
-            ],
-            "Resource": "arn:aws:secretsmanager:us-west-2:012345678910:secret:*" 
-        },
-        {
-            "Effect": "Allow",
-            "Action": "secretsmanager:ListSecrets",
-            "Resource": "*"
-        }
-    ]
-}
-```
-
-**Step 2:** Once you created the IAM user and the policy was correctly attached, create an access key and store it somewhere safe. You will be using it in the following step.
-
-### Create your Secret in AWS Secrets Manager
-
-Please, follow the [AWS Secrets Manager documentation](https://docs.aws.amazon.com/mwaa/latest/userguide/connections-secrets-manager.html#connections-sm-createsecret-variables). 
-
-### Things to note:
-1. Be sure to set your secret in **plaintext** and set it as a string or integer as seen in the image below.
-
-![plaintext](assets/aws_select_secret_type.jpg)
-
-2. Set the secret name to `airflow/variables/<secret_name>` where `<secret_name>` will be what you use in your DAG in the following step.
-
-![Secret Name](assets/aws_configure_secret_name.jpg)
-
-## Configure your Secrets Backend in Project settings
-
-**Step 1:** Navigate to the Projects Admin page and click on the edit icon for the desired project.
-
-![Project](assets/menu_projects.gif)
-
-**Step 2:** Scroll down to the `backend` field select `AWS Secrets Manager`
-
-![Project Secrets Backend](assets/edit_project_secrets_backend.jpg)
-
-**This secrets backend will require the following fields:**
-
-- **connections_lookup_pattern** We recommend setting this to `"^aws_"` to lower the number of API calls made. Only connections prefixed with `aws_` will be searched for in AWS Secrets Manger. 
-- **variables_lookup_pattern**  We recommend setting this to `"^aws_"` to lower the number of API calls made. Only variables prefixed with `aws_` will be searched for in AWS Secrets Manger.
-(For both of the lookup patterns they can be changed to whatever RegEx expression you choose. The important thing to note is that lookup patterns are recommended to lower the amount of API calls to AWS Secrets Manager.)
-- **Access Key ID** The Access Key ID you configured earlier
-- **Secret Access Key** The Secret Access Key attached to the IAM User configured earlier 
-- **Region Code** This is the region were the Secrets Manager is running, i.e. `us-east-1`, `us-west-1`, etc. Find a complete list [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html)
-
->[!TIP] See the [Secrets Manager documentation](https://airflow.apache.org/docs/apache-airflow-providers-amazon/stable/secrets-backends/aws-secrets-manager.html#aws-secrets-manager-backend) for more customization options. 
-
-![Secrets Backend](assets/aws_secrets_connection.jpg)
-
-To learn how to read a variable from the AWS Secrets Manager check out our [How To](/how-tos/airflow/use-aws-secrets-manager.md)
-
->[!NOTE]For security purposes, once this has been saved you will not be able to view the values. To modify the Secrets backend you will need to set the Secrets backend to `None` and save the changes. Then start the setup again.
-
----
-
-// File: how-tos/datacoves/how_to_configure_azure_DevOps
-
-# How to Clone with Azure DevOps
-
-To enable Datacoves cloning from Azure DevOps, you must complete a series of steps outlined in this guide.
-
-- [Create your Application](how-tos/datacoves/create_your_entraid_application.md)
-- [Add your Application as a User in the DevOps Portal](how-tos/datacoves/add_entraid_app_as_user.md)
-- [Gather DevOps Authentication details](how-tos/datacoves/gather_azure_devops_auth_details.md)
-- [Authenticate Azure DevOps](how-tos/datacoves/authenticate_azure_devops.md)
 
 ---
 
@@ -4454,6 +4147,39 @@ To create a new connection template click the `Create Connection Template` in th
 - `Host`
 - `Database`
   ![Redshift Connection Type](./assets/connections_editnew_redshift.png)
+
+---
+
+// File: how-tos/datacoves/how_to_secrets
+
+# How to Create/Edit a Secret
+
+Datacoves includes a built-in [Secrets Manager](reference/admin-menu/secrets.md) that allows you to securely store and manage secrets for both administrators and developers. Secrets can be stored at the project or environment level and easily shared across other tools in your stack, ensuring seamless integration and enhanced security. Follow this guide to create/edit a secret in the Datacoves Secrets Manager.
+
+>[!NOTE] Datacoves Secret Manager will ONLY look for variables that are prefixed with `datacoves-`
+
+
+**Step 1:** Navigate to `Secrets` in the Admin menu
+
+![secrets](assets/admin_menu_secrets.gif)
+
+**Step 2:** Select `+ New Secret`
+
+**Step 3:** Define the following
+- **Reference Key (slug):** This is how the secret will be retrieved in your DAG. Prefix all of your secrets stored in the Datacoves Secrets Manager with `datacoves-`.
+- **Format:** Select what format you would like to use to store your secret. ie) key-value, JSON, or multiple key-value pairs.
+- **Scope:** Select whether you want to share the secret at the project or environment level.
+- **Project** Select what project this variable belongs to.
+
+**Step 4:** Toggle on `Share with developers` if this variable needs to be accessed by developers who do not have Admin access.
+
+**Step 5:** Toggle on `Share with stack services`. This must be toggled on for Airflow to have access to the variable
+
+![Toggle secret access](assets/datacoves_secrets_sharing_toggle.jpg)
+
+To learn how to read a variable from the Datacoves secrets manager check out our [How To](how-tos/airflow/use-datacoves-secrets-manager.md)
+
+>[!NOTE] If the secret isn’t shared with the developers or services, only the author can use it.
 
 ---
 
@@ -4599,30 +4325,6 @@ Using the checkboxes below you can select the Security Groups the user should be
 
 ---
 
-// File: how-tos/datacoves/how_to_manage_users
-
-# How to Manage Users
-
-Navigate to the Users page
-
-![Users Page](./assets/menu_users.gif)
-
-## Edit a User
-
-When you edit a user record, you can modify the users `Name`, `Email` and the assigned `Permission Groups`
-
->[!NOTE]Select the project to edit user access.
-
-![Integration Create or Edit Page](./assets/users_edit_page.gif)
-
-## Delete a User
-
-On the User listings page, clicking on the trash can will delete the user from your account.
-
-![Delete User](./assets/delete_user.png)
-
----
-
 // File: how-tos/datacoves/how_to_projects
 
 # How to Create/Edit a Project
@@ -4679,36 +4381,310 @@ A Project configuration consists of the following fields:
 
 ---
 
-// File: how-tos/datacoves/how_to_secrets
+// File: how-tos/datacoves/how_to_configure_aws_secrets_manager
 
-# How to Create/Edit a Secret
+# Configuring AWS Secrets Manager
 
-Datacoves includes a built-in [Secrets Manager](reference/admin-menu/secrets.md) that allows you to securely store and manage secrets for both administrators and developers. Secrets can be stored at the project or environment level and easily shared across other tools in your stack, ensuring seamless integration and enhanced security. Follow this guide to create/edit a secret in the Datacoves Secrets Manager.
+## Table of Contents
+- [Prereqs](/how-tos/datacoves/how_to_configure_aws_secrets_manager.md#prereqs)
+- [Create your Secret in AWS Secrets Manager](/how-tos/datacoves/how_to_configure_aws_secrets_manager.md#create-your-secret-in-aws-secrets-manager)
+- [Configure your Secrets Backend in Project settings](/how-tos/datacoves/how_to_configure_aws_secrets_manager.md#configure-your-secrets-backend-in-project-settings)
 
->[!NOTE] Datacoves Secret Manager will ONLY look for variables that are prefixed with `datacoves-`
+## Prereqs
+
+1. Create an IAM user with permissions to manage secrets
+2. Configure access to AWS Secrets Manager on the project settings page
+
+Please follow the how to below to achieve these requirements.
+
+### Create an IAM user with permissions to manage secrets
+
+**Step 1:** On AWS, create an IAM User with an attached policy like this one:
+
+>[!NOTE]Be sure to replace the ARN for the resource below to your ARN.
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "secretsmanager:GetResourcePolicy",
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret",
+                "secretsmanager:ListSecretVersionIds"
+            ],
+            "Resource": "arn:aws:secretsmanager:us-west-2:012345678910:secret:*" 
+        },
+        {
+            "Effect": "Allow",
+            "Action": "secretsmanager:ListSecrets",
+            "Resource": "*"
+        }
+    ]
+}
+```
+
+**Step 2:** Once you created the IAM user and the policy was correctly attached, create an access key and store it somewhere safe. You will be using it in the following step.
+
+### Create your Secret in AWS Secrets Manager
+
+Please, follow the [AWS Secrets Manager documentation](https://docs.aws.amazon.com/mwaa/latest/userguide/connections-secrets-manager.html#connections-sm-createsecret-variables). 
+
+### Things to note:
+1. Be sure to set your secret in **plaintext** and set it as a string or integer as seen in the image below.
+
+![plaintext](assets/aws_select_secret_type.jpg)
+
+2. Set the secret name to `airflow/variables/<secret_name>` where `<secret_name>` will be what you use in your DAG in the following step.
+
+![Secret Name](assets/aws_configure_secret_name.jpg)
+
+## Configure your Secrets Backend in Project settings
+
+**Step 1:** Navigate to the Projects Admin page and click on the edit icon for the desired project.
+
+![Project](assets/menu_projects.gif)
+
+**Step 2:** Scroll down to the `backend` field select `AWS Secrets Manager`
+
+![Project Secrets Backend](assets/edit_project_secrets_backend.jpg)
+
+**This secrets backend will require the following fields:**
+
+- **connections_lookup_pattern** We recommend setting this to `"^aws_"` to lower the number of API calls made. Only connections prefixed with `aws_` will be searched for in AWS Secrets Manger. 
+- **variables_lookup_pattern**  We recommend setting this to `"^aws_"` to lower the number of API calls made. Only variables prefixed with `aws_` will be searched for in AWS Secrets Manger.
+(For both of the lookup patterns they can be changed to whatever RegEx expression you choose. The important thing to note is that lookup patterns are recommended to lower the amount of API calls to AWS Secrets Manager.)
+- **Access Key ID** The Access Key ID you configured earlier
+- **Secret Access Key** The Secret Access Key attached to the IAM User configured earlier 
+- **Region Code** This is the region were the Secrets Manager is running, i.e. `us-east-1`, `us-west-1`, etc. Find a complete list [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html)
+
+>[!TIP] See the [Secrets Manager documentation](https://airflow.apache.org/docs/apache-airflow-providers-amazon/stable/secrets-backends/aws-secrets-manager.html#aws-secrets-manager-backend) for more customization options. 
+
+![Secrets Backend](assets/aws_secrets_connection.jpg)
+
+To learn how to read a variable from the AWS Secrets Manager check out our [How To](/how-tos/airflow/use-aws-secrets-manager.md)
+
+>[!NOTE]For security purposes, once this has been saved you will not be able to view the values. To modify the Secrets backend you will need to set the Secrets backend to `None` and save the changes. Then start the setup again.
+
+---
+
+// File: how-tos/datacoves/how_to_configure_azure_DevOps
+
+# How to Clone with Azure DevOps
+
+To enable Datacoves cloning from Azure DevOps, you must complete a series of steps outlined in this guide.
+
+- [Create your Application](how-tos/datacoves/create_your_entraid_application.md)
+- [Add your Application as a User in the DevOps Portal](how-tos/datacoves/add_entraid_app_as_user.md)
+- [Gather DevOps Authentication details](how-tos/datacoves/gather_azure_devops_auth_details.md)
+- [Authenticate Azure DevOps](how-tos/datacoves/authenticate_azure_devops.md)
+
+---
+
+// File: how-tos/datacoves/create_your_entraid_application
+
+# Create your application
+
+If you do not have an Entra ID application created, you can do so by following these steps:
+
+<u>**Step 1**</u> 
+
+- From your [Azure Portal](https://portal.azure.com), search for EntraID.
+
+<u>**Step 2**</u> 
+
+- Select `App Registrations` from the left navigation menu.
+
+<img src="/how-tos/datacoves/assets/azure_devops_overview.png" alt="App Registration" width="200" height="450" />
+
+<u>**Step 3**</u> 
+
+- Select `+ New registration` and fill out the fields as seen below:
+  - **Name:** Give your application a meaningful name
+  - **Supported account types**: Select `Accounts in this organizational directory only`
+    
+<u>**Step 4**</u> 
+
+- Click `Register`
+
+<img src="/how-tos/datacoves/assets/azure_devops_register_application.png" alt="Register Application" width="700" height="600" />
+
+✅ Next you will want to [Add Application as a user in DevOps Portal](/how-tos/datacoves/add_entraid_app_as_user.md)
+
+---
+
+// File: how-tos/datacoves/add_entraid_app_as_user
+
+# Add Application as a user in DevOps Portal
+
+<u>**Step 1**</u>
+
+- In another tab (you will need to return to your application later), sign in to your [Azure DevOps Portal](https://dev.azure.com) and click `Organization settings` at the bottom of the left navigation.
+
+<img src="/how-tos/datacoves/assets/azure_devops_organization_settings.png" alt="Organization Settings" width="200" height="500" />
+
+<u>**Step 2**</u>
+
+- Select `Users` in the left navigation menu.
+
+<img src="/how-tos/datacoves/assets/azure_devops_user_nav.png" alt="Organization Navbar" width="200" height="500" />
+
+<u>**Step 3**</u>
+
+- Select `Add Users` to add the application to the user list.
+
+<img src="/how-tos/datacoves/assets/azure_devops_add_user_button.png" alt="Add User button" />
+
+<u>**Step 4**</u>
+
+- Set the user as the application you created above, give it Basic Access.
+
+<img src="/how-tos/datacoves/assets/azure_devops_add_user_menu.png" alt="Add User menu" />
+
+<u>**Step 5**</u>
+
+- Select the project you wish to add the application to to using the `Add to projects` dropdown, and select the  `Send email invites` checkbox.
+
+<img src="/how-tos/datacoves/assets/azure_devops_assign_to_project.png" alt="Add to project" width="500" height="500" />
 
 
-**Step 1:** Navigate to `Secrets` in the Admin menu
+✅ Now that you have created your EntraID application and added it as a user in the DevOps Portal you will need to set up an [authentication method ](/how-tos/datacoves/authenticate_azure_devops.md)
 
-![secrets](assets/admin_menu_secrets.gif)
+---
 
-**Step 2:** Select `+ New Secret`
+// File: how-tos/datacoves/gather_azure_devops_auth_details
 
-**Step 3:** Define the following
-- **Reference Key (slug):** This is how the secret will be retrieved in your DAG. Prefix all of your secrets stored in the Datacoves Secrets Manager with `datacoves-`.
-- **Format:** Select what format you would like to use to store your secret. ie) key-value, JSON, or multiple key-value pairs.
-- **Scope:** Select whether you want to share the secret at the project or environment level.
-- **Project** Select what project this variable belongs to.
+# Gather DevOps Authentication details
 
-**Step 4:** Toggle on `Share with developers` if this variable needs to be accessed by developers who do not have Admin access.
+You will need to gather the following application information to configure your project to use Azure DevOps for cloning.
 
-**Step 5:** Toggle on `Share with stack services`. This must be toggled on for Airflow to have access to the variable
+## Application (Client) ID and Directory (Tenant) ID
 
-![Toggle secret access](assets/datacoves_secrets_sharing_toggle.jpg)
+<u>**Step 1**</u>
 
-To learn how to read a variable from the Datacoves secrets manager check out our [How To](how-tos/airflow/use-datacoves-secrets-manager.md)
+- From your [Azure Portal](https://portal.azure.com), search for EntraID.
 
->[!NOTE] If the secret isn’t shared with the developers or services, only the author can use it.
+<u>**Step 2**</u>
+
+- Select `App Registrations` from the left navigation menu.
+
+<img src="/how-tos/datacoves/assets/azure_devops_overview.png" alt="App Registration" width="200" height="450" />
+
+<u>**Step 3**</u>
+
+- Select `All Applications` and select your newly created app.
+
+<u>**Step 4**</u>
+
+- Copy your Application (Client) ID and Directory (Tenant) ID.
+
+<img src="/how-tos/datacoves/assets/azure_devops_app_details.jpg" alt="Azure DevOps Details" />
+
+### Repo SSH and HTTP urls
+
+You will need to copy the SSH or HTTP clone url.
+
+<u>**Step 1**</u>
+
+- Log in to your [Azure DevOps Portal](https://dev.azure.com).
+
+<u>**Step 2**</u>
+
+- Navigate to your project.
+
+<u>**Step 3**</u>
+
+- Navigate to your repo and select the `Clone` button.
+
+<u>**Step 4**</u> 
+
+- Copy **both** the SSH **and** HTTP urls and enter in the appropriate fields in the project setup screen in Datacoves.
+
+<img src="/how-tos/datacoves/assets/azure_devops_https.png" alt="SSH and HTTP" />
+
+✅ Be sure to save all of these details on a safe notepad. Now you can begin setting up your [Azure DevOps authentication](/how-tos/datacoves/authenticate_azure_devops.md)
+
+---
+
+// File: how-tos/datacoves/authenticate_azure_devops
+
+# Authentication for Azure DevOps 
+
+Now you are ready to begin configuring your authentication method. This is the method Datacoves will use to clone your repo from Azure DevOps. You have two options: `secrets` and `certificates`.
+
+<u>**Step 1**</u> 
+
+- Navigate back to the tab where you created your application in the Azure Portal. You should be inside your newly created application.
+
+- Select the `Certificates & Secrets` option in the left navigation menu.
+
+<img src="/how-tos/datacoves/assets/azure_devops_secret_nav.jpg" alt="Navigation" width="800" height="600" />
+
+### `secret` or `certificate` Authentification Method
+
+As mentioned above, you have two authentication methods available: `secrets` or `certificates`. Please select one to continue to the next steps.
+
+<!-- tabs:start -->
+
+#### **Secret-Based Authentication**
+
+### Secret-Based Authentication
+
+<u>**Step 2**</u> 
+
+- Select `Client Secrets` in the top navigation menu and `+ New Secret`.
+
+<u>**Step 3**</u> 
+
+- Give it a meaningful description and set your desired expiration date.
+
+<u>**Step 4**</u> Copy the Value onto a notepad.
+
+<img src="/how-tos/datacoves/assets/azure_devops_secret.jpg" alt="Azure Secret" />
+
+✅ Congrats, you are now ready to [configure your project](how-tos/datacoves/how_to_projects.md).
+
+#### **Certificate-Based Authentication**
+
+### Certificate-Based Authentication
+
+🚨 This configuration requires some back and forth between Azure DevOps and Datacoves.
+
+<u>**Step 2**</u>
+
+- Select `Certificates` from the top navigation menu.
+
+<img src="/how-tos/datacoves/assets/azure_devops_upload_certificate.png" alt="Upload Certificate" />
+
+<u>**Step 3**</u> 
+
+- To generate a certificate PEM file, you will need to begin [configuring your Datacoves project](how-tos/datacoves/how_to_projects.md). 
+
+<u>**Step 4**</u>
+
+- Select `Azure DevOps Certificate` as your Cloning Strategy. 
+
+<img src="/how-tos/datacoves/assets/azure_devops_certificate.jpg" alt="Certificates" />
+
+<u>**Step 5**</u>
+
+- Copy the certificate and save it as a plain text file on your desktop with a `.pem` extension `datacoves_cert.pem`.
+
+<img src="/how-tos/datacoves/assets/azure_devops_certificate_copy.jpg" alt="Certificate PEM file" />
+
+<u>**Step 6**</u>
+
+- Navigate back to your Azure Portal tab and select `Upload certificate`. Upload the PEM file you saved in the previous step.
+
+<img src="/how-tos/datacoves/assets/azure_devops_upload_certificate.png" alt="Upload Certificate" />
+
+<u>**Step 7**</u>
+
+- Give it a description and select `Add`.
+
+<!-- tabs:end -->
 
 ---
 
@@ -4747,86 +4723,39 @@ In the following step, you will update your repository by incorporating the nece
 
 ---
 
-// File: how-tos/datahub/how_to_datahub_cli
+// File: how-tos/datacoves/how_to_manage_users
 
-# How to use DataHub's CLI from your VS Code terminal
+# How to Manage Users
 
-Connecting to your DataHub instance via your VS Code terminal can be extremely useful for performing maintenance on your metadata, running ingestions, deleting data, and more.
+Navigate to the Users page
 
-## Configure DataHub CLI
+![Users Page](./assets/menu_users.gif)
 
-### Setting the DataHub Host URL
+## Edit a User
 
-To establish a secure connection to your DataHub server, follow these steps:
+When you edit a user record, you can modify the users `Name`, `Email` and the assigned `Permission Groups`
 
-1. Open a terminal in VS Code and run the following command:
+>[!NOTE]Select the project to edit user access.
 
-```bash
-datahub init
-```
-![DataHub init](assets/datahub-init.png)
+![Integration Create or Edit Page](./assets/users_edit_page.gif)
 
-2. When prompted, enter the DataHub host URL. This will differ depending on which environment your Datahub instance is in.
+## Delete a User
 
-#### Development Environment 
+On the User listings page, clicking on the trash can will delete the user from your account.
 
-If your Datahub instance is within the Development environment use:
+![Delete User](./assets/delete_user.png)
 
-```bash
-http://{environment-slug}-datahub-datahub-gms:8080
-```
+---
 
-#### Cross Environment 
+// File: how-tos/datahub/README
 
-You can access Datahub in Prod or QA from the Dev environment. This is considered cross environment access and requires the use the full url as seen below. The slug will be for the environment where Datahub is hosted (QA or Prod). 
+# DataHub in Datacoves 
 
-```bash
-http://<slug>-datahub-datahub-gms.dcw-<slug>:8080
-```
+These how to guides are dedicated to DataHub in Datacoves. See how to:
 
->[!NOTE] The environment slug can be found next to your environment name on the top left corner of your Datacoves workspace. For example, the environment slug below is `DEV123`, so the URL would be: `http://dev123-datahub-datahub-gms:8080`.
-
-![Environment slug](assets/datahub-env-slug.png)
-
-### Obtaining and Using a DataHub API Token
-
-Next, you will be prompted to provide a DataHub access token to authenticate your connection.
-
-![DataHub token](assets/datahub-token.png)
-
-**Please follow these steps:**
-
-1. Open a new tab, navigate to Datacoves, head to the Observe tab within your environment, and click on DataHub.
-
-2. Go to `Settings` (gear icon on the top right corner)
-
-3. Click on the `Access Tokens` nav bar menu item
-
-![DataHub access tokens](assets/datahub-access-tokens.png)
-
-4. Click on `+ Generate new token` link, a popup window will show where you give the token a name, description and expiration date.
-
-![DataHub new token](assets/datahub-new-token.png)
-
-5. Click on create. Immediately after you will get a popup with the new token. Please don't close the window as you won’t be able to see it again.
-
-6. Copy the token clicking on the copy button. 
-
-![DataHub copy token](assets/datahub-copy-token.png)
-
-7. Go back to the tab were you have VS Code terminal waiting for your input and paste the copied token. Press Enter.
-
-## Useful commands
-
-Once you successfully configured DataHub CLI, you can run `datahub` on the terminal and explore the different options the tool has to offer.
-
-### Delete ingested data
-
-Sometimes you loaded some data for testing purposes and the DataHub UI does not provide a way to delete it, you can easily achieve that by running `datahub delete`.
-
-The command accepts different filters, a straight-forward one is `--platform`, i.e. `datahub delete --platform dbt`.
-
-The command accepts different filters. A straightforward one is `--platform`, for example, `datahub delete --platform dbt`.
+- Manage your DataHub instance from the VS Code terminal
+- Configure dbt ingestion
+- Configure Snowflake ingestion
 
 ---
 
@@ -4982,15 +4911,86 @@ source:
 
 ---
 
-// File: how-tos/datahub/README
+// File: how-tos/datahub/how_to_datahub_cli
 
-# DataHub in Datacoves 
+# How to use DataHub's CLI from your VS Code terminal
 
-These how to guides are dedicated to DataHub in Datacoves. See how to:
+Connecting to your DataHub instance via your VS Code terminal can be extremely useful for performing maintenance on your metadata, running ingestions, deleting data, and more.
 
-- Manage your DataHub instance from the VS Code terminal
-- Configure dbt ingestion
-- Configure Snowflake ingestion
+## Configure DataHub CLI
+
+### Setting the DataHub Host URL
+
+To establish a secure connection to your DataHub server, follow these steps:
+
+1. Open a terminal in VS Code and run the following command:
+
+```bash
+datahub init
+```
+![DataHub init](assets/datahub-init.png)
+
+2. When prompted, enter the DataHub host URL. This will differ depending on which environment your Datahub instance is in.
+
+#### Development Environment 
+
+If your Datahub instance is within the Development environment use:
+
+```bash
+http://{environment-slug}-datahub-datahub-gms:8080
+```
+
+#### Cross Environment 
+
+You can access Datahub in Prod or QA from the Dev environment. This is considered cross environment access and requires the use the full url as seen below. The slug will be for the environment where Datahub is hosted (QA or Prod). 
+
+```bash
+http://<slug>-datahub-datahub-gms.dcw-<slug>:8080
+```
+
+>[!NOTE] The environment slug can be found next to your environment name on the top left corner of your Datacoves workspace. For example, the environment slug below is `DEV123`, so the URL would be: `http://dev123-datahub-datahub-gms:8080`.
+
+![Environment slug](assets/datahub-env-slug.png)
+
+### Obtaining and Using a DataHub API Token
+
+Next, you will be prompted to provide a DataHub access token to authenticate your connection.
+
+![DataHub token](assets/datahub-token.png)
+
+**Please follow these steps:**
+
+1. Open a new tab, navigate to Datacoves, head to the Observe tab within your environment, and click on DataHub.
+
+2. Go to `Settings` (gear icon on the top right corner)
+
+3. Click on the `Access Tokens` nav bar menu item
+
+![DataHub access tokens](assets/datahub-access-tokens.png)
+
+4. Click on `+ Generate new token` link, a popup window will show where you give the token a name, description and expiration date.
+
+![DataHub new token](assets/datahub-new-token.png)
+
+5. Click on create. Immediately after you will get a popup with the new token. Please don't close the window as you won’t be able to see it again.
+
+6. Copy the token clicking on the copy button. 
+
+![DataHub copy token](assets/datahub-copy-token.png)
+
+7. Go back to the tab were you have VS Code terminal waiting for your input and paste the copied token. Press Enter.
+
+## Useful commands
+
+Once you successfully configured DataHub CLI, you can run `datahub` on the terminal and explore the different options the tool has to offer.
+
+### Delete ingested data
+
+Sometimes you loaded some data for testing purposes and the DataHub UI does not provide a way to delete it, you can easily achieve that by running `datahub delete`.
+
+The command accepts different filters, a straight-forward one is `--platform`, i.e. `datahub delete --platform dbt`.
+
+The command accepts different filters. A straightforward one is `--platform`, for example, `datahub delete --platform dbt`.
 
 ---
 
@@ -5078,6 +5078,14 @@ Before a story is added to development backlog:
 1. Check sources are available in Snowflake for story or add story to ingest new data
 2. Initial discovery of data is performed to understand the data and determine what steps may be required to deliver the requested output. Any data model design is agreed and work is broken up into sprint tasks
 3. Assure any other requirements are well defined in story e.g. column descriptions, model layout, required tests, etc.
+
+---
+
+// File: how-tos/dbt/README
+
+# dbt in Datacoves
+
+These how to guides cover how to resolve common dbt issues
 
 ---
 
@@ -5627,14 +5635,6 @@ Remember: Sometimes the best solution is to rethink your data model structure ra
 
 ---
 
-// File: how-tos/dbt/README
-
-# dbt in Datacoves
-
-These how to guides cover how to resolve common dbt issues
-
----
-
 // File: how-tos/dbt/runtime-errors
 
 # How to Fix dbt Runtime Errors
@@ -5836,6 +5836,46 @@ Select `View in Explorer` to see the Graph and other information.
 
 ---
 
+// File: how-tos/my_airflow/README
+
+# My Airflow 101
+
+Datacoves makes it easy to test DAGs quickly with My Airflow, a stand alone user instance of Airflow which tracks whatever branch the user is making changes to in VS Code. My Airflow allows developers to test their DAGs without need to push to their changes to a branch such as `airflow_development`. My Airflow is meant to test DAG naming, import errors, and basic configurations of a DAG. It has limitations and thus it is important to test your DAG in Team Airflow before pushing to production. That is because Team Airflow is more robust as it is configured to match your Production Airflow instance and runs using the Kubernetes Executor. 
+
+<div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
+  <iframe
+    src="https://www.loom.com/embed/279354dd8ea042c690ee731333f8f8a8?sid=3076574f-01f5-4a77-a4d0-26a021f8b78e"
+    frameBorder="0"
+    webkitAllowFullScreen
+    mozAllowFullScreen
+    allowFullScreen
+    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+  />
+</div>
+
+## Limitations
+
+While My Airflow will make writing and testing DAGs quick it is important to cover its limitations.
+1. My Airflow uses Sqlite
+2. My Airflow **cannot** run tasks in parallel. It will run one task at a time.
+3. Connections and variables from Team Airflow **will not** be automatically ported over to My Airflow. You will need to perform a variable import either manually or using the [`datacoves my import`](/how-tos/my_airflow/my-import.md) command in your terminal.
+4. Emailing is not available in My Airflow.
+5. Slack and Teams notifications are not available in My Airflow.
+
+## Banner Colors
+
+You can differentiate My Airflow from Team Airflow by the color of the banner
+
+My Airflow = Light Blue 
+
+![My Airlfow banner](assets/airflow_my.jpg)
+
+Team Airflow = Dark Blue
+
+![Team Airflow](assets/airflow_team.jpg)
+
+---
+
 // File: how-tos/my_airflow/migrating-service-connections
 
 # Migrating from Environment Service Connections to Airflow Service Connections
@@ -5892,46 +5932,6 @@ Only connections that correspont to dbt adapter will be imported to My Airflow. 
 datacoves my import
 ```
 ![Datacoves My Import](assets/airflow_myimport.jpg)
-
----
-
-// File: how-tos/my_airflow/README
-
-# My Airflow 101
-
-Datacoves makes it easy to test DAGs quickly with My Airflow, a stand alone user instance of Airflow which tracks whatever branch the user is making changes to in VS Code. My Airflow allows developers to test their DAGs without need to push to their changes to a branch such as `airflow_development`. My Airflow is meant to test DAG naming, import errors, and basic configurations of a DAG. It has limitations and thus it is important to test your DAG in Team Airflow before pushing to production. That is because Team Airflow is more robust as it is configured to match your Production Airflow instance and runs using the Kubernetes Executor. 
-
-<div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
-  <iframe
-    src="https://www.loom.com/embed/279354dd8ea042c690ee731333f8f8a8?sid=3076574f-01f5-4a77-a4d0-26a021f8b78e"
-    frameBorder="0"
-    webkitAllowFullScreen
-    mozAllowFullScreen
-    allowFullScreen
-    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-  />
-</div>
-
-## Limitations
-
-While My Airflow will make writing and testing DAGs quick it is important to cover its limitations.
-1. My Airflow uses Sqlite
-2. My Airflow **cannot** run tasks in parallel. It will run one task at a time.
-3. Connections and variables from Team Airflow **will not** be automatically ported over to My Airflow. You will need to perform a variable import either manually or using the [`datacoves my import`](/how-tos/my_airflow/my-import.md) command in your terminal.
-4. Emailing is not available in My Airflow.
-5. Slack and Teams notifications are not available in My Airflow.
-
-## Banner Colors
-
-You can differentiate My Airflow from Team Airflow by the color of the banner
-
-My Airflow = Light Blue 
-
-![My Airlfow banner](assets/airflow_my.jpg)
-
-Team Airflow = Dark Blue
-
-![Team Airflow](assets/airflow_team.jpg)
 
 ---
 
@@ -6216,29 +6216,14 @@ Once the file has been configured you can run `secure/run_permifrost.sh` to appl
 
 ---
 
-// File: how-tos/superset/how_to_data_set
+// File: how-tos/superset/README
 
-# How to Add a Dataset in Superset
+# Superset in Datacoves 
 
-To create visualizations you will need to create a dataset which is how a specific view or table is made available to Superset.
+These how to guides are dedicated to Superset in Datacoves. See how to:
 
-Unlike other tools, Superset has a philosophy to not show everything in the data warehouse since there may be things you do not want analysts to see.
-
-We are working on integration with dbt so that specific models can be marked within a dbt properties file and automatically added as a Superset dataset. If you want to see this feature, send us a note support@datacoves.com
-
-To add a **Dataset** on the menu bar, select **Data** -> **Datasets**
-
-![Datasets](./assets/add-dataset-1.png)
-
-On this screen you will see a listing of all your datasets.
-
-Click **+ Dataset**
-
-![Add Dataset](./assets/add-dataset-2.png)
-
-Finally, select the Database, Schema, and Table / View for this dataset then click **Add** at the bottom of the window.
-
-![Dataset Details](./assets/add-dataset-3.png)
+- Add a database
+- Add adataset
 
 ---
 
@@ -6270,14 +6255,109 @@ Finally, enter your Snowflake credentials (these will be shared by all users, so
 
 ---
 
-// File: how-tos/superset/README
+// File: how-tos/superset/how_to_data_set
 
-# Superset in Datacoves 
+# How to Add a Dataset in Superset
 
-These how to guides are dedicated to Superset in Datacoves. See how to:
+To create visualizations you will need to create a dataset which is how a specific view or table is made available to Superset.
 
-- Add a database
-- Add adataset
+Unlike other tools, Superset has a philosophy to not show everything in the data warehouse since there may be things you do not want analysts to see.
+
+We are working on integration with dbt so that specific models can be marked within a dbt properties file and automatically added as a Superset dataset. If you want to see this feature, send us a note support@datacoves.com
+
+To add a **Dataset** on the menu bar, select **Data** -> **Datasets**
+
+![Datasets](./assets/add-dataset-1.png)
+
+On this screen you will see a listing of all your datasets.
+
+Click **+ Dataset**
+
+![Add Dataset](./assets/add-dataset-2.png)
+
+Finally, select the Database, Schema, and Table / View for this dataset then click **Add** at the bottom of the window.
+
+![Dataset Details](./assets/add-dataset-3.png)
+
+---
+
+// File: how-tos/vscode/README
+
+# VS Code in Datacoves
+
+These how to guides are dedicated to our Hosted VS Code. This powerful IDE gives you all the power you need along with the customization options. 
+These steps are essential to our Transform Tab.
+
+- Connectiong to your git repo
+- Connecting to your data warehouse
+- Overriding default settings
+
+---
+
+// File: how-tos/vscode/initial
+
+# How to Configure your VS Code in the Datacoves Transform tab
+
+When you first log into Datacoves, you will see that VS Code is disabled.
+
+We need to connect to your git repository and to your data warehouse and configure your dbt profiles.yml. To do this, you need to update your user settings.
+
+## Open Your User Settings
+
+At the top right corner of the page, click the User icon and select _Settings_
+
+![User Settings](./assets/menu_user_settings.gif)
+
+## Setup git connection credentials
+
+On the settings page scroll down to the Git SSH keys section.
+
+![Git Settings](./assets/user_settings_git.png)
+
+Click the Add drop down and select whether you want to provide an existing private key or have Datacoves auto generate one for you.
+
+![Git Settings Add](./assets/user_settings_git2.png)
+
+Datacoves will generate and display the corresponding public key, you will need to configure the public key for your git provider.
+
+![Git Settings Public Key](./assets/user_settings_git3.png)
+
+Click the _Copy_ button and follow the instructions to configure the public key for your git server.
+
+[Github SSH Key Configuration Instructions](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
+
+[Gitlab SSH Key Configuration Instructions](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/How-to-configure-GitLab-SSH-keys-for-secure-Git-connections#:~:text=Configure%20GitLab%20SSH%20keys,-Log%20into%20GitLab%20and%20click)
+
+[Bitbucket SSH Key Configuration Instructions](https://dev.to/jorge_rockr/configuring-ssh-key-for-bitbucket-repositories-2925)
+
+Once your public SSH key has been added to your git server, test your connection.
+
+![Git Settings Test](./assets/user_settings_git4.png)
+
+If Datacoves is able to connect to your Git repository, you will see _Tested_ next to the repository url.
+
+![Git Settings Tested](./assets/user_settings_git5.png)
+
+# Set up Database Connection 
+
+>[!NOTE]Below you will see a reference chart with the information you will need based on your data warehouse provider. **Select your data warehouse provider from the table below to see the how to guide.** 
+
+| Data Warehouse Provider | Information Needed |
+| --- | --- |
+| [BigQuery](how-tos/vscode/bigquery_setup.md)| Dataset, Keyfile JSON |
+| [Databricks](how-tos/vscode/databricks_setup.md) | Host, Schema, HTTP Path, Token |
+| [Redshift](how-tos/vscode/redshift_setup.md) | Host, Database, User, Schema, Password |
+| [Snowflake](how-tos/vscode/snowflake_setup.md) | Account, Warehouse, Database, Role, User, Password, Schema |
+
+## Once your data warehouse is configured you are now ready to transform your data with dbt
+
+- Scroll to the top of the screen, click `Launchpad` or the Datacoves logo.
+
+- Click `Open` to go into your development environment.
+
+>[!NOTE]Datacoves will take a couple of minutes to apply the new settings, clone your repo, and finish setting up your environment for the first time.
+
+![Workbench Link](./assets/navigation_launchpad.gif)
 
 ---
 
@@ -6325,6 +6405,91 @@ Datacoves will test the connection and display `Tested` next to the connection i
 
 
 ![Databricks Fields](./assets/connection_databricks_fields.png)
+
+Click `Save`
+
+---
+
+// File: how-tos/vscode/redshift_setup
+
+# Redshift Setup
+
+In the Database Connection Section, click `Add`
+
+![Redshift Setup Connection](./assets/connection_redshift_dropdown.png)
+
+Give the connection a name. 
+
+>[!TIP]This will be used as your dbt target name and is typically `dev`. 
+
+Next select a connection template. A connection template will have defaults pre-configured by your administrator.
+
+## Fill in connection details 
+
+Datacoves will test the connection and display `Tested` next to the connection if successful. 
+
+
+![Redshift Fields](./assets/connection_redshift_fields.png)
+
+Click `Save`
+
+---
+
+// File: how-tos/vscode/snowflake_setup
+
+# Snowflake Setup
+
+## Setup Snowflake with Key Pair
+
+When connecting to Snowflake, you can use either key based authentication or username/password authentication.
+
+>[!NOTE]To enable key-pair authentication, you admin must select `Inferred from user info using a custom template` when setting up the [Connection Template](/how-tos/datacoves/how_to_connection_template.md). The Snowflake username must match the username associated with the email used to authenticate with Datacoves for example `some_user` would be the snowflake username for `some_user@example.com`, please let us know if your username is different.
+
+If using key based authentication, you will need to provide or generate a key which will need to be added to Snowflake manually or contact us for information on how to automate this integration with Snowflake.
+
+Provide or automatically generate your keys. Then add the public key to Snowflake.
+
+![Snowflake Settings Generate Keys](./assets/user_settings_snowflake.png)
+
+## Assign the public key to the Snowflake User
+
+```
+alter user <username> set rsa_public_key='<public key>';
+```
+
+More information can be found in the [Snowflake Documentation](https://docs.snowflake.com/en/user-guide/key-pair-auth.html#step-4-assign-the-public-key-to-a-snowflake-user)
+
+## Complete the connection
+
+In the Database Connection Section, click `Add`
+
+![Snowflake Setup Connection](./assets/user_settings_snowflake2.png)
+
+Give the connection a name. 
+
+>[!TIP]This will be used as your dbt target name and is typically `dev`. 
+
+Next select a connection template. A connection template will have defaults pre-configured by your administrator.
+
+![Snowflake Setup Connection Details](./assets/user_settings_snowflake3.png)
+
+## Fill in connection details
+
+Datacoves will test the connection and display `Tested` next to the connection if successful. 
+
+>[!NOTE]You can create additional dbt targets as shown below. This will allow you to execute dbt commands passing a specific target such as `dbt run my_model -t prd`
+
+![Snowflake Setup Connection Tested](./assets/user_settings_snowflake4.png)
+
+### Key Pair 
+
+If using key pair, you will need to change the auth method to key-pair.
+
+![Select Auth](./assets/connection_select_auth.png)
+
+Select the drop down and your key you configured earlier should populate.
+
+![Select Key](./assets/connection_select_key.png)
 
 Click `Save`
 
@@ -6414,73 +6579,6 @@ If you do not save changes, the variable will not be deleted.
 
 ---
 
-// File: how-tos/vscode/initial
-
-# How to Configure your VS Code in the Datacoves Transform tab
-
-When you first log into Datacoves, you will see that VS Code is disabled.
-
-We need to connect to your git repository and to your data warehouse and configure your dbt profiles.yml. To do this, you need to update your user settings.
-
-## Open Your User Settings
-
-At the top right corner of the page, click the User icon and select _Settings_
-
-![User Settings](./assets/menu_user_settings.gif)
-
-## Setup git connection credentials
-
-On the settings page scroll down to the Git SSH keys section.
-
-![Git Settings](./assets/user_settings_git.png)
-
-Click the Add drop down and select whether you want to provide an existing private key or have Datacoves auto generate one for you.
-
-![Git Settings Add](./assets/user_settings_git2.png)
-
-Datacoves will generate and display the corresponding public key, you will need to configure the public key for your git provider.
-
-![Git Settings Public Key](./assets/user_settings_git3.png)
-
-Click the _Copy_ button and follow the instructions to configure the public key for your git server.
-
-[Github SSH Key Configuration Instructions](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
-
-[Gitlab SSH Key Configuration Instructions](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/How-to-configure-GitLab-SSH-keys-for-secure-Git-connections#:~:text=Configure%20GitLab%20SSH%20keys,-Log%20into%20GitLab%20and%20click)
-
-[Bitbucket SSH Key Configuration Instructions](https://dev.to/jorge_rockr/configuring-ssh-key-for-bitbucket-repositories-2925)
-
-Once your public SSH key has been added to your git server, test your connection.
-
-![Git Settings Test](./assets/user_settings_git4.png)
-
-If Datacoves is able to connect to your Git repository, you will see _Tested_ next to the repository url.
-
-![Git Settings Tested](./assets/user_settings_git5.png)
-
-# Set up Database Connection 
-
->[!NOTE]Below you will see a reference chart with the information you will need based on your data warehouse provider. **Select your data warehouse provider from the table below to see the how to guide.** 
-
-| Data Warehouse Provider | Information Needed |
-| --- | --- |
-| [BigQuery](how-tos/vscode/bigquery_setup.md)| Dataset, Keyfile JSON |
-| [Databricks](how-tos/vscode/databricks_setup.md) | Host, Schema, HTTP Path, Token |
-| [Redshift](how-tos/vscode/redshift_setup.md) | Host, Database, User, Schema, Password |
-| [Snowflake](how-tos/vscode/snowflake_setup.md) | Account, Warehouse, Database, Role, User, Password, Schema |
-
-## Once your data warehouse is configured you are now ready to transform your data with dbt
-
-- Scroll to the top of the screen, click `Launchpad` or the Datacoves logo.
-
-- Click `Open` to go into your development environment.
-
->[!NOTE]Datacoves will take a couple of minutes to apply the new settings, clone your repo, and finish setting up your environment for the first time.
-
-![Workbench Link](./assets/navigation_launchpad.gif)
-
----
-
 // File: how-tos/vscode/override
 
 # How to override default VS Code settings
@@ -6566,60 +6664,6 @@ Below you can see the structure of the command entry.
 
 ---
 
-// File: how-tos/vscode/README
-
-# VS Code in Datacoves
-
-These how to guides are dedicated to our Hosted VS Code. This powerful IDE gives you all the power you need along with the customization options. 
-These steps are essential to our Transform Tab.
-
-- Connectiong to your git repo
-- Connecting to your data warehouse
-- Overriding default settings
-
----
-
-// File: how-tos/vscode/redshift_setup
-
-# Redshift Setup
-
-In the Database Connection Section, click `Add`
-
-![Redshift Setup Connection](./assets/connection_redshift_dropdown.png)
-
-Give the connection a name. 
-
->[!TIP]This will be used as your dbt target name and is typically `dev`. 
-
-Next select a connection template. A connection template will have defaults pre-configured by your administrator.
-
-## Fill in connection details 
-
-Datacoves will test the connection and display `Tested` next to the connection if successful. 
-
-
-![Redshift Fields](./assets/connection_redshift_fields.png)
-
-Click `Save`
-
----
-
-// File: how-tos/vscode/reset-git
-
-# Reset git 
-
-If you would like to reset your git clone in your environment, simply delete the .git file with the following command.
-
-```bash
-rm -rf /config/workspace/.git
-```
-
-- Click `Transform` tab
-- Select `Reset my Environment` 
-- Select `OK, Go ahead`
-
----
-
 // File: how-tos/vscode/reset-user-env
 
 # Reset the User's Env if the git Repository is Changed in the Project. 
@@ -6644,63 +6688,19 @@ mkdir workspace
 
 ---
 
-// File: how-tos/vscode/snowflake_setup
+// File: how-tos/vscode/reset-git
 
-# Snowflake Setup
+# Reset git 
 
-## Setup Snowflake with Key Pair
+If you would like to reset your git clone in your environment, simply delete the .git file with the following command.
 
-When connecting to Snowflake, you can use either key based authentication or username/password authentication.
-
->[!NOTE]To enable key-pair authentication, you admin must select `Inferred from user info using a custom template` when setting up the [Connection Template](/how-tos/datacoves/how_to_connection_template.md). The Snowflake username must match the username associated with the email used to authenticate with Datacoves for example `some_user` would be the snowflake username for `some_user@example.com`, please let us know if your username is different.
-
-If using key based authentication, you will need to provide or generate a key which will need to be added to Snowflake manually or contact us for information on how to automate this integration with Snowflake.
-
-Provide or automatically generate your keys. Then add the public key to Snowflake.
-
-![Snowflake Settings Generate Keys](./assets/user_settings_snowflake.png)
-
-## Assign the public key to the Snowflake User
-
-```
-alter user <username> set rsa_public_key='<public key>';
+```bash
+rm -rf /config/workspace/.git
 ```
 
-More information can be found in the [Snowflake Documentation](https://docs.snowflake.com/en/user-guide/key-pair-auth.html#step-4-assign-the-public-key-to-a-snowflake-user)
-
-## Complete the connection
-
-In the Database Connection Section, click `Add`
-
-![Snowflake Setup Connection](./assets/user_settings_snowflake2.png)
-
-Give the connection a name. 
-
->[!TIP]This will be used as your dbt target name and is typically `dev`. 
-
-Next select a connection template. A connection template will have defaults pre-configured by your administrator.
-
-![Snowflake Setup Connection Details](./assets/user_settings_snowflake3.png)
-
-## Fill in connection details
-
-Datacoves will test the connection and display `Tested` next to the connection if successful. 
-
->[!NOTE]You can create additional dbt targets as shown below. This will allow you to execute dbt commands passing a specific target such as `dbt run my_model -t prd`
-
-![Snowflake Setup Connection Tested](./assets/user_settings_snowflake4.png)
-
-### Key Pair 
-
-If using key pair, you will need to change the auth method to key-pair.
-
-![Select Auth](./assets/connection_select_auth.png)
-
-Select the drop down and your key you configured earlier should populate.
-
-![Select Key](./assets/connection_select_key.png)
-
-Click `Save`
+- Click `Transform` tab
+- Select `Reset my Environment` 
+- Select `OK, Go ahead`
 
 ---
 
@@ -6781,23 +6781,6 @@ To start a new chat click on the `New Chat` button.
     style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
   />
 </div>
-
----
-
-// File: how-tos/vscode/datacoves-copilot/README
-
-# AI LLMs for Datacoves Copilot
-Datacoves can integrate seamlessly with your existing ChatGPT or Azure Open AI LLMs. These how tos will go over configuration and usage of AI within Datacoves.
-
-### Prereqs
-- Have an existing LLM such as ChatGPT or [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/assistants-quickstart?tabs=command-line%2Ckeyless%2Ctypescript-keyless&pivots=ai-foundry-portal)
-- Have access to API and Endpoint url credentials.
-- Have `Admin` access to configure credentials in Datacoves
-
-## How to's
-
-- [LLM Config](/how-tos/vscode/datacoves-copilot/llm-config.md)
-- [Working with an LLM in Datacoves](/how-tos/vscode/datacoves-copilot/llm.md)
 
 ---
 
@@ -7210,6 +7193,23 @@ This section describes how to configure and use Datacoves Copilot v2, which come
 
 ---
 
+// File: how-tos/vscode/datacoves-copilot/README
+
+# AI LLMs for Datacoves Copilot
+Datacoves can integrate seamlessly with your existing ChatGPT or Azure Open AI LLMs. These how tos will go over configuration and usage of AI within Datacoves.
+
+### Prereqs
+- Have an existing LLM such as ChatGPT or [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/assistants-quickstart?tabs=command-line%2Ckeyless%2Ctypescript-keyless&pivots=ai-foundry-portal)
+- Have access to API and Endpoint url credentials.
+- Have `Admin` access to configure credentials in Datacoves
+
+## How to's
+
+- [LLM Config](/how-tos/vscode/datacoves-copilot/llm-config.md)
+- [Working with an LLM in Datacoves](/how-tos/vscode/datacoves-copilot/llm.md)
+
+---
+
 // File: reference/README
 
 # Reference Guides
@@ -7217,6 +7217,46 @@ This section describes how to configure and use Datacoves Copilot v2, which come
 **Reference guides** give you detailed information on a given topic
 
 >[!NOTE]If you have recommendations for reference guides, please send us an email at support@datacoves.com
+
+---
+
+// File: reference/admin-menu/README
+
+# Admininstration Menu
+
+The Datacoves Administration menu provides access to configurations of projects, environments, users, and connections.
+
+The following pages explain each area in more detail.
+
+![Account Administration](./assets/menu_admin.gif)
+
+---
+
+// File: reference/admin-menu/settings_billing
+
+# Account Settings & Billing
+
+## Overview
+
+This page is where you adjust all your account level settings such as the account owner, your subscription type and billing options. Here you can also delete your Datacoves account.
+
+## Account Settings
+
+This page is divided into three main sections:
+
+1. `Account Settings`, where you can change your account `name` which is displayed to the right of the Datacoves logo.
+
+  ![Settings and Billing Settings](./assets/settingsbilling_landing_settings.png)
+
+2. `Account Subscription` is where you manage your subscription plan and billing period. managing invoices and payments.
+
+  The `Manage Subscription` button will take you to Stripe where you can see invoices and payments.
+
+  ![Settings and Billing Subscription](./assets/settingsbilling_landing_subscription.png)
+
+3. The `Danger Zone` section is where you can delete your account and associated data.
+
+  ![Settings and Billing Danger](./assets/settingsbilling_landing_danger.png)
 
 ---
 
@@ -7406,18 +7446,6 @@ Testing your repo connection ensures that services like dbt docs and Orchestrati
 
 ---
 
-// File: reference/admin-menu/README
-
-# Admininstration Menu
-
-The Datacoves Administration menu provides access to configurations of projects, environments, users, and connections.
-
-The following pages explain each area in more detail.
-
-![Account Administration](./assets/menu_admin.gif)
-
----
-
 // File: reference/admin-menu/secrets
 
 # Secrets Admin
@@ -7486,34 +7514,6 @@ Datacoves uses the service connection to dynamically create the following variab
 
 ---
 
-// File: reference/admin-menu/settings_billing
-
-# Account Settings & Billing
-
-## Overview
-
-This page is where you adjust all your account level settings such as the account owner, your subscription type and billing options. Here you can also delete your Datacoves account.
-
-## Account Settings
-
-This page is divided into three main sections:
-
-1. `Account Settings`, where you can change your account `name` which is displayed to the right of the Datacoves logo.
-
-  ![Settings and Billing Settings](./assets/settingsbilling_landing_settings.png)
-
-2. `Account Subscription` is where you manage your subscription plan and billing period. managing invoices and payments.
-
-  The `Manage Subscription` button will take you to Stripe where you can see invoices and payments.
-
-  ![Settings and Billing Subscription](./assets/settingsbilling_landing_subscription.png)
-
-3. The `Danger Zone` section is where you can delete your account and associated data.
-
-  ![Settings and Billing Danger](./assets/settingsbilling_landing_danger.png)
-
----
-
 // File: reference/admin-menu/users
 
 # Users Admin
@@ -7536,6 +7536,12 @@ Each row contains 2 action buttons:
 
 - Edit
 - Delete
+
+---
+
+// File: reference/airflow/README
+
+# Airflow Reference
 
 ---
 
@@ -7860,43 +7866,6 @@ nodes:
 
 ---
 
-// File: reference/airflow/datacoves-commands
-
-# Datacoves CLI Commands
-The `datacoves` bash commands are meant to simplify your workflow. Currently, the datacoves command has the following sub commands: 
-
-- `my` 
-  
-## Datacoves My
-
-The `my` subcommand executes commands for My Airflow. 
-
-Currently, the `datacoves my` subcommand has the following subcommands:
-- `my import`
-- `my pytest`
-
-### datacoves my import
-
->[!NOTE] For security purposes secret values will not be automatically imported. The tool will ask you to enter the secret value. 
-
-This command will import your variables and connections from Team Airflow to [My Airflow](/how-tos/my_airflow/). You only need to complete this once or whenever new variables/connections are added to team airflow. 
-
-```bash
-datacoves my import
-```
-
-### datacoves my pytest
-
->[!NOTE] My Airflow [must be instantiated](/how-tos/my_airflow/start-my-airflow.md) for this command to work.
-
-This command allows you to run pytest validations straight from the command line. Simply create your python file with your desired tests inside the `orchestrate` directory. Then pass the file path as an argument as seen below. 
-
-```bash
-datacoves my pytest -- orchestrate/test_dags/validate_dags.py
-```
-
----
-
 // File: reference/airflow/datacoves-decorators
 
 # Datacoves Airflow Decorators
@@ -8031,6 +8000,91 @@ def airflow_data_sync():
 
 dag = airflow_data_sync()
 ```
+
+---
+
+// File: reference/airflow/datacoves-commands
+
+# Datacoves CLI Commands
+The `datacoves` bash commands are meant to simplify your workflow. Currently, the datacoves command has the following sub commands: 
+
+- `my` 
+  
+## Datacoves My
+
+The `my` subcommand executes commands for My Airflow. 
+
+Currently, the `datacoves my` subcommand has the following subcommands:
+- `my import`
+- `my pytest`
+
+### datacoves my import
+
+>[!NOTE] For security purposes secret values will not be automatically imported. The tool will ask you to enter the secret value. 
+
+This command will import your variables and connections from Team Airflow to [My Airflow](/how-tos/my_airflow/). You only need to complete this once or whenever new variables/connections are added to team airflow. 
+
+```bash
+datacoves my import
+```
+
+### datacoves my pytest
+
+>[!NOTE] My Airflow [must be instantiated](/how-tos/my_airflow/start-my-airflow.md) for this command to work.
+
+This command allows you to run pytest validations straight from the command line. Simply create your python file with your desired tests inside the `orchestrate` directory. Then pass the file path as an argument as seen below. 
+
+```bash
+datacoves my pytest -- orchestrate/test_dags/validate_dags.py
+```
+
+---
+
+// File: reference/airflow/environment-service-connection-vars
+
+# Warehouse Environment Variables
+
+When creating a service connection and setting the `Delivery Mode` to environment variables, Datacoves will inject the following environment variables in Airflow. 
+
+These variables can be used in your `profiles.yml` file and will allow you to safely commit a profiles.yml without sensitive data in git. The available environment variables will vary based on your data warehouse.
+
+>[!NOTE] These variables will also need to be configured in your CI/CD provider. ie) github, Gitlab.
+
+The name of the service connection will be used to dynamically create the following variables. In the chart below the name of the service connection is `main`.
+
+### Snowflake Environment Variables
+| Variables                        |
+|----------------------------------|
+| `DATACOVES__MAIN__ACCOUNT`       |
+| `DATACOVES__MAIN__DATABASE`      |
+| `DATACOVES__MAIN__SCHEMA`        |
+| `DATACOVES__MAIN__USER`          |
+| `DATACOVES__MAIN__PASSWORD`      |
+| `DATACOVES__MAIN__ROLE`          |
+| `DATACOVES__MAIN__WAREHOUSE`     |
+
+### Redshift Environment Variables
+| Variables                        |
+|----------------------------------|
+| `DATACOVES__MAIN__HOST`          |
+| `DATACOVES__MAIN__USER`          |
+| `DATACOVES__MAIN__PASSWORD`      |
+| `DATACOVES__MAIN__DATABASE`      |
+
+### Big Query Environment Variables
+| Variables                        |
+|----------------------------------|
+| `DATACOVES__MAIN__DATASET`       |
+| `DATACOVES__MAIN__KEYFILE_JSON`  |
+
+### Databricks Environment Variables
+| Variables                        |
+|----------------------------------|
+| `DATACOVES__MAIN__HOST`          |
+| `DATACOVES__MAIN__SCHEMA`        |
+| `DATACOVES__MAIN__HTTP_PATH`     |
+| `DATACOVES__MAIN__TOKEN`         |
+| `DATACOVES__MAIN__TYPE`          |
 
 ---
 
@@ -8183,60 +8237,6 @@ sync_airflow_db()
 
 ---
 
-// File: reference/airflow/environment-service-connection-vars
-
-# Warehouse Environment Variables
-
-When creating a service connection and setting the `Delivery Mode` to environment variables, Datacoves will inject the following environment variables in Airflow. 
-
-These variables can be used in your `profiles.yml` file and will allow you to safely commit a profiles.yml without sensitive data in git. The available environment variables will vary based on your data warehouse.
-
->[!NOTE] These variables will also need to be configured in your CI/CD provider. ie) github, Gitlab.
-
-The name of the service connection will be used to dynamically create the following variables. In the chart below the name of the service connection is `main`.
-
-### Snowflake Environment Variables
-| Variables                        |
-|----------------------------------|
-| `DATACOVES__MAIN__ACCOUNT`       |
-| `DATACOVES__MAIN__DATABASE`      |
-| `DATACOVES__MAIN__SCHEMA`        |
-| `DATACOVES__MAIN__USER`          |
-| `DATACOVES__MAIN__PASSWORD`      |
-| `DATACOVES__MAIN__ROLE`          |
-| `DATACOVES__MAIN__WAREHOUSE`     |
-
-### Redshift Environment Variables
-| Variables                        |
-|----------------------------------|
-| `DATACOVES__MAIN__HOST`          |
-| `DATACOVES__MAIN__USER`          |
-| `DATACOVES__MAIN__PASSWORD`      |
-| `DATACOVES__MAIN__DATABASE`      |
-
-### Big Query Environment Variables
-| Variables                        |
-|----------------------------------|
-| `DATACOVES__MAIN__DATASET`       |
-| `DATACOVES__MAIN__KEYFILE_JSON`  |
-
-### Databricks Environment Variables
-| Variables                        |
-|----------------------------------|
-| `DATACOVES__MAIN__HOST`          |
-| `DATACOVES__MAIN__SCHEMA`        |
-| `DATACOVES__MAIN__HTTP_PATH`     |
-| `DATACOVES__MAIN__TOKEN`         |
-| `DATACOVES__MAIN__TYPE`          |
-
----
-
-// File: reference/airflow/README
-
-# Airflow Reference
-
----
-
 // File: reference/datacoves/README
 
 # Datacoves reference
@@ -8332,6 +8332,16 @@ __(*)__ min. requirements may vary depending on the number of environments
 
 ---
 
+// File: reference/metrics-and-logs/README
+
+# Metrics & Logs
+
+The Metrics & Logs menu link provides access to Grafana, where you'll find charts that show how services are performing, in addition to a query editor where logs can be analyzed.
+
+![Metrics & Logs](./assets/metrics-and-logs-nav.png)
+
+---
+
 // File: reference/metrics-and-logs/grafana
 
 # Grafana Dashboards
@@ -8359,16 +8369,6 @@ Grafana comes with a set of prebuilt dashboards that you can use right away.
 . Kubernetes / Proxy  
 . Kubernetes / Scheduler  
 . Node Exporter / (all)
-
----
-
-// File: reference/metrics-and-logs/README
-
-# Metrics & Logs
-
-The Metrics & Logs menu link provides access to Grafana, where you'll find charts that show how services are performing, in addition to a query editor where logs can be analyzed.
-
-![Metrics & Logs](./assets/metrics-and-logs-nav.png)
 
 ---
 
@@ -8463,6 +8463,12 @@ Please email us at support@datacoves.com if you think you have found an issue or
 
 ---
 
+// File: reference/vscode/README
+
+# Datacoves Reference
+
+---
+
 // File: reference/vscode/csv-in-datacoves
 
 # CSVs in VS Code
@@ -8522,12 +8528,6 @@ env | grep DATACOVES | sort
 **DATACOVES__REPOSITORY_URL**: Repository associated with your project. Set in your user settings.
 
 **DATACOVES__USER_EMAIL**: Email associated with your account.
-
----
-
-// File: reference/vscode/README
-
-# Datacoves Reference
 
 ---
 

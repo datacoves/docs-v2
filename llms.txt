@@ -4703,6 +4703,41 @@ If you do not have an Entra ID application created, you can do so by following t
 
 ---
 
+// File: how-tos/datacoves/how_to_service_connections
+
+# How to Create/Edit a Service Connection
+
+Navigate to the Service Connection page
+
+![Service Connection](./assets/menu_service_connection.gif)
+
+To create a new Service Connection click the `New Connection` button.
+
+Select the environment you wish to configure.
+
+![Service Connection Create or Edit Page](./assets/serviceconnection_editnew_page.png)
+
+A Service Connection consists of the following fields:
+
+- **Name** Defines how the connection will be referred to by the automated service. It is typically called `main` and will be included in the name of the environment variables seen below. It will be set as the Airflow connection_id if that option is selected.
+- **Environment** The Datacoves environment associated with this service connection.
+- **Service** The Datacoves stack service where this connection should be made available e.g. Airflow
+- **Delivery Mode** Datacoves currently supports 2 Delivery modes
+  - **Airflow Connection** (preferred method) This method will create a connection entry in Airlfow using the credentials you configure which will allow you to make use of the custom [Airflow Decorators](/reference/airflow/datacoves-decorators.md) by passing the `Name` of the connection you created as the `connection_id`. 
+  - **Environment Variables** The legacy method Datacoves used which would inject the connection credentials as environment variables into Airflow. The name of the service connection will be used to dynamically create [environment variables](/reference/airflow/environment-service-connection-vars.md) which we inject into Airflow. 
+    ![Delivery Mode](assets/service_connection_delivery.jpg). 
+- **Connection Template** The connection template to base this service connection on(i.e. the defaults)
+  Depending on the template selected, additional fields will be displayed with the default values entered in the connection template. These default values can be overridden by toggling the indicator next to the given value. Enter the appropriate user, schema, and password. This is commonly a service account created specifically for Airflow and may differ between the development and production environment.
+
+![Service Connection Connection Details](./assets/serviceconnection_editnew_details.png)
+
+## Getting Started Next Steps 
+In the following step, you will update your repository by incorporating the necessary folders and files for Airflow. Specifically, you will add the `orchestrate/dags` directories along with `automate/dbt/profiles.yml`. 
+
+[Update repository](getting-started/Admin/configure-repository.md)
+
+---
+
 // File: how-tos/datacoves/add_entraid_app_as_user
 
 # Add Application as a user in DevOps Portal
@@ -4808,7 +4843,7 @@ Now you are ready to begin configuring your authentication method. This is the m
 
 - Select the `Certificates & Secrets` option in the left navigation menu.
 
-<img src="/docs/how-tos/datacoves/assets/azure_devops_secret_nav.jpg" alt="Navigation" width="800" height="600" />
+<img src="./assets/azure_devops_secret_nav.jpg" alt="Navigation" width="800" height="600" />
 
 ### `secret` or `certificate` Authentification Method
 
@@ -4830,7 +4865,7 @@ As mentioned above, you have two authentication methods available: `secrets` or 
 
 <u>**Step 4**</u> Copy the Value onto a notepad.
 
-<img src="/docs/how-tos/datacoves/assets/azure_devops_secret.jpg" alt="Azure Secret" />
+<img src="./assets/azure_devops_secret.jpg" alt="Azure Secret" />
 
 ✅ Congrats, you are now ready to [configure your project](how-tos/datacoves/how_to_projects.md).
 
@@ -4844,7 +4879,7 @@ As mentioned above, you have two authentication methods available: `secrets` or 
 
 - Select `Certificates` from the top navigation menu.
 
-<img src="/docs/how-tos/datacoves/assets/azure_devops_upload_certificate.png" alt="Upload Certificate" />
+<img src="./assets/azure_devops_upload_certificate.png" alt="Upload Certificate" />
 
 <u>**Step 3**</u> 
 
@@ -4854,60 +4889,25 @@ As mentioned above, you have two authentication methods available: `secrets` or 
 
 - Select `Azure DevOps Certificate` as your Cloning Strategy. 
 
-<img src="/docs/how-tos/datacoves/assets/azure_devops_certificate.jpg" alt="Certificates" />
+<img src="./assets/azure_devops_certificate.jpg" alt="Certificates" />
 
 <u>**Step 5**</u>
 
 - Copy the certificate and save it as a plain text file on your desktop with a `.pem` extension `datacoves_cert.pem`.
 
-<img src="/docs/how-tos/datacoves/assets/azure_devops_certificate_copy.jpg" alt="Certificate PEM file" />
+<img src="./assets/azure_devops_certificate_copy.jpg" alt="Certificate PEM file" />
 
 <u>**Step 6**</u>
 
 - Navigate back to your Azure Portal tab and select `Upload certificate`. Upload the PEM file you saved in the previous step.
 
-<img src="/docs/how-tos/datacoves/assets/azure_devops_upload_certificate.png" alt="Upload Certificate" />
+<img src="./assets/azure_devops_upload_certificate.png" alt="Upload Certificate" />
 
 <u>**Step 7**</u>
 
 - Give it a description and select `Add`.
 
 <!-- tabs:end -->
-
----
-
-// File: how-tos/datacoves/how_to_service_connections
-
-# How to Create/Edit a Service Connection
-
-Navigate to the Service Connection page
-
-![Service Connection](./assets/menu_service_connection.gif)
-
-To create a new Service Connection click the `New Connection` button.
-
-Select the environment you wish to configure.
-
-![Service Connection Create or Edit Page](./assets/serviceconnection_editnew_page.png)
-
-A Service Connection consists of the following fields:
-
-- **Name** Defines how the connection will be referred to by the automated service. It is typically called `main` and will be included in the name of the environment variables seen below. It will be set as the Airflow connection_id if that option is selected.
-- **Environment** The Datacoves environment associated with this service connection.
-- **Service** The Datacoves stack service where this connection should be made available e.g. Airflow
-- **Delivery Mode** Datacoves currently supports 2 Delivery modes
-  - **Airflow Connection** (preferred method) This method will create a connection entry in Airlfow using the credentials you configure which will allow you to make use of the custom [Airflow Decorators](/reference/airflow/datacoves-decorators.md) by passing the `Name` of the connection you created as the `connection_id`. 
-  - **Environment Variables** The legacy method Datacoves used which would inject the connection credentials as environment variables into Airflow. The name of the service connection will be used to dynamically create [environment variables](/reference/airflow/environment-service-connection-vars.md) which we inject into Airflow. 
-    ![Delivery Mode](assets/service_connection_delivery.jpg). 
-- **Connection Template** The connection template to base this service connection on(i.e. the defaults)
-  Depending on the template selected, additional fields will be displayed with the default values entered in the connection template. These default values can be overridden by toggling the indicator next to the given value. Enter the appropriate user, schema, and password. This is commonly a service account created specifically for Airflow and may differ between the development and production environment.
-
-![Service Connection Connection Details](./assets/serviceconnection_editnew_details.png)
-
-## Getting Started Next Steps 
-In the following step, you will update your repository by incorporating the necessary folders and files for Airflow. Specifically, you will add the `orchestrate/dags` directories along with `automate/dbt/profiles.yml`. 
-
-[Update repository](getting-started/Admin/configure-repository.md)
 
 ---
 

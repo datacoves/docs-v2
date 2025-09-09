@@ -8,6 +8,14 @@ While not written to account for very complex environments, these principles can
 
 ---
 
+// File: best-practices/datacoves/README
+
+# Best practices on datacoves
+
+Some recommendations on using datacoves.
+
+---
+
 // File: best-practices/datacoves/folder-structure
 
 # Organizing your project
@@ -81,14 +89,6 @@ The `.vscode/settings.json` folder is used for customized settings in order to o
 
 ---
 
-// File: best-practices/datacoves/README
-
-# Best practices on datacoves
-
-Some recommendations on using datacoves.
-
----
-
 // File: best-practices/dbt/dbt-guidelines
 
 # dbt Guidelines
@@ -129,59 +129,45 @@ Some recommendations on using datacoves.
 
 ---
 
-// File: best-practices/dbt/inlets-bays-coves
+// File: best-practices/dbt/README
 
-# What are Inlets, Bays & Coves
+# Overview <!-- {docsify-ignore-all} -->
 
-Before companies start creating data warehouses or data lakes, they typically run their business with spreadsheets. Different areas of the business do analysis by combining different data sets to produce the metrics they need.
+As any data environment grows, it can become difficult for new team members to unravel complex pieces of logic within the project.
 
-An Accounts Payable analyst may have a file containing vendors, another containing invoices, and another containing purchase orders. With a few files this person can do their job.
+To assist with future change & onboarding, each model should contain only what it must to get to the next stage of complexity. The [dbt project guidelines](./dbt-guidelines.md) assist with decision-making to keep the environment clean.
 
-However, as the volume of data increases, Excel becomes unusable and these users are sent to gather the data they need from the data warehouse or data lake. Usability suffers and the organization becomes less agile.
+## Macros
 
-## The Datacoves approach
+Any dbt macros created to apply repeated logic should be descriptively named with the action they accomplish:
 
-We want to give users an area where they can find the things they need to do their job, tailored to their use cases. These are `Data Coves`. In practical terms, they are schemas in a data warehouse that are tailored for a specific area of the business, in the example above, we would have an accounts_payable cove.
+- add_load_timestamp_column
+- create_hash_key_from_columns
+- get_latest_record_for_key
 
-## Data Flow
+Macros in the *dbt-utils* package allow developers to develop in universal SQL syntax that can run on any modern database, giving the business flexibility to move between platforms as required in the future.
 
-A Data Cove is a user centric data area, but data doesn't start out this way. Companies receive data that needs to be cleansed and harmonized. Before data is made available to end users, we should also assure that some level of data quality checks are performed. This is what happens in the **inlets** and **bays**. These areas could also be referred to as "staging" and "core".
+Macros in *dbt-expectations* increases the testing suite significantly, including many statistical, multi-column, and aggregation tests.
 
-![inlets-bays-coves](./assets/inlets-bays-coves.png)
+## Tools & Packages
 
-## Raw
+One of the significant advantages of joining the global dbt community is the wide array of [open source libraries](https://datacoves.com/dbt-libs) and [dbt packages](https://hub.getdbt.com) we have available to us.
 
-This area mirrors the source system. It is where data is loaded into the warehouse. Raw data feeds **Inlets**.
+These tools allow companies to move faster, produce more reusable and readable code, and make it far easier for those who come after us to keep moving forward.
 
-## Inlets
+There are 3 primary types of tool:
 
-This area mirrors the raw database and it is where basic transformations such as renaming of columns, casting data to the proper data type, and harmonizing timezones is done. Inlets feed **bays**.
+1. Coding environment extensions and python libraries help find information quickly while developing data models, and make it easy to write good code quickly
+2. Macros and packages extend the capability of SQL, by allowing reuse of advanced pieces of logic in a centralized, repeatable way.
+3. Standards and expectations build trust in data and flag areas where the quality of code could be improved.
 
-## Bays
+Datacoves provides a web-based interface for AirByte, dbt, dbt Docs, Airflow, and Superset - streamlining the process of development by wrapping the below tools in a simple environment
 
-Bays are where we build *reusable* Data Products that adhere to Data Mesh principles. These should be thought of as business objects that do not change over time. While systems like a CRM may change, objects like Customers, Vendors, Employees, Orders, Online Interactions, etc remain constant over time.
+[dbt-coves](https://github.com/datacoves/dbt-coves) automates certain tasks such as creating source property(yml) files and initial staging models by querying the database eliminating tedious tasks.
 
-Bays feed the analytic **Coves**.
+[sqlfluff](https://www.sqlfluff.com/) provides baseline expectations of clean code and flags many common logic issues as SQL is developed
 
-## Coves
-
-A cove is an analytics centric area focused on usability. It also adheres to Data Mesh principles.
-
-While a Bay may have a model for a customer dimension that may have hundreds of columns, when we expose that model in a cove we take into consideration which of those columns are needed by the given analytics area.
-
-Continuing from the example above, an accounts payable analyst that sees what is available in their accounts_payable cove should immediately be able to use the data just as they traditionally used their excel datasets. Their view of a vendor would not have several addresses for the vendor, but instead would have the address that accounts payable needs for their analytics.
-
-The diagram below illustrates how data flows between each layer and what takes place in each.
-
-![inlets-bays-coves2](./assets/inlets-bays-coves2.png)
-
-## Building Bays and Coves
-
-As stated above, Bays and Coves should adhere to Data Mesh principles and should have clear ownership. Data products are created and the complexity that goes into  building them is encapsulated for future modification.
-
-The diagram below shows the qualities of data products.
-
-![data-products](./assets/data-products.png)
+[dbt-checkpoint](https://github.com/dbt-checkpoint/dbt-checkpoint) helps perform governance checks like verifying the models have descriptions and table names are not hard coded
 
 ---
 
@@ -244,7 +230,9 @@ These databases are used for UAT as needed and act as "pre-release" for any manu
 
 The general flow of data is from Raw schemas to Inlets then Bays, and finally Coves. These will be described in more detail below.
 
->[!NOTE] See [this page](./inlets-bays-coves) to learn more about Inlets, Bays, and Coves
+:::note
+ See [this page](./inlets-bays-coves) to learn more about Inlets, Bays, and Coves
+:::
 
 ![inlets-bays-coves](./assets/inlets-bays-coves.png)
 
@@ -323,45 +311,59 @@ Any aggregation should be described in a suffix on the model/column: `customer_c
 
 ---
 
-// File: best-practices/dbt/README
+// File: best-practices/dbt/inlets-bays-coves
 
-# Overview <!-- {docsify-ignore-all} -->
+# What are Inlets, Bays & Coves
 
-As any data environment grows, it can become difficult for new team members to unravel complex pieces of logic within the project.
+Before companies start creating data warehouses or data lakes, they typically run their business with spreadsheets. Different areas of the business do analysis by combining different data sets to produce the metrics they need.
 
-To assist with future change & onboarding, each model should contain only what it must to get to the next stage of complexity. The [dbt project guidelines](explanation/best-practices/dbt/dbt-guidelines.md) assist with decision-making to keep the environment clean.
+An Accounts Payable analyst may have a file containing vendors, another containing invoices, and another containing purchase orders. With a few files this person can do their job.
 
-## Macros
+However, as the volume of data increases, Excel becomes unusable and these users are sent to gather the data they need from the data warehouse or data lake. Usability suffers and the organization becomes less agile.
 
-Any dbt macros created to apply repeated logic should be descriptively named with the action they accomplish:
+## The Datacoves approach
 
-- add_load_timestamp_column
-- create_hash_key_from_columns
-- get_latest_record_for_key
+We want to give users an area where they can find the things they need to do their job, tailored to their use cases. These are `Data Coves`. In practical terms, they are schemas in a data warehouse that are tailored for a specific area of the business, in the example above, we would have an accounts_payable cove.
 
-Macros in the *dbt-utils* package allow developers to develop in universal SQL syntax that can run on any modern database, giving the business flexibility to move between platforms as required in the future.
+## Data Flow
 
-Macros in *dbt-expectations* increases the testing suite significantly, including many statistical, multi-column, and aggregation tests.
+A Data Cove is a user centric data area, but data doesn't start out this way. Companies receive data that needs to be cleansed and harmonized. Before data is made available to end users, we should also assure that some level of data quality checks are performed. This is what happens in the **inlets** and **bays**. These areas could also be referred to as "staging" and "core".
 
-## Tools & Packages
+![inlets-bays-coves](./assets/inlets-bays-coves.png)
 
-One of the significant advantages of joining the global dbt community is the wide array of [open source libraries](https://datacoves.com/dbt-libs) and [dbt packages](https://hub.getdbt.com) we have available to us.
+## Raw
 
-These tools allow companies to move faster, produce more reusable and readable code, and make it far easier for those who come after us to keep moving forward.
+This area mirrors the source system. It is where data is loaded into the warehouse. Raw data feeds **Inlets**.
 
-There are 3 primary types of tool:
+## Inlets
 
-1. Coding environment extensions and python libraries help find information quickly while developing data models, and make it easy to write good code quickly
-2. Macros and packages extend the capability of SQL, by allowing reuse of advanced pieces of logic in a centralized, repeatable way.
-3. Standards and expectations build trust in data and flag areas where the quality of code could be improved.
+This area mirrors the raw database and it is where basic transformations such as renaming of columns, casting data to the proper data type, and harmonizing timezones is done. Inlets feed **bays**.
 
-Datacoves provides a web-based interface for AirByte, dbt, dbt Docs, Airflow, and Superset - streamlining the process of development by wrapping the below tools in a simple environment
+## Bays
 
-[dbt-coves](https://github.com/datacoves/dbt-coves) automates certain tasks such as creating source property(yml) files and initial staging models by querying the database eliminating tedious tasks.
+Bays are where we build *reusable* Data Products that adhere to Data Mesh principles. These should be thought of as business objects that do not change over time. While systems like a CRM may change, objects like Customers, Vendors, Employees, Orders, Online Interactions, etc remain constant over time.
 
-[sqlfluff](https://www.sqlfluff.com/) provides baseline expectations of clean code and flags many common logic issues as SQL is developed
+Bays feed the analytic **Coves**.
 
-[dbt-checkpoint](https://github.com/dbt-checkpoint/dbt-checkpoint) helps perform governance checks like verifying the models have descriptions and table names are not hard coded
+## Coves
+
+A cove is an analytics centric area focused on usability. It also adheres to Data Mesh principles.
+
+While a Bay may have a model for a customer dimension that may have hundreds of columns, when we expose that model in a cove we take into consideration which of those columns are needed by the given analytics area.
+
+Continuing from the example above, an accounts payable analyst that sees what is available in their accounts_payable cove should immediately be able to use the data just as they traditionally used their excel datasets. Their view of a vendor would not have several addresses for the vendor, but instead would have the address that accounts payable needs for their analytics.
+
+The diagram below illustrates how data flows between each layer and what takes place in each.
+
+![inlets-bays-coves2](./assets/inlets-bays-coves2.png)
+
+## Building Bays and Coves
+
+As stated above, Bays and Coves should adhere to Data Mesh principles and should have clear ownership. Data products are created and the complexity that goes into  building them is encapsulated for future modification.
+
+The diagram below shows the qualities of data products.
+
+![data-products](./assets/data-products.png)
 
 ---
 
@@ -420,14 +422,6 @@ Feature branches are further developed and unit tests are added to ensure the ou
 In this pull request, the automated deployment process creates a fresh UAT database, and business users review the output against expectations before approving release of the candidate to the Release branch.
 
 Once code is reviewed and UAT is approved, the merge request is completed to the *release* Branch. A final set of integration tests is run before the Release Manager performs a deployment/merged to Main.
-
----
-
-// File: best-practices/snowflake/README
-
-# Snowflake
-
-Here we present some guidance for Snowflake including setting up a scalable security model amd managing time-travel while meeting GDPR requirements.
 
 ---
 
@@ -529,6 +523,14 @@ When a request for a person "to be forgotten" from the database comes in, the fo
 
 ---
 
+// File: best-practices/snowflake/README
+
+# Snowflake
+
+Here we present some guidance for Snowflake including setting up a scalable security model amd managing time-travel while meeting GDPR requirements.
+
+---
+
 // File: getting-started/README
 
 # Datacoves Getting Started Guides
@@ -539,11 +541,9 @@ When a request for a person "to be forgotten" from the database comes in, the fo
 
 # Configure your account with Datacoves
 
-:::danger[Attention]
-
+:::caution
 The appropriate git repo access is required to be able to add deployment keys. 
 Be sure that you can add SSH keys to the repo or setup will not be able to finish.
-
 :::
 
 ## Prerequisites
@@ -552,10 +552,7 @@ Before the setup call with the Datacoves team, ensure you have the following rea
 
 
 :::note
-
-:::
 Email gomezn@datacoves.com with the answers to the following two questions so we can be ready for the call.
-
 :::
 
 1. What version of dbt are you using?
@@ -572,13 +569,11 @@ To set up your Datacoves account, you will need to know your data warehouse prov
 | Databricks | Host, Schema, HTTP Path, Token |
 | BigQuery | Dataset, Keyfile JSON |
 
-:::warning[Warning]
-
-:::
+:::warning
 For the Snowflake `Account` field you will need to find your account locator and replace `.` with `-`. 
 Check out [Snowflake Fields](how-tos/datacoves/how_to_connection_template.md#for-snowflake-the-available-fields-are) on how to find your Snowflake account locator.
-
 :::
+
 **Network Access:** Verify that your Data Warehouse is accessible from outside your network. You'll need to whitelist the Datacoves IP - `74.179.200.137`
 
 ### Git
@@ -1202,7 +1197,7 @@ Edit the desired environment and click on the `Stack Services` tab. Ensure that 
 
 ## Airflow Configurations
 
-:::info You will need to add folders to your project repository in order to match the folder defaults for Airflow; These folders are `orchestrate/dags` and `orchestrate/dags_yml_definitions`. Please see the recommended [folder structure](explanation/best-practices/datacoves/folder-structure.md) for all folder structure recommendations.
+:::info You will need to add folders to your project repository in order to match the folder defaults for Airflow; These folders are `orchestrate/dags` and `orchestrate/dags_yml_definitions`. Please see the recommended [folder structure](best-practices/datacoves/folder-structure.md) for all folder structure recommendations.
 Once you enabled Airflow, click on the `Services configuration > Airflow Settings` tab and configure each of the following fields accordingly:
 :::
 
@@ -1748,7 +1743,7 @@ And more!
 ## What to know
 - `Ruff` is installed to show unused imports and unused variables as well as python linting. 
 - [Datacoves Decorators](/reference/airflow/datacoves-decorators.md) simplify working with dbt, syncing databases, and running commands in Airflow.
-- [My Airflow](/how-tos/my_airflow/) can help speed up your DAG writing experience.
+- [My Airflow](/docs/how-tos/my_airflow/) can help speed up your DAG writing experience.
 
 ---
 
@@ -2395,13 +2390,13 @@ In our quest to simplify the way tools integrate in the Modern Data Stack, we de
 The main idea behind this concept is to use tags defined on dbt sources and determine which data to load via different tools (e.g. Airbyte or Fivetran). Using this information, we can dynamically create _Extract and Load_ tasks in an Airflow DAG before running dbt.
 
 :::note
-Support for Fivetran Tasks coming soon. More Information in [run Fivetran sync jobs](/how-tos/airflow/run-fivetran-sync-jobs).
+Support for Fivetran Tasks coming soon. More Information in [run Fivetran sync jobs](./run-fivetran-sync-jobs).
 :::
 ## Before you start
 
 ### Ensure your Airflow environment is properly configured
 
-Follow this guide on [How to set up Airflow](/how-tos/airflow/initial-setup)'s environment.
+Follow this guide on [How to set up Airflow](./initial-setup)'s environment.
 
 ### Airbyte connection
 
@@ -2511,7 +2506,7 @@ nodes:
 
 # How to run dbt from an Airflow worker
 
-Airflow synchronizes a git repository's [configured git branch](/how-tos/datacoves/how_to_environments#services-configuration) every minute. (The branch specified in  the `Git branch name` field in the environment's DAGs sync configuration)
+Airflow synchronizes a git repository's [configured git branch](/docs/how-tos/datacoves/how_to_environments.md#services-configuration) every minute. (The branch specified in  the `Git branch name` field in the environment's DAGs sync configuration)
 
 To run `dbt` commands easily, we provide a pre-configured virtual environment with the necessary python dependencies such as dbt. Our Airflow Operator also does the following automatically:
 
@@ -3166,7 +3161,7 @@ This file defines a set of pytest-based validation tests for Airflow DAGs. It en
 
 ### Step 2 Add the `conftest.py` file to your `orchestrate/test_dags` directory.
 
-This file will import custom tests that the Datacoves team has created such as validating [variable calls are not made at the highest level](/how-tos/airflow/use-aws-secrets-manager.md) of a DAG. 
+This file will import custom tests that the Datacoves team has created such as validating [variable calls are not made at the highest level](/docs/how-tos/datacoves/how_to_configure_aws_secrets_manager.md) of a DAG. 
 
 ```python
 # orchestrate/test_dags/conftest.py
@@ -3272,8 +3267,9 @@ The best way to store and retrieve information within Airflow is to use `Variabl
 The main difference between them is that [Variables](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/variable.html) is a generic multi-purpose store, while [Connections](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/connection.html) are aimed at third-party providers.
 
 :::tip
-Rather than using connections or variables stored in Airflow’s database, we recommend using a Secrets Manager. These secrets are encrypted and can be stored either in [Datacoves Secrets manager](/docs/how-tos/airflow/use-datacoves-secrets-manager.md) or a third-party secrets manager like [AWS Secrets Manager](/docs/how-tos/airflow/use-aws-secrets-manager)
+Rather than using connections or variables stored in Airflow’s database, we recommend using a Secrets Manager. These secrets are encrypted and can be stored either in [Datacoves Secrets manager](./use-datacoves-secrets-manager.md) or a third-party secrets manager like [AWS Secrets Manager](./use-aws-secrets-manager.mdx)
 :::
+
 ## Usage
 
 ### Variables
@@ -3387,7 +3383,7 @@ In Datacoves 3.3 and up, the `SMTP` will be automatically added to your environm
 
 Viola!🎉 The Airflow service will be restarted shortly and will now include the SMTP configuration required to send emails.
 
-:::note **Getting Started Guide:** If you are making your way through our [getting started guide](/getting-started/Admin/), please continue on to [developing DAGs](getting-started/Admin/creating-airflow-dags.md).
+:::note **Getting Started Guide:** If you are making your way through our [getting started guide](../../getting-started/Admin/), please continue on to [developing DAGs](getting-started/Admin/creating-airflow-dags.md).
 :::
 ## Set up a custom SMTP (Optional)
 
@@ -3906,7 +3902,7 @@ Start [developing DAGs](getting-started/Admin/creating-airflow-dags.md)
 
 Datacoves integrates with the Airflow Secrets Backend Interface, offering support for both its native Datacoves Secrets Backend and AWS Secrets Manager. For other Airflow-compatible Secrets Managers, please reach out to us.
 
-Secrets backends are configured per project. See [configure your AWS Secrets Manager](/how-tos/datacoves/how_to_configure_aws_secrets_manager.md) for details.
+Secrets backends are configured per project. See [configure your AWS Secrets Manager](../datacoves/how_to_configure_aws_secrets_manager.md) for details.
 
 ## Read variable from AWS Secrets Manager
 
@@ -4339,8 +4335,9 @@ To create a new connection template click the `Create Connection Template` in th
 
 Datacoves includes a built-in [Secrets Manager](reference/admin-menu/secrets.md) that allows you to securely store and manage secrets for both administrators and developers. Secrets can be stored at the project or environment level and easily shared across other tools in your stack, ensuring seamless integration and enhanced security. Follow this guide to create/edit a secret in the Datacoves Secrets Manager.
 
->[!NOTE] Datacoves Secret Manager will ONLY look for variables that are prefixed with `datacoves-`
-
+:::note
+Datacoves Secret Manager will ONLY look for variables that are prefixed with `datacoves-`
+:::
 
 **Step 1:** Navigate to `Secrets` in the Admin menu
 
@@ -4362,7 +4359,9 @@ Datacoves includes a built-in [Secrets Manager](reference/admin-menu/secrets.md)
 
 To learn how to read a variable from the Datacoves secrets manager check out our [How To](how-tos/airflow/use-datacoves-secrets-manager.md)
 
->[!NOTE] If the secret isn’t shared with the developers or services, only the author can use it.
+:::note
+If the secret isn’t shared with the developers or services, only the author can use it.
+:::
 
 ---
 
@@ -4502,8 +4501,9 @@ You will need the user's:
 
 Using the checkboxes below you can select the Security Groups the user should belong to for Development and Production Environments
 
->[!TIP]See the [Groups](reference/admin-menu/groups.md) reference page for more information on Datacoves groups and their permissions.
-
+:::tip
+See the [Groups](reference/admin-menu/groups.md) reference page for more information on Datacoves groups and their permissions.
+:::
 ![New Invitations](./assets/invitations_create.gif)
 
 ---
@@ -4521,7 +4521,7 @@ A Project configuration consists of the following fields:
 
 - **Name** This is what will be displayed in the Datacoves landing page.
 - **Git Repo** This is the git repository associated with this project
-  - **Clone strategy** determines how Datacoves will communicate with your git repository(SSH, HTTPS, or Azure DevoOps Secret/Certificate). Select your desired cloning strategy to see configuration instructions:
+  - **Clone strategy** determines how Datacoves will communicate with your git repository(SSH, HTTPS, or Azure DevOps Secret/Certificate). Select your desired cloning strategy to see configuration instructions:
   
     <!-- tabs:start -->
     #### **SSH**
@@ -4540,7 +4540,7 @@ A Project configuration consists of the following fields:
 
     There are two authentication options for you to chose from: `secrets`  or `certificates`.
     
-    -  **Azure DataOps Secret** When Azure DataOps Secret is selected, a secret key is required for authentication. See this [how-to guide on configuring Azure DevOps](/how-tos/datacoves/how_to_configure_azure_DevOps) for detailed configuration information or simply follow the links for each field.
+    -  **Azure DataOps Secret** When Azure DataOps Secret is selected, a secret key is required for authentication. See this [how-to guide on configuring Azure DevOps](./how_to_configure_azure_DevOps.md) for detailed configuration information or simply follow the links for each field.
         -  **Git SSH url:** [Cloning url](/how-tos/datacoves/gather_azure_devops_auth_details.md#repo-ssh-and-http-urls) found in Azure DevOps Portal
         -  **Azure HTTPS Clone url** [Cloning url](/how-tos/datacoves/gather_azure_devops_auth_details.md#repo-ssh-and-http-urls) found in Azure DevOps Portal
         -  **Tenant ID:** [ID found in Azure Portal](/how-tos/datacoves/gather_azure_devops_auth_details.md#application-client-id-and-directory-tenant-id)
@@ -4584,8 +4584,9 @@ Please follow the how to below to achieve these requirements.
 
 **Step 1:** On AWS, create an IAM User with an attached policy like this one:
 
->[!NOTE]Be sure to replace the ARN for the resource below to your ARN.
-
+:::note
+Be sure to replace the ARN for the resource below to your ARN.
+:::
 ```json
 {
     "Version": "2012-10-17",
@@ -4643,13 +4644,17 @@ Please, follow the [AWS Secrets Manager documentation](https://docs.aws.amazon.c
 - **Secret Access Key** The Secret Access Key attached to the IAM User configured earlier 
 - **Region Code** This is the region were the Secrets Manager is running, i.e. `us-east-1`, `us-west-1`, etc. Find a complete list [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html)
 
->[!TIP] See the [Secrets Manager documentation](https://airflow.apache.org/docs/apache-airflow-providers-amazon/stable/secrets-backends/aws-secrets-manager.html#aws-secrets-manager-backend) for more customization options. 
+:::tip
+ See the [Secrets Manager documentation](https://airflow.apache.org/docs/apache-airflow-providers-amazon/stable/secrets-backends/aws-secrets-manager.html#aws-secrets-manager-backend) for more customization options. 
+:::
 
 ![Secrets Backend](assets/aws_secrets_connection.jpg)
 
 To learn how to read a variable from the AWS Secrets Manager check out our [How To](/how-tos/airflow/use-aws-secrets-manager.md)
 
->[!NOTE]For security purposes, once this has been saved you will not be able to view the values. To modify the Secrets backend you will need to set the Secrets backend to `None` and save the changes. Then start the setup again.
+:::tip
+For security purposes, once this has been saved you will not be able to view the values. To modify the Secrets backend you will need to set the Secrets backend to `None` and save the changes. Then start the setup again. 
+:::
 
 ---
 
@@ -4680,7 +4685,7 @@ If you do not have an Entra ID application created, you can do so by following t
 
 - Select `App Registrations` from the left navigation menu.
 
-<img src="/how-tos/datacoves/assets/azure_devops_overview.png" alt="App Registration" width="200" height="450" />
+<img src="/docs/how-tos/datacoves/assets/azure_devops_overview.png" alt="App Registration" width="200" height="450" />
 
 <u>**Step 3**</u> 
 
@@ -4692,7 +4697,7 @@ If you do not have an Entra ID application created, you can do so by following t
 
 - Click `Register`
 
-<img src="/how-tos/datacoves/assets/azure_devops_register_application.png" alt="Register Application" width="700" height="600" />
+<img src="/docs/how-tos/datacoves/assets/azure_devops_register_application.png" alt="Register Application" width="700" height="600" />
 
 ✅ Next you will want to [Add Application as a user in DevOps Portal](/how-tos/datacoves/add_entraid_app_as_user.md)
 
@@ -4706,31 +4711,31 @@ If you do not have an Entra ID application created, you can do so by following t
 
 - In another tab (you will need to return to your application later), sign in to your [Azure DevOps Portal](https://dev.azure.com) and click `Organization settings` at the bottom of the left navigation.
 
-<img src="/how-tos/datacoves/assets/azure_devops_organization_settings.png" alt="Organization Settings" width="200" height="500" />
+<img src="/docs/how-tos/datacoves/assets/azure_devops_organization_settings.png" alt="Organization Settings" width="200" height="500" />
 
 <u>**Step 2**</u>
 
 - Select `Users` in the left navigation menu.
 
-<img src="/how-tos/datacoves/assets/azure_devops_user_nav.png" alt="Organization Navbar" width="200" height="500" />
+<img src="/docs/how-tos/datacoves/assets/azure_devops_user_nav.png" alt="Organization Navbar" width="200" height="500" />
 
 <u>**Step 3**</u>
 
 - Select `Add Users` to add the application to the user list.
 
-<img src="/how-tos/datacoves/assets/azure_devops_add_user_button.png" alt="Add User button" />
+<img src="/docs/how-tos/datacoves/assets/azure_devops_add_user_button.png" alt="Add User button" />
 
 <u>**Step 4**</u>
 
 - Set the user as the application you created above, give it Basic Access.
 
-<img src="/how-tos/datacoves/assets/azure_devops_add_user_menu.png" alt="Add User menu" />
+<img src="/docs/how-tos/datacoves/assets/azure_devops_add_user_menu.png" alt="Add User menu" />
 
 <u>**Step 5**</u>
 
 - Select the project you wish to add the application to to using the `Add to projects` dropdown, and select the  `Send email invites` checkbox.
 
-<img src="/how-tos/datacoves/assets/azure_devops_assign_to_project.png" alt="Add to project" width="500" height="500" />
+<img src="/docs/how-tos/datacoves/assets/azure_devops_assign_to_project.png" alt="Add to project" width="500" height="500" />
 
 
 ✅ Now that you have created your EntraID application and added it as a user in the DevOps Portal you will need to set up an [authentication method ](/how-tos/datacoves/authenticate_azure_devops.md)
@@ -4753,7 +4758,7 @@ You will need to gather the following application information to configure your 
 
 - Select `App Registrations` from the left navigation menu.
 
-<img src="/how-tos/datacoves/assets/azure_devops_overview.png" alt="App Registration" width="200" height="450" />
+<img src="/docs/how-tos/datacoves/assets/azure_devops_overview.png" alt="App Registration" width="200" height="450" />
 
 <u>**Step 3**</u>
 
@@ -4763,7 +4768,7 @@ You will need to gather the following application information to configure your 
 
 - Copy your Application (Client) ID and Directory (Tenant) ID.
 
-<img src="/how-tos/datacoves/assets/azure_devops_app_details.jpg" alt="Azure DevOps Details" />
+<img src="/docs/how-tos/datacoves/assets/azure_devops_app_details.jpg" alt="Azure DevOps Details" />
 
 ### Repo SSH and HTTP urls
 
@@ -4785,7 +4790,7 @@ You will need to copy the SSH or HTTP clone url.
 
 - Copy **both** the SSH **and** HTTP urls and enter in the appropriate fields in the project setup screen in Datacoves.
 
-<img src="/how-tos/datacoves/assets/azure_devops_https.png" alt="SSH and HTTP" />
+<img src="/docs/how-tos/datacoves/assets/azure_devops_https.png" alt="SSH and HTTP" />
 
 ✅ Be sure to save all of these details on a safe notepad. Now you can begin setting up your [Azure DevOps authentication](/how-tos/datacoves/authenticate_azure_devops.md)
 
@@ -4803,7 +4808,7 @@ Now you are ready to begin configuring your authentication method. This is the m
 
 - Select the `Certificates & Secrets` option in the left navigation menu.
 
-<img src="/how-tos/datacoves/assets/azure_devops_secret_nav.jpg" alt="Navigation" width="800" height="600" />
+<img src="/docs/how-tos/datacoves/assets/azure_devops_secret_nav.jpg" alt="Navigation" width="800" height="600" />
 
 ### `secret` or `certificate` Authentification Method
 
@@ -4825,7 +4830,7 @@ As mentioned above, you have two authentication methods available: `secrets` or 
 
 <u>**Step 4**</u> Copy the Value onto a notepad.
 
-<img src="/how-tos/datacoves/assets/azure_devops_secret.jpg" alt="Azure Secret" />
+<img src="/docs/how-tos/datacoves/assets/azure_devops_secret.jpg" alt="Azure Secret" />
 
 ✅ Congrats, you are now ready to [configure your project](how-tos/datacoves/how_to_projects.md).
 
@@ -4839,7 +4844,7 @@ As mentioned above, you have two authentication methods available: `secrets` or 
 
 - Select `Certificates` from the top navigation menu.
 
-<img src="/how-tos/datacoves/assets/azure_devops_upload_certificate.png" alt="Upload Certificate" />
+<img src="/docs/how-tos/datacoves/assets/azure_devops_upload_certificate.png" alt="Upload Certificate" />
 
 <u>**Step 3**</u> 
 
@@ -4849,19 +4854,19 @@ As mentioned above, you have two authentication methods available: `secrets` or 
 
 - Select `Azure DevOps Certificate` as your Cloning Strategy. 
 
-<img src="/how-tos/datacoves/assets/azure_devops_certificate.jpg" alt="Certificates" />
+<img src="/docs/how-tos/datacoves/assets/azure_devops_certificate.jpg" alt="Certificates" />
 
 <u>**Step 5**</u>
 
 - Copy the certificate and save it as a plain text file on your desktop with a `.pem` extension `datacoves_cert.pem`.
 
-<img src="/how-tos/datacoves/assets/azure_devops_certificate_copy.jpg" alt="Certificate PEM file" />
+<img src="/docs/how-tos/datacoves/assets/azure_devops_certificate_copy.jpg" alt="Certificate PEM file" />
 
 <u>**Step 6**</u>
 
 - Navigate back to your Azure Portal tab and select `Upload certificate`. Upload the PEM file you saved in the previous step.
 
-<img src="/how-tos/datacoves/assets/azure_devops_upload_certificate.png" alt="Upload Certificate" />
+<img src="/docs/how-tos/datacoves/assets/azure_devops_upload_certificate.png" alt="Upload Certificate" />
 
 <u>**Step 7**</u>
 
@@ -4965,7 +4970,9 @@ To ingest dbt metadata, configure the dbt source in DataHub. Refer to the [offic
 
 The following sample demonstrates how to configure a dbt ingestion source in DataHub. 
 
->[!NOTE] This configuration requires a DataHub secret (`S3_secret_key`) for secure access to S3. Ensure that this secret is created before proceeding.
+:::note
+This configuration requires a DataHub secret (`S3_secret_key`) for secure access to S3. Ensure that this secret is created before proceeding.
+:::
 
 ```yaml
 source:
@@ -4991,8 +4998,9 @@ source:
 
 When using **Datacoves Mesh** (also known as dbt Mesh), you can ingest metadata from multiple dbt projects. 
 
->[!NOTE] To prevent **duplicate nodes**, exclude the upstream project by specifying patterns to deny in the `node_name_pattern` section.
-
+:::note
+To prevent **duplicate nodes**, exclude the upstream project by specifying patterns to deny in the `node_name_pattern` section.
+:::
 ### Sample Configuration
 
 The following configuration demonstrates how to add a second dbt source in DataHub:
@@ -5131,7 +5139,9 @@ You can access Datahub in Prod or QA from the Dev environment. This is considere
 http://<slug>-datahub-datahub-gms.dcw-<slug>:8080
 ```
 
->[!NOTE] The environment slug can be found next to your environment name on the top left corner of your Datacoves workspace. For example, the environment slug below is `DEV123`, so the URL would be: `http://dev123-datahub-datahub-gms:8080`.
+:::note
+The environment slug can be found next to your environment name on the top left corner of your Datacoves workspace. For example, the environment slug below is `DEV123`, so the URL would be: `http://dev123-datahub-datahub-gms:8080`.
+:::
 
 ![Environment slug](assets/datahub-env-slug.png)
 
@@ -6080,8 +6090,9 @@ Launch your [My Airflow](/how-tos/my_airflow/start-my-airflow.md) instance to be
 
 Run the [My Import](/how-tos/my_airflow/my-import.md) process to import variables and connections from **Team Airflow** to **My Airflow**. 
 
->[!NOTE] Secret values will not be automatically transferred and must be manually provided via the command line. `datacoves my import` only imports connections created by a Datacoves service connections, all other connections must be imported manually.
-
+:::note
+Secret values will not be automatically transferred and must be manually provided via the command line. `datacoves my import` only imports connections created by a Datacoves service connections, all other connections must be imported manually.
+:::
 **When prompted to add secret values:**
 
 - enter the value
@@ -6105,7 +6116,9 @@ For security purposes, connections and variables **do not** auto populate from T
 
 ## datacoves my import
 
->[!NOTE] You must have [initiated My Airflow](how-tos/my_airflow/start-my-airflow.md) before attempting to use the `datacoves my import` command. 
+:::note
+You must have [initiated My Airflow](how-tos/my_airflow/start-my-airflow.md) before attempting to use the `datacoves my import` command. 
+:::
 
 This command will import your Data Warehouse connections and Airflow variables over from Team Airflow to My Airflow. While the tool will do most of the work for you, sensitive variables will not be ported over for security reasons. You will be prompted to provide those secrets in the terminal.
 
@@ -6124,7 +6137,9 @@ datacoves my import
 
 ## Spin up your individual Airflow instance 
 
->[!ATTENTION] Unlike Team Airflow which is always running, My Airflow will spin down after 4 hours of inactivity. If you are an existing Datacoves user you may need to [migrate your environment variable based service connections](/how-tos/my_airflow/migrating-service-connections.md). Users need both the sysadmin and the developer [groups](reference/admin-menu/groups.md) to access My Airflow.
+:::warning
+ Unlike Team Airflow which is always running, My Airflow will spin down after 4 hours of inactivity. If you are an existing Datacoves user you may need to [migrate your environment variable based service connections](/how-tos/my_airflow/migrating-service-connections.md). Users need both the sysadmin and the developer [groups](reference/admin-menu/groups.md) to access My Airflow.
+:::
 
 My Airflow is a single instance allocated to a user. This allows the user to test their DAG in isolation before pushing it to Team Airflow for more robust testing. To spin up your own My Airflow:
 
@@ -6145,8 +6160,9 @@ Thats it, your My Airflow instance is ready to use! 🎉
 
 ## Using My Airflow to Develop DAGs
 
->[!NOTE] You must add or import connections and variables from Team Airflow. You can do this easily using `datacoves my import`. For more information follow [this documentation](/how-tos/my_airflow/my-import.md).
-
+:::note
+You must add or import connections and variables from Team Airflow. You can do this easily using `datacoves my import`. For more information follow [this documentation](/how-tos/my_airflow/my-import.md).
+:::
 
 Developing your DAG using My Airflow is quick and easy. 
 
@@ -6200,7 +6216,9 @@ Print out the public key and add to Snowflake
 
 This will show your public kay which will replace `<your public key>` below.
 
->[!NOTE] Exclude the --BEGIN-- and --END-- lines from the public key
+:::note
+Exclude the --BEGIN-- and --END-- lines from the public key
+:::
 
 `ALTER USER SVC_GITHUB_ACTIONS SET RSA_PUBLIC_KEY='<your public key>';`
 
@@ -6538,7 +6556,9 @@ If Datacoves is able to connect to your Git repository, you will see _Tested_ ne
 
 - Click `Open` to go into your development environment.
 
->[!NOTE]Datacoves will take a couple of minutes to apply the new settings, clone your repo, and finish setting up your environment for the first time.
+:::note
+Datacoves will take a couple of minutes to apply the new settings, clone your repo, and finish setting up your environment for the first time.
+:::
 
 ![Workbench Link](./assets/navigation_launchpad.gif)
 
@@ -6554,7 +6574,9 @@ In the Database Connection Section, click `Add`
 
 Give the connection a name. 
 
->[!TIP]This will be used as your dbt target name and is typically `dev`. 
+:::tip
+This will be used as your dbt target name and is typically `dev`. 
+:::
 
 Next select a connection template. A connection template will have defaults pre-configured by your administrator.
 
@@ -6578,7 +6600,9 @@ In the Database Connection Section, click `Add`
 
 Give the connection a name. 
 
->[!TIP]This will be used as your dbt target name and is typically `dev`. 
+:::tip
+This will be used as your dbt target name and is typically `dev`. 
+:::
 
 Next select a connection template. A connection template will have defaults pre-configured by your administrator.
 
@@ -6603,7 +6627,9 @@ In the Database Connection Section, click `Add`
 
 Give the connection a name. 
 
->[!TIP]This will be used as your dbt target name and is typically `dev`. 
+:::tip
+This will be used as your dbt target name and is typically `dev`. 
+:::
 
 Next select a connection template. A connection template will have defaults pre-configured by your administrator.
 
@@ -6626,7 +6652,9 @@ Click `Save`
 
 When connecting to Snowflake, you can use either key based authentication or username/password authentication.
 
->[!NOTE]To enable key-pair authentication, you admin must select `Inferred from user info using a custom template` when setting up the [Connection Template](/how-tos/datacoves/how_to_connection_template.md). The Snowflake username must match the username associated with the email used to authenticate with Datacoves for example `some_user` would be the snowflake username for `some_user@example.com`, please let us know if your username is different.
+:::note
+To enable key-pair authentication, you admin must select `Inferred from user info using a custom template` when setting up the [Connection Template](/how-tos/datacoves/how_to_connection_template.md). The Snowflake username must match the username associated with the email used to authenticate with Datacoves for example `some_user` would be the snowflake username for `some_user@example.com`, please let us know if your username is different.
+:::
 
 If using key based authentication, you will need to provide or generate a key which will need to be added to Snowflake manually or contact us for information on how to automate this integration with Snowflake.
 
@@ -6650,7 +6678,9 @@ In the Database Connection Section, click `Add`
 
 Give the connection a name. 
 
->[!TIP]This will be used as your dbt target name and is typically `dev`. 
+:::tip
+This will be used as your dbt target name and is typically `dev`. 
+:::
 
 Next select a connection template. A connection template will have defaults pre-configured by your administrator.
 
@@ -6660,7 +6690,9 @@ Next select a connection template. A connection template will have defaults pre-
 
 Datacoves will test the connection and display `Tested` next to the connection if successful. 
 
->[!NOTE]You can create additional dbt targets as shown below. This will allow you to execute dbt commands passing a specific target such as `dbt run my_model -t prd`
+:::note
+You can create additional dbt targets as shown below. This will allow you to execute dbt commands passing a specific target such as `dbt run my_model -t prd`
+:::
 
 ![Snowflake Setup Connection Tested](./assets/user_settings_snowflake4.png)
 
@@ -6710,7 +6742,9 @@ Environment variables set at the user level will only be available to the worksp
 
 ## Environment Level
 
->[!NOTE] You must have admin permissions to add variables across the project or user environments. 
+:::note
+You must have admin permissions to add variables across the project or user environments. 
+:::
 
 Environment level variables will be available to everyone with access to the environment ie) The Development Environment. 
 
@@ -6766,7 +6800,7 @@ If you do not save changes, the variable will not be deleted.
 
 # How to override default VS Code settings
 
-Once you have [set up your Visual Studio Code](/how-tos/vscode/initial) environment, you have the possibility to override certain settings we provide by default. This is done in your Workspace settings.
+Once you have [set up your Visual Studio Code](./initial.md) environment, you have the possibility to override certain settings we provide by default. This is done in your Workspace settings.
 
 ## Create your workspace settings file
 
@@ -6798,8 +6832,9 @@ To see our default settings, which will serve as example for you to overwrite in
 ![User Settings JSON](./assets/user_settings_json.png)
 
 ### Copy the betterStatusBar.commands
-
->[!NOTE]Only the commands you copy over to your settings.json will be available to you, so we recommend copying over all of them to avoid losing any during the customization process. 
+:::note
+Only the commands you copy over to your settings.json will be available to you, so we recommend copying over all of them to avoid losing any during the customization process. 
+:::
 
 Paste them in your .vscode/settings.json file
 
@@ -6843,7 +6878,9 @@ Below you can see the structure of the command entry.
   
 - **Tool tips**: To change the hover message, edit the "tooltip" variable and add a string with the message you'd like to display upon hovering. If you decide to add a button to the status bar that was not there by default, its tooltip will likely be `null`. This will default to `"betterStatusBar.<id>"`
 
->[!ATTENTION]These customizations will only be available in the individual user workspace. To fix this, the settings.json can be committed to version control and shared across developers, however, if you choose this method **DO NOT store any secrets in the the settings.json** since they will be committed to version control.
+:::warning
+These customizations will only be available in the individual user workspace. To fix this, the settings.json can be committed to version control and shared across developers, however, if you choose this method **DO NOT store any secrets in the the settings.json** since they will be committed to version control.
+:::
 
 ---
 
@@ -6891,7 +6928,7 @@ rm -rf /config/workspace/.git
 
 # Working with an LLM in Datacoves Copilot
 
-Once you have [configured your LLM](/how-tos/vscode/datacoves-copilot/llm-config.md), working with the AI chat is a breeze! 
+Once you have [configured your LLM](./v2-llm-config.md), working with the AI chat is a breeze! 
 
 ## Pre-configured presets
 
@@ -6990,7 +7027,7 @@ Current out of the box presents include:
 
 To use your LLM head to the Datacoves Power User extension and open up `Copilot`.
 
-<img src="/how-tos/vscode/datacoves-copilot/assets/llm_menu.png" alt="LLM Menu" width="250" height="500"/>
+<img src="/docs/how-tos/vscode/datacoves-copilot/assets/llm_menu.png" alt="LLM Menu" width="250" height="500"/>
 
 ### Provide files for context
 
@@ -7061,7 +7098,7 @@ To start a new chat click on the `New Chat` button.
 :::
 ### Step 1: Create a Datacoves Secret
 
-Creating a [Datacoves Secret](/how-tos/datacoves/how_to_secrets.md) requires some key fields to be filled out:
+Creating a [Datacoves Secret](/docs/how-tos/datacoves/how_to_secrets.md) requires some key fields to be filled out:
 
 - **Name:** The secret must be named `datacoves-copilot-llm-api`
 - **Description:** Provide a simple description such as: `Open AI config`
@@ -7389,8 +7426,8 @@ Datacoves can integrate seamlessly with your existing ChatGPT or Azure Open AI L
 
 ## How to's
 
-- [LLM Config](/how-tos/vscode/datacoves-copilot/llm-config.md)
-- [Working with an LLM in Datacoves](/how-tos/vscode/datacoves-copilot/llm.md)
+- [Datacoves Copilot v2](./v2.md)
+- [Datacoves Copilot v1 (Deprecated)](./v1.md)
 
 ---
 
@@ -7402,7 +7439,6 @@ Datacoves can integrate seamlessly with your existing ChatGPT or Azure Open AI L
 
 :::note
 If you have recommendations for reference guides, please send us an email at support@datacoves.com
-:::
 :::
 
 ---
@@ -7479,7 +7515,9 @@ An Environment in Datacoves defines a data stack and associated settings for a g
 
 These environments are displayed on the launchpad to users that have the proper permission for the given environment.
 
->[!TIP]See our How To - [Environments](how-tos/datacoves/how_to_environments.md)
+:::tip
+See our How To - [Environments](how-tos/datacoves/how_to_environments.md)
+:::
 
 ![Launch Pad](./assets/launchpad_environments_projects.png)
 
@@ -7516,7 +7554,9 @@ Additionally, when an [Environment](/reference/admin-menu/environments.md) is cr
 - `Environment Sys Admin`
 - `Environment Viewer`
 
->[!TIP]See our How To - [Groups](how-tos/datacoves/how_to_groups.md) for information on editing group permissions and associating groups with AD groups for Datacoves enterprise installations.
+:::tip
+See our How To - [Groups](how-tos/datacoves/how_to_groups.md) for information on editing group permissions and associating groups with AD groups for Datacoves enterprise installations.
+:::
 
 ### **User Groups & Default Privileges in Datacoves**
 
@@ -7571,7 +7611,9 @@ For more information see:
 - MS Teams: used to [send Microsoft Teams messages from Airflow](/how-tos/airflow/send-ms-teams-notifications.md)
 - Slack: used to [send Slack messages from Airflow](/how-tos/airflow/send-slack-notifications.md)
 
->[!TIP]See our How To - [Integrations](how-tos/datacoves/how_to_integrations.md) 
+:::tip
+See our How To - [Integrations](how-tos/datacoves/how_to_integrations.md) 
+:::
 
 ## Integrations Listing
 
@@ -7593,7 +7635,9 @@ Each row contains 2 action buttons, Edit and Delete.
 
 This page is used to invite users into your account.
 
->[!TIP]See our How To - [Invitations](how-tos/datacoves/how_to_invitations.md)
+:::tip
+See our How To - [Invitations](how-tos/datacoves/how_to_invitations.md)
+:::
 
 ## Invitation Listing
 
@@ -7613,7 +7657,9 @@ A Project is the highest grouping in Datacoves. It is what contains environments
 
 The Datacoves landing page (Launch Pad) follows this hierarchy:
 
->[!TIP]See our How To - [Projects](how-tos/datacoves/how_to_projects.md)
+:::tip
+See our How To - [Projects](how-tos/datacoves/how_to_projects.md)
+:::
 
 ![Project Environment Difference](./assets/launchpad_environments_projects.png)
 
@@ -7646,7 +7692,9 @@ Some uses could be:
 - Storing Airbyte connections credentials using `dbt-coves extract` and `dbt-coves load` commands.
 - Storing Airflow connections or variables used by Airflow DAGs
 
->[!TIP]See our How To - [Secrets](how-tos/datacoves/how_to_secrets.md) 
+:::tip
+See our How To - [Secrets](how-tos/datacoves/how_to_secrets.md) 
+:::
 
 ## Secrets Listing
 
@@ -7672,7 +7720,9 @@ Secrets could be stored encrypted on the Datacoves database, or use a third part
 
 Service Connections are used by automated processes like Airflow jobs. Before Datacoves 3.3 details entered here could only be injected as **environment variables** that would then be used within a dbt profiles.yml file to establish a connection with your data warehouse. However, it is now recommended to select **Airflow Connection** as the delivery mode so that the credentials are used to create an Airflow connection to establish a connection with your data warehouse.
 
->[!TIP]See our How To - [Service Connections](how-tos/datacoves/how_to_service_connections.md)
+:::tip
+See our How To - [Service Connections](how-tos/datacoves/how_to_service_connections.md)
+:::
 
 ## Service Connection Listing
 
@@ -7684,7 +7734,9 @@ For each environment we can see the associated environment, the service that use
 
 Each row contains 3 action buttons: Test Connection, Edit, and Delete.
 
->[!TIP]Clicking the (?) icon will show the names of the ENVIRONMENT variables that will be injected into the service. These are what you must use in your dbt profiles.yml file.
+:::tip
+Clicking the (?) icon will show the names of the ENVIRONMENT variables that will be injected into the service. These are what you must use in your dbt profiles.yml file.
+:::
 
 ## Datacoves Airflow Variables
 
@@ -7709,7 +7761,9 @@ Datacoves uses the service connection to dynamically create the following variab
 
 In this page you can manage the users that belong to your account. Here you can grant or change the permission groups associated with each user.
 
->[!TIP]See our How To - [Manage Users](how-tos/datacoves/how_to_manage_users.md)
+:::tip
+See our How To - [Manage Users](how-tos/datacoves/how_to_manage_users.md)
+:::
 
 ## Users Listing
 
@@ -7881,7 +7935,9 @@ Datacoves injects environment variables into Airflow.
 
 ![Launch Pad](../admin-menu/assets/launchpad_environments_projects.png)
 
->[!NOTE]If you have any questions, please send us an email at support@datacoves.com
+:::note
+If you have any questions, please send us an email at support@datacoves.com
+:::
 
 ---
 
@@ -8062,7 +8118,7 @@ With the introduction of the task flow API in Airflow we have released the Datac
 :::note
  While the Datacoves decorators are recommended, the [Datacoves Operators](/reference/airflow/datacoves-operator.md), are still supported. 
 :::
-:::
+
 ## Decorators 
 
 ### @task.datacoves_bash
@@ -8140,7 +8196,7 @@ From Datacoves 3.4 onwards, the `datacoves_dbt` decorator allows users to upload
 :::note
 dbt-API is a feature that is not enabled by default. Please contact support for further assistance.
 :::
-:::
+
 This is particularly useful for performing [dbt retries](/how-tos/airflow/retry-dbt-tasks.md).
 
 
@@ -8160,6 +8216,7 @@ The new datacoves_dbt parameters are:
 :::note
 >**Static Artifacts**  
 :::
+
 >The static artifacts are important dbt-generated files that help with dbt's operations:
 >
 >- `target/graph_summary.json`: Contains a summary of the DAG structure of your dbt project.
@@ -8212,9 +8269,11 @@ Currently, the `datacoves my` subcommand has the following subcommands:
 
 ### datacoves my import
 
->[!NOTE] For security purposes secret values will not be automatically imported. The tool will ask you to enter the secret value. 
+:::note
+For security purposes secret values will not be automatically imported. The tool will ask you to enter the secret value. 
+:::
 
-This command will import your variables and connections from Team Airflow to [My Airflow](/how-tos/my_airflow/). You only need to complete this once or whenever new variables/connections are added to team airflow. 
+This command will import your variables and connections from Team Airflow to [My Airflow](/docs/how-tos/my_airflow/). You only need to complete this once or whenever new variables/connections are added to team airflow. 
 
 ```bash
 datacoves my import
@@ -8222,7 +8281,9 @@ datacoves my import
 
 ### datacoves my pytest
 
->[!NOTE] My Airflow [must be instantiated](/how-tos/my_airflow/start-my-airflow.md) for this command to work.
+:::note
+My Airflow [must be instantiated](/how-tos/my_airflow/start-my-airflow.md) for this command to work.
+:::
 
 This command allows you to run pytest validations straight from the command line. Simply create your python file with your desired tests inside the `orchestrate` directory. Then pass the file path as an argument as seen below. 
 
@@ -8240,7 +8301,9 @@ When creating a service connection and setting the `Delivery Mode` to environmen
 
 These variables can be used in your `profiles.yml` file and will allow you to safely commit a profiles.yml without sensitive data in git. The available environment variables will vary based on your data warehouse.
 
->[!NOTE] These variables will also need to be configured in your CI/CD provider. ie) github, Gitlab.
+:::note
+These variables will also need to be configured in your CI/CD provider. ie) github, Gitlab.
+:::
 
 The name of the service connection will be used to dynamically create the following variables. In the chart below the name of the service connection is `main`.
 
@@ -8396,7 +8459,7 @@ Both of them receive the same arguments, so we won't differentiate examples. Sel
 :::note
 To avoid synchronizing unnecessary Airflow tables, the following Airflow tables are synced by default: `ab_permission`, `ab_role`, `ab_user`, `dag`, `dag_run`, `dag_tag`, `import_error`, `job`, `task_fail`, `task_instance`
 :::
-:::
+
 These operators can receive:
 
 - `tables`: a list of tables to override the default ones. _Warning:_ An empty list `[]` will perform a full-database sync.
@@ -8545,7 +8608,9 @@ The Metrics & Logs menu link provides access to Grafana, where you'll find chart
 
 Accessing the dashboards list is easy:
 
->[!TIP]We recommend you bookmark your favorite dashboards so they are pinned in the home page.
+:::tip
+We recommend you bookmark your favorite dashboards so they are pinned in the home page.
+:::
 
 ![Dashboards Nav menu](./assets/dashboards-nav.png)
 
@@ -8555,7 +8620,8 @@ Grafana comes with a set of prebuilt dashboards that you can use right away.
 
 ![Dashboards List](./assets/dashboards-list.png)
 
->[!ATTENTION] The following dashboards are not working quite right yet, so please don't use them:  
+:::warning
+The following dashboards are not working quite right yet, so please don't use them:  
 . etcd  
 . Kubernetes / Compute Resources / Namespace (Workloads)  
 . Kubernetes / Compute Resources / Node (Pods)  
@@ -8564,6 +8630,7 @@ Grafana comes with a set of prebuilt dashboards that you can use right away.
 . Kubernetes / Proxy  
 . Kubernetes / Scheduler  
 . Node Exporter / (all)
+:::
 
 ---
 

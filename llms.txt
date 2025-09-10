@@ -1157,14 +1157,6 @@ Lineage Panel has 3 configurable settings. As with any VSCode setting, these can
 
 ---
 
-// File: how-tos/README
-
-# How to
-
-How-to guides to help you accomplish a given task assuming you have some basic understanding.
-
----
-
 // File: how-tos/airflow/initial-setup
 
 # How to configure Airflow in Datacoves

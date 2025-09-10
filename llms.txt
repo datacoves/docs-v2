@@ -1,3 +1,494 @@
+// File: best-practices/tutorial-basics/create-a-page
+
+# Create a Page
+
+Add **Markdown or React** files to `src/pages` to create a **standalone page**:
+
+- `src/pages/index.js` → `localhost:3000/`
+- `src/pages/foo.md` → `localhost:3000/foo`
+- `src/pages/foo/bar.js` → `localhost:3000/foo/bar`
+
+## Create your first React Page
+
+Create a file at `src/pages/my-react-page.js`:
+
+```jsx title="src/pages/my-react-page.js"
+import React from 'react';
+import Layout from '@theme/Layout';
+
+export default function MyReactPage() {
+  return (
+    <Layout>
+      <h1>My React page</h1>
+      <p>This is a React page</p>
+    </Layout>
+  );
+}
+```
+
+A new page is now available at [http://localhost:3000/my-react-page](http://localhost:3000/my-react-page).
+
+## Create your first Markdown Page
+
+Create a file at `src/pages/my-markdown-page.md`:
+
+```mdx title="src/pages/my-markdown-page.md"
+# My Markdown page
+
+This is a Markdown page
+```
+
+A new page is now available at [http://localhost:3000/my-markdown-page](http://localhost:3000/my-markdown-page).
+
+---
+
+// File: best-practices/tutorial-basics/create-a-document
+
+# Create a Document
+
+Documents are **groups of pages** connected through:
+
+- a **sidebar**
+- **previous/next navigation**
+- **versioning**
+
+## Create your first Doc
+
+Create a Markdown file at `docs/hello.md`:
+
+```md title="docs/hello.md"
+# Hello
+
+This is my **first Docusaurus document**!
+```
+
+A new document is now available at [http://localhost:3000/docs/hello](http://localhost:3000/docs/hello).
+
+## Configure the Sidebar
+
+Docusaurus automatically **creates a sidebar** from the `docs` folder.
+
+Add metadata to customize the sidebar label and position:
+
+```md title="docs/hello.md" {1-4}
+---
+sidebar_label: 'Hi!'
+sidebar_position: 3
+---
+
+# Hello
+
+This is my **first Docusaurus document**!
+```
+
+It is also possible to create your sidebar explicitly in `sidebars.js`:
+
+```js title="sidebars.js"
+export default {
+  tutorialSidebar: [
+    'intro',
+    // highlight-next-line
+    'hello',
+    {
+      type: 'category',
+      label: 'Tutorial',
+      items: ['tutorial-basics/create-a-document'],
+    },
+  ],
+};
+```
+
+---
+
+// File: best-practices/tutorial-basics/create-a-blog-post
+
+# Create a Blog Post
+
+Docusaurus creates a **page for each blog post**, but also a **blog index page**, a **tag system**, an **RSS** feed...
+
+## Create your first Post
+
+Create a file at `blog/2021-02-28-greetings.md`:
+
+```md title="blog/2021-02-28-greetings.md"
+---
+slug: greetings
+title: Greetings!
+authors:
+  - name: Joel Marcey
+    title: Co-creator of Docusaurus 1
+    url: https://github.com/JoelMarcey
+    image_url: https://github.com/JoelMarcey.png
+  - name: Sébastien Lorber
+    title: Docusaurus maintainer
+    url: https://sebastienlorber.com
+    image_url: https://github.com/slorber.png
+tags: [greetings]
+---
+
+Congratulations, you have made your first post!
+
+Feel free to play around and edit this post as much as you like.
+```
+
+A new blog post is now available at [http://localhost:3000/blog/greetings](http://localhost:3000/blog/greetings).
+
+---
+
+// File: best-practices/tutorial-basics/markdown-features
+
+# Markdown Features
+
+Docusaurus supports **[Markdown](https://daringfireball.net/projects/markdown/syntax)** and a few **additional features**.
+
+## Front Matter
+
+Markdown documents have metadata at the top called [Front Matter](https://jekyllrb.com/docs/front-matter/):
+
+```text title="my-doc.md"
+// highlight-start
+---
+id: my-doc-id
+title: My document title
+description: My document description
+slug: /my-custom-url
+---
+// highlight-end
+
+## Markdown heading
+
+Markdown text with [links](./hello.md)
+```
+
+## Links
+
+Regular Markdown links are supported, using url paths or relative file paths.
+
+```md
+Let's see how to [Create a page](/create-a-page).
+```
+
+```md
+Let's see how to [Create a page](./create-a-page.md).
+```
+
+**Result:** Let's see how to [Create a page](./create-a-page.md).
+
+## Images
+
+Regular Markdown images are supported.
+
+You can use absolute paths to reference images in the static directory (`static/img/docusaurus.png`):
+
+```md
+![Docusaurus logo](/img/docusaurus.png)
+```
+
+![Docusaurus logo](/img/docusaurus.png)
+
+You can reference images relative to the current file as well. This is particularly useful to colocate images close to the Markdown files using them:
+
+```md
+![Docusaurus logo](./img/docusaurus.png)
+```
+
+## Code Blocks
+
+Markdown code blocks are supported with Syntax highlighting.
+
+````md
+```jsx title="src/components/HelloDocusaurus.js"
+function HelloDocusaurus() {
+  return <h1>Hello, Docusaurus!</h1>;
+}
+```
+````
+
+```jsx title="src/components/HelloDocusaurus.js"
+function HelloDocusaurus() {
+  return <h1>Hello, Docusaurus!</h1>;
+}
+```
+
+## Admonitions
+
+Docusaurus has a special syntax to create admonitions and callouts:
+
+```md
+:::tip My tip
+
+Use this awesome feature option
+
+:::
+
+:::danger Take care
+
+This action is dangerous
+
+:::
+```
+
+:::tip My tip
+
+Use this awesome feature option
+
+:::
+
+:::danger Take care
+
+This action is dangerous
+
+:::
+
+## MDX and React Components
+
+[MDX](https://mdxjs.com/) can make your documentation more **interactive** and allows using any **React components inside Markdown**:
+
+```jsx
+export const Highlight = ({children, color}) => (
+  <span
+    style={{
+      backgroundColor: color,
+      borderRadius: '20px',
+      color: '#fff',
+      padding: '10px',
+      cursor: 'pointer',
+    }}
+    onClick={() => {
+      alert(`You clicked the color ${color} with label ${children}`)
+    }}>
+    {children}
+  </span>
+);
+
+This is <Highlight color="#25c2a0">Docusaurus green</Highlight> !
+
+This is <Highlight color="#1877F2">Facebook blue</Highlight> !
+```
+
+export const Highlight = ({children, color}) => (
+  <span
+    style={{
+      backgroundColor: color,
+      borderRadius: '20px',
+      color: '#fff',
+      padding: '10px',
+      cursor: 'pointer',
+    }}
+    onClick={() => {
+      alert(`You clicked the color ${color} with label ${children}`);
+    }}>
+    {children}
+  </span>
+);
+
+This is <Highlight color="#25c2a0">Docusaurus green</Highlight> !
+
+This is <Highlight color="#1877F2">Facebook blue</Highlight> !
+
+---
+
+// File: best-practices/tutorial-basics/deploy-your-site
+
+# Deploy your site
+
+Docusaurus is a **static-site-generator** (also called **[Jamstack](https://jamstack.org/)**).
+
+It builds your site as simple **static HTML, JavaScript and CSS files**.
+
+## Build your site
+
+Build your site **for production**:
+
+```bash
+npm run build
+```
+
+The static files are generated in the `build` folder.
+
+## Deploy your site
+
+Test your production build locally:
+
+```bash
+npm run serve
+```
+
+The `build` folder is now served at [http://localhost:3000/](http://localhost:3000/).
+
+You can now deploy the `build` folder **almost anywhere** easily, **for free** or very small cost (read the **[Deployment Guide](https://docusaurus.io/docs/deployment)**).
+
+---
+
+// File: best-practices/tutorial-basics/congratulations
+
+# Congratulations!
+
+You have just learned the **basics of Docusaurus** and made some changes to the **initial template**.
+
+Docusaurus has **much more to offer**!
+
+Have **5 more minutes**? Take a look at **[versioning](../tutorial-extras/manage-docs-versions.md)** and **[i18n](../tutorial-extras/translate-your-site.md)**.
+
+Anything **unclear** or **buggy** in this tutorial? [Please report it!](https://github.com/facebook/docusaurus/discussions/4610)
+
+## What's next?
+
+- Read the [official documentation](https://docusaurus.io/)
+- Modify your site configuration with [`docusaurus.config.js`](https://docusaurus.io/docs/api/docusaurus-config)
+- Add navbar and footer items with [`themeConfig`](https://docusaurus.io/docs/api/themes/configuration)
+- Add a custom [Design and Layout](https://docusaurus.io/docs/styling-layout)
+- Add a [search bar](https://docusaurus.io/docs/search)
+- Find inspirations in the [Docusaurus showcase](https://docusaurus.io/showcase)
+- Get involved in the [Docusaurus Community](https://docusaurus.io/community/support)
+
+---
+
+// File: best-practices/tutorial-extras/manage-docs-versions
+
+# Manage Docs Versions
+
+Docusaurus can manage multiple versions of your docs.
+
+## Create a docs version
+
+Release a version 1.0 of your project:
+
+```bash
+npm run docusaurus docs:version 1.0
+```
+
+The `docs` folder is copied into `versioned_docs/version-1.0` and `versions.json` is created.
+
+Your docs now have 2 versions:
+
+- `1.0` at `http://localhost:3000/docs/` for the version 1.0 docs
+- `current` at `http://localhost:3000/docs/next/` for the **upcoming, unreleased docs**
+
+## Add a Version Dropdown
+
+To navigate seamlessly across versions, add a version dropdown.
+
+Modify the `docusaurus.config.js` file:
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'docsVersionDropdown',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+The docs version dropdown appears in your navbar:
+
+![Docs Version Dropdown](./img/docsVersionDropdown.png)
+
+## Update an existing version
+
+It is possible to edit versioned docs in their respective folder:
+
+- `versioned_docs/version-1.0/hello.md` updates `http://localhost:3000/docs/hello`
+- `docs/hello.md` updates `http://localhost:3000/docs/next/hello`
+
+---
+
+// File: best-practices/tutorial-extras/translate-your-site
+
+# Translate your site
+
+Let's translate `docs/intro.md` to French.
+
+## Configure i18n
+
+Modify `docusaurus.config.js` to add support for the `fr` locale:
+
+```js title="docusaurus.config.js"
+export default {
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+  },
+};
+```
+
+## Translate a doc
+
+Copy the `docs/intro.md` file to the `i18n/fr` folder:
+
+```bash
+mkdir -p i18n/fr/docusaurus-plugin-content-docs/current/
+
+cp docs/intro.md i18n/fr/docusaurus-plugin-content-docs/current/intro.md
+```
+
+Translate `i18n/fr/docusaurus-plugin-content-docs/current/intro.md` in French.
+
+## Start your localized site
+
+Start your site on the French locale:
+
+```bash
+npm run start -- --locale fr
+```
+
+Your localized site is accessible at [http://localhost:3000/fr/](http://localhost:3000/fr/) and the `Getting Started` page is translated.
+
+:::caution
+
+In development, you can only use one locale at a time.
+
+:::
+
+## Add a Locale Dropdown
+
+To navigate seamlessly across languages, add a locale dropdown.
+
+Modify the `docusaurus.config.js` file:
+
+```js title="docusaurus.config.js"
+export default {
+  themeConfig: {
+    navbar: {
+      items: [
+        // highlight-start
+        {
+          type: 'localeDropdown',
+        },
+        // highlight-end
+      ],
+    },
+  },
+};
+```
+
+The locale dropdown now appears in your navbar:
+
+![Locale Dropdown](./img/localeDropdown.png)
+
+## Build your localized site
+
+Build your site for a specific locale:
+
+```bash
+npm run build -- --locale fr
+```
+
+Or build your site to include all the locales at once:
+
+```bash
+npm run build
+```
+
+---
+
 // File: best-practices/README
 
 # Best Practices
@@ -531,13 +1022,7 @@ Here we present some guidance for Snowflake including setting up a scalable secu
 
 ---
 
-// File: getting-started/README
-
-# Datacoves Getting Started Guides
-
----
-
-// File: getting-started/Admin/create-account
+// File: getting-started/create-account
 
 # Configure your account with Datacoves
 
@@ -1170,14 +1655,6 @@ You can also look up other dbt models and change the parent and child nodes disp
 Lineage Panel has 3 configurable settings. As with any VSCode setting, these can be [overridden](/docs/how-tos/vscode/override) in the `settings.json` file located in `workspace/.vscode/settings.json`:
 
 - Default Expansion (`dbt.lineage.defaultExpansion`: number): How many nodes should expand by default for the currently-opened model.
-
----
-
-// File: how-tos/README
-
-# How to
-
-How-to guides to help you accomplish a given task assuming you have some basic understanding.
 
 ---
 
@@ -7432,18 +7909,6 @@ Datacoves can integrate seamlessly with your existing ChatGPT or Azure Open AI L
 
 ---
 
-// File: reference/README
-
-# Reference Guides
-
-**Reference guides** give you detailed information on a given topic
-
-:::note
-If you have recommendations for reference guides, please send us an email at support@datacoves.com
-:::
-
----
-
 // File: reference/admin-menu/README
 
 # Admininstration Menu
@@ -8403,7 +8868,7 @@ simple_datacoves_dag()
 
 ## Datacoves dbt Operator
 
-:::waring
+:::warning
 If you have either `dbt_modules` or `dbt_packages` folders in your project repo Datacoves won't run `dbt deps`.
 :::
 ``` 
@@ -8801,3 +9266,19 @@ env | grep DATACOVES | sort
 ## Shortcuts
 
 - `cmd + alt + Shift + L` ➡️ Select all occurrences of a selected phrase
+
+---
+
+// File: tutorials/educational-data-resources
+
+<meta http-equiv="refresh" content="0; url=https://datacoves.com/data-resources#Educational" />
+
+A collection of datasets and resources for learning and teaching with data.
+
+---
+
+// File: tutorials/learning-resources
+
+<meta http-equiv="refresh" content="0; url=https://datacoves.com/learning-resources?_gl=1*18cmhau*_ga*MjYwMzYwODE1LjE3NTIyNTAwNDk.*_ga_WFBP8GG4YV*czE3NTYyNDYzMzAkbzUwJGcxJHQxNzU2MjQ2NDg4JGo2MCRsMCRoMA.." />
+
+Curated guides, videos, and documentation to help you get started quickly. [Learning Resources](https://datacoves.com/learning-resources?_gl=1*18cmhau*_ga*MjYwMzYwODE1LjE3NTIyNTAwNDk.*_ga_WFBP8GG4YV*czE3NTYyNDYzMzAkbzUwJGcxJHQxNzU2MjQ2NDg4JGo2MCRsMCRoMA..).

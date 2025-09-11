@@ -1,5 +1,6 @@
 ---
-sidebar_position: 1
+title: Metrics & Logs
+sidebar_position: 71
 ---
 # Metrics and Logs How Tos
 

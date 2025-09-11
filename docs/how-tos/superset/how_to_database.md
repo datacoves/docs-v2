@@ -1,5 +1,6 @@
 ---
-sidebar_position: 2
+title: Add a Database
+sidebar_position: 82
 ---
 ## How to Add a Database Connection in Superset
 

@@ -1,9 +1,7 @@
 ---
-title: How_to_datahub_snowflake
-sidebar_position: 3
+title: Configure Snowflake metadata ingestion
+sidebar_position: 60
 ---
-
-
 # How to ingest Snowflake metadata into DataHub
 
 Datahub can ingest Snowflake metadata by connecting to Snowflake directly.

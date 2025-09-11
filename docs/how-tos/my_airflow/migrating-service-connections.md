@@ -1,8 +1,7 @@
 ---
-title: Migrating service connections
-sidebar_position: 1
+title: Migrating from Environment Service Connections
+sidebar_position: 75
 ---
-
 # Migrating from Environment Service Connections to Airflow Service Connections
 
 To leverage **My Airflow** and **Datacoves Decorators**, you'll need to update your configurations and refactor your DAGs. This guide walks you through the necessary steps.
@@ -22,8 +21,9 @@ Launch your [My Airflow](/how-tos/my_airflow/start-my-airflow.md) instance to be
 
 Run the [My Import](/how-tos/my_airflow/my-import.md) process to import variables and connections from **Team Airflow** to **My Airflow**. 
 
->[!NOTE] Secret values will not be automatically transferred and must be manually provided via the command line. `datacoves my import` only imports connections created by a Datacoves service connections, all other connections must be imported manually.
-
+:::note
+Secret values will not be automatically transferred and must be manually provided via the command line. `datacoves my import` only imports connections created by a Datacoves service connections, all other connections must be imported manually.
+:::
 **When prompted to add secret values:**
 
 - enter the value

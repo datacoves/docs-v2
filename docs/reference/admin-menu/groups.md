@@ -1,8 +1,7 @@
 ---
 title: Groups
-sidebar_position: 3
+sidebar_position: 113
 ---
-
 # Groups Admin
 
 ## Overview
@@ -22,7 +21,9 @@ Additionally, when an [Environment](/reference/admin-menu/environments.md) is cr
 - `Environment Sys Admin`
 - `Environment Viewer`
 
->[!TIP]See our How To - [Groups](how-tos/datacoves/how_to_groups.md) for information on editing group permissions and associating groups with AD groups for Datacoves enterprise installations.
+:::tip
+See our How To - [Groups](how-tos/datacoves/how_to_groups.md) for information on editing group permissions and associating groups with AD groups for Datacoves enterprise installations.
+:::
 
 ### **User Groups & Default Privileges in Datacoves**
 

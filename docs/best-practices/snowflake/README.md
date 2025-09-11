@@ -1,5 +1,6 @@
 ---
-sidebar_position: 1
+title: Snowflake
+sidebar_position: 4
 ---
 # Snowflake
 

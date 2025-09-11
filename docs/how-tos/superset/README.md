@@ -1,5 +1,6 @@
 ---
-sidebar_position: 3
+title: Superset
+sidebar_position: 81
 ---
 # Superset in Datacoves 
 

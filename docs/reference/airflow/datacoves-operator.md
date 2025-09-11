@@ -1,13 +1,12 @@
 ---
-title: Datacoves operator
-sidebar_position: 7
+title: Datacoves Operators
+sidebar_position: 128
 ---
-
 # Datacoves Operators & Generators
 
->[!NOTE] All operators use Datacoves Service connections with `Delivery Mode` set to `Environment Variables`
-
+:::note All operators use Datacoves Service connections with `Delivery Mode` set to `Environment Variables`
 When utilizing dbt-coves to generate DAGs, it's crucial to grasp the functionality of the two frequently used operators and their behind-the-scenes operations, enhancing your Airflow experience.
+:::
 
 ## Datacoves Bash Operator
 
@@ -60,8 +59,9 @@ simple_datacoves_dag()
 
 ## Datacoves dbt Operator
 
->[!WARNING]If you have either `dbt_modules` or `dbt_packages` folders in your project repo Datacoves won't run `dbt deps`.
-
+:::warning
+If you have either `dbt_modules` or `dbt_packages` folders in your project repo Datacoves won't run `dbt deps`.
+:::
 ``` 
 from operators.datacoves.dbt import DatacovesDbtOperator
 ```
@@ -78,6 +78,7 @@ Params:
 
 - `bash_command`: command to run
 - `project_dir` (optional): relative path from repo root to a specific dbt project.
+- `run_dbt_deps` (optional): boolean to force dbt deps run.
 
 ```python
 import datetime
@@ -113,7 +114,9 @@ Datacoves has the following Airflow Data Sync Operators: `DatacovesDataSyncOpera
 
 Both of them receive the same arguments, so we won't differentiate examples. Select the appropriate provider for your Data Warehouse.
 
-> [!NOTE]To avoid synchronizing unnecessary Airflow tables, the following Airflow tables are synced by default: `ab_permission`, `ab_role`, `ab_user`, `dag`, `dag_run`, `dag_tag`, `import_error`, `job`, `task_fail`, `task_instance`
+:::note
+To avoid synchronizing unnecessary Airflow tables, the following Airflow tables are synced by default: `ab_permission`, `ab_role`, `ab_user`, `dag`, `dag_run`, `dag_tag`, `import_error`, `job`, `task_fail`, `task_instance`
+:::
 
 These operators can receive:
 

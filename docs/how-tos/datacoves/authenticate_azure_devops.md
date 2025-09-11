@@ -1,8 +1,7 @@
 ---
-title: Authenticate_azure_devops
-sidebar_position: 2
+title: Authenticate Azure DevOps
+sidebar_position: 54
 ---
-
 # Authentication for Azure DevOps 
 
 Now you are ready to begin configuring your authentication method. This is the method Datacoves will use to clone your repo from Azure DevOps. You have two options: `secrets` and `certificates`.
@@ -13,7 +12,7 @@ Now you are ready to begin configuring your authentication method. This is the m
 
 - Select the `Certificates & Secrets` option in the left navigation menu.
 
-<img src="/how-tos/datacoves/assets/azure_devops_secret_nav.jpg" alt="Navigation" width="800" height="600" />
+![Navigation](./assets/azure_devops_secret_nav.jpg)
 
 ### `secret` or `certificate` Authentification Method
 
@@ -35,7 +34,7 @@ As mentioned above, you have two authentication methods available: `secrets` or 
 
 <u>**Step 4**</u> Copy the Value onto a notepad.
 
-<img src="/how-tos/datacoves/assets/azure_devops_secret.jpg" alt="Azure Secret" />
+![Azure Secret](./assets/azure_devops_secret.jpg)
 
 ✅ Congrats, you are now ready to [configure your project](how-tos/datacoves/how_to_projects.md).
 
@@ -49,7 +48,7 @@ As mentioned above, you have two authentication methods available: `secrets` or 
 
 - Select `Certificates` from the top navigation menu.
 
-<img src="/how-tos/datacoves/assets/azure_devops_upload_certificate.png" alt="Upload Certificate" />
+![Upload Certificate](./assets/azure_devops_upload_certificate.png)
 
 <u>**Step 3**</u> 
 
@@ -59,19 +58,19 @@ As mentioned above, you have two authentication methods available: `secrets` or 
 
 - Select `Azure DevOps Certificate` as your Cloning Strategy. 
 
-<img src="/how-tos/datacoves/assets/azure_devops_certificate.jpg" alt="Certificates" />
+![Certificates](./assets/azure_devops_certificate.jpg)
 
 <u>**Step 5**</u>
 
 - Copy the certificate and save it as a plain text file on your desktop with a `.pem` extension `datacoves_cert.pem`.
 
-<img src="/how-tos/datacoves/assets/azure_devops_certificate_copy.jpg" alt="Certificate PEM file" />
+![Certificate PEM file](./assets/azure_devops_certificate_copy.jpg)
 
 <u>**Step 6**</u>
 
 - Navigate back to your Azure Portal tab and select `Upload certificate`. Upload the PEM file you saved in the previous step.
 
-<img src="/how-tos/datacoves/assets/azure_devops_upload_certificate.png" alt="Upload Certificate" />
+![Upload Certificate](./assets/azure_devops_upload_certificate.png)
 
 <u>**Step 7**</u>
 

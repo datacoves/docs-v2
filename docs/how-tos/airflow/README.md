@@ -1,6 +1,6 @@
 ---
 title: Airflow
-sidebar_position: 1
+sidebar_position: 15
 ---
 # Airflow in Datacoves
 
@@ -17,4 +17,4 @@ And more!
 ## What to know
 - `Ruff` is installed to show unused imports and unused variables as well as python linting. 
 - [Datacoves Decorators](/reference/airflow/datacoves-decorators.md) simplify working with dbt, syncing databases, and running commands in Airflow.
-- [My Airflow](/how-tos/my_airflow/) can help speed up your DAG writing experience.
+- [My Airflow](/docs/how-tos/my_airflow/) can help speed up your DAG writing experience.

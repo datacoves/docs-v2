@@ -1,8 +1,7 @@
 ---
-title: Bigquery_setup
-sidebar_position: 1
+title: BigQuery
+sidebar_position: 89
 ---
-
 # BigQuery Setup
 
 In the Database Connection Section, click `Add`
@@ -11,7 +10,9 @@ In the Database Connection Section, click `Add`
 
 Give the connection a name. 
 
->[!TIP]This will be used as your dbt target name and is typically `dev`. 
+:::tip
+This will be used as your dbt target name and is typically `dev`. 
+:::
 
 Next select a connection template. A connection template will have defaults pre-configured by your administrator.
 

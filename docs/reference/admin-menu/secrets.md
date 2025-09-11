@@ -1,8 +1,7 @@
 ---
 title: Secrets
-sidebar_position: 8
+sidebar_position: 117
 ---
-
 # Secrets Admin
 
 ## Overview
@@ -14,7 +13,9 @@ Some uses could be:
 - Storing Airbyte connections credentials using `dbt-coves extract` and `dbt-coves load` commands.
 - Storing Airflow connections or variables used by Airflow DAGs
 
->[!TIP]See our How To - [Secrets](how-tos/datacoves/how_to_secrets.md) 
+:::tip
+See our How To - [Secrets](how-tos/datacoves/how_to_secrets.md) 
+:::
 
 ## Secrets Listing
 

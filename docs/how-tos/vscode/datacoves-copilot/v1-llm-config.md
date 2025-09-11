@@ -5,11 +5,12 @@ sidebar_position: 4
 
 # Configure your LLM for Datacoves Copilot v1
 
-> [!NOTE] Datacoves Copilot v1 only support the 4o model gpt model.
+:::note Datacoves Copilot v1 only support the 4o model gpt model.
 
+:::
 ### Step 1: Create a Datacoves Secret
 
-Creating a [Datacoves Secret](/how-tos/datacoves/how_to_secrets.md) requires some key fields to be filled out:
+Creating a [Datacoves Secret](/docs/how-tos/datacoves/how_to_secrets.md) requires some key fields to be filled out:
 
 - **Name:** The secret must be named `datacoves-copilot-llm-api`
 - **Description:** Provide a simple description such as: `Open AI config`

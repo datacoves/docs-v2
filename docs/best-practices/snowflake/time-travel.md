@@ -1,5 +1,5 @@
 ---
-title: Time travel
+title: GDPR and Time-Travel
 sidebar_position: 3
 ---
 

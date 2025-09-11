@@ -1,6 +1,6 @@
 ---
-title: Inlets bays coves
-sidebar_position: 2
+title: What are Inlets, Bays, and Coves
+sidebar_position: 3
 ---
 
 # What are Inlets, Bays & Coves

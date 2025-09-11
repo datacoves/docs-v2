@@ -1,8 +1,7 @@
 ---
-title: How_to_service_connections
-sidebar_position: 16
+title: Configure Service Connections
+sidebar_position: 49
 ---
-
 # How to Create/Edit a Service Connection
 
 Navigate to the Service Connection page

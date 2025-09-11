@@ -1,8 +1,7 @@
 ---
-title: Get current branch name
-sidebar_position: 8
+title: DAGs - Get Current Git Branch Name from a DAG Task
+sidebar_position: 24
 ---
-
 # Retrieving the Current Branch Name in a Git Repository
 
 In Airflow, Datacoves will place your repo into `/opt/airflow/dags/` 

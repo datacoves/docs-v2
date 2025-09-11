@@ -1,4 +1,5 @@
 ---
-sidebar_position: 3
+title: VS Code
+sidebar_position: 135
 ---
 # Datacoves Reference

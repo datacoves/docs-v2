@@ -1,8 +1,7 @@
 ---
-title: How_to_datahub_dbt
-sidebar_position: 2
+title: Configure dbt metadata ingestion
+sidebar_position: 59
 ---
-
 # Ingesting dbt Metadata into DataHub
 
 ## Prerequisites
@@ -24,7 +23,9 @@ To ingest dbt metadata, configure the dbt source in DataHub. Refer to the [offic
 
 The following sample demonstrates how to configure a dbt ingestion source in DataHub. 
 
->[!NOTE] This configuration requires a DataHub secret (`S3_secret_key`) for secure access to S3. Ensure that this secret is created before proceeding.
+:::note
+This configuration requires a DataHub secret (`S3_secret_key`) for secure access to S3. Ensure that this secret is created before proceeding.
+:::
 
 ```yaml
 source:
@@ -50,8 +51,9 @@ source:
 
 When using **Datacoves Mesh** (also known as dbt Mesh), you can ingest metadata from multiple dbt projects. 
 
->[!NOTE] To prevent **duplicate nodes**, exclude the upstream project by specifying patterns to deny in the `node_name_pattern` section.
-
+:::note
+To prevent **duplicate nodes**, exclude the upstream project by specifying patterns to deny in the `node_name_pattern` section.
+:::
 ### Sample Configuration
 
 The following configuration demonstrates how to add a second dbt source in DataHub:

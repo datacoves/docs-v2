@@ -89,7 +89,7 @@
 .footer__links {
   display: grid;
   grid-template-columns: 1fr; /* stack columns vertically */
-  gap: 2rem; /* spacing between columns */
+  gap: 0.75rem; /* spacing between columns */
 }
 
 /* Desktop: first column wider */
@@ -138,9 +138,8 @@
   color: var(--ifm-color-primary);
 }
 
-/* =========================
-   Navbar Search Bar - Brand Styling with Cmd+K
-========================= */
+
+/* Navbar Search Bar - Brand Styling with Cmd+K */
 
 /* Outer button (visible search bar) */
 .DocSearch.DocSearch-Button {
@@ -247,3 +246,45 @@
     width: 18px;
     height: 18px;
 }
+/* style search bar to light theme (even in dark mode) */
+
+/* Outer search button */
+html[data-theme='dark'] .DocSearch.DocSearch-Button {
+  background-color: #E8F4FE !important;   /* your light-mode --ifm-color-primary-lightest */
+  border: 2px solid #3496E0 !important;   /* your light-mode --ifm-color-primary */
+  color: #3496E0 !important;
+}
+
+/* Magnifying glass icon */
+html[data-theme='dark'] .DocSearch-Search-Icon {
+  color: #3496E0 !important;
+}
+
+/* Placeholder text */
+html[data-theme='dark'] .DocSearch-Button-Placeholder {
+  color: #626262 !important;
+}
+
+/* Shortcut keys (Cmd+K) */
+html[data-theme='dark'] .DocSearch-Button-Key {
+  background-color: #E8F4FE !important;   /* light-mode --ifm-color-primary-light */
+  color: #626262 !important;              /* light-mode --ifm-color-primary-dark */
+}
+
+/* Popup search input container */
+html[data-theme='dark'] .searchInputContainer_BATj {
+  background-color: #E8F4FE !important;
+  box-shadow: inset 0 0 0 2px #3496E0 !important;
+}
+
+/* Input text inside popup */
+html[data-theme='dark'] .searchInputContainer_BATj input[type="search"] {
+  color: #1f1f1f !important;
+}
+
+/* Popup magnifying glass icon */
+html[data-theme='dark'] .searchInputContainer_BATj svg {
+  color: #3496E0 !important;
+}
+
+

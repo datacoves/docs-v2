@@ -52,8 +52,10 @@ const config = {
           sidebarPath: './sidebars.js',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
+          /*
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            */
         },
         blog: {
           showReadingTime: true,
@@ -110,8 +112,13 @@ const config = {
   items: [
     {
       label: 'Getting Started',
+      to: '/docs/category/getting-started',
       position: 'left',
       items: [
+        {
+          label: 'Account Pre-reqs', 
+          to: '/docs/getting-started/create-account',
+        },
         {
           //type: 'docSidebar',//AC: uncommented this to use custom sidebar
           //sidebarId: 'gettingStartedSidebar',//AC: uncommented this to use custom sidebar
@@ -129,6 +136,7 @@ const config = {
     },
     {
       label: 'How to',
+      to: '/docs/category/how-tos',
       position: 'left',
      
       items: [
@@ -198,6 +206,7 @@ const config = {
 
      {
       label: 'Best Practices',
+      to: '/docs/category/best-practices/',
       position: 'left',
       items: [
         {
@@ -229,6 +238,7 @@ const config = {
       },
       {
       label: 'Reference',
+      to: '/docs/category/reference/',
       position: 'left',
     
       items: [
@@ -273,6 +283,7 @@ const config = {
         ],
       },
     { label: 'Tutorials', 
+      to: '/docs/category/tutorials/',
       position: 'left',
       items:[
         {
@@ -306,7 +317,7 @@ const config = {
           // put your brand HTML here as an item
             html: `
             <div class="footer__brand footer__brand--wide">
-              <img src="img/datacoves-footer-logo.png" alt="Datacoves-logo" class="footer__brand-logo" />
+              <img src="/docusaurus-test/img/datacoves-footer-logo.png" alt="Datacoves-logo" class="footer__brand-logo" />
               <p class="footer__brand-desc text--left">
                 Datacoves is an enterprise DataOps platform with managed dbt and Airflow
                 for data transformation and orchestration, as well as VS Code in the browser
@@ -390,8 +401,8 @@ const config = {
     <div class="footer__legal">
       Copyright © ${new Date().getFullYear()} Datacoves. 
       All rights reserved. 
-      <a href="/privacy-policy">Privacy Policy</a> | 
-      <a href="/terms-of-service">Terms of Service</a>
+      <a href="https://datacoves.com/privacy-policy">Privacy Policy</a> | 
+      <a href="https://datacoves.com/terms-of-service">Terms of Service</a>
       <br />
       <span class="footer__trademarks">
         Apache, Apache Airflow, Airflow, Apache Superset, the Airflow logo,

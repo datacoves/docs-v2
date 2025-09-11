@@ -1,8 +1,7 @@
 ---
-title: Initial setup
-sidebar_position: 9
+title: Airflow - Initial setup
+sidebar_position: 1
 ---
-
 # How to configure Airflow in Datacoves
 
 ## Turn on Airflow
@@ -17,9 +16,9 @@ Edit the desired environment and click on the `Stack Services` tab. Ensure that 
 
 ## Airflow Configurations
 
->[!ATTENTION] You will need to add folders to your project repository in order to match the folder defaults for Airflow; These folders are `orchestrate/dags` and `orchestrate/dags_yml_definitions`. Please see the recommended [folder structure](explanation/best-practices/datacoves/folder-structure.md) for all folder structure recommendations.
-
+:::info You will need to add folders to your project repository in order to match the folder defaults for Airflow; These folders are `orchestrate/dags` and `orchestrate/dags_yml_definitions`. Please see the recommended [folder structure](best-practices/datacoves/folder-structure.md) for all folder structure recommendations.
 Once you enabled Airflow, click on the `Services configuration > Airflow Settings` tab and configure each of the following fields accordingly:
+:::
 
 ### Fields Reference: 
 
@@ -39,8 +38,10 @@ Each requires specific information to be provided during configuration. Our reco
 - **Provider** Select `Git`
 - **Git branch name** The branch airflow will monitor for changes. If you have more than 1 environment (Development and Production), we suggest `airflow_development` for the development environment and `main` for the production environment. Note: You would need to create an  `airflow_development` branch in your repo. If only have 1 environment, then the `Git branch name` should be `main`. 
 
->[!TIP]We recommend combining your dbt transformations in the same project as your Airflow orchestration. However, you may wish to separate orchestration from transformation into different git projects. In Datacoves you can achieve this by having two projects. Each project will be associated with one git repo. Find out how to configure a [project](how-tos/datacoves/how_to_projects.md).
-        
+:::tip
+We recommend combining your dbt transformations in the same project as your Airflow orchestration. However, you may wish to separate orchestration from transformation into different git projects. In Datacoves you can achieve this by having two projects. Each project will be associated with one git repo. Find out how to configure a [project](how-tos/datacoves/how_to_projects.md).
+:::
+
 **S3 Sync** 
 
 You must create the s3 bucket and IAM user before this step.
@@ -57,7 +58,9 @@ Once configured, you will need to configure your CI/CD process to clone your pro
 
 ### Logs Configuration - Private Deployment ONLY. Not applicable in SaaS.
 
->[!ATTENTION] Log Storage limit: 15 days. Airflow logs are not stored indefinitely and will be deleted after 15 days. 
+:::info  
+Log Storage limit: 15 days. Airflow logs are not stored indefinitely and will be deleted after 15 days. 
+:::
 
 There are **2 options** for logs - **EFS** and **S3**. Below you will see the fields required for each:
 

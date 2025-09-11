@@ -1,8 +1,7 @@
 ---
-title: How_to_manage_users
-sidebar_position: 13
+title: Manage Users
+sidebar_position: 56
 ---
-
 # How to Manage Users
 
 Navigate to the Users page
@@ -13,7 +12,9 @@ Navigate to the Users page
 
 When you edit a user record, you can modify the users `Name`, `Email` and the assigned `Permission Groups`
 
->[!NOTE]Select the project to edit user access.
+:::note
+Select the project to edit user access.
+:::
 
 ![Integration Create or Edit Page](./assets/users_edit_page.gif)
 

@@ -1,8 +1,7 @@
 ---
-title: Database errors
-sidebar_position: 3
+title: Database Errors
+sidebar_position: 67
 ---
-
 # How to Fix dbt Database Errors
 
 Database errors occur when dbt tries to execute SQL that your database cannot process. These are among the most common errors and are typically straightforward to debug.

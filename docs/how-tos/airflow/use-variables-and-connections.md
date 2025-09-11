@@ -1,19 +1,21 @@
 ---
-title: Use variables and connections
-sidebar_position: 26
+title: DAGs - Using Variables and Connections
+sidebar_position: 33
 ---
-
 # Variables and Connections
 
->[!NOTE]dbt-coves generate airflow-dags does not support reading variables/connections, but you may generate the initial Python Airflow DAG and add the connection / variable information.
-
+:::note
+dbt-coves generate airflow-dags does not support reading variables/connections, but you may generate the initial Python Airflow DAG and add the connection / variable information.
+:::
 The best way to store and retrieve information within Airflow is to use `Variables` and `Connections`, both available on the `Admin` upper dropdown.
 
 ![select More](./assets/variables_connections_ui.png)
 
 The main difference between them is that [Variables](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/variable.html) is a generic multi-purpose store, while [Connections](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/connection.html) are aimed at third-party providers.
 
->[!TIP]Rather than using connections or variables stored in Airflow’s database, we recommend using a Secrets Manager. These secrets are encrypted and can be stored either in [Datacoves Secrets manager](/how-tos/airflow/use-datacoves-secrets-manager.md) or a third-party secrets manager like [AWS Secrets Manager](/how-tos/airflow/use-aws-secrets-manager)
+:::tip
+Rather than using connections or variables stored in Airflow’s database, we recommend using a Secrets Manager. These secrets are encrypted and can be stored either in [Datacoves Secrets manager](./use-datacoves-secrets-manager.mdx) or a third-party secrets manager like [AWS Secrets Manager](./use-aws-secrets-manager.mdx)
+:::
 
 ## Usage
 

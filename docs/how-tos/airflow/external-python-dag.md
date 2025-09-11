@@ -1,14 +1,14 @@
 ---
-title: External python dag
-sidebar_position: 6
+title: DAGs - Calling External Python Scripts
+sidebar_position: 21
 ---
-
 # External Python DAG 
 
 If you need additional libraries for your DAG such as pandas, let us know so that we can configure them in your environment. 
 
->[!NOTE]Below we make use of a `python_scripts` folder inside the `orchestrate` folder and develop as a best practice we locate our custom scripts in this location.
-
+:::note
+Below we make use of a `python_scripts` folder inside the `orchestrate` folder and develop as a best practice we locate our custom scripts in this location.
+:::
 ## orchestrate/python_scripts
 
 ```python
@@ -37,8 +37,9 @@ Create a DAG in the `dags` folder.
 
 To run the custom script from an Airflow DAG, you will use the `@task.datacoves_bash` decorator as seen in the `python_task` below.
 
->[!TIP]See [Datacoves Decorators](reference/airflow/datacoves-decorators.md) documentation for more information on the Datacoves Airflow Decorators.
-
+:::tip 
+See [Datacoves Decorators](reference/airflow/datacoves-decorators.md) documentation for more information on the Datacoves Airflow Decorators.
+:::
 ```python
 from airflow.decorators import dag, task
 from pendulum import datetime

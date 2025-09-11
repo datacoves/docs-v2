@@ -1,8 +1,7 @@
 ---
-title: Environment variables
-sidebar_position: 3
+title: Custom Environment Variables
+sidebar_position: 93
 ---
-
 # How to add Environment variables to VS Code
 
 ## Table of Contents
@@ -33,7 +32,9 @@ Environment variables set at the user level will only be available to the worksp
 
 ## Environment Level
 
->[!NOTE] You must have admin permissions to add variables across the project or user environments. 
+:::note
+You must have admin permissions to add variables across the project or user environments. 
+:::
 
 Environment level variables will be available to everyone with access to the environment ie) The Development Environment. 
 

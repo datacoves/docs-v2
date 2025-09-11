@@ -1,7 +1,7 @@
 ---
-sidebar_position: 1
+title: Add a Dataset
+sidebar_position: 83
 ---
-
 # How to Add a Dataset in Superset
 
 To create visualizations you will need to create a dataset which is how a specific view or table is made available to Superset.

@@ -7,12 +7,27 @@
   width: 100%;
 }
 
+/* Make the row a flex container to equalize card heights */
+.features .row {
+  display: flex;
+  flex-wrap: wrap;      /* allow wrapping on smaller screens */
+  gap: 1.5rem;          /* spacing between columns */
+  align-items: stretch; /* stretch children to same height */
+}
+
+/* Make each column a flex container so the Link stretches */
+.features .col {
+  display: flex;
+}
+
+/* Card styling */
 .card {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  background-color: var(--ifm-card-background); /* <-- theme color aware */
-  border: 2px solid var(--ifm-border-color);/* <-- border only for light mode */
+  background-color: var(--ifm-card-background);
+  border: 2px solid var(--ifm-border-color);
   border-radius: 12px;
   padding: 1.5rem;
   text-align: center;
@@ -20,15 +35,12 @@
   color: inherit;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
-  flex: 1 1 300px;
+  flex: 1;          /* fill the column height */
   max-width: 400px;
   min-width: 280px;
-
-  /* Add vertical spacing for stacked cards */
   margin-bottom: 1.5rem;
-
-  
 }
+
 
 /* Dark mode: remove border */
 [data-theme='dark'] .card {
@@ -42,11 +54,13 @@
   transform: translateY(-2px); 
 }
 
+/* Light mode hover effect */
 .card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
+/* Feature SVG image */
 .featureSvg {
   height: 180px;
   width: 180px;
@@ -58,5 +72,6 @@
   .card {
     flex: 1 1 100%;
     max-width: 100%;
+    height: auto; /* allow cards to shrink naturally on mobile */
   }
 }

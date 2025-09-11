@@ -1,8 +1,7 @@
 ---
-title: How_to_invitations
-sidebar_position: 12
+title: Configure Invitations
+sidebar_position: 47
 ---
-
 # How to Invite a User to your Account 
 
 Navigate to the invitations page
@@ -18,6 +17,7 @@ You will need the user's:
 
 Using the checkboxes below you can select the Security Groups the user should belong to for Development and Production Environments
 
->[!TIP]See the [Groups](reference/admin-menu/groups.md) reference page for more information on Datacoves groups and their permissions.
-
+:::tip
+See the [Groups](reference/admin-menu/groups.md) reference page for more information on Datacoves groups and their permissions.
+:::
 ![New Invitations](./assets/invitations_create.gif)

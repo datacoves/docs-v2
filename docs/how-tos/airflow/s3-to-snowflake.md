@@ -1,8 +1,7 @@
 ---
-title: S3 to snowflake
-sidebar_position: 18
+title: DAGS - Load from S3 to Snowflake
+sidebar_position: 25
 ---
-
 # Loading S3 Files into Snowflake 
 
 ## Schema Evolution 

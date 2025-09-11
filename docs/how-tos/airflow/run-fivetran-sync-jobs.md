@@ -1,17 +1,16 @@
 ---
-title: Run fivetran sync jobs
-sidebar_position: 17
+title: DAGs - Run Fivetran sync jobs
+sidebar_position: 31
 ---
-
 # Run Fivetran sync jobs
 
-In Addition to triggering Airbyte loads jobs [run Airbyte sync jobs](/how-tos/airflow/run-airbyte-sync-jobs) you can also trigger Fivetran jobs from your Airflow DAG.
+In Addition to triggering Airbyte loads jobs [run Airbyte sync jobs](/docs/how-tos/airflow/run-airbyte-sync-jobs) you can also trigger Fivetran jobs from your Airflow DAG.
 
 ## Before you start
 
 ### Ensure your Airflow environment is properly configured
 
-Follow this guide on [How to set up Airflow](/how-tos/airflow/initial-setup)'s environment.
+Follow this guide on [How to set up Airflow](/docs/how-tos/airflow/initial-setup)'s environment.
 
 ### Fivetran connection
 
@@ -25,8 +24,9 @@ Create a new connection using the following details:
 
 ![Admin Connections](./assets/fivetran-connection-details.png)
 
->[!TIP]Once your Fivetran API key and secret have been generated, for security reasons, the secret cannot be viewed again through the Fivetran interface. If you lose or forget your API secret, you will need to generate a new API key and secret pair so be sure to store them somewhere secure for reference later. See <a href="https://fivetran.com/docs/rest-api/getting-started" target="_blank" rel="noopener">Fivetran Documentation</a> on how to generate your Fivetran `API Key` and `API Secret`. 
-
+:::tip
+Once your Fivetran API key and secret have been generated, for security reasons, the secret cannot be viewed again through the Fivetran interface. If you lose or forget your API secret, you will need to generate a new API key and secret pair so be sure to store them somewhere secure for reference later. See <a href="https://fivetran.com/docs/rest-api/getting-started" target="_blank" rel="noopener">Fivetran Documentation</a> on how to generate your Fivetran `API Key` and `API Secret`. 
+:::
 ### Configure your transform/.dbt-coves/config.yml file
 
 By default, dbt-coves cannot query the necessary information for Fivetran connections. You will need to configure these in your yml DAG manually, or contact us to configure Datacoves with the necessary information.
@@ -36,7 +36,9 @@ Below are the configurations in for dbt-coves airflow-dags. You will need to con
 - **yml_path**: Relative path to dbt project where yml to generate python DAGs will be stored
 - **dags_path**: Relative path to dbt project where generated python DAGs will be stored
 
->[!TIP]We make use of environment variables that we have configured for you upon set up. For more information on these variables please see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
+:::tip
+We make use of environment variables that we have configured for you upon set up. For more information on these variables please see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
+:::
 
 ```yaml
 generate:

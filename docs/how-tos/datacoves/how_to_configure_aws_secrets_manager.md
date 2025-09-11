@@ -1,8 +1,7 @@
 ---
-title: How_to_configure_aws_secrets_manager
-sidebar_position: 6
+title: Configure AWS Secrets Manager
+sidebar_position: 49
 ---
-
 # Configuring AWS Secrets Manager
 
 ## Table of Contents
@@ -21,8 +20,9 @@ Please follow the how to below to achieve these requirements.
 
 **Step 1:** On AWS, create an IAM User with an attached policy like this one:
 
->[!NOTE]Be sure to replace the ARN for the resource below to your ARN.
-
+:::note
+Be sure to replace the ARN for the resource below to your ARN.
+:::
 ```json
 {
     "Version": "2012-10-17",
@@ -80,10 +80,14 @@ Please, follow the [AWS Secrets Manager documentation](https://docs.aws.amazon.c
 - **Secret Access Key** The Secret Access Key attached to the IAM User configured earlier 
 - **Region Code** This is the region were the Secrets Manager is running, i.e. `us-east-1`, `us-west-1`, etc. Find a complete list [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html)
 
->[!TIP] See the [Secrets Manager documentation](https://airflow.apache.org/docs/apache-airflow-providers-amazon/stable/secrets-backends/aws-secrets-manager.html#aws-secrets-manager-backend) for more customization options. 
+:::tip
+ See the [Secrets Manager documentation](https://airflow.apache.org/docs/apache-airflow-providers-amazon/stable/secrets-backends/aws-secrets-manager.html#aws-secrets-manager-backend) for more customization options. 
+:::
 
 ![Secrets Backend](assets/aws_secrets_connection.jpg)
 
-To learn how to read a variable from the AWS Secrets Manager check out our [How To](/how-tos/airflow/use-aws-secrets-manager.md)
+To learn how to read a variable from the AWS Secrets Manager check out our [How To](/docs/how-tos/airflow/use-aws-secrets-manager.mdx)
 
->[!NOTE]For security purposes, once this has been saved you will not be able to view the values. To modify the Secrets backend you will need to set the Secrets backend to `None` and save the changes. Then start the setup again. 
+:::tip
+For security purposes, once this has been saved you will not be able to view the values. To modify the Secrets backend you will need to set the Secrets backend to `None` and save the changes. Then start the setup again. 
+:::

@@ -1,6 +1,6 @@
 ---
 title: Configure Git Repository Using dbt-coves
-sidebar_position: 5
+sidebar_position: 4
 ---
 # Initial Datacoves Repository Setup
 
@@ -32,6 +32,7 @@ During the setup process, you'll be guided through a series of configuration que
 
 :::note
 It is recommended that you commit the answers file in your repo for future updates (see below)
+:::
 :::
 ## What Gets Created
 
@@ -84,6 +85,7 @@ The update process:
 
 :::note
  When running an update, you will be prompted for the services you want to setup / update, if you saved the answers file from when you first ran set, your original choices pre-selected. If you unselect one of these, that content will be deleted
+:::
 :::
 ## Benefits for Data Teams
 

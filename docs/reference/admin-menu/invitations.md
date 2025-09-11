@@ -1,15 +1,16 @@
 ---
 title: Invitations
-sidebar_position: 5
+sidebar_position: 115
 ---
-
 # Invitations Admin
 
 ## Overview
 
 This page is used to invite users into your account.
 
->[!TIP]See our How To - [Invitations](how-tos/datacoves/how_to_invitations.md)
+:::tip
+See our How To - [Invitations](how-tos/datacoves/how_to_invitations.md)
+:::
 
 ## Invitation Listing
 

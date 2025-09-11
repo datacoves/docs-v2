@@ -1,8 +1,7 @@
 ---
-title: Airflow config defaults
-sidebar_position: 2
+title: Airflow Config Defaults
+sidebar_position: 122
 ---
-
 # Airflow Config Defaults
 
 For security reasons, we do not expose the Airflow config to end users via the `Airflow *Admin -> Configuration` menu option. 
@@ -114,4 +113,6 @@ Datacoves injects environment variables into Airflow.
 
 ![Launch Pad](../admin-menu/assets/launchpad_environments_projects.png)
 
->[!NOTE]If you have any questions, please send us an email at support@datacoves.com
+:::note
+If you have any questions, please send us an email at support@datacoves.com
+:::

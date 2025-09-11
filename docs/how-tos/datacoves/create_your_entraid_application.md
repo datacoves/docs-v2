@@ -1,8 +1,7 @@
 ---
-title: Create_your_entraid_application
-sidebar_position: 3
+title: Create your EntraID App
+sidebar_position: 51
 ---
-
 # Create your application
 
 If you do not have an Entra ID application created, you can do so by following these steps:
@@ -15,7 +14,7 @@ If you do not have an Entra ID application created, you can do so by following t
 
 - Select `App Registrations` from the left navigation menu.
 
-<img src="/how-tos/datacoves/assets/azure_devops_overview.png" alt="App Registration" width="200" height="450" />
+![App Registration](./assets/azure_devops_overview.png)
 
 <u>**Step 3**</u> 
 
@@ -27,6 +26,5 @@ If you do not have an Entra ID application created, you can do so by following t
 
 - Click `Register`
 
-<img src="/how-tos/datacoves/assets/azure_devops_register_application.png" alt="Register Application" width="700" height="600" />
-
+![Register Application](./assets/azure_devops_register_application.png)
 ✅ Next you will want to [Add Application as a user in DevOps Portal](/how-tos/datacoves/add_entraid_app_as_user.md)

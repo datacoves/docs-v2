@@ -1,8 +1,7 @@
 ---
-title: How_to_groups
-sidebar_position: 10
+title: Configure Groups
+sidebar_position: 45
 ---
-
 # How to Create/Edit a Group
 Navigate to the groups page in the admin menu
 

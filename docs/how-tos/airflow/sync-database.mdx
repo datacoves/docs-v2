@@ -1,14 +1,15 @@
 ---
-title: Sync database
-sidebar_position: 22
+title: Airflow - Sync Internal Airflow database
+sidebar_position: 3
 ---
 
 # Sync Airflow database
 
 It is now possible to synchronize the Datacoves Airflow database to your Data Warehouse
 
-> [!NOTE]This is currently only available for Snowflake and Redshift warehouses.
-
+:::note
+This is currently only available for Snowflake and Redshift warehouses.
+:::
 ## Data Sync Decorator
 
 To synchronize the Airflow database, we can use an Airflow DAG with the Datacoves Airflow Decorator below.
@@ -17,8 +18,9 @@ To synchronize the Airflow database, we can use an Airflow DAG with the Datacove
 @task.datacoves_airflow_db_sync
 ``` 
 
-> [!NOTE]To avoid synchronizing unnecessary Airflow tables, the following Airflow tables are synced by default: `ab_permission`, `ab_role`, `ab_user`, `dag`, `dag_run`, `dag_tag`, `import_error`, `job`, `task_fail`, `task_instance`
-
+:::note
+To avoid synchronizing unnecessary Airflow tables, the following Airflow tables are synced by default: `ab_permission`, `ab_role`, `ab_user`, `dag`, `dag_run`, `dag_tag`, `import_error`, `job`, `task_fail`, `task_instance`
+:::
 These decorator can receive:
 
 - `db_type`: the destination warehouse type, "snowflake" or "redshift"
@@ -63,6 +65,7 @@ def airflow_data_sync():
 airflow_data_sync()
 ```
 
-> [!NOTE]The example DAG above uses the service connection `main`
-
+:::note
+The example DAG above uses the service connection `main`
+:::
 ![Service Connection main](assets/service_connections_main.png)

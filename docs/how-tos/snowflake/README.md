@@ -1,5 +1,6 @@
 ---
-sidebar_position: 1
+title: Snowflake
+sidebar_position: 78
 ---
 # How to set up Snowflake
 

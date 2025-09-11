@@ -1,9 +1,7 @@
 ---
-title: How_to_datahub_cli
-sidebar_position: 1
+title: Manage datahub using CLI
+sidebar_position: 61
 ---
-
-
 # How to use DataHub's CLI from your VS Code terminal
 
 Connecting to your DataHub instance via your VS Code terminal can be extremely useful for performing maintenance on your metadata, running ingestions, deleting data, and more.
@@ -39,7 +37,9 @@ You can access Datahub in Prod or QA from the Dev environment. This is considere
 http://<slug>-datahub-datahub-gms.dcw-<slug>:8080
 ```
 
->[!NOTE] The environment slug can be found next to your environment name on the top left corner of your Datacoves workspace. For example, the environment slug below is `DEV123`, so the URL would be: `http://dev123-datahub-datahub-gms:8080`.
+:::note
+The environment slug can be found next to your environment name on the top left corner of your Datacoves workspace. For example, the environment slug below is `DEV123`, so the URL would be: `http://dev123-datahub-datahub-gms:8080`.
+:::
 
 ![Environment slug](assets/datahub-env-slug.png)
 

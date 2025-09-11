@@ -1,8 +1,7 @@
 ---
-title: Dynamically set schedule
-sidebar_position: 5
+title: DAGs - Dynamically Set Schedule
+sidebar_position: 22
 ---
-
 # How to Dynamically set the schedule Interval
 
 By default, DAGs are created with a `paused` state in Airflow, but you can change this with the `is_paused_on_creation=True` option. However, you will likely not want to schedule DAGs in a development Airflow instance. The steps below describe how do not set a schedule in a Development Airflow instance.

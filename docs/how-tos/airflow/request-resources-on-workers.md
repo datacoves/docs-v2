@@ -1,8 +1,7 @@
 ---
-title: Request resources on workers
-sidebar_position: 11
+title: Worker - Request Memory and CPU
+sidebar_position: 40
 ---
-
 # How to request more memory or cpu resources on a particular DAG task
 
 Sometimes you need to run tasks that require more memory or compute power. Airflow task's definition that use a kubernetes execution environment allow for this type of configuration.
@@ -13,8 +12,9 @@ Similarly to how you [overrode a worker's running environment](/how-tos/airflow/
 
 In the following example, we're requesting a minimum of 8Gb of memory and 1000m of cpu in the `requests` dict to run the task. [Click here](https://pwittrock.github.io/docs/tasks/configure-pod-container/assign-cpu-ram-container/) to learn more about resources requests and limits on a kubernetes running environment.
 
->[!NOTE] Keep in mind that if you request more resources than a node in the cluster could allocate the task will never run and the DAG will fail.
-
+:::note 
+Keep in mind that if you request more resources than a node in the cluster could allocate the task will never run and the DAG will fail.
+:::
 ```python
 from datetime import datetime
 from airflow.decorators import dag, task

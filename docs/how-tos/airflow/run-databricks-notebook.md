@@ -1,8 +1,7 @@
 ---
-title: Run databricks notebook
-sidebar_position: 15
+title: DAGs - Run Databricks Notebooks
+sidebar_position: 30
 ---
-
 # Run Databricks Notebooks 
 
 You can use Airflow in Datacoves to trigger a Databricks notebook. This guide will walk you through the configuration process. 

@@ -1,5 +1,6 @@
 ---
-sidebar_position: 4
+title: Initial Configuration
+sidebar_position: 88
 ---
 # How to Configure your VS Code in the Datacoves Transform tab
 
@@ -60,6 +61,8 @@ If Datacoves is able to connect to your Git repository, you will see _Tested_ ne
 
 - Click `Open` to go into your development environment.
 
->[!NOTE]Datacoves will take a couple of minutes to apply the new settings, clone your repo, and finish setting up your environment for the first time.
+:::note
+Datacoves will take a couple of minutes to apply the new settings, clone your repo, and finish setting up your environment for the first time.
+:::
 
 ![Workbench Link](./assets/navigation_launchpad.gif)

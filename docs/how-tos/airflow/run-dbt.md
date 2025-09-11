@@ -1,11 +1,10 @@
 ---
-title: Run dbt
-sidebar_position: 16
+title: DAGs - Run dbt
+sidebar_position: 28
 ---
-
 # How to run dbt from an Airflow worker
 
-Airflow synchronizes a git repository's [configured git branch](/how-tos/datacoves/how_to_environments#services-configuration) every minute. (The branch specified in  the `Git branch name` field in the environment's DAGs sync configuration)
+Airflow synchronizes a git repository's [configured git branch](/docs/how-tos/datacoves/how_to_environments.md#services-configuration) every minute. (The branch specified in  the `Git branch name` field in the environment's DAGs sync configuration)
 
 To run `dbt` commands easily, we provide a pre-configured virtual environment with the necessary python dependencies such as dbt. Our Airflow Operator also does the following automatically:
 
@@ -19,10 +18,11 @@ This means that you can simply run `dbt <dbt subcommand>` in your Airflow DAG an
 
 If your dbt command like `dbt run` works in your development environment(**Try dbt run in your terminal**), then you should be able to create an Airflow DAG that will run this command automatically.
 
->[!TIP]Keep in mind that in an Airflow context `dbt` is installed in an isolated Python Virtual Environment to avoid clashing with Airflow python dependencies. Datacoves default Python's virtualenv is located in `/opt/datacoves/virtualenvs/main`. No need to worry about the complexity when using the `@task.datacoves_dbt` decorator because it will automatically activate that environment amongst other actions.
+:::tip 
+Keep in mind that in an Airflow context `dbt` is installed in an isolated Python Virtual Environment to avoid clashing with Airflow python dependencies. Datacoves default Python's virtualenv is located in `/opt/datacoves/virtualenvs/main`. No need to worry about the complexity when using the `@task.datacoves_dbt` decorator because it will automatically activate that environment amongst other actions.
 
 See [Datacoves Decorators](reference/airflow/datacoves-decorators.md) for more information.
-
+:::
 ### Lets create a DAG!
 
 **Step 1:** If using Git Sync, switch to your configured branch (`airflow_development` or `main`), create a python file inside of `orchestrate/dags` named `my_sample_dag.py`

@@ -1,8 +1,7 @@
 ---
-title: Releasing new feature
-sidebar_position: 2
+title: Releasing a new feature
+sidebar_position: 63
 ---
-
 # How to develop and release a feature
 
 Releasing a feature into production involves following a development process utilizing Github and GIthub Actions to run automated scripts along with human in the loop approvals as gates to move to the subsequent phase of deployment.

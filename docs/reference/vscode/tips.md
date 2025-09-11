@@ -1,8 +1,7 @@
 ---
-title: Tips
-sidebar_position: 4
+title: VS Code Tips
+sidebar_position: 138
 ---
-
 # VS Code Tips and tricks
 
 ## Shortcuts

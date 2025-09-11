@@ -1,8 +1,7 @@
 ---
-title: View failed git sync
-sidebar_position: 2
+title: Git Sync/S3 Failures
+sidebar_position: 73
 ---
-
 # Monitor git sync or s3 sync failure
 
 This how-to will walk you through the steps to view git sync/s3 failures in Grafana.

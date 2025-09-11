@@ -1,5 +1,6 @@
 ---
-sidebar_position: 2
+title: Datacoves
+sidebar_position: 1
 ---
 # Best practices on datacoves
 

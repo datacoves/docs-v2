@@ -1,14 +1,14 @@
 ---
-title: How_to_secrets
-sidebar_position: 15
+title: Configure Datacoves Secret
+sidebar_position: 43
 ---
-
 # How to Create/Edit a Secret
 
 Datacoves includes a built-in [Secrets Manager](reference/admin-menu/secrets.md) that allows you to securely store and manage secrets for both administrators and developers. Secrets can be stored at the project or environment level and easily shared across other tools in your stack, ensuring seamless integration and enhanced security. Follow this guide to create/edit a secret in the Datacoves Secrets Manager.
 
->[!NOTE] Datacoves Secret Manager will ONLY look for variables that are prefixed with `datacoves-`
-
+:::note
+Datacoves Secret Manager will ONLY look for variables that are prefixed with `datacoves-`
+:::
 
 **Step 1:** Navigate to `Secrets` in the Admin menu
 
@@ -28,6 +28,8 @@ Datacoves includes a built-in [Secrets Manager](reference/admin-menu/secrets.md)
 
 ![Toggle secret access](assets/datacoves_secrets_sharing_toggle.jpg)
 
-To learn how to read a variable from the Datacoves secrets manager check out our [How To](how-tos/airflow/use-datacoves-secrets-manager.md)
+To learn how to read a variable from the Datacoves secrets manager check out our [How To](../airflow/use-datacoves-secrets-manager.mdx)
 
->[!NOTE] If the secret isn’t shared with the developers or services, only the author can use it.
+:::note
+If the secret isn’t shared with the developers or services, only the author can use it.
+:::

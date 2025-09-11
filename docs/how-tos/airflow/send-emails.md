@@ -1,8 +1,7 @@
 ---
-title: Send emails
-sidebar_position: 19
+title: Notifications - Send Emails
+sidebar_position: 34
 ---
-
 # How to send email notifications on DAG's failure
 
 Getting notifications when there is a failure is critical for data teams and Airflow allows multiple ways to keep users informed about the status of a DAG.
@@ -46,8 +45,8 @@ In Datacoves 3.3 and up, the `SMTP` will be automatically added to your environm
 
 Viola!🎉 The Airflow service will be restarted shortly and will now include the SMTP configuration required to send emails.
 
->[!NOTE] **Getting Started Guide:** If you are making your way through our [getting started guide](/getting-started/Admin/), please continue on to [developing DAGs](getting-started/Admin/creating-airflow-dags.md).
-
+:::note **Getting Started Guide:** If you are making your way through our [getting started guide](../../getting-started/Admin/), please continue on to [developing DAGs](getting-started/Admin/creating-airflow-dags.md).
+:::
 ## Set up a custom SMTP (Optional)
 
 If you do not wish to use the default SMTP server, you can configure your own.
@@ -100,7 +99,9 @@ If you have already created a DAG it's time to modify your DAG to make use of ou
 
 Simply provide a `default_args` dict like so:
 
->[!TIP]You can add as many email recipients needed by passing a list into the email field. eg) `email: ["gomezn@example.com", "mayra@example.com", "walter@example.com"]` 
+:::tip 
+You can add as many email recipients needed by passing a list into the email field. eg) `email: ["gomezn@example.com", "mayra@example.com", "walter@example.com"]` 
+:::
 
 ### Python version
 
@@ -160,8 +161,8 @@ nodes:
 
 ## DRY default_args 
 
->[!TIP] We recommend placing your default_args in its own file and importing it for reusability. In the example below we created a file inside of orchestrate/utils/
-
+:::tip We recommend placing your default_args in its own file and importing it for reusability. In the example below we created a file inside of orchestrate/utils/
+:::
 ```python
 # orchestrate/utils/default_args.py
 from datetime import datetime, timedelta

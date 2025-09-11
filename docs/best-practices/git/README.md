@@ -1,5 +1,6 @@
 ---
-sidebar_position: 1
+title: Git
+sidebar_position: 3
 ---
 # Git Overview
 

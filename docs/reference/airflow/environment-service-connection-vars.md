@@ -1,15 +1,16 @@
 ---
-title: Environment service connection vars
-sidebar_position: 8
+title: Datacoves Environment Service Connection Variables
+sidebar_position: 127
 ---
-
 # Warehouse Environment Variables
 
 When creating a service connection and setting the `Delivery Mode` to environment variables, Datacoves will inject the following environment variables in Airflow. 
 
 These variables can be used in your `profiles.yml` file and will allow you to safely commit a profiles.yml without sensitive data in git. The available environment variables will vary based on your data warehouse.
 
->[!NOTE] These variables will also need to be configured in your CI/CD provider. ie) github, Gitlab.
+:::note
+These variables will also need to be configured in your CI/CD provider. ie) github, Gitlab.
+:::
 
 The name of the service connection will be used to dynamically create the following variables. In the chart below the name of the service connection is `main`.
 

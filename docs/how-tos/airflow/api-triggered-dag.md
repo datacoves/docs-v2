@@ -1,8 +1,7 @@
 ---
-title: Api triggered dag
-sidebar_position: 2
+title: Airflow - Trigger a DAG using Datasets
+sidebar_position: 6
 ---
-
 # How to Trigger a DAG using Datasets
 
 ## Overview
@@ -208,6 +207,7 @@ dag = data_aware_consumer_dag()
 ```
 
 
->[!NOTE] Ensure the Dataset you are sending an event to exists in Airflow. It will be created automatically when a DAG is created. If a dataset does not exist when the API event is sent, the API call will fail.
-
+:::note
+Ensure the Dataset you are sending an event to exists in Airflow. It will be created automatically when a DAG is created. If a dataset does not exist when the API event is sent, the API call will fail.
+:::
 

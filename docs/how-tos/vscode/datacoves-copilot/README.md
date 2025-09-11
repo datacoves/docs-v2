@@ -1,5 +1,6 @@
 ---
-sidebar_position: 2
+title: Datacoves Copilot
+sidebar_position: 85
 ---
 # AI LLMs for Datacoves Copilot
 Datacoves can integrate seamlessly with your existing ChatGPT or Azure Open AI LLMs. These how tos will go over configuration and usage of AI within Datacoves.
@@ -11,5 +12,5 @@ Datacoves can integrate seamlessly with your existing ChatGPT or Azure Open AI L
 
 ## How to's
 
-- [LLM Config](/how-tos/vscode/datacoves-copilot/llm-config.md)
-- [Working with an LLM in Datacoves](/how-tos/vscode/datacoves-copilot/llm.md)
+- [Datacoves Copilot v2](./v2.md)
+- [Datacoves Copilot v1 (Deprecated)](./v1.md)

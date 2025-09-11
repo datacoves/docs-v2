@@ -1,8 +1,7 @@
 ---
-title: Send ms teams notifications
-sidebar_position: 20
+title: Notifications - Send Microsoft Teams notifications
+sidebar_position: 35
 ---
-
 # How to send Microsoft Teams notifications on DAG's status
 
 As stated in [how to send email notifications](/how-tos/airflow/send-emails.md), Airflow allows multiple ways to inform users about DAGs and tasks status.
@@ -23,10 +22,9 @@ Click `Configure`, give it a name, and optionally select an image to use as the 
 
 ![Create Incoming Webhook](./assets/create-incoming-webhook.png)
 
-> [!ATTENTION] Store this URL in a safe place as you will need it in a subsequent step and anyone with this link can send notification to that MS Teams channel
-
+:::info Store this URL in a safe place as you will need it in a subsequent step and anyone with this link can send notification to that MS Teams channel
+:::
 ## Prepare Airflow
-
 ### Create a new Integration
 
 In Datacoves, create a new integration of type `MS Teams` by navigating to the Integrations admin page.
@@ -41,7 +39,10 @@ Provide a name and select `MS Teams`.
 
 Provide the required details and `Save` changes.
 
-> [!NOTE] The name you specify will be used to create the Airflow-Teams connection. It will be uppercased and joined by underscores -> `'ms teams'` will become `MS_TEAMS`. You will need this name below.
+:::note
+The name you specify will be used to create the Airflow-Teams connection. It will be uppercased and joined by underscores -> `'ms teams'` will become :::
+:::
+`MS_TEAMS`. You will need this name below.
 
 ### Add integration to an Environment
 
@@ -73,7 +74,9 @@ MS Teams will receive a message with a 'View Log' link that users can click on a
 
 In the examples below, we will send a notification on failing tasks or when the full DAG completes successfully using our custom callbacks: `inform_failure` and `inform_success`.
 
-> [!NOTE]In addition to `inform_failure` and `inform_success`, we support these callbacks `inform_failure`, `inform_success`, `inform_retry`, `inform_sla_miss`.
+:::note
+In addition to `inform_failure` and `inform_success`, we support these callbacks `inform_failure`, `inform_success`, `inform_retry`, `inform_sla_miss`.
+:::
 
 To send MS Teams notifications, in the Airflow DAG we need to import the appropriate notifier and use it with the following parameters:
 
@@ -82,9 +85,9 @@ To send MS Teams notifications, in the Airflow DAG we need to import the appropr
 - `message`: the body of the message
 - `theme_color`: theme color of the MS Teams card
 
->[!ATTENTION] `on_failure_callback` will throw an error if using lists causing your task to fail.
-
+:::info  `on_failure_callback` will throw an error if using lists causing your task to fail.
 ### Python version
+:::
 
 ```python
 from pendulum import datetime
@@ -119,8 +122,9 @@ def dbt_run():
 dag = dbt_run()
 ```
 
-> [!NOTE] Quotation marks are not needed when setting the custom message. However, making use of Jinja in a YAML file requires the message to be wrapped in quotations to be parsed properly. eg) `{{ dag.dag_id }} failed`
-
+:::note
+Quotation marks are not needed when setting the custom message. However, making use of Jinja in a YAML file requires the message to be wrapped in quotations to be parsed properly. eg) `{{ dag.dag_id }} failed`
+:::
 
 ### YAML version
 

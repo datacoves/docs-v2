@@ -1,8 +1,7 @@
 ---
-title: Snowflake key based auth
-sidebar_position: 2
+title: Setting up Snowflake Key-Based Auth
+sidebar_position: 79
 ---
-
 # How to set up Snowflake Key-Based Auth for CI Service Accounts
 
 ## Overview
@@ -29,7 +28,9 @@ Print out the public key and add to Snowflake
 
 This will show your public kay which will replace `<your public key>` below.
 
->[!NOTE] Exclude the --BEGIN-- and --END-- lines from the public key
+:::note
+Exclude the --BEGIN-- and --END-- lines from the public key
+:::
 
 `ALTER USER SVC_GITHUB_ACTIONS SET RSA_PUBLIC_KEY='<your public key>';`
 

@@ -1,8 +1,7 @@
 ---
-title: Gather_azure_devops_auth_details
-sidebar_position: 5
+title: Gather DevOps Auth Details
+sidebar_position: 53
 ---
-
 # Gather DevOps Authentication details
 
 You will need to gather the following application information to configure your project to use Azure DevOps for cloning.
@@ -17,7 +16,7 @@ You will need to gather the following application information to configure your 
 
 - Select `App Registrations` from the left navigation menu.
 
-<img src="/how-tos/datacoves/assets/azure_devops_overview.png" alt="App Registration" width="200" height="450" />
+![App Registration](./assets/azure_devops_overview.png)
 
 <u>**Step 3**</u>
 
@@ -27,7 +26,7 @@ You will need to gather the following application information to configure your 
 
 - Copy your Application (Client) ID and Directory (Tenant) ID.
 
-<img src="/how-tos/datacoves/assets/azure_devops_app_details.jpg" alt="Azure DevOps Details" />
+![Azure DevOps Details](./assets/azure_devops_app_details.jpg)
 
 ### Repo SSH and HTTP urls
 
@@ -49,6 +48,6 @@ You will need to copy the SSH or HTTP clone url.
 
 - Copy **both** the SSH **and** HTTP urls and enter in the appropriate fields in the project setup screen in Datacoves.
 
-<img src="/how-tos/datacoves/assets/azure_devops_https.png" alt="SSH and HTTP" />
+![SSH and HTTP](./assets/azure_devops_https.png)
 
 ✅ Be sure to save all of these details on a safe notepad. Now you can begin setting up your [Azure DevOps authentication](/how-tos/datacoves/authenticate_azure_devops.md)

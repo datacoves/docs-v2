@@ -1,8 +1,7 @@
 ---
-title: Datacoves env vars
-sidebar_position: 2
+title: Datacoves Environment Variables
+sidebar_position: 137
 ---
-
 # Datacoves Environment Variables
 
 Datacoves streamlines your workflow by pre-setting environment variables to simplify work workflow such as the configuration needed to generate Airflow Dags with dbt-coves. You may also leverage these variables for your custom processes. These variables are created automatically and some may be adjusted via the admin settings.

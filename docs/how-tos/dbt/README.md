@@ -1,5 +1,6 @@
 ---
-sidebar_position: 5
+title: dbt
+sidebar_position: 64
 ---
 # dbt in Datacoves
 

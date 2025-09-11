@@ -1,8 +1,7 @@
 ---
-title: Runtime errors
-sidebar_position: 6
+title: Runtime Errors
+sidebar_position: 69
 ---
-
 # How to Fix dbt Runtime Errors
 
 Runtime errors occur when your dbt project setup is incorrect. These errors typically happen during initial project setup but are less common once your project is properly configured.

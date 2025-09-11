@@ -1,5 +1,6 @@
 ---
-sidebar_position: 7
+title: Administration Menu
+sidebar_position: 109
 ---
 # Admininstration Menu
 

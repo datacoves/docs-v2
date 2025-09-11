@@ -1,8 +1,7 @@
 ---
-title: Test dags
-sidebar_position: 23
+title: DAGs - Test DAGs
+sidebar_position: 32
 ---
-
 # Run DAG tests in your CI/CD 
 
 In Datacoves you can easily test your Airflow DAGs using [pytest](/reference/airflow/datacoves-commands.md#datacoves-my-pytest) in the command line. However you can also run these validations in your CI/CD pipeline. 
@@ -163,7 +162,7 @@ This file defines a set of pytest-based validation tests for Airflow DAGs. It en
 
 ### Step 2 Add the `conftest.py` file to your `orchestrate/test_dags` directory.
 
-This file will import custom tests that the Datacoves team has created such as validating [variable calls are not made at the highest level](/how-tos/airflow/use-aws-secrets-manager.md) of a DAG. 
+This file will import custom tests that the Datacoves team has created such as validating [variable calls are not made at the highest level](/docs/how-tos/datacoves/how_to_configure_aws_secrets_manager.md) of a DAG. 
 
 ```python
 # orchestrate/test_dags/conftest.py

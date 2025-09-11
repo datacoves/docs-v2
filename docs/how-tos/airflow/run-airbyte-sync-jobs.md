@@ -1,21 +1,21 @@
 ---
-title: Run airbyte sync jobs
-sidebar_position: 14
+title: DAGs - Run Airbyte sync jobs
+sidebar_position: 27
 ---
-
 # Run Airbyte sync jobs
 
 In our quest to simplify the way tools integrate in the Modern Data Stack, we developed the generate airflow-dags command in the <a href="https://github.com/datacoves/dbt-coves?tab=readme-ov-file#generate-airflow-dags" target="_blank" rel="noopener">dbt-coves</a> library.
 
 The main idea behind this concept is to use tags defined on dbt sources and determine which data to load via different tools (e.g. Airbyte or Fivetran). Using this information, we can dynamically create _Extract and Load_ tasks in an Airflow DAG before running dbt.
 
->[!NOTE]Support for Fivetran Tasks coming soon. More Information in [run Fivetran sync jobs](/how-tos/airflow/run-fivetran-sync-jobs).
-
+:::note
+Support for Fivetran Tasks coming soon. More Information in [run Fivetran sync jobs](./run-fivetran-sync-jobs).
+:::
 ## Before you start
 
 ### Ensure your Airflow environment is properly configured
 
-Follow this guide on [How to set up Airflow](/how-tos/airflow/initial-setup)'s environment.
+Follow this guide on [How to set up Airflow](./initial-setup)'s environment.
 
 ### Airbyte connection
 
@@ -25,8 +25,9 @@ To view this connection, a user with the Datacoves sysadmin group can go to the 
 
 ![Admin Connections](./assets/admin-connections.png)
 
->[!NOTE] `host` is created using your environment (3 letters + 3 digits like xyz123) `<environment slug> + "-airbyte-airbyte-server-svc"`.
-
+:::note
+ `host` is created using your environment (3 letters + 3 digits like xyz123) `<environment slug> + "-airbyte-airbyte-server-svc"`.
+:::
 ![Admin Connections](./assets/airbyte-connection-details.png)
 
 ### Turn off Airbyte's scheduler
@@ -46,8 +47,9 @@ To connect Extract & Load with Transform in your DAG, you must configure your db
 - **airbyte_connection_id**: Id of the airflow connection that holds the information to connect to Airbyte system. (this was set up above)
 
 
->[!TIP]We make use of environment variables that we have configured for you upon set up. For more information on these variables please see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
-
+:::tip
+We make use of environment variables that we have configured for you upon set up. For more information on these variables please see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
+:::
 ```yml
 generate:
   ...
@@ -79,8 +81,9 @@ generate:
 
 Now you are ready to write out your DAG using yml. In the following example DAG, you can notice a special task `load` that uses a `generator` instead of an `operator`. This will allow for the information to be pulled dynamically from airbyte such as connection_id. 
 
->[!TIP]We make use of special generators from the dbt-coves extension. For more information please see [DAG Generators](reference/airflow/dag-generators.md)
-
+:::tip
+We make use of special generators from the dbt-coves extension. For more information please see [DAG Generators](reference/airflow/dag-generators.md)
+:::
 
 ### Field reference:
 

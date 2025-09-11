@@ -4,11 +4,9 @@ sidebar_position: 1
 ---
 # Configure your account with Datacoves
 
-:::danger[Attention]
-
+:::caution
 The appropriate git repo access is required to be able to add deployment keys. 
 Be sure that you can add SSH keys to the repo or setup will not be able to finish.
-
 :::
 
 ## Prerequisites
@@ -17,9 +15,7 @@ Before the setup call with the Datacoves team, ensure you have the following rea
 
 
 :::note
-
 Email gomezn@datacoves.com with the answers to the following two questions so we can be ready for the call.
-
 :::
 
 1. What version of dbt are you using?
@@ -36,12 +32,11 @@ To set up your Datacoves account, you will need to know your data warehouse prov
 | Databricks | Host, Schema, HTTP Path, Token |
 | BigQuery | Dataset, Keyfile JSON |
 
-:::warning[Warning]
-
+:::warning
 For the Snowflake `Account` field you will need to find your account locator and replace `.` with `-`. 
 Check out [Snowflake Fields](how-tos/datacoves/how_to_connection_template.md#for-snowflake-the-available-fields-are) on how to find your Snowflake account locator.
-
 :::
+
 **Network Access:** Verify that your Data Warehouse is accessible from outside your network. You'll need to whitelist the Datacoves IP - `74.179.200.137`
 
 ### Git

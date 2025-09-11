@@ -1,8 +1,7 @@
 ---
-title: Retry dbt tasks
-sidebar_position: 12
+title: DAGs - Retry dbt jobs
+sidebar_position: 29
 ---
-
 # Retry a dbt task
 
 ## Overview

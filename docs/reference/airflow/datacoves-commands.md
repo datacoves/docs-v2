@@ -1,8 +1,7 @@
 ---
-title: Datacoves commands
-sidebar_position: 5
+title: Datacoves CLI Commands
+sidebar_position: 126
 ---
-
 # Datacoves CLI Commands
 The `datacoves` bash commands are meant to simplify your workflow. Currently, the datacoves command has the following sub commands: 
 
@@ -18,9 +17,11 @@ Currently, the `datacoves my` subcommand has the following subcommands:
 
 ### datacoves my import
 
->[!NOTE] For security purposes secret values will not be automatically imported. The tool will ask you to enter the secret value. 
+:::note
+For security purposes secret values will not be automatically imported. The tool will ask you to enter the secret value. 
+:::
 
-This command will import your variables and connections from Team Airflow to [My Airflow](/how-tos/my_airflow/). You only need to complete this once or whenever new variables/connections are added to team airflow. 
+This command will import your variables and connections from Team Airflow to [My Airflow](/docs/how-tos/my_airflow/). You only need to complete this once or whenever new variables/connections are added to team airflow. 
 
 ```bash
 datacoves my import
@@ -28,7 +29,9 @@ datacoves my import
 
 ### datacoves my pytest
 
->[!NOTE] My Airflow [must be instantiated](/how-tos/my_airflow/start-my-airflow.md) for this command to work.
+:::note
+My Airflow [must be instantiated](/how-tos/my_airflow/start-my-airflow.md) for this command to work.
+:::
 
 This command allows you to run pytest validations straight from the command line. Simply create your python file with your desired tests inside the `orchestrate` directory. Then pass the file path as an argument as seen below. 
 

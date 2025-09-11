@@ -1,8 +1,7 @@
 ---
-title: Send slack notifications
-sidebar_position: 21
+title: Notifications - Send Slack notifications
+sidebar_position: 36
 ---
-
 # How to send Slack notifications on DAG's status
 
 As stated in [how to send email notifications](/how-tos/airflow/send-emails.md), Airflow allows multiple ways to inform users about DAGs and tasks status.
@@ -59,7 +58,9 @@ Provide a name and select `Slack`.
 
 Provide the required details and `Save` changes.
 
-> [!TIP]The name you specify will be used to create the Airflow-Slack connection. It will be uppercased and joined by underscores -> `'SLACK NOTIFICATIONS'` will become `SLACK_NOTIFICATIONS`. You will need this name below.
+:::tip
+The name you specify will be used to create the Airflow-Slack connection. It will be uppercased and joined by underscores -> `'SLACK NOTIFICATIONS'` will become `SLACK_NOTIFICATIONS`. You will need this name below.
+:::
 
 ### Add integration to an Environment
 
@@ -89,15 +90,16 @@ Slack will receive a message with a 'Logs' link that users can click on and go d
 
 In the examples below, we will send a notification on failing tasks or when the full DAG completes successfully using our custom callbacks: `inform_failure` and `inform_success`.
 
-> [!NOTE]In addition to `inform_failure` and `inform_success`, we support these callbacks `inform_failure`, `inform_success`, `inform_retry`, `inform_sla_miss`
+:::noteIn addition to `inform_failure` and `inform_success`, we support these callbacks `inform_failure`, `inform_success`, `inform_retry`, `inform_sla_miss`
 
+:::
 To send Slack notifications, in the Airflow DAG we need to import the appropriate callbacks and call them with:
 
 - `slack_webhook_conn_id`: the name of the Datacoves Integration created above
 - `text`: to customize the message sent to Slack.
 
->[!ATTENTION] `on_failure_callback` will throw an error if using lists causing your task to fail.
-
+:::warning `on_failure_callback` will throw an error if using lists causing your task to fail.
+:::
 ### Python version
 
 ```python

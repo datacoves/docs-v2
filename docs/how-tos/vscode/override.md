@@ -1,11 +1,10 @@
 ---
-title: Override
-sidebar_position: 5
+title: Override VS Code settings
+sidebar_position: 94
 ---
-
 # How to override default VS Code settings
 
-Once you have [set up your Visual Studio Code](/how-tos/vscode/initial) environment, you have the possibility to override certain settings we provide by default. This is done in your Workspace settings.
+Once you have [set up your Visual Studio Code](./initial.md) environment, you have the possibility to override certain settings we provide by default. This is done in your Workspace settings.
 
 ## Create your workspace settings file
 
@@ -37,8 +36,9 @@ To see our default settings, which will serve as example for you to overwrite in
 ![User Settings JSON](./assets/user_settings_json.png)
 
 ### Copy the betterStatusBar.commands
-
->[!NOTE]Only the commands you copy over to your settings.json will be available to you, so we recommend copying over all of them to avoid losing any during the customization process. 
+:::note
+Only the commands you copy over to your settings.json will be available to you, so we recommend copying over all of them to avoid losing any during the customization process. 
+:::
 
 Paste them in your .vscode/settings.json file
 
@@ -82,4 +82,6 @@ Below you can see the structure of the command entry.
   
 - **Tool tips**: To change the hover message, edit the "tooltip" variable and add a string with the message you'd like to display upon hovering. If you decide to add a button to the status bar that was not there by default, its tooltip will likely be `null`. This will default to `"betterStatusBar.<id>"`
 
->[!ATTENTION]These customizations will only be available in the individual user workspace. To fix this, the settings.json can be committed to version control and shared across developers, however, if you choose this method **DO NOT store any secrets in the the settings.json** since they will be committed to version control.
+:::warning
+These customizations will only be available in the individual user workspace. To fix this, the settings.json can be committed to version control and shared across developers, however, if you choose this method **DO NOT store any secrets in the the settings.json** since they will be committed to version control.
+:::

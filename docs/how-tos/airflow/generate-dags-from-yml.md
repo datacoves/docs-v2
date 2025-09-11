@@ -1,8 +1,7 @@
 ---
-title: Generate dags from yml
-sidebar_position: 7
+title: DAGs - Generate DAGs from yml
+sidebar_position: 23
 ---
-
 # Generate DAGs from yml
 
 You have the option to write out your DAGs in python or you can write them using yml and then have dbt-coves generate the python DAG for you.
@@ -14,8 +13,9 @@ dbt-coves will read settings from `<dbt_project_path>/.dbt_coves/config.yml`. We
 
 **Step 1:** Create the `.dbt-coves` folder at the root of your dbt project (where the dbt_project.yml file is located). Then create a file called `config.yml` inside of `.dbt-coves`. 
 
->[!NOTE]Datacoves' recommended dbt project location is `transform/` eg) `transform/.dbt-coves/config.yml`. This will require some minor refactoring and ensuring that the  `dbt project path ` in your environment settings reflects accordingly. 
-
+:::note 
+Datacoves' recommended dbt project location is `transform/` eg) `transform/.dbt-coves/config.yml`. This will require some minor refactoring and ensuring that the  `dbt project path ` in your environment settings reflects accordingly. 
+:::
 **Step 2:** We use environment variables such as `DATACOVES__AIRFLOW_DAGS_YML_PATH` that are pre-configured for you. For more information on these variables see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
 - `yml_path`: This is where dbt-coves will look for the yml files to generate your Python DAGs.
 - `dags_path`: This is where dbt-coves will place your generated python DAGs.
@@ -33,15 +33,16 @@ generate:
 ...
 ```
 
->[!TIP]If using an Extract and Load tool in your DAG you can dynamically generate your sources; however, additional configuration will be needed inside the config.yml file. See [Airbyte](how-tos/airflow/run-airbyte-sync-jobs.md#configure-transformdbt-covesconfigyml-file). For [Fivetran](how-tos/airflow/run-fivetran-sync-jobs.md#configure-transformdbt-covesconfigyml-file) contact us to complete the setup.
-
+:::tip 
+If using an Extract and Load tool in your DAG you can dynamically generate your sources; however, additional configuration will be needed inside the config.yml file. See [Airbyte](./run-airbyte-sync-jobs.md#configure-transformdbt-covesconfigyml-file). For [Fivetran](./run-fivetran-sync-jobs.md#configure-transformdbt-covesconfigyml-file) contact us to complete the setup.
+:::
 ## Create the yml file for your Airflow DAG
 
 dbt-coves will look for your yml inside your `orchestrate/dags_yml_definition` folder to generate your Python DAGs. Please create these folders if you have not already done so.
- 
->[!NOTE]When you create a DAG with YAML the name of the file will be the name of the DAG.
+:::note
+When you create a DAG with YAML the name of the file will be the name of the DAG.
 eg) `yml_dbt_dag.yml` generates a dag named `yml_dbt_dag`
-
+:::
 Let's create our first DAG using YAML. 
 
 **Step 1**: Create a new file named `my_first_yml.yml` in your `orchestrate/dags_yml_definition` folder.
@@ -66,8 +67,9 @@ nodes:
     operator: operators.datacoves.dbt.DatacovesDbtOperator
     bash_command: "dbt run -s personal_loans" 
 ```
->[!TIP]In the examples we make use of the Datacoves Operators which handle things like copying and running dbt deps. For more information on what these operators handle, see [Datacoves Operators](reference/airflow/datacoves-operator.md)
-
+:::tip
+In the examples we make use of the Datacoves Operators which handle things like copying and running dbt deps. For more information on what these operators handle, see [Datacoves Operators](reference/airflow/datacoves-operator.md)
+:::
 ### How to create your own task group with YAML
 
 The example below shows how to create your own task group with YAML.
@@ -78,8 +80,9 @@ The example below shows how to create your own task group with YAML.
 - **tooltip**: Hover message for the task group. 
 - **tasks**: Here is where you will define the individual tasks in the task group.
 
->[!NOTE] Specify the "task group" and "task" names at the beginning of their respective sections, as illustrated below:
-
+:::note
+Specify the "task group" and "task" names at the beginning of their respective sections, as illustrated below:
+:::
 ```yaml
 nodes:
   extract_and_load_dlt: # The name of the task group

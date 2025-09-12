@@ -22,15 +22,15 @@ const config = {
 
   // Set the production url of your site here
   // Amy: GitHub Pages deployment config
-  url:'https://amypchan.github.io',
+  url:'https://docs.datacov.es',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/docusaurus-test/',
+  baseUrl: '/docs-v2/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'amypchan', // Usually your GitHub org/user name.
-  projectName:  'docusaurus-test', // Usually your repo name.
+  organizationName: 'datacoves', // Usually your GitHub org/user name.
+  projectName:  'docs-v2', // Usually your repo name.
 
   onBrokenLinks: 'warn',//changed to ignore from throw
   onBrokenMarkdownLinks: 'warn',

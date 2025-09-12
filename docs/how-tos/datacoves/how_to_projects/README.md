@@ -7,9 +7,9 @@ sidebar_position: 48
 
 Navigate to the Projects page:
 
-![Projects Page](./assets/menu_projects.gif)
+![Projects Page](../assets/menu_projects.gif)
 
-![Projects Create or Edit Page](./assets/projects_editnew_page.png)
+![Projects Create or Edit Page](../assets/projects_editnew_page.png)
 
 A Project configuration consists of the following fields:
 
@@ -22,12 +22,12 @@ A Project configuration consists of the following fields:
     #### **SSH**
     When SSH is selected, an SSH public key will be automatically generated for you to configure in your git provider as a deployment key.
 
-    ![Repo SSH Key](./assets/projects_ssh_key.png)
+    ![Repo SSH Key](../assets/projects_ssh_key.png)
 
     #### **HTTPS**
     When HTTPS is selected, the following fields must be filled in: `Git HTTPS url`, `Username`, and `Password`.
 
-    ![Repo User Password Prompt](./assets/projects_https_data.png)
+    ![Repo User Password Prompt](../assets/projects_https_data.png)
 
     #### **Azure DevOps Secret**
     When Azure DevOps Secret is selected, a secret key is required for authentication. This assumes you have already created your EntraID application and added it as a user.
@@ -38,7 +38,7 @@ A Project configuration consists of the following fields:
     - **Azure HTTPS Clone url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal  
     - **Tenant ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)  
     - **Application ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)  
-    - **Client Secret:** [Secret value](how_to_configure_azure_DevOps) found in Azure Portal  
+    - **Client Secret:** [Secret value](how_to_configure_azure_DevOps) found in Azure DevOps Portal  
     - **Release Branch:** This will be the branch you would like to clone. Typically `main`.
 
     #### **Azure DevOps Certificate**
@@ -56,6 +56,6 @@ A Project configuration consists of the following fields:
     <!-- tabs:end -->
 
 - **CI/CD Provider:** When provided, this will display a link to your CI/CD jobs on the Observe tab of a Datacoves environment. Once you choose your provider, you will be able to specify your `CI jobs home URL`.
-- **Secrets Backend:** Datacoves provides a Secrets Backend out of the box; you can also configure additional Secrets Backends for your projects such as [AWS Secrets Manager](./how_to_configure_aws_secrets_manager.md).
+- **Secrets Backend:** Datacoves provides a Secrets Backend out of the box; you can also configure additional Secrets Backends for your projects such as [AWS Secrets Manager](how_to_configure_aws_secrets_manager).
 
-![Project Secrets Backend](./assets/edit_project_secrets_backend.jpg)
+![Project Secrets Backend](../assets/edit_project_secrets_backend.jpg)

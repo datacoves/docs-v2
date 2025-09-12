@@ -162,7 +162,7 @@ This file defines a set of pytest-based validation tests for Airflow DAGs. It en
 
 ### Step 2 Add the `conftest.py` file to your `orchestrate/test_dags` directory.
 
-This file will import custom tests that the Datacoves team has created such as validating [variable calls are not made at the highest level](/docs/how-tos/datacoves/how_to_configure_aws_secrets_manager.md) of a DAG. 
+This file will import custom tests that the Datacoves team has created such as validating [variable calls are not made at the highest level](/docs/how-tos/datacoves/how_to_projects/how_to_configure_aws_secrets_manager.md) of a DAG. 
 
 ```python
 # orchestrate/test_dags/conftest.py

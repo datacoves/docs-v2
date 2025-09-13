@@ -25,7 +25,7 @@ const config = {
   url:'https://docs.datacov.es',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/docs-v2',
+  baseUrl: '/docs-v2/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.

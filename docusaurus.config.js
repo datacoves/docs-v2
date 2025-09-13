@@ -31,7 +31,7 @@ const config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'datacoves', // Usually your GitHub org/user name.
   projectName:  'docs.datacov.es', // Usually your repo name.
-  deploymentBranch: 'gh-pages'
+  deploymentBranch: 'gh-pages',
     
   onBrokenLinks: 'warn',//changed to ignore from throw
   onBrokenMarkdownLinks: 'warn',

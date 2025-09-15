@@ -318,7 +318,7 @@ const config = {
           // put your brand HTML here as an item
             html: `
             <div class="footer__brand footer__brand--wide">
-              <img src="/docusaurus-test/img/datacoves-footer-logo.png" alt="Datacoves-logo" class="footer__brand-logo" />
+              <img src="/img/datacoves-footer-logo.png" alt="Datacoves-logo" class="footer__brand-logo" />
               <p class="footer__brand-desc text--left">
                 Datacoves is an enterprise DataOps platform with managed dbt and Airflow
                 for data transformation and orchestration, as well as VS Code in the browser

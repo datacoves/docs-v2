@@ -11,7 +11,7 @@ A Project is the highest grouping in Datacoves. It is what contains environments
 The Datacoves landing page (Launch Pad) follows this hierarchy:
 
 :::tip
-See our How To - [Projects](how-tos/datacoves/how_to_projects.md)
+See our How To - [Projects](/docs/how-tos/datacoves/how_to_projects/)
 :::
 
 ![Project Environment Difference](./assets/launchpad_environments_projects.png)

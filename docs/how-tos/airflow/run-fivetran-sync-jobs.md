@@ -27,7 +27,8 @@ Create a new connection using the following details:
 :::tip
 Once your Fivetran API key and secret have been generated, for security reasons, the secret cannot be viewed again through the Fivetran interface. If you lose or forget your API secret, you will need to generate a new API key and secret pair so be sure to store them somewhere secure for reference later. See <a href="https://fivetran.com/docs/rest-api/getting-started" target="_blank" rel="noopener">Fivetran Documentation</a> on how to generate your Fivetran `API Key` and `API Secret`. 
 :::
-### Configure your transform/.dbt-coves/config.yml file
+
+### Configure your transform dbt-coves config yml file
 
 By default, dbt-coves cannot query the necessary information for Fivetran connections. You will need to configure these in your yml DAG manually, or contact us to configure Datacoves with the necessary information.
 Below are the configurations in for dbt-coves airflow-dags. You will need to configure these if using dbt-coves to generate DAGs from YML
@@ -120,12 +121,12 @@ You will need to define two operators: `fivetran_provider.operators.fivetran.Fiv
   ![Fivetran Connection ID](assets/fivetran_connector_id.png)
 
   - **do_xcom_push**:  Indicate that the output of the task should be sent to XCom, making it available for other tasks to use.
-  - **fivetran_conn_id**: This is the `connection_id` that was configured above in the Fivetran UI as seen [above](#id=fivetran-connection).
+  - **fivetran_conn_id**: This is the `connection_id` that was configured above in the Fivetran UI as seen [above](#fivetran-connection).
 - **example_task_sensor**: Name your Sensor task accordingly and define arguments below.
   -  **operator**: `fivetran_provider.sensors.fivetran.FivetranSensor`
   -  **connector_id**: Find in Fivetran UI.
   -  **poke_interval**: The poke interval is the time in seconds that the sensor waits before rechecking if the connector is done loading data. Defaults to 60.
-  - **fivetran_conn_id**: This is the `connection_id` that was configured above in the Fivetran UI as seen [above](#id=fivetran-connection).
+  - **fivetran_conn_id**: This is the `connection_id` that was configured above in the Fivetran UI as seen [above](#fivetran-connection).
   - **dependencies**: A list of tasks this task depends on.
   
 ### YAML version

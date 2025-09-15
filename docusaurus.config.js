@@ -121,15 +121,13 @@ const config = {
           to: '/docs/getting-started/create-account',
         },
         {
-          //type: 'docSidebar',//AC: uncommented this to use custom sidebar
-          //sidebarId: 'gettingStartedSidebar',//AC: uncommented this to use custom sidebar
+          //type: 'docSidebar', uncommented this to use custom sidebar
+          //sidebarId: 'gettingStartedSidebar', uncommented this to use custom sidebar
           label: 'Administrator', // You can add more internal doc links here
           to: '/docs/getting-started/Admin/',
         },
          {
-          //type: 'docSidebar',//AC: uncommented this to use custom sidebar
           label: 'Developer', // You can add more internal doc links here
-         // sidebarId: 'gettingStartedSidebar',
           to: '/docs/getting-started/developer/',
         },
         // Add more internal docs here if needed
@@ -288,12 +286,12 @@ const config = {
       position: 'left',
       items:[
         {
-          label: 'Learning Resources',
-          to: 'https://datacoves.com/learning-resources?_gl=1*18cmhau*_ga*MjYwMzYwODE1LjE3NTIyNTAwNDk.*_ga_WFBP8GG4YV*czE3NTYyNDYzMzAkbzUwJGcxJHQxNzU2MjQ2NDg4JGo2MCRsMCRoMA..'
-        },
-        {
           label: 'Educational Data Resources',
           to: 'https://datacoves.com/data-resources#Educational',
+        },
+        {
+          label: 'Learning Resources',
+          to: 'https://datacoves.com/learning-resources?_gl=1*18cmhau*_ga*MjYwMzYwODE1LjE3NTIyNTAwNDk.*_ga_WFBP8GG4YV*czE3NTYyNDYzMzAkbzUwJGcxJHQxNzU2MjQ2NDg4JGo2MCRsMCRoMA..'
         },
       ] },
      {
@@ -370,7 +368,7 @@ const config = {
             items: [
               {
                 label: 'Product',
-                to: 'https://datacoves.com',
+                to: 'https://datacoves.co/product',
               },
               {
                 label: 'Blog',
@@ -392,7 +390,7 @@ const config = {
               },
               {
                 label: 'SLA',
-                to: 'https://docs.datacoves.com/sla.html',
+                to: '/sla',
               },
               
             ],

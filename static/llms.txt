@@ -886,6 +886,40 @@ During the Airflow configuration step you added the `orchestrate` folder and the
 
 ---
 
+// File: getting-started/developer/README
+
+# Datacoves Getting Started Guides - Developer
+
+## Introduction
+Welcome Developer! 
+
+Please use these getting started guides to accelerate your onboarding. The guides cover everything from configuring your user settings to fundamental tips and shortcuts. 
+
+-Datacoves Team
+
+## Developer Essentials
+1. First, you will need to configure your user settings. You will not be able to access the transform tab if your user settings have not been properly configured.  
+
+   [Configure Your User Settings](/docs/how-tos/vscode/initial.md)
+
+2. Once your user settings have been configured and your git repo has been tested, you will be able to jump right in to your browser VS Code experience; everything you need, pre-configured at your fingertips. This is where the dbt magic happens.
+
+   [Transform Tab (VS Code)](/docs/getting-started/developer/transform-tab)
+
+3. With the Snowflake extension you don't have to leave the comfort of your Datacoves tab! Learn how to use this powerful extension, along with some handy tips and tricks. 
+
+   [Snowflake Extension](/docs/getting-started/developer/snowflake-extension)
+
+4. Have the best and most efficient dbt experience with Datacoves! We cover some nifty shortcuts and accelerators to help you hit the ground running with dbt.
+   
+   [Working with dbt in Datacoves](/docs/getting-started/developer/working-with-dbt-datacoves)
+
+5. Use git with ease via the VS Code Git Extension, our pre-configured git aliases, and more.
+   
+   [Using Git](/docs/getting-started/developer/using-git)
+
+---
+
 // File: getting-started/developer/snowflake-extension
 
 # Getting Started with the Snowflake Extension
@@ -1011,40 +1045,6 @@ For more in-depth information and advanced usage, please consult the **[Source C
 - [Git rebase - Why, When & How to fix conflicts](https://youtube.com/watch?v=DkWDHzmMvyg&si=WE4VeEY1HKa_ejEA)
 - [Git merge/pull tutorial](https://youtube.com/watch?v=DloR0BOGNU0&si=3EfopCU41XvkYkJJ)
 - [Git pull rebase](https://youtube.com/watch?v=xN1-2p06Urc&si=8ZGMhJSy-A6N62l6)
-
----
-
-// File: getting-started/developer/README
-
-# Datacoves Getting Started Guides - Developer
-
-## Introduction
-Welcome Developer! 
-
-Please use these getting started guides to accelerate your onboarding. The guides cover everything from configuring your user settings to fundamental tips and shortcuts. 
-
--Datacoves Team
-
-## Developer Essentials
-1. First, you will need to configure your user settings. You will not be able to access the transform tab if your user settings have not been properly configured.  
-
-   [Configure Your User Settings](/docs/how-tos/vscode/initial.md)
-
-2. Once your user settings have been configured and your git repo has been tested, you will be able to jump right in to your browser VS Code experience; everything you need, pre-configured at your fingertips. This is where the dbt magic happens.
-
-   [Transform Tab (VS Code)](/docs/getting-started/developer/transform-tab)
-
-3. With the Snowflake extension you don't have to leave the comfort of your Datacoves tab! Learn how to use this powerful extension, along with some handy tips and tricks. 
-
-   [Snowflake Extension](/docs/getting-started/developer/snowflake-extension)
-
-4. Have the best and most efficient dbt experience with Datacoves! We cover some nifty shortcuts and accelerators to help you hit the ground running with dbt.
-   
-   [Working with dbt in Datacoves](/docs/getting-started/developer/working-with-dbt-datacoves)
-
-5. Use git with ease via the VS Code Git Extension, our pre-configured git aliases, and more.
-   
-   [Using Git](/docs/getting-started/developer/using-git)
 
 ---
 
@@ -6903,83 +6903,47 @@ rm -rf /config/workspace/.git
 
 ---
 
-// File: how-tos/vscode/datacoves-copilot/llm
+// File: how-tos/vscode/datacoves-copilot/v1
 
-# Working with an LLM in Datacoves Copilot
+# Datacoves Copilot v1
 
-Once you have [configured your LLM](./v2-llm-config.md), working with the AI chat is a breeze! 
+This section describes how to configure and use Datacoves Copilot v1.
 
-## Pre-configured presets
+Datacoves Copilot v1 supports ChatGPT and Azure Open AI LLMs, Datacoves v4+ includes Datacoves Copilot 2.0 which enhances the experience and supports many more LLM providers.
 
-While there are many use cases for AI in the development workflow there are a couple of tasks that come up regularly. To improve the user experience, we have created some presets that provide the LLM with specific instructions to get the best result. Use these or configure your own custom presets. 
+# How Tos
 
-Current out of the box presents include:
+- [LLM Config](./v1-llm-config.md)
+- [Working with an LLM in Datacoves](./v1-llm.mdx)
 
-- **Document dbt model:** Will provide descriptions for yml file you have open and provided as context.
-- **Explain dbt model:** Will explain a dbt model file you have open and provided as context.
-- **Explain dbt macro:** Will explain a dbt macro file you have open and provided as context.
-- **Add descriptions to CSV:** Will provide descriptions for CSV files you have open and provided as context. 
+---
 
-## How to use the Chat/Presets
+// File: how-tos/vscode/datacoves-copilot/v1-llm-config
 
-### Extension UI/UX
+# Configure your LLM for Datacoves Copilot v1
 
-To use your LLM head to the Datacoves Power User extension and open up `Copilot`. 
+:::note Datacoves Copilot v1 only support the 4o model gpt model.
 
-<img src="/how-tos/vscode/datacoves-copilot/assets/llm_menu.png" alt="LLM Menu" width="250" height="500" />
+:::
+### Step 1: Create a Datacoves Secret
 
-### Provide files for context 
-The most important thing to remember is providing context to the LLM. In order to do this simply open up the file you wish to work with.
+Creating a [Datacoves Secret](/docs/how-tos/datacoves/how_to_secrets.md) requires some key fields to be filled out:
 
-![llm file open](assets/llm_file_open.png)
+- **Name:** The secret must be named `datacoves-copilot-llm-api`
+- **Description:** Provide a simple description such as: `Open AI config`
+- **Format:** Select `Raw JSON`
+- **Value**: The value will vary based on the LLM you are utilizing.
+  - **Open AI:** You only need your API key. Head to [Open AI](https://platform.openai.com/api-keys) to create your key. `{"OPENAI_API_KEY": "Your key here"}`
+  - **Azure Open AI:** This requires two credentials. Head to [ai.azure.com](https://ai.azure.com) to find your credentials under the [Deployments](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/working-with-models?tabs=powershell#model-deployment-upgrade-configuration) tab. `{"AZURE_OPENAI_ENDPOINT": "Your endpoint here", "AZURE_OPENAI_API_KEY"  : "Your key here"}`
+- **Scope:** Select the desired scope, either `Project` or `Environment`.
+- **Project/Environment:** Select the `Project` or `Environment` that will access this LLM.
 
-### Send specific lines of code for context
-Highlight the lines of code you wish to send.
+Lastly, be sure to toggle on the `Share with developers` option so that users with developer access will be able to use the LLM.
+![Share with Devs](assets/llm_share_with_devs.png)
 
-![context lines](assets/llm_line_context.png)
+### Example Secret
 
-### Don't provide context
-In the case that you don't want to send an open file for context you can select the icon below.
-
-![llm context](assets/llm_context.gif)
-
-## Using LLM code 
-Datacoves Copilot makes copying AI generated code simple with 3 options. 
-
-![Code Options](assets/llm_code_options.png)
-
-### Replace
-Replace the entire code file with the LLM code.
-
-![llm Replace](assets/llm_replace.gif)
-
-### Insert 
-Insert LLM code into your file.
-
-![llm Insert](assets/llm_insert.gif)
-
-### Copy
-Traditional copy and paste. 
-
-![llm Copy](assets/llm_copy.gif)
-
-### New Chat
-To start a new chat click on the `New Chat` button.
-
-![New Chat](assets/llm_new_chat.png)
-
-## Prefer a Video?
-
-<div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
-  <iframe
-    src="https://www.loom.com/embed/b6e987152c114c3c8d44dc7712aa3e22?sid=d8847855-38cc-4a84-90b3-6be7e660f8b5"
-    frameBorder="0"
-    webkitAllowFullScreen
-    mozAllowFullScreen
-    allowFullScreen
-    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-  />
-</div>
+![Example ](assets/llm_example.png)
 
 ---
 
@@ -7006,7 +6970,9 @@ Current out of the box presents include:
 
 To use your LLM head to the Datacoves Power User extension and open up `Copilot`.
 
-<img src="/docs/how-tos/vscode/datacoves-copilot/assets/llm_menu.png" alt="LLM Menu" width="250" height="500"/>
+<div style={{ width: "250px" }}>
+  ![LLM Menu](./assets/llm_menu.png)
+</div>
 
 ### Provide files for context
 
@@ -7068,47 +7034,31 @@ To start a new chat click on the `New Chat` button.
 
 ---
 
-// File: how-tos/vscode/datacoves-copilot/v1-llm-config
+// File: how-tos/vscode/datacoves-copilot/v2
 
-# Configure your LLM for Datacoves Copilot v1
+# Datacoves Copilot v2
 
-:::note Datacoves Copilot v1 only support the 4o model gpt model.
+This section describes how to configure and use Datacoves Copilot v2, which comes installed on Datacoves v4+, enhancing the experience and supporting the following LLM providers:
 
-:::
-### Step 1: Create a Datacoves Secret
-
-Creating a [Datacoves Secret](/docs/how-tos/datacoves/how_to_secrets.md) requires some key fields to be filled out:
-
-- **Name:** The secret must be named `datacoves-copilot-llm-api`
-- **Description:** Provide a simple description such as: `Open AI config`
-- **Format:** Select `Raw JSON`
-- **Value**: The value will vary based on the LLM you are utilizing.
-  - **Open AI:** You only need your API key. Head to [Open AI](https://platform.openai.com/api-keys) to create your key. `{"OPENAI_API_KEY": "Your key here"}`
-  - **Azure Open AI:** This requires two credentials. Head to [ai.azure.com](https://ai.azure.com) to find your credentials under the [Deployments](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/working-with-models?tabs=powershell#model-deployment-upgrade-configuration) tab. `{"AZURE_OPENAI_ENDPOINT": "Your endpoint here", "AZURE_OPENAI_API_KEY"  : "Your key here"}`
-- **Scope:** Select the desired scope, either `Project` or `Environment`.
-- **Project/Environment:** Select the `Project` or `Environment` that will access this LLM.
-
-Lastly, be sure to toggle on the `Share with developers` option so that users with developer access will be able to use the LLM.
-![Share with Devs](assets/llm_share_with_devs.png)
-
-### Example Secret
-
-![Example ](assets/llm_example.png)
-
----
-
-// File: how-tos/vscode/datacoves-copilot/v1
-
-# Datacoves Copilot v1
-
-This section describes how to configure and use Datacoves Copilot v1.
-
-Datacoves Copilot v1 supports ChatGPT and Azure Open AI LLMs, Datacoves v4+ includes Datacoves Copilot 2.0 which enhances the experience and supports many more LLM providers.
+- Amazon Bedrock
+- Anthropic
+- Cerebras
+- Chutes AI
+- DeepSeek
+- Glama
+- Google Gemini
+- Hugging Face
+- Mistral
+- Ollama
+- OpenAI
+- OpenAI Compatible (i.e. Azure)
+- Open Router
+- Requesty
+- xAI (Grok)
 
 # How Tos
 
-- [LLM Config](./v1-llm-config.md)
-- [Working with an LLM in Datacoves](./v1-llm.mdx)
+- [LLM Config](/how-tos/vscode/datacoves-copilot/v2-llm-config.md)
 
 ---
 
@@ -7362,34 +7312,6 @@ Fine tune model usage using this additional key:
 ### Example Secret
 
 ![Example ](assets/v2_llm_example.png)
-
----
-
-// File: how-tos/vscode/datacoves-copilot/v2
-
-# Datacoves Copilot v2
-
-This section describes how to configure and use Datacoves Copilot v2, which comes installed on Datacoves v4+, enhancing the experience and supporting the following LLM providers:
-
-- Amazon Bedrock
-- Anthropic
-- Cerebras
-- Chutes AI
-- DeepSeek
-- Glama
-- Google Gemini
-- Hugging Face
-- Mistral
-- Ollama
-- OpenAI
-- OpenAI Compatible (i.e. Azure)
-- Open Router
-- Requesty
-- xAI (Grok)
-
-# How Tos
-
-- [LLM Config](/how-tos/vscode/datacoves-copilot/v2-llm-config.md)
 
 ---
 

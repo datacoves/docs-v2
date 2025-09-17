@@ -1,0 +1,8 @@
+label: Snowflake
+position: 1
+link:
+  type: generated-index
+  title: Snowflake
+  description:  Here we present some guidance for Snowflake including setting up a scalable security model amd managing time-travel while meeting GDPR requirements.
+
+

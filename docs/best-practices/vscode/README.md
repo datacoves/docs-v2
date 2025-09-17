@@ -2,4 +2,4 @@
 title: VS Code
 sidebar_position: 5
 ---
-# VS Cod Best Practices and Tips
+# VS Code Best Practices and Tips

@@ -128,7 +128,7 @@ const config = {
         },
          {
           label: 'Developer', // You can add more internal doc links here
-          to: '/docs/getting-started/developer/',
+          to: '/docs/category/developer/',
         },
         // Add more internal docs here if needed
       ],
@@ -234,7 +234,7 @@ const config = {
         },
          {
           label: 'Snowflake',
-          to: '/docs/best-practices/snowflake/',
+          to: '/docs/category/snowflake-1/',
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'bestPracticesSidebar',
         },
@@ -381,7 +381,7 @@ const config = {
             items: [
               {
                 label: 'Product',
-                to: 'https://datacoves.co/product',
+                to: 'https://datacoves.com/product',
               },
               {
                 label: 'Blog',

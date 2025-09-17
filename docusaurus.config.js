@@ -234,7 +234,7 @@ const config = {
         },
          {
           label: 'Snowflake',
-          to: '/docs/best-practices/snowflake/',
+          to: '/docs/category/snowflake-1/',
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'bestPracticesSidebar',
         },

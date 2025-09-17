@@ -513,17 +513,9 @@ When a request for a person "to be forgotten" from the database comes in, the fo
 
 ---
 
-// File: best-practices/snowflake/README
-
-# Snowflake
-
-Here we present some guidance for Snowflake including setting up a scalable security model amd managing time-travel while meeting GDPR requirements.
-
----
-
 // File: best-practices/vscode/README
 
-# VS Cod Best Practices and Tips
+# VS Code Best Practices and Tips
 
 ---
 
@@ -880,40 +872,6 @@ By leveraging this setup process, data teams can focus on delivering value throu
 3. When users no longer need access to Datacoves, you can delete their accounts.
 
    [Deleting a Users](/docs/how-tos/datacoves/how_to_manage_users#delete-a-user)
-
----
-
-// File: getting-started/developer/README
-
-# Datacoves Getting Started Guides - Developer
-
-## Introduction
-Welcome Developer! 
-
-Please use these getting started guides to accelerate your onboarding. The guides cover everything from configuring your user settings to fundamental tips and shortcuts. 
-
--Datacoves Team
-
-## Developer Essentials
-1. First, you will need to configure your user settings. You will not be able to access the transform tab if your user settings have not been properly configured.  
-
-   [Configure Your User Settings](/docs/how-tos/vscode/initial.md)
-
-2. Once your user settings have been configured and your git repo has been tested, you will be able to jump right in to your browser VS Code experience; everything you need, pre-configured at your fingertips. This is where the dbt magic happens.
-
-   [Transform Tab (VS Code)](/docs/getting-started/developer/transform-tab)
-
-3. With the Snowflake extension you don't have to leave the comfort of your Datacoves tab! Learn how to use this powerful extension, along with some handy tips and tricks. 
-
-   [Snowflake Extension](/docs/getting-started/developer/snowflake-extension)
-
-4. Have the best and most efficient dbt experience with Datacoves! We cover some nifty shortcuts and accelerators to help you hit the ground running with dbt.
-   
-   [Working with dbt in Datacoves](/docs/getting-started/developer/working-with-dbt-datacoves)
-
-5. Use git with ease via the VS Code Git Extension, our pre-configured git aliases, and more.
-   
-   [Using Git](/docs/getting-started/developer/using-git)
 
 ---
 
@@ -6826,21 +6784,23 @@ rm -rf /config/workspace/.git
 
 This section describes how to configure and use Datacoves Copilot v1.
 
-Datacoves Copilot v1 supports ChatGPT and Azure Open AI LLMs, Datacoves v4+ includes Datacoves Copilot 2.0 which enhances the experience and supports many more LLM providers.
+Datacoves Copilot v1 supports ChatGPT and Azure Open AI LLMs. Datacoves v4+ includes Datacoves Copilot 2.0 which enhances the experience and supports many more LLM providers.
 
-# How Tos
+## How Tos
 
-- [LLM Config](./v1-llm-config.md)
-- [Working with an LLM in Datacoves](./v1-llm.mdx)
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
----
+<Tabs defaultValue="config" values={[
+  {label: 'Config', value: 'config'},
+  {label: 'Usage', value: 'usage'},
+]}>
 
-// File: how-tos/vscode/datacoves-copilot/v1-llm-config
+  <TabItem value="config">
 
-# Configure your LLM for Datacoves Copilot v1
+## Configure your LLM for Datacoves Copilot v1
 
 :::note Datacoves Copilot v1 only support the 4o model gpt model.
-
 :::
 ### Step 1: Create a Datacoves Secret
 
@@ -6862,13 +6822,14 @@ Lastly, be sure to toggle on the `Share with developers` option so that users wi
 
 ![Example ](assets/llm_example.png)
 
----
 
-// File: how-tos/vscode/datacoves-copilot/v1-llm
+  </TabItem>
 
-# Working with an LLM in Datacoves Copilot v1
+  <TabItem value="usage">
 
-Once you have [configured your LLM](/how-tos/vscode/datacoves-copilot/v1-llm-config.md), working with the AI chat is a breeze!
+## Working with an LLM in Datacoves Copilot v1
+
+Once you have configured your LLM, working with the AI chat is a breeze!
 
 ## Pre-configured presets
 
@@ -6949,6 +6910,10 @@ To start a new chat click on the `New Chat` button.
   />
 </div>
 
+  </TabItem>
+
+</Tabs>
+
 ---
 
 // File: how-tos/vscode/datacoves-copilot/v2
@@ -6973,15 +6938,18 @@ This section describes how to configure and use Datacoves Copilot v2, which come
 - Requesty
 - xAI (Grok)
 
-# How Tos
+## How Tos
 
-- [LLM Config](/how-tos/vscode/datacoves-copilot/v2-llm-config.md)
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
----
+<Tabs defaultValue="config" values={[
+  {label: 'Config', value: 'config'},
+]}>
 
-// File: how-tos/vscode/datacoves-copilot/v2-llm-config
+  <TabItem value="config">
 
-# Configure your LLM in Datacoves Copilot v2
+## Configure your LLM in Datacoves Copilot v2
 
 ## Create a Datacoves Secret
 
@@ -7229,6 +7197,11 @@ Fine tune model usage using this additional key:
 ### Example Secret
 
 ![Example ](assets/v2_llm_example.png)
+
+
+  </TabItem>
+
+</Tabs>
 
 ---
 

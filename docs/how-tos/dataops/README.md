@@ -1,6 +1,6 @@
 ---
 title: DataOps
-sidebar_position: 62
+sidebar_position: 4
 ---
 # DataOps in Datacoves
 

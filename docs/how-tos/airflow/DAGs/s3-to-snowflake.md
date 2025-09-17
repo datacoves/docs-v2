@@ -34,7 +34,7 @@ CREATE OR REPLACE STAGE TEST_STAGE
 
 This example will use SnowSQL and our data looks like this: 
 
-![Sample data](assets/s3_sample_data.jpg)
+![Sample data](../assets/s3_sample_data.jpg)
 
 The SnowSQL command to upload the file to the Snowflake stage is below: 
 ```
@@ -61,11 +61,11 @@ CREATE OR REPLACE TABLE TEST_TABLE
 
 The TEST_TABLE schema now looks like this: 
 
-![test_table](assets/s3_test_table_schema.jpg)
+![test_table](../assets/s3_test_table_schema.jpg)
 
 However, the table does not have any data loaded into it. 
 
-![Empty test_table](assets/s3_test_table_empty.jpg)
+![Empty test_table](../assets/s3_test_table_empty.jpg)
 
 **Step 6:** To load the data from the file we used as a template we use the following COPY INTO SQL. 
 
@@ -78,11 +78,11 @@ COPY INTO TEST_TABLE
 
 And we can now see the data in the table: 
 
-![test_table copied](assets/s3_test_table_copied.jpg)
+![test_table copied](../assets/s3_test_table_copied.jpg)
 
 **Step 7:** Now we’re going to load another file into TEST_TABLE that has an additional column. 
 
-![Test data additional column](assets/s3_test_table_additional_col.jpg)
+![Test data additional column](../assets/s3_test_table_additional_col.jpg)
 
 Again, we will use the SnowSQL PUT command seen below: 
 
@@ -100,7 +100,7 @@ COPY INTO TEST_TABLE
 
 And now the table has an additional column called COUNTRY_CODE: 
 
-![test_table additional column](assets/s3_test_table_additional_call_snowflake.jpg)
+![test_table additional column](../assets/s3_test_table_additional_call_snowflake.jpg)
 
 ## Loading JSON data into a variant column 
 
@@ -136,5 +136,5 @@ COPY INTO VARIANT_TABLE
 
 Our variant table now looks like this: 
 
-![json variant table](assets/json_variant_table.jpg)
+![json variant table](../assets/json_variant_table.jpg)
 

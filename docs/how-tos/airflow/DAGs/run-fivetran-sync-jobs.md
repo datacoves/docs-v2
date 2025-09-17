@@ -4,7 +4,7 @@ sidebar_position: 31
 ---
 # Run Fivetran sync jobs
 
-In Addition to triggering Airbyte loads jobs [run Airbyte sync jobs](/docs/how-tos/airflow/run-airbyte-sync-jobs) you can also trigger Fivetran jobs from your Airflow DAG.
+In Addition to triggering Airbyte loads jobs [run Airbyte sync jobs](/docs/how-tos/airflow/DAGs/run-airbyte-sync-jobs) you can also trigger Fivetran jobs from your Airflow DAG.
 
 ## Before you start
 
@@ -108,7 +108,7 @@ dag = daily_loan_run()
 ### Fields reference
 
 - **extract_and_load_fivetran**: The name of the task group. This can be named whatever you like and will show up in airflow.
-![Extract and Load DAG](assets/extract_load_airflow_dag.png)
+![Extract and Load DAG](./assets/extract_load_airflow_dag.png)
 - **tooltip**: The tooltip argument allows you to provide explanatory text or helpful hints about specific elements in the Airflow UI
 - **tasks**: Define all of your tasks within the task group.
 
@@ -118,7 +118,7 @@ You will need to define two operators: `fivetran_provider.operators.fivetran.Fiv
   - **operator**: `fivetran_provider.operators.fivetran.FivetranOperator`
   - **connector_id**: Find in Fivetran UI. Select your desired source. Click into `Setup` and locate the `Fivetran Connector ID`
 
-  ![Fivetran Connection ID](assets/fivetran_connector_id.png)
+  ![Fivetran Connection ID](./assets/fivetran_connector_id.png)
 
   - **do_xcom_push**:  Indicate that the output of the task should be sent to XCom, making it available for other tasks to use.
   - **fivetran_conn_id**: This is the `connection_id` that was configured above in the Fivetran UI as seen [above](#fivetran-connection).

@@ -19,7 +19,7 @@ You can use Airflow in Datacoves to trigger a Databricks notebook. This guide wi
 
 **Step 2:** Navigate to compute.
 
-![databricks compute](assets/databricks_compute.png)
+![databricks compute](./assets/databricks_compute.png)
 
 **Step 3:** Click on your desired cluster.
 
@@ -37,7 +37,7 @@ If you do not have admin privileges, work with an admin to get the token. Follow
 
 **Step 2:** To the right of the notebook name, there will be three dots. Click on this and select the option to copy the full path to your clipboard.
 
-![copy url](assets/databricks_copyurl.png)
+![copy url](./assets/databricks_copyurl.png)
 
 ## Handling Databricks Variables in Airflow
 
@@ -56,7 +56,7 @@ It is possible to hardcode these two variables in your DAG if you don’t see th
 
 **Step 1:** A user with Airflow admin privileges must go to the `Airflow Admin -> Connection` menu.
 
-![admin connection](assets/admin-connections.png)
+![admin connection](./assets/admin-connections.png)
 
 **Step 2:** Create a new connection using the following details:
 
@@ -65,7 +65,7 @@ It is possible to hardcode these two variables in your DAG if you don’t see th
 - **Host:** Your Databricks host. E.g. `https://<databricks-instance>.databricks.com`
 - **Password:** Enter your `Databricks Token`
 
-![Databricks Connection](assets/airflow_databricks_connection.png)
+![Databricks Connection](./assets/airflow_databricks_connection.png)
 
 **Step 3:** Click `Save`
 

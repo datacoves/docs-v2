@@ -1,6 +1,6 @@
 ---
-title: Creating Airflow Dags
-sidebar_position: 7
+title: Airflow - Creating Dags
+sidebar_position: 3
 ---
 # Creating Airflow Dags
 
@@ -19,12 +19,12 @@ During the Airflow configuration step you added the `orchestrate` folder and the
 ## DAG 101 in Datacoves
 1. If you are eager to see Airflow and dbt in action within Datacoves, here is the simplest way to run dbt with Airflow.
 
-   [Run dbt](/docs/how-tos/airflow/run-dbt)
+   [Run dbt](/docs/how-tos/airflow/DAGs/run-dbt)
 
 2. You have 2 options when it comes to writing DAGs in Datacoves. You can write them out using Python and place them in the `orchestrate/dags` directory, or you can generate your DAGs with `dbt-coves` from a YML definition. 
     
-   [Generate DAGs from yml definitions](/docs/how-tos/airflow/generate-dags-from-yml) this is simpler for users not accustomed to using Python
+   [Generate DAGs from yml definitions](/docs/how-tos/airflow/DAGs/generate-dags-from-yml) this is simpler for users not accustomed to using Python
 
 3. You may also wish to use external libraries in your DAGs such as Pandas. In order to do that effectively, you can create custom Python scripts in a separate directory such as `orchestrate/python_scripts` and use the `DatacovesBashOperator` to handle all the behind the scenes work as well as run your custom script.**You will need to contact us beforehand to pre-configure any python libraries you need.**
 
-   [External Python DAG](/docs/how-tos/airflow/external-python-dag)
+   [External Python DAG](/docs/how-tos/airflow/DAGs/external-python-dag)

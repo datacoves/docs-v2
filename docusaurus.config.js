@@ -124,7 +124,7 @@ const config = {
           //type: 'docSidebar', uncommented this to use custom sidebar
           //sidebarId: 'gettingStartedSidebar', uncommented this to use custom sidebar
           label: 'Administrator', // You can add more internal doc links here
-          to: '/docs/getting-started/Admin/',
+          to: '/docs/category/administrator',
         },
          {
           label: 'Developer', // You can add more internal doc links here
@@ -141,19 +141,19 @@ const config = {
       items: [
         {
           label: 'Airflow',
-          to: '/docs/how-tos/airflow/',
+          to: '/docs/category/airflow/',
           //type: 'docSidebar',//add sidebar 
          //// sidebarId: 'howToSidebar',
         },
         {
           label: 'Datacoves',
-          to: '/docs/how-tos/datacoves/',
+          to: '/docs/category/datacoves/',
           //type: 'docSidebar',//add sidebar 
          //// sidebarId: 'howToSidebar',
         },
         {
           label: 'Datahub',
-          to: '/docs/how-tos/datahub/',
+          to: '/docs/category/datahub/',
           //type: 'docSidebar',//add sidebar 
          //// sidebarId: 'howToSidebar',
         },
@@ -165,13 +165,19 @@ const config = {
         },
          {
           label: 'dbt',
-          to: '/docs/how-tos/dbt',
+          to: '/docs/category/dbt',
           //type: 'docSidebar',//add sidebar 
          //// sidebarId: 'howToSidebar',
         },
          {
           label: 'Git',
           to: '/docs/how-tos/git',
+          //type: 'docSidebar',//add sidebar 
+         //// sidebarId: 'howToSidebar',
+        },
+         {
+          label: 'Metrics & Logs',
+          to: '/docs/how-tos/metrics-and-logs',
           //type: 'docSidebar',//add sidebar 
          //// sidebarId: 'howToSidebar',
         },
@@ -183,19 +189,19 @@ const config = {
         },
          {
           label: 'Snowflake',
-          to: '/docs/how-tos/snowflake',
+          to: '/docs/category/snowflake',
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'howToSidebar',
         },
          {
           label: 'Superset',
-          to: '/docs/how-tos/superset',
+          to: '/docs/category/superset',
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'howToSidebar',
         },
          {
           label: 'VS Code',
-          to: '/docs/how-tos/vscode',
+          to: '/docs/category/vscode',
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'howToSidebar',
         },
@@ -232,6 +238,12 @@ const config = {
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'bestPracticesSidebar',
         },
+        {
+          label: 'VS Code',
+          to: '/docs/best-practices/vscode/',
+          //type: 'docSidebar',//add sidebar 
+         // sidebarId: 'bestPracticesSidebar',
+        },
          
         ],
       },
@@ -249,14 +261,14 @@ const config = {
         },
         {
           label: 'Airflow',
-          to: '/docs/reference/airflow/',
+          to: '/docs/category/airflow-1/',
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'referenceSidebar',
   
         },
         {
           label: 'Datacoves',
-          to: '/docs/reference/datacoves/',
+          to: '/docs/category/datacoves-1/',
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'referenceSidebar',
         },
@@ -266,15 +278,16 @@ const config = {
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'referenceSidebar',
         },
+      
          {
-          label: 'Metrics & Logs',
-          to: '/docs/reference/metrics-and-logs/',
+          label: 'Security',
+          to: '/docs/reference/security/',
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'referenceSidebar',
         },
          {
-          label: 'Security',
-          to: '/docs/reference/security/',
+          label: 'VS Code',
+          to: '/docs/reference/vscode/',
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'referenceSidebar',
         },
@@ -310,7 +323,7 @@ const config = {
   },*/
   links: [
     {
-       // title: 'datacoves', required (can't be empty)
+       
       items: [
         {
           // put your brand HTML here as an item

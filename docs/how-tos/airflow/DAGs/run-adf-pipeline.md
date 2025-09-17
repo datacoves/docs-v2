@@ -34,7 +34,7 @@ You can use Airflow in Datacoves to trigger a Microsoft Azure Data Factory pipel
 
 **Step 1:** In Datacoves, a user with the `securityadmin` role must go to the `Airflow Admin -> Connection` menu.
 
- ![Airflow Connection](assets/admin-connections.png)
+ ![Airflow Connection](./assets/admin-connections.png)
 
 **Step 2:** Create a new connection using the following details.
 
@@ -58,7 +58,7 @@ You can use Airflow in Datacoves to trigger a Microsoft Azure Data Factory pipel
  Replace the values in the screenshot below with the actual values found above.
 :::
 
-![adf connection](assets/airflow_adf_connection.png)
+![adf connection](./assets/airflow_adf_connection.png)
  
 ## Example DAG 
 

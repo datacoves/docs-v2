@@ -521,6 +521,22 @@ Here we present some guidance for Snowflake including setting up a scalable secu
 
 ---
 
+// File: best-practices/vscode/README
+
+# VS Cod Best Practices and Tips
+
+---
+
+// File: best-practices/vscode/tips
+
+# VS Code Tips and tricks
+
+## Shortcuts
+
+- `cmd + alt + Shift + L` ➡️ Select all occurrences of a selected phrase
+
+---
+
 // File: getting-started/create-account
 
 # Configure your account with Datacoves
@@ -584,25 +600,6 @@ To ensure a smooth call, please have the answers to the following questions read
 
 ---
 
-// File: getting-started/Admin/README
-
-# Datacoves Getting Started Guides - Admin
-
-## Introduction
-Welcome Administrator! 
-
-You have the important role of configuring the Datacoves platform to fit your needs. No worries, you are not alone. We are here to help you every step of the way so you and your team can start delivering valuable insights in no time! Please follow the documentation below to get your dbt project up and running.  
-
--Datacoves Team
-
-## Datacoves Configuration Roadmap
-1. [Setting up your Datacoves Account with our team](/docs/getting-started/create-account.md)
-2. [Configure Airflow](getting-started/Admin/configure-airflow.md)
-3. [Creating Airflow Dags](getting-started/Admin/creating-airflow-dags.md)
-4. [User Management](getting-started/Admin/user-management.md)
-
----
-
 // File: getting-started/Admin/configure-airflow
 
 # Configuring Airflow
@@ -633,6 +630,37 @@ Once Airflow is configured, you can begin scheduling your dbt jobs by [creating 
 
 ---
 
+// File: getting-started/Admin/creating-airflow-dags
+
+# Creating Airflow Dags
+
+## Pre-Requisites
+By now you should have:
+
+- [Configured Airflow](getting-started/Admin/configure-airflow.md) in Datacoves
+- [Updated your repo](getting-started/Admin/configure-repository.md) to include `automate/dbt/profiles.yml` and `orchestrate/dags` folders
+- [Set up notifications](how-tos/airflow/send-emails.md) for Airflow
+
+## Where to create your DAGs
+This means that Airflow is fully configured and we can turn our attention to creating DAGs! Airflow uses DAGs to run dbt as well as other orchestration tasks. Below are the important things to know when creating DAGs and running dbt with Airflow.
+
+During the Airflow configuration step you added the `orchestrate` folder and the `dags` folder to your repository. Here you will store your airflow DAGs. ie) You will be writing your python files in `orchestrate/dags` 
+
+## DAG 101 in Datacoves
+1. If you are eager to see Airflow and dbt in action within Datacoves, here is the simplest way to run dbt with Airflow.
+
+   [Run dbt](/docs/how-tos/airflow/DAGs/run-dbt)
+
+2. You have 2 options when it comes to writing DAGs in Datacoves. You can write them out using Python and place them in the `orchestrate/dags` directory, or you can generate your DAGs with `dbt-coves` from a YML definition. 
+    
+   [Generate DAGs from yml definitions](/docs/how-tos/airflow/DAGs/generate-dags-from-yml) this is simpler for users not accustomed to using Python
+
+3. You may also wish to use external libraries in your DAGs such as Pandas. In order to do that effectively, you can create custom Python scripts in a separate directory such as `orchestrate/python_scripts` and use the `DatacovesBashOperator` to handle all the behind the scenes work as well as run your custom script.**You will need to contact us beforehand to pre-configure any python libraries you need.**
+
+   [External Python DAG](/docs/how-tos/airflow/DAGs/external-python-dag)
+
+---
+
 // File: getting-started/Admin/configure-repository
 
 # Update Repository for Airflow
@@ -645,7 +673,7 @@ Now that you have configured your Airflow settings you must ensure that your rep
 
 **Step 3:** **This step is optional** if you would like to make use of the [dbt-coves](https://github.com/datacoves/dbt-coves?tab=readme-ov-file#airflow-dags-generation-arguments) `dbt-coves generate airflow-dags` command. Create the `dags_yml_definitions` folder inside of your newly created `orchestrate` folder. This will leave you with two folders inside `orchestrate`- `orchestrate/dags` and `orchestrate/dags_yml_definitions`.
 
-**Step 4:** **This step is optional** if you would like to make use of the dbt-coves' extension `dbt-coves generate airflow-dags` command. You must create a config file for dbt-coves. Please follow the [generate DAGs from yml](how-tos/airflow/generate-dags-from-yml.md) docs.
+**Step 4:** **This step is optional** if you would like to make use of the dbt-coves' extension `dbt-coves generate airflow-dags` command. You must create a config file for dbt-coves. Please follow the [generate DAGs from yml](how-tos/airflow/DAGs/generate-dags-from-yml.md) docs.
 
 ## Create a profiles.yml
 
@@ -837,37 +865,6 @@ By leveraging this setup process, data teams can focus on delivering value throu
 
 ---
 
-// File: getting-started/Admin/creating-airflow-dags
-
-# Creating Airflow Dags
-
-## Pre-Requisites
-By now you should have:
-
-- [Configured Airflow](getting-started/Admin/configure-airflow.md) in Datacoves
-- [Updated your repo](getting-started/Admin/configure-repository.md) to include `automate/dbt/profiles.yml` and `orchestrate/dags` folders
-- [Set up notifications](how-tos/airflow/send-emails.md) for Airflow
-
-## Where to create your DAGs
-This means that Airflow is fully configured and we can turn our attention to creating DAGs! Airflow uses DAGs to run dbt as well as other orchestration tasks. Below are the important things to know when creating DAGs and running dbt with Airflow.
-
-During the Airflow configuration step you added the `orchestrate` folder and the `dags` folder to your repository. Here you will store your airflow DAGs. ie) You will be writing your python files in `orchestrate/dags` 
-
-## DAG 101 in Datacoves
-1. If you are eager to see Airflow and dbt in action within Datacoves, here is the simplest way to run dbt with Airflow.
-
-   [Run dbt](/docs/how-tos/airflow/run-dbt)
-
-2. You have 2 options when it comes to writing DAGs in Datacoves. You can write them out using Python and place them in the `orchestrate/dags` directory, or you can generate your DAGs with `dbt-coves` from a YML definition. 
-    
-   [Generate DAGs from yml definitions](/docs/how-tos/airflow/generate-dags-from-yml) this is simpler for users not accustomed to using Python
-
-3. You may also wish to use external libraries in your DAGs such as Pandas. In order to do that effectively, you can create custom Python scripts in a separate directory such as `orchestrate/python_scripts` and use the `DatacovesBashOperator` to handle all the behind the scenes work as well as run your custom script.**You will need to contact us beforehand to pre-configure any python libraries you need.**
-
-   [External Python DAG](/docs/how-tos/airflow/external-python-dag)
-
----
-
 // File: getting-started/Admin/user-management
 
 # User Management
@@ -1014,40 +1011,6 @@ For more in-depth information and advanced usage, please consult the **[Source C
 
 ---
 
-// File: getting-started/developer/README
-
-# Datacoves Getting Started Guides - Developer
-
-## Introduction
-Welcome Developer! 
-
-Please use these getting started guides to accelerate your onboarding. The guides cover everything from configuring your user settings to fundamental tips and shortcuts. 
-
--Datacoves Team
-
-## Developer Essentials
-1. First, you will need to configure your user settings. You will not be able to access the transform tab if your user settings have not been properly configured.  
-
-   [Configure Your User Settings](/docs/how-tos/vscode/initial.md)
-
-2. Once your user settings have been configured and your git repo has been tested, you will be able to jump right in to your browser VS Code experience; everything you need, pre-configured at your fingertips. This is where the dbt magic happens.
-
-   [Transform Tab (VS Code)](/docs/getting-started/developer/transform-tab)
-
-3. With the Snowflake extension you don't have to leave the comfort of your Datacoves tab! Learn how to use this powerful extension, along with some handy tips and tricks. 
-
-   [Snowflake Extension](/docs/getting-started/developer/snowflake-extension)
-
-4. Have the best and most efficient dbt experience with Datacoves! We cover some nifty shortcuts and accelerators to help you hit the ground running with dbt.
-   
-   [Working with dbt in Datacoves](/docs/getting-started/developer/working-with-dbt-datacoves)
-
-5. Use git with ease via the VS Code Git Extension, our pre-configured git aliases, and more.
-   
-   [Using Git](/docs/getting-started/developer/using-git)
-
----
-
 // File: getting-started/developer/working-with-dbt-datacoves/index
 
 # Getting Started with dbt in Datacoves
@@ -1154,6 +1117,15 @@ You can also look up other dbt models and change the parent and child nodes disp
 Lineage Panel has 3 configurable settings. As with any VSCode setting, these can be [overridden](/docs/how-tos/vscode/override) in the `settings.json` file located in `workspace/.vscode/settings.json`:
 
 - Default Expansion (`dbt.lineage.defaultExpansion`: number): How many nodes should expand by default for the currently-opened model.
+
+---
+
+// File: how-tos/airflow/README
+
+# Airflow - What to know
+- `Ruff` is installed to show unused imports and unused variables as well as python linting. 
+- [Datacoves Decorators](/reference/airflow/datacoves-decorators.md) simplify working with dbt, syncing databases, and running commands in Airflow.
+- [My Airflow](/docs/how-tos/my_airflow/) can help speed up your DAG writing experience.
 
 ---
 
@@ -1704,1620 +1676,6 @@ dbt_dag()
 
 ---
 
-// File: how-tos/airflow/README
-
-# Airflow in Datacoves
-
-These how to guides are dedicated to Airflow within Datacoves. Here you will find information on how to **Enable and configure Airflow**
-
-* Create Airflow jobs(DAGs)
-* Run dbt with in an Airflow DAG
-* Sending notifications
-* Customizing Airflow worker environments (docker images)
-* Requesting Airflow worker resources
-
-And more! 
-
-## What to know
-- `Ruff` is installed to show unused imports and unused variables as well as python linting. 
-- [Datacoves Decorators](/reference/airflow/datacoves-decorators.md) simplify working with dbt, syncing databases, and running commands in Airflow.
-- [My Airflow](/docs/how-tos/my_airflow/) can help speed up your DAG writing experience.
-
----
-
-// File: how-tos/airflow/create-dag-level-docs
-
-# How to Add Docs at the DAG Level in Airflow
-
-## Overview
-The `dag.doc_md` attribute allows DAG authors to add markdown-formatted documentation directly to their DAGs. This documentation is visible in the Airflow web interface, offering a convenient way to describe the DAG's purpose, its dependencies, the tasks it includes, and any other relevant information. This feature enhances readability and maintainability, making it easier for teams to understand and collaborate on Airflow DAGs.
-
-1. Start by writing a multi-line docstring at the beginning of your DAG file. This docstring may provide a detailed explanation of the DAG's functionality, its schedule, and any important considerations. You can use Markdown syntax for formatting.
-   
-2. After defining your DAG, assign the module's docstring (__doc__) to the doc_md variable. This makes the documentation written in the docstring visible in the Airflow UI.
-   
-3. Once your DAG is deployed, you can view the documentation by navigating to the DAG's details page in the Airflow web interface. The markdown-formatted documentation will be displayed under the DAG Details tab.
-
-![see dag docs](./assets/see-dag-docs.gif)
-
-### Example: 
-```python
-"""
-# Example DAG
-
-This DAG demonstrates how to use the `dag.doc_md` feature in Airflow.
-It includes tasks for demonstration purposes.
-
-## Schedule
-
-- **Frequency**: Runs daily at midnight.
-- **Catch Up**: False
-
-## Tasks
-
-1. **task_1**: Description of task 1.
-2. **task_2**: Description of task 2.
-"""
-
-from airflow.decorators import dag, task
-from pendulum import datetime
-...
-@dag(
-    # This is used to display the markdown docs at the top of this file in the Airflow UI when viewing a DAG
-    doc_md = __doc__,
- ...
-# Invoke Dag
-datacoves_sample_dag()
-
-```
-
-## Best Practices
-**Clarity and Conciseness**: Write clear and concise documentation. Aim to provide enough detail for someone unfamiliar with the DAG to understand its purpose and operation.
-
-**Use Markdown for Formatting**: Leverage Markdown syntax to format your documentation. Use headings, lists, code blocks, and links to make your documentation easy to read and navigate. See <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noopener">Github's Basic writing and formatting syntax</a> for more information.
-
-**Update Documentation as Necessary**: Keep the documentation up to date with changes to the DAG. This ensures that the documentation remains a reliable source of information for the DAG.
-
----
-
-// File: how-tos/airflow/external-python-dag
-
-# External Python DAG 
-
-If you need additional libraries for your DAG such as pandas, let us know so that we can configure them in your environment. 
-
-:::note
-Below we make use of a `python_scripts` folder inside the `orchestrate` folder and develop as a best practice we locate our custom scripts in this location.
-:::
-## orchestrate/python_scripts
-
-```python
-#sample_script.py
-
-import pandas as pd
-
-def print_sample_dataframe():
-
-    # Creating a simple DataFrame
-    data = {'Name': ['Alice', 'Bob', 'Charlie'],
-            'Age': [25, 30, 35],
-            'City': ['New York', 'San Francisco', 'Los Angeles']}
-
-    df = pd.DataFrame(data)
-
-    # Displaying the DataFrame
-    print("DataFrame created using Pandas:")
-    print(df)
-
-print_sample_dataframe()
-```
-
-## orchestrate/dags
-Create a DAG in the `dags` folder.
-
-To run the custom script from an Airflow DAG, you will use the `@task.datacoves_bash` decorator as seen in the `python_task` below.
-
-:::tip 
-See [Datacoves Decorators](reference/airflow/datacoves-decorators.md) documentation for more information on the Datacoves Airflow Decorators.
-:::
-```python
-from airflow.decorators import dag, task
-from pendulum import datetime
-
-@dag(
-    default_args={
-        "start_date": datetime(2022, 10, 10),
-        "owner": "Noel Gomez",
-        "email": "gomezn@example.com",
-        "email_on_failure": True,
-    },
-    catchup=False,
-    tags=["version_6"],
-    description="Datacoves Sample DAG",
-    schedule="0 0 1 */12 *",
-)
-def datacoves_sample_dag():
-    
-    @task.datacoves_bash()
-    def run_python_script():
-        return "python orchestrate/python_scripts/sample_script.py"
-
-    run_python_script()
-
-datacoves_sample_dag()
-```
-
----
-
-// File: how-tos/airflow/dynamically-set-schedule
-
-# How to Dynamically set the schedule Interval
-
-By default, DAGs are created with a `paused` state in Airflow, but you can change this with the `is_paused_on_creation=True` option. However, you will likely not want to schedule DAGs in a development Airflow instance. The steps below describe how do not set a schedule in a Development Airflow instance.
-
-You can dynamically set the DAG schedule based on your Datacoves environment (development or production). By using a function called get_schedule, you can ensure that the correct schedule is applied only in the production Airflow instance.
-
-Here is how to achieve this:
-
-**Step 1:** Create a `get_schedule.py` file inside of `orchestrate/utils`
-
-**Step 2:** Paste the following code:
-Note: Find your environment slug [here](reference/admin-menu/environments.md)
-```python
-# get_schedule.py
-import os
-from typing import Union
-
-DEV_ENVIRONMENT_SLUG = "dev123" # Replace with your environment slug
-
-def get_schedule(default_input: Union[str, None]) -> Union[str, None]:
-    """
-    Sets the application's schedule based on the current environment setting. Allows you to
-    set the the default for dev to none and the the default for prod to the default input.
-
-    This function checks the Datacoves Slug through 'DATACOVES__ENVIRONMENT_SLUG' variable to determine
-    if the application is running in a specific environment (e.g., 'dev123'). If the application
-    is running in the 'dev123' environment, it indicates that no schedule should be used, and
-    hence returns None. For all other environments, the function returns the given 'default_input'
-    as the schedule.
-
-   Parameters:
-    - default_input (Union[str, None]): The default schedule to return if the application is not
-      running in the dev environment.
-
-    Returns:
-    - Union[str, None]: The default schedule if the environment is not 'dev123'; otherwise, None,
-      indicating that no schedule should be used in the dev environment.
-    """
-    env_slug = os.environ.get("DATACOVES__ENVIRONMENT_SLUG", "").lower()
-    if env_slug == DEV_ENVIRONMENT_SLUG:
-        return None
-    else:
-        return default_input
-```
-**Step 3:** In your DAG, import the `get_schedule` function using `from orchestrate.utils.get_schedule import get_schedule` and pass in your desired schedule.
-
-ie) If your desired schedule is `'0 1 * * *'` then you will set `schedule=get_schedule('0 1 * * *')` as seen in the example below. 
-```python
-from airflow.decorators import dag, task
-from pendulum import datetime
-from orchestrate.utils.get_schedule import get_schedule
-
-@dag(
-    default_args={
-        "start_date": datetime(2022, 10, 10),
-        "owner": "Noel Gomez",
-        "email": "gomezn@example.com",
-        "email_on_failure": True,
-    },
-    is_paused_on_creation=True, 
-    catchup=False,
-    tags=["version_8"],
-    description="Datacoves Sample DAG",
-    schedule=get_schedule('0 1 * * *'),  # Replace with desired schedule
-)
-def datacoves_sample_dag():
-    
-    @task.datacoves_dbt(connection_id="main")
-    def run_dbt_task():
-        return "dbt debug"
-
-    run_dbt_task()
-
-datacoves_sample_dag()
-```
-
----
-
-// File: how-tos/airflow/generate-dags-from-yml
-
-# Generate DAGs from yml
-
-You have the option to write out your DAGs in python or you can write them using yml and then have dbt-coves generate the python DAG for you.
-
-## Configure config.yml
-This configuration is for the `dbt-coves generate airflow-dags` command which generates the DAGs from your yml files. Visit the [dbt-coves docs](https://github.com/datacoves/dbt-coves?tab=readme-ov-file#settings) for the full dbt-coves configuration settings.
-
-dbt-coves will read settings from `<dbt_project_path>/.dbt_coves/config.yml`. We must create these files in order for dbt-coves to function. 
-
-**Step 1:** Create the `.dbt-coves` folder at the root of your dbt project (where the dbt_project.yml file is located). Then create a file called `config.yml` inside of `.dbt-coves`. 
-
-:::note 
-Datacoves' recommended dbt project location is `transform/` eg) `transform/.dbt-coves/config.yml`. This will require some minor refactoring and ensuring that the  `dbt project path ` in your environment settings reflects accordingly. 
-:::
-**Step 2:** We use environment variables such as `DATACOVES__AIRFLOW_DAGS_YML_PATH` that are pre-configured for you. For more information on these variables see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
-- `yml_path`: This is where dbt-coves will look for the yml files to generate your Python DAGs.
-- `dags_path`: This is where dbt-coves will place your generated python DAGs.
-
-Place the following in your `config.yml file`
-```yml
-generate:
-...
-    airflow_dags:
-    # source location for yml files
-    yml_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_YML_PATH') }}"
-    
-    # destination for generated python dags
-    dags_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_PATH') }}"
-...
-```
-
-:::tip 
-If using an Extract and Load tool in your DAG you can dynamically generate your sources; however, additional configuration will be needed inside the config.yml file. See [Airbyte](./run-airbyte-sync-jobs#generate-dags-from-yml-with-dbt-coves). For [Fivetran](./run-fivetran-sync-jobs#configure-your-transform-dbt-coves-config-yml-file) contact us to complete the setup.
-:::
-## Create the yml file for your Airflow DAG
-
-dbt-coves will look for your yml inside your `orchestrate/dags_yml_definition` folder to generate your Python DAGs. Please create these folders if you have not already done so.
-:::note
-When you create a DAG with YAML the name of the file will be the name of the DAG.
-eg) `yml_dbt_dag.yml` generates a dag named `yml_dbt_dag`
-:::
-Let's create our first DAG using YAML. 
-
-**Step 1**: Create a new file named `my_first_yml.yml` in your `orchestrate/dags_yml_definition` folder.
-
-**Step 2:** Add the following YAML to your file and be sure to change 
-
-```yml
-description: "Sample DAG for dbt build"
-schedule: "0 0 1 */12 *"
-tags:
-  - version_2
-default_args:
-  start_date: 2022-10-10
-  owner: Noel Gomez # Replace this with your name
-  email: gomezn@example.com # Replace with the email of the recipient for failures
-  email_on_failure: true
-catchup: false
-
-nodes:
-  run_dbt:
-    type: task
-    operator: operators.datacoves.dbt.DatacovesDbtOperator
-    bash_command: "dbt run -s personal_loans" 
-```
-:::tip
-In the examples we make use of the Datacoves Operators which handle things like copying and running dbt deps. For more information on what these operators handle, see [Datacoves Operators](reference/airflow/datacoves-operator.md)
-:::
-### How to create your own task group with YAML
-
-The example below shows how to create your own task group with YAML.
-
-#### Field Reference:
-
-- **type**: This must be `task_group`
-- **tooltip**: Hover message for the task group. 
-- **tasks**: Here is where you will define the individual tasks in the task group.
-
-:::note
-Specify the "task group" and "task" names at the beginning of their respective sections, as illustrated below:
-:::
-```yaml
-nodes:
-  extract_and_load_dlt: # The name of the task group
-    type: task_group
-    tooltip: "dlt Extract and Load"
-
-    tasks:
-      load_us_population: # The name of the task 
-        operator: operators.datacoves.bash.DatacovesBashOperator
-        # activate_venv: true
-        # Virtual Environment is automatically activated
-
-        cwd: "load/dlt/csv_to_snowflake/"
-        bash_command: "python load_csv_data.py"
-
-      # Add more tasks here  
-      task_2:
-        ...  
-```
-
-## Generate your python file from your yml file
-To generate your DAG, be sure you have the yml you wish to generate a DAG from open. 
-
-Select `more` in the bottom bar.
-
-Select `Generate Airflow Dag for YML`. This will run the command to generate the individual yml.
-
-![Generate Airflow Dag](./assets/generate_airflow_dag.gif)
-
-
-## Generate all your python files
-
-To generate all of the DAGs from your `orchestrate/dag_yml_definitions/` directory
-
-- Run `dbt-coves generate airflow-dags` in your terminal.
-
-All generated python DAGs will be placed in the `orchestrate/dags`
-
-```python
-from pendulum import datetime
-
-from airflow.decorators import dag
-from operators.datacoves.dbt import DatacovesDbtOperator
-
-@dag(
-    default_args={
-        "start_date": datetime(2022, 10, 10),
-        "owner": "Noel Gomez",
-        "email": "gomezn@example.com",
-        "email_on_failure": True,
-    },
-    description="Sample DAG for dbt build",
-    schedule="0 0 1 */12 *",
-    tags=["version_2"],
-    catchup=False,
-)
-def yml_dbt_dag():
-    run_dbt = DatacovesDbtOperator(
-        task_id="run_dbt", bash_command="dbt run -s personal_loans"
-    )
-
-dag = yml_dbt_dag()
-```
-
----
-
-// File: how-tos/airflow/get-current-branch-name
-
-# Retrieving the Current Branch Name in a Git Repository
-
-In Airflow, Datacoves will place your repo into `/opt/airflow/dags/` 
-
-To retrieve the current branch name in a Git repository. 
-
-
-``` bash
-cat /opt/airflow/dags/.git/HEAD | sed 's~ref: refs/heads/~~'
-```
-
-### This command consists of two parts:
-
-`cat .git/HEAD`: This part of the command displays the content of the HEAD file, which contains a reference to the current branch in the Git repository.
-
-`sed 's~ref: refs/heads/~~'`: The output of the cat command is then piped to the sed command, which is used to remove the `ref: refs/heads/` prefix from the branch name, thereby extracting the current branch name.
-
----
-
-// File: how-tos/airflow/s3-to-snowflake
-
-# Loading S3 Files into Snowflake 
-
-## Schema Evolution 
-
-Snowflake has a built-in feature for [schema evolution](https://docs.snowflake.com/en/user-guide/data-load-schema-evolution). It allows us to create the initial table using a file as a template and then it will automatically handle any changes to the schema going forward. 
-
-### Caveats and limitations
-
-Schema evolution is [limited to a change that adds a maximum of 10 columns or evolving no more than 1 schema per COPY operation](https://docs.snowflake.com/en/user-guide/data-load-schema-evolution#usage-notes)
-
-You cannot go from a column containing `NUMBER` values to `VARCHAR`, but you can go from `VARCHAR` to `NUMBER` as it will insert it as `VARCHAR`.  
-
-**Step 1:** In a Snowflake SQL worksheet Navigate to the database and schema where you will be loading the data to. 
-
-**Step 2:** Create a custom file format for the data that you are planning to load. In this example we are using a custom CSV file format. 
-
-```sql
-CREATE OR REPLACE FILE FORMAT MY_CSV_FORMAT
-TYPE = 'CSV' 
-PARSE_HEADER = TRUE
-ERROR_ON_COLUMN_COUNT_MISMATCH = FALSE;
-```
-**Step 3:** Now we will create a Snowflake stage and link our custom file format to it. 
-```sql
-CREATE OR REPLACE STAGE TEST_STAGE
-    FILE_FORMAT = MY_CSV_FORMAT;
-```
-
-**Step 4:** We are now going to upload a csv file to this Snowflake stage that we will use as a template to create the table where data will be loaded. You can do this via the Snowflake UI or by using the SnowSQL command line tool.  
-
-This example will use SnowSQL and our data looks like this: 
-
-![Sample data](assets/s3_sample_data.jpg)
-
-The SnowSQL command to upload the file to the Snowflake stage is below: 
-```
-PUT file://test_file.csv @TEST_STAGE;
-```
-
-Where test_file.csv is in the same folder from where we are running the SnowSQL command. 
-
-**Step 5:** Once the file has been uploaded to the test stage, we create the initial table using it as a template and enabling schema evolution. 
-
-```sql
-CREATE OR REPLACE TABLE TEST_TABLE
-    ENABLE_SCHEMA_EVOLUTION== TRUE
-    USING TEMPLATE (
-        SELECT ARRAY_AGG(OBJECT_CONSTRUCT(*))
-            FROM TABLE(
-                INFER_SCHEMA(
-                    LOCATION->'@TEST_STAGE/test_file.csv.gz,
-                    FILE_FORMAT=>'my_csv_format'
-                )
-            )
-    );
-```
-
-The TEST_TABLE schema now looks like this: 
-
-![test_table](assets/s3_test_table_schema.jpg)
-
-However, the table does not have any data loaded into it. 
-
-![Empty test_table](assets/s3_test_table_empty.jpg)
-
-**Step 6:** To load the data from the file we used as a template we use the following COPY INTO SQL. 
-
-```sql
-COPY INTO TEST_TABLE
-    FROM '@TEST_STAGE/test_file.csv.gz'
-    FILE_FORMAT =  'my_csv_format'
-    MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE;
-```
-
-And we can now see the data in the table: 
-
-![test_table copied](assets/s3_test_table_copied.jpg)
-
-**Step 7:** Now we’re going to load another file into TEST_TABLE that has an additional column. 
-
-![Test data additional column](assets/s3_test_table_additional_col.jpg)
-
-Again, we will use the SnowSQL PUT command seen below: 
-
-```
-PUT files://test_file_copy.csv @TEST_STAGE;
-```
-
-**Step 8:** Now we can run another COPY INTO statement that references the new file. 
-```sql
-COPY INTO TEST_TABLE
-    FROM '@TEST_STAGE/test_file_copy.csv.gz'
-    FILE_FORMAT = 'my_csv_format'
-    MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE;
-```
-
-And now the table has an additional column called COUNTRY_CODE: 
-
-![test_table additional column](assets/s3_test_table_additional_call_snowflake.jpg)
-
-## Loading JSON data into a variant column 
-
-If the data that you want to load is in JSON format and the schema is likely to change then a recommended pattern is to load the JSON into a single Snowflake variant column. This allows you to parse out and model the data downstream without having to worry about the change in schema. 
-
-**Step 1:** 1. Create a Snowflake table with a single variant column. 
-
-```sql
-CREATE OR REPLACE TABLE VARIABLE_TABLE (MAIN_COLUMN VARIANT);
-```
-
-**Step 2:**  Now create a custom file format for the JSON data.
-
-```sql
-CREATE OR REPLACE FILE FORMAT MY_JSON_FORMAT
-    TYPE = 'JSON'
-    STRIP_OUTER_ARRAY = TRUE;
-```
-
-**Step 3:** After this we create a Snowflake stage that uses the JSON custom file format. 
-
-```sql
-CREATE OR REPLACE STAGE JSON_STAGE
-    FILE_FORMAT = MY_JSON_FORMAT;
-```
-
-**Step 4:** We can now load JSON files that have been staged using the following COPY INTO command. 
-
-```sql
-COPY INTO VARIANT_TABLE 
-    FROM @JSON_STAGE
-```
-
-Our variant table now looks like this: 
-
-![json variant table](assets/json_variant_table.jpg)
-
----
-
-// File: how-tos/airflow/run-adf-pipeline
-
-# Use Microsoft Azure Data Factory Operators 
-
-You can use Airflow in Datacoves to trigger a Microsoft Azure Data Factory pipeline. This guide will walk you through the configuration process. 
-
-## Prerequisites 
-
--  You will need to set up a [Microsoft Entra Application](https://learn.microsoft.com/en-us/entra/identity-platform/howto-create-service-principal-portal).
--  Assign the `Data Factory Contributor` role to your Microsoft Entra Application. You can do this by heading into Resource Groups and then following [these instructions](https://learn.microsoft.com/en-us/entra/identity-platform/howto-create-service-principal-portal#assign-a-role-to-the-application).
--  Collect the following values from your ADF account, more information on where to find these items in the next section:
-   -  `DATA_FACTORY_NAME`
-   -  `RESOURCE_GROUP_NAME`
-   -  `SUBSCRIPTION_ID`
-   -  `APPLICATION_CLIENT_ID`
-   -  `TENANT_ID`
-   -  `CLIENT_SECRET`
-
-### How to get the ADF information 
-
-**Step 1:**  Login to your Microsoft Azure console and navigate to the [Data Factories service](https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.DataFactory%2FdataFactories).
-
-**Step 2:** Copy the`DATA_FACTORY_NAME` for the factory which holds your data pipeline.
-
-**Step 3:** Open the factory and copy the `RESOURCE_GROUP_NAME`, and the `SUBSCRIPTION_ID` from the Overview tab 
-
-**Step 4:** Navigate to the Microsoft Entra ID service, click on number next to *Applicaitons* on the Overview tab. Next click the *All Applications* tab, open the application or register a new application then open it and copy the `APPLICATION_CLIENT_ID` and Directory`TENANT_ID`.
-
-**Step 5:** Click on *Certificates and Secrets* and generate a new secret for your Microsoft Entra Application and copy the *Value*. This is the `CLIENT_SECRET`.
-
-## Create a Microsoft Azure Data Factory Connection in Airflow 
-
-**Step 1:** In Datacoves, a user with the `securityadmin` role must go to the `Airflow Admin -> Connection` menu.
-
- ![Airflow Connection](assets/admin-connections.png)
-
-**Step 2:** Create a new connection using the following details.
-
-- **Connection Id:** `azure_data_factory_default` - this name will be used in the Airflow DAG and is the default name used by the ADF Operator
-
-- **Connection Type:** `Azure Data Factory` 
-
-- **Client ID:** Your `APPLICATION_CLIENT_ID` 
-
-- **Secret:**  Your `CLIENT_SECRET` 
-
-- **Tenant ID:** Your `TENANT_ID` 
-
-- **Factory Name**: Your `DATA_FACTORY_NAME`
-
-- **Resource Group Name**: Your `RESOURCE_GROUP_NAME`
-  
-- **Subscription ID:** Your `SUBSCRIPTION_ID` 
-
-:::note
- Replace the values in the screenshot below with the actual values found above.
-:::
-
-![adf connection](assets/airflow_adf_connection.png)
- 
-## Example DAG 
-
-:::note
-You will need to update the `pipeline_name`, `resource_group_name`, and `factory_name` arguments below with the correct names.
-:::
-Once you have configured your Databricks connection and variables, you are ready to create your DAG. Head into the `Transform` tab to begin writing your DAG inside `orchestrate/dags`.
-
-```python
-
-"""Example Airflow Azure Data Factory DAG."""
-
-from datetime import datetime
-from airflow.decorators import dag, task_group
-from airflow.providers.microsoft.azure.operators.data_factory import AzureDataFactoryRunPipelineOperator
-from airflow.providers.microsoft.azure.sensors.data_factory import AzureDataFactoryPipelineRunStatusSensor
-
-@dag(
-    schedule="@daily",
-    start_date=datetime(2024, 1, 1),
-    tags=["version_1"],
-    catchup=False,
-    default_args={
-        "azure_data_factory_conn_id": "azure_data_factory_default",
-        "factory_name": "your-factory-name", 
-        "resource_group_name": "your-resource-name",
-    },
-)
-def adf_example_run():
-    """Run an Azure Data Factory pipeline with async status checking."""
-
-    @task_group(group_id="adf_pipeline_group", tooltip="ADF Pipeline Group")
-    def adf_pipeline_tasks():
-        run_pipeline = AzureDataFactoryRunPipelineOperator(
-            task_id="run_pipeline",
-            pipeline_name="myTestPipeline",  # Rename to your Pipeline name
-            parameters={"myParam": "value"},
-            wait_for_termination=False,
-        )
-
-        # Deferrable sensor for async pipeline status checking
-        pipeline_run_async_sensor = AzureDataFactoryPipelineRunStatusSensor(
-            task_id="pipeline_run_async_sensor",
-            run_id=run_pipeline.output["run_id"],
-            deferrable=True,
-        )
-
-        run_pipeline >> pipeline_run_async_sensor
-
-    adf_pipeline_group = adf_pipeline_tasks()
-
-DAG = adf_example_run()
-```
- 
-## Understanding the Airflow DAG 
-
-- Understand how to [authenticate with ADF](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-azure/stable/connections/adf.html).
-- The DAG makes use of the [AzureDataFactoryRunPipelineOperator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-azure/stable/operators/adf_run_pipeline.html) to run an Azure Data Factory pipeline. It also shows how it’s possible to pass parameters that can be used in the pipeline.
-
----
-
-// File: how-tos/airflow/run-airbyte-sync-jobs
-
-# Run Airbyte sync jobs
-
-In our quest to simplify the way tools integrate in the Modern Data Stack, we developed the generate airflow-dags command in the <a href="https://github.com/datacoves/dbt-coves?tab=readme-ov-file#generate-airflow-dags" target="_blank" rel="noopener">dbt-coves</a> library.
-
-The main idea behind this concept is to use tags defined on dbt sources and determine which data to load via different tools (e.g. Airbyte or Fivetran). Using this information, we can dynamically create _Extract and Load_ tasks in an Airflow DAG before running dbt.
-
-:::note
-Support for Fivetran Tasks coming soon. More Information in [run Fivetran sync jobs](./run-fivetran-sync-jobs).
-:::
-## Before you start
-
-### Ensure your Airflow environment is properly configured
-
-Follow this guide on [How to set up Airflow](./initial-setup)'s environment.
-
-### Airbyte connection
-
-As Airflow will trigger connections in the Airbyte's server, Datacoves automatically adds the connection in Airflow.
-
-To view this connection, a user with the Datacoves sysadmin group can go to the Airflow `Admin -> Connections` menu.
-
-![Admin Connections](./assets/admin-connections.png)
-
-:::note
- `host` is created using your environment (3 letters + 3 digits like xyz123) `<environment slug> + "-airbyte-airbyte-server-svc"`.
-:::
-![Admin Connections](./assets/airbyte-connection-details.png)
-
-### Turn off Airbyte's scheduler
-
-To avoid conflicts between Airflow triggering Airbyte jobs and Airbyte scheduling its own jobs at the same time, we suggest you set `replication frequency` to `manual` on each Airbyte connection that will be triggered by Airflow:
-
-![Replication frequency](./assets/airbyte-replication-frequency.png)
-
-### Generate DAG's from yml with dbt-coves
-
-To connect Extract & Load with Transform in your DAG, you must configure your dbt-coves config file. We recommend the path to be `transform/.dbt-coves/config.yml`.
-
-### Field reference:
-- **yml_path**: Relative path to dbt project where yml to generate python DAGs will be stored
-- **dags_path**: Relative path to dbt project where generated python DAGs will be stored
-- **dbt_project_path**: Relative path to dbt project, used to run `dbt ls` to discover sources
-- **airbyte_connection_id**: Id of the airflow connection that holds the information to connect to Airbyte system. (this was set up above)
-
-
-:::tip
-We make use of environment variables that we have configured for you upon set up. For more information on these variables please see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
-:::
-```yml
-generate:
-  ...
-  airflow_dags:
-    # source location for yml files
-    yml_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_YML_PATH') }}"
-
-    # destination for generated python dags
-    dags_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_PATH') }}"
-
-    generators_params:
-      AirbyteDbtGenerator:
-        # Airbyte server
-        host: "{{ env_var('DATACOVES__AIRBYTE_HOST_NAME') }}"
-        port: "{{ env_var('DATACOVES__AIRBYTE_PORT') }}"
-
-        # Aiflow Connection
-        airbyte_conn_id: airbyte_connection
-
-        # dbt project location for dbt ls
-        dbt_project_path: "{{ env_var('DATACOVES__DBT_HOME') }}"
-         # Optional
-        run_dbt_compile: true
-        run_dbt_deps: false
-
-```
-
-## Example YML DAG
-
-Now you are ready to write out your DAG using yml. In the following example DAG, you can notice a special task `load` that uses a `generator` instead of an `operator`. This will allow for the information to be pulled dynamically from airbyte such as connection_id. 
-
-:::tip
-We make use of special generators from the dbt-coves extension. For more information please see [DAG Generators](reference/airflow/dag-generators.md)
-:::
-
-### Field reference:
-
-- **generator**: The Airbyte Tasks Generator uses the value `AirbyteDbtGenerator`.
-- **dbt_list_args**: arguments sent to `dbt ls` to retrieve the dbt project sources used to retrieve Airbyte connections. The AirbyteDbtGenerator generator will find the Airbyte connections to trigger using dbt sources's database, schema and table name.
-
-### YML version
-
-```yml
-description: "Loan Run"
-schedule: "0 0 1 */12 *"
-tags:
-  - version_1
-default_args:
-  start_date: 2021-01
-catchup: false
-
-nodes:
-  extract_and_load_airbyte:
-    generator: AirbyteDbtGenerator
-    type: task_group
-
-    tooltip: "Airbyte Extract and Load"
-    # The daily_run_airbyte tag must be set in the source.yml
-    dbt_list_args: "--select tag:daily_run_airbyte"
-
-  transform:
-    operator: operators.datacoves.bash.DatacovesBashOperator
-    type: task
-
-    bash_command: "dbt build -s 'tag:daily_run_airbyte+'"
-    dependencies: ["extract_and_load_airbyte"]
-
-```
-
----
-
-// File: how-tos/airflow/run-dbt
-
-# How to run dbt from an Airflow worker
-
-Airflow synchronizes a git repository's [configured git branch](/docs/how-tos/datacoves/how_to_environments.md#services-configuration) every minute. (The branch specified in  the `Git branch name` field in the environment's DAGs sync configuration)
-
-To run `dbt` commands easily, we provide a pre-configured virtual environment with the necessary python dependencies such as dbt. Our Airflow Operator also does the following automatically:
-
-- Copies the cloned dbt project to a writable folder within the Airflow file system
-- Runs `dbt deps` if `dbt_modules` and `dbt_packages` folders do not exist
-- Sets the current directory to the dbt_project_folder
-
-This means that you can simply run `dbt <dbt subcommand>` in your Airflow DAG and we will handle the rest.
-
-## Create a DAG that uses the script
-
-If your dbt command like `dbt run` works in your development environment(**Try dbt run in your terminal**), then you should be able to create an Airflow DAG that will run this command automatically.
-
-:::tip 
-Keep in mind that in an Airflow context `dbt` is installed in an isolated Python Virtual Environment to avoid clashing with Airflow python dependencies. Datacoves default Python's virtualenv is located in `/opt/datacoves/virtualenvs/main`. No need to worry about the complexity when using the `@task.datacoves_dbt` decorator because it will automatically activate that environment amongst other actions.
-
-See [Datacoves Decorators](reference/airflow/datacoves-decorators.md) for more information.
-:::
-### Lets create a DAG!
-
-**Step 1:** If using Git Sync, switch to your configured branch (`airflow_development` or `main`), create a python file inside of `orchestrate/dags` named `my_sample_dag.py`
-
-**Step 2:** Paste in the code below and be sure to replace information such as name, email and model name with your own.
-
-### Python version
-
-```python
-from pendulum import datetime
-from airflow.decorators import dag, task
-
-@dag(
-    default_args={
-        "start_date": datetime(2024, 1, 1),
-        "owner": "Noel Gomez",  # Replace with name
-        "email": "gomezn@example.com",  # Replace with your email
-        "email_on_failure": True,
-    },
-    description="Sample DAG for dbt run",
-    schedule="0 0 1 */12 *",  # Replace with your desired schedule
-    tags=["version_2"],
-    catchup=False,
-)
-def my_sample_dag():
-
-    @task.datacoves_dbt(connection_id="main")
-    def run_dbt():
-        return "dbt run -s personal_loans"  # Replace with your model
-
-    run_dbt()
-
-my_sample_dag()
-```
-
-**Step 3:** Push your changes to the branch.
-
-**Step 4:** Head over to Airflow in the Datacoves UI and refresh. It may take a minute but you should see your DAG populate. 
-
-**Step 5:** Regardless of the schedule you set, the default during development is to have the DAG paused. You can trigger the DAG to see it in action or turn it on to test the schedule.
-
-### YAML version
-If you are making use of the `dbt-coves generate airflow-dags` command, you can write DAGs using YML.
-
-The name of the file will used as the DAG name. 
-
-```yaml
-description: "Sample DAG for dbt run"
-schedule: "0 0 1 */12 *"
-tags:
-  - version_2
-default_args:
-  start_date: 2024-01-01
-  owner: Noel Gomez # Replace with your name
-  # Replace with the email of the recipient for failures
-  email: gomezn@example.com 
-  email_on_failure: true
-catchup: false
-
-nodes:
-  run_dbt:
-    type: task
-    operator: operators.datacoves.dbt.DatacovesDbtOperator
-    bash_command: "dbt run -s personal_loans" # Replace with your model name
-```
-
----
-
-// File: how-tos/airflow/retry-dbt-tasks
-
-# Retry a dbt task
-
-## Overview
-
-Retrying failed dbt models is a common workflow requirement when working with data transformations. This guide explains how to implement dbt task retry functionality in Airflow using Datacoves' custom `datacoves_dbt` decorator.
-
-## Prerequisites
-
-- Datacoves version 3.4 or later
-- dbt API feature enabled in your environment (contact support for further assistance)
-
-## How dbt Retries Work
-
-The retry mechanism works by:
-
-1. **Capturing results** of a dbt run including any failures
-2. **Storing these results** using the dbt API
-3. **Retrieving the previous run state** when a retry is initiated
-4. **Selectively running** only the failed models and their downstream dependencies
-
-## Implementing dbt Retries
-
-### Step 1: Configure the `datacoves_dbt` Decorator
-
-When defining your task, enable the necessary parameters for retries:
-
-```python
-@task.datacoves_dbt(
-    connection_id="your_connection",
-    dbt_api_enabled=True,        # Enable dbt API functionality
-    download_run_results=True,   # Allow downloading previous run results
-)
-```
-
-### Step 2: Add Conditional Logic for Retry
-
-Implement logic in your task function to check for existing results and execute the appropriate dbt command:
-
-```python
-@task.datacoves_dbt(
-    connection_id="your_connection",
-    dbt_api_enabled=True,
-    download_run_results=True,
-)
-def dbt_build(expected_files: list = []):
-    if expected_files:
-        return "dbt build -s result:error+ --state logs"
-    else:
-        return "dbt build -s your_models+"
-```
-
-### Step 3: Call the Task with Expected Files Parameter
-
-```python
-dbt_build(expected_files=["run_results.json"])
-```
-
-## Complete Example
-
-Here's a complete DAG implementation:
-
-```python
-"""
-## Retry dbt Example
-This DAG demonstrates how to retry a DAG that fails during a run
-"""
-
-from airflow.decorators import dag, task
-from orchestrate.utils import datacoves_utils
-
-
-@dag(
-    doc_md = __doc__,
-    catchup = False,
-    default_args=datacoves_utils.set_default_args(
-        owner = "Your Name",
-        owner_email = "your.email@example.com"
-    ),
-    schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
-    description="Sample DAG demonstrating how to run the dbt models that fail",
-    tags=["dbt_retry"],
-)
-def retry_dbt_failures():
-    @task.datacoves_dbt(
-        connection_id="your_connection",
-        dbt_api_enabled=True,
-        download_run_results=True,
-    )
-    def dbt_build(expected_files: list = []):
-        if expected_files:
-            return "dbt build -s result:error+ --state logs"
-        else:
-            return "dbt build -s model_a+ model_b+"
-
-    dbt_build(expected_files=["run_results.json"])
-
-retry_dbt_failures()
-```
-
----
-
-// File: how-tos/airflow/run-databricks-notebook
-
-# Run Databricks Notebooks 
-
-You can use Airflow in Datacoves to trigger a Databricks notebook. This guide will walk you through the configuration process. 
-
-## Prerequisites 
-
-- **Databricks Host:** This is the URL of your Databricks cluster. It typically looks like `https://<databricks-instance>.databricks.com`.
-- **Databricks Cluster ID:** This is the identifier of the cluster you want to use to run your notebook.
-- **Databricks Token:** If you do not have admin privileges, work with an admin to get the token. Follow the [Databricks documentation here](https://docs.databricks.com/en/dev-tools/auth/pat.html).
-- **Databricks Notebook Repo Path:** This is the full path to the notebook you want to trigger from Airflow. We recommend using the Git Notebook feature in Databricks. This notebook is usually located in a Repos directory in Databricks.
-
-### How to get Databricks Host and Databricks Cluster ID
-
-**Step 1:** Sign into your Databricks account.
-
-**Step 2:** Navigate to compute.
-
-![databricks compute](assets/databricks_compute.png)
-
-**Step 3:** Click on your desired cluster.
-
-**Step 4:** Scroll to `Advanced Options` and `JDBC/ODBC`. Copy the value under `Server Hostname`. The host value will look something like this: `<databricks-instance>.databricks.com`.
-
-**Step 5:** Scroll to `Tags` and expand `Automatically added tags`. Your `ClusterId` should look something like this: `0123-5678910-abcdefghijk`.
-
-### How to get Databricks Token
-
-If you do not have admin privileges, work with an admin to get the token. Follow the [Databricks documentation here](https://docs.databricks.com/en/dev-tools/auth/pat.html).
-
-### How to get Databricks Notebook Path
-
-**Step 1:** Navigate to your notebook in the Databricks user interface.
-
-**Step 2:** To the right of the notebook name, there will be three dots. Click on this and select the option to copy the full path to your clipboard.
-
-![copy url](assets/databricks_copyurl.png)
-
-## Handling Databricks Variables in Airflow
-
-It is best practice to use Airflow variables for values that may need to change in your Airflow DAG. This allows for easy updates without redeployment of your Airflow code.
-
-It is possible to hardcode these two variables in your DAG if you don’t see them needing to be changed.
-
-- **DATABRICKS_CLUSTER_ID**: Your databricks Cluster ID
-- **MY_NOTEBOOK_REPO_PATH**: This should be a meaningful name as you may have many notebooks you wish to trigger eg) INSERT_INTO_RAW_REPO_PATH
-
-
-**Step 1:** A user with Airflow admin privileges must go to the Airflow `Admin -> Variables` menu and add the variables and their values.
-
-
-## Create a Databricks Connection in Airflow
-
-**Step 1:** A user with Airflow admin privileges must go to the `Airflow Admin -> Connection` menu.
-
-![admin connection](assets/admin-connections.png)
-
-**Step 2:** Create a new connection using the following details:
-
-- **Connection Id:** `databricks_default` - this name will be used in your DAG
-- **Connection Type:** `Databricks`
-- **Host:** Your Databricks host. E.g. `https://<databricks-instance>.databricks.com`
-- **Password:** Enter your `Databricks Token`
-
-![Databricks Connection](assets/airflow_databricks_connection.png)
-
-**Step 3:** Click `Save`
-
-## Example DAG 
-
-Once you have configured your Databricks connection and variables, you are ready to create your DAG. Head into the `Transform` tab to begin writing your DAG inside the dags folder, e.g. `orchestrate/dags`.
-
-### Git Notebook as the source (Recommended)
-
-We recommend using a git as the source to leverage version control when developing notebooks. Be aware that if changes are made in the databricks tracked branch (`GIT_BRANCH`), they will be executed in Airflow regardless if the changes are committed into Git. The best practice is to have users develop on feature branches and then merge to main.
-
-```python
-import os
-from datetime import datetime
-from airflow.models import Variable
-from airflow.decorators import dag
-from airflow.providers.databricks.operators.databricks import DatabricksSubmitRunDeferrableOperator
-
-DATABRICKS_CLUSTER_ID = Variable.get("DATABRICKS_CLUSTER_ID")
-MY_NOTEBOOK_REPO_PATH = "/PATH/TO/MY/NOTEBOOK"
-GIT_BRANCH = "main"  # Specify the branch you want to use
-
-@dag(
-    schedule="@daily",
-    start_date=datetime(2024, 1, 1),
-    tags=["version_1"],
-    catchup=False
-)
-def databricks_example_run():
-
-    notebook_task_params = {
-        "task_key": "unique-task-key",
-        "notebook_task": {
-            "notebook_path": MY_NOTEBOOK_REPO_PATH,
-            "base_parameters": {
-                "branch": GIT_BRANCH  # Specify the branch in variable
-            }
-        },
-        "source": "GIT",
-        "existing_cluster_id": DATABRICKS_CLUSTER_ID,
-        "run_name": "databricks_workbook_run",  # Update with a unique name
-    }
-
-    DatabricksSubmitRunDeferrableOperator(
-        task_id="notebook_task",  # Rename with appropriate name
-        json=notebook_task_params,
-        databricks_conn_id="databricks_default"  # Must match databricks connection id set above
-    )
-
-dag = databricks_example_run()
-```
-## Understanding the Airflow DAG 
-
-- The DAG makes use of the [`DatabricksSubmitRunDeferrableOperator`](https://airflow.apache.org/docs/apache-airflow-providers-databricks/stable/operators/submit_run.html) which uses the [jobs/runs/submit](https://docs.databricks.com/api/workspace/jobs/submit) endpoint of the Databricks API. You can see the full list of options available by looking at the previous two links. 
- 
-- We’re passing a [Notebook task object](https://docs.databricks.com/api/workspace/jobs/submit#notebook_task) with the source set to `GIT`, meaning the notebook will be retrieved from Databricks Repos, which is synced with a version-controlled Git repository. Alternatively, you can set the source to `WORKSPACE` to pull the notebook code directly from the local Databricks workspace. Using `GIT` is generally more reliable for production environments because it ensures that the notebook code is managed through a version-controlled system, providing consistency and traceability.
-  
-- And lastly, we have customized the `run_name`. In a non-example DAG, you would want this to be unique so you can better identify the runs in Airflow and Databricks.
-
----
-
-// File: how-tos/airflow/run-fivetran-sync-jobs
-
-# Run Fivetran sync jobs
-
-In Addition to triggering Airbyte loads jobs [run Airbyte sync jobs](/docs/how-tos/airflow/run-airbyte-sync-jobs) you can also trigger Fivetran jobs from your Airflow DAG.
-
-## Before you start
-
-### Ensure your Airflow environment is properly configured
-
-Follow this guide on [How to set up Airflow](/docs/how-tos/airflow/initial-setup)'s environment.
-
-### Fivetran connection
-
-Airflow needs to be connected to your Fivetran account to both read and trigger your Connectors, so first you need to set up a connection.
-
-A user with Airflow admin privileges must go to the Airflow `Admin -> Connections` menu.
-
-![Admin Connections](./assets/admin-connections.png)
-
-Create a new connection using the following details:
-
-![Admin Connections](./assets/fivetran-connection-details.png)
-
-:::tip
-Once your Fivetran API key and secret have been generated, for security reasons, the secret cannot be viewed again through the Fivetran interface. If you lose or forget your API secret, you will need to generate a new API key and secret pair so be sure to store them somewhere secure for reference later. See <a href="https://fivetran.com/docs/rest-api/getting-started" target="_blank" rel="noopener">Fivetran Documentation</a> on how to generate your Fivetran `API Key` and `API Secret`. 
-:::
-
-### Configure your transform dbt-coves config yml file
-
-By default, dbt-coves cannot query the necessary information for Fivetran connections. You will need to configure these in your yml DAG manually, or contact us to configure Datacoves with the necessary information.
-Below are the configurations in for dbt-coves airflow-dags. You will need to configure these if using dbt-coves to generate DAGs from YML
-
-### Field reference:
-- **yml_path**: Relative path to dbt project where yml to generate python DAGs will be stored
-- **dags_path**: Relative path to dbt project where generated python DAGs will be stored
-
-:::tip
-We make use of environment variables that we have configured for you upon set up. For more information on these variables please see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
-:::
-
-```yaml
-generate:
-...
-  airflow_dags:
-    # source location for yml files
-    yml_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_YML_PATH') }}"
-
-    # destination for generated python dags
-    dags_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_PATH') }}"
-```
-
-## Example DAG
-
-### Python version
-
-```python
-from pendulum import datetime
-from airflow.decorators import dag, task, task_group
-from fivetran_provider_async.operators import FivetranOperator
-from fivetran_provider_async.sensors import FivetranSensor
-
-@dag(
-    default_args={"start_date": datetime(2024, 1, 1)},
-    description="Loan Run",
-    schedule="0 0 1 */12 *",
-    tags=["version_1"],
-    catchup=False,
-)
-def daily_loan_run():
-
-    @task_group(
-        group_id="extract_and_load_fivetran",
-        tooltip="Fivetran Extract and Load"
-    )
-    def extract_and_load_fivetran():
-
-        fivetran_trigger = FivetranOperator(
-            task_id="datacoves_snowflake_google_analytics_4_trigger",
-            connector_id="speak_menial",
-            do_xcom_push=True,
-            fivetran_conn_id="fivetran_connection",
-        )
-
-        fivetran_sensor = FivetranSensor(
-            task_id="datacoves_snowflake_google_analytics_4_sensor",
-            connector_id="speak_menial",
-            poke_interval=60,
-            fivetran_conn_id="fivetran_connection",
-        )
-
-        fivetran_trigger >> fivetran_sensor  # Ensure proper task execution order
-
-    tg_extract_and_load_fivetran = extract_and_load_fivetran()
-
-    @task.datacoves_dbt(connection_id="main")
-    def transform():
-        return "dbt build -s 'tag:daily_run_fivetran+'"
-
-    transform_task = transform()
-    transform_task.set_upstream([tg_extract_and_load_fivetran])
-
-dag = daily_loan_run()
-```
-
-### Fields reference
-
-- **extract_and_load_fivetran**: The name of the task group. This can be named whatever you like and will show up in airflow.
-![Extract and Load DAG](assets/extract_load_airflow_dag.png)
-- **tooltip**: The tooltip argument allows you to provide explanatory text or helpful hints about specific elements in the Airflow UI
-- **tasks**: Define all of your tasks within the task group.
-
-You will need to define two operators: `fivetran_provider.operators.fivetran.FivetranOperator` and `fivetran_provider.sensors.fivetran.FivetranSensor`
-
-- **example_task_trigger**: Name your trigger task accordingly and define arguments below.
-  - **operator**: `fivetran_provider.operators.fivetran.FivetranOperator`
-  - **connector_id**: Find in Fivetran UI. Select your desired source. Click into `Setup` and locate the `Fivetran Connector ID`
-
-  ![Fivetran Connection ID](assets/fivetran_connector_id.png)
-
-  - **do_xcom_push**:  Indicate that the output of the task should be sent to XCom, making it available for other tasks to use.
-  - **fivetran_conn_id**: This is the `connection_id` that was configured above in the Fivetran UI as seen [above](#fivetran-connection).
-- **example_task_sensor**: Name your Sensor task accordingly and define arguments below.
-  -  **operator**: `fivetran_provider.sensors.fivetran.FivetranSensor`
-  -  **connector_id**: Find in Fivetran UI.
-  -  **poke_interval**: The poke interval is the time in seconds that the sensor waits before rechecking if the connector is done loading data. Defaults to 60.
-  - **fivetran_conn_id**: This is the `connection_id` that was configured above in the Fivetran UI as seen [above](#fivetran-connection).
-  - **dependencies**: A list of tasks this task depends on.
-  
-### YAML version
-
-```yaml
-description: "Loan Run"
-schedule: "0 0 1 */12 *"
-tags:
-  - version_1
-default_args:
-  start_date: 2024-01-01
-catchup: false
-
-# DAG Tasks
-nodes:
-  # The name of the task group. Will populate in Airflow DAG
-  extract_and_load_fivetran:
-    type: task_group
-    # Change to fit your use case
-    tooltip: "Fivetran Extract and Load"
-    tasks:
-      # Rename with your desired task name. We recommend the suffix _trigger
-      datacoves_snowflake_google_analytics_4_trigger:
-        operator: fivetran_provider_async.operators.FivetranOperator
-        # Change this to your specific connector ID 
-        connector_id: speak_menial
-        do_xcom_push: true
-        fivetran_conn_id: fivetran_connection
-      # Rename with your desired task name. We recommend the suffix _sensor
-      datacoves_snowflake_google_analytics_4_sensor:
-        operator:fivetran_provider_async.sensors.FivetranSensor
-        # Change this to your specific connector ID 
-        connector_id: speak_menial
-        # Set your desired poke interval. Defaults to 60.
-        poke_interval: 60
-        fivetran_conn_id: fivetran_connection
-        # Set your dependencies for tasks. This task depends on datacoves_snowflake_google_analytics_4_trigger
-        dependencies:
-          - datacoves_snowflake_google_analytics_4_trigger
-
-  transform:
-    operator: operators.datacoves.dbt.DatacovesDbtOperator
-    type: task
-    # The daily_run_fivetran tag must be set in the source.yml
-    bash_command: "dbt build -s 'tag:daily_run_fivetran+'"
-
-    dependencies: ["extract_and_load_fivetran"]
-```
-
----
-
-// File: how-tos/airflow/test-dags
-
-# Run DAG tests in your CI/CD 
-
-In Datacoves you can easily test your Airflow DAGs using [pytest](/reference/airflow/datacoves-commands.md#datacoves-my-pytest) in the command line. However you can also run these validations in your CI/CD pipeline. 
-
-To do this follow these steps:
-
-### Step 1: Create your pytest validations file in the `orchestrate/test_dags` directory. 
-
-Here is an example script:
-
-```python
-# orchestrate/test_dags/validate_dags.py
-"""Example DAGs test. This test ensures that all Dags have tags, retries set to two, and no import errors.
-This is an example pytest and may not be fit the context of your DAGs. Feel free to add and remove tests."""
-
-import os
-import logging
-from contextlib import contextmanager
-import pytest
-import warnings
-from airflow.models import DagBag
-
-APPROVED_TAGS = {'extract_and_load',
-                'transform',
-                'python_script',
-                'ms_teams_notification',
-                'slack_notification',
-                'marketing_automation',
-                'update_catalog',
-                'parameters',
-                'sample'}
-
-ALLOWED_OPERATORS = [
-    "_PythonDecoratedOperator",  # this allows the @task decorator
-    "DatacovesBashOperator",
-    "DatacovesDbtOperator",
-    "DatacovesDataSyncOperatorSnowflake",
-    "_DatacovesDataSyncSnowflakeDecoratedOperator",
-    "_DatacovesDataSyncRedshiftDecoratedOperator",
-    "AirbyteTriggerSyncOperator",
-    'FivetranOperator',
-    'FivetranSensor',
-]
-
-@contextmanager
-def suppress_logging(namespace):
-    logger = logging.getLogger(namespace)
-    old_value = logger.disabled
-    logger.disabled = True
-    try:
-        yield
-    finally:
-        logger.disabled = old_value
-
-### Custom tests start here ###
-def get_import_errors():
-    """
-    Generate a tuple for import errors in the dag bag
-    """
-    with suppress_logging("airflow"):
-        dag_bag = DagBag(include_examples=False)
-
-        def strip_path_prefix(path):
-            return os.path.relpath(path, os.environ.get("AIRFLOW_HOME"))
-
-        # prepend "(None,None)" to ensure that a test object is always created even if it's a no op.
-        return [(None, None)] + [
-            (strip_path_prefix(k), v.strip()) for k, v in dag_bag.import_errors.items()
-        ]
-
-
-def get_dags():
-    """
-    Generate a tuple of dag_id, <DAG objects> in the DagBag
-    """
-    with suppress_logging("airflow"):
-        dag_bag = DagBag(include_examples=False)
-
-    def strip_path_prefix(path):
-        return os.path.relpath(path, os.environ.get("AIRFLOW__CORE__DAGS_FOLDER"))
-
-    return [(k, v, strip_path_prefix(v.fileloc)) for k, v in dag_bag.dags.items()]
-
-
-@pytest.mark.parametrize(
-    "rel_path,rv", get_import_errors(), ids=[x[0] for x in get_import_errors()]
-)
-def test_file_imports(rel_path, rv):
-    """Test for import errors on a file"""
-    if rel_path and rv:
-        raise Exception(f"{rel_path} failed to import with message \n {rv}")
-
-
-
-@pytest.mark.parametrize(
-    "dag_id,dag,fileloc", get_dags(), ids=[x[2] for x in get_dags()]
-)
-def test_dag_tags(dag_id, dag, fileloc):
-    """
-    test if a DAG is tagged and if TAGs are in the approved list
-    """
-    assert dag.tags, f"{dag_id} in {fileloc} has no tags"
-    if APPROVED_TAGS:
-        assert not set(dag.tags) - APPROVED_TAGS
-
-
-@pytest.mark.parametrize(
-    "dag_id,dag, fileloc", get_dags(), ids=[x[2] for x in get_dags()]
-)
-def test_dag_has_catchup_false(dag_id, dag, fileloc):
-    """
-    test if a DAG has catchup set to False
-    """
-    assert (
-        dag.catchup == False
-    ), f"{dag_id} in {fileloc} must have catchup set to False."
-
-
-
-@pytest.mark.parametrize(
-    "dag_id, dag, fileloc", get_dags(), ids=[x[0] for x in get_dags()]
-)
-def test_dag_uses_allowed_operators_only(dag_id, dag, fileloc):
-    """
-    Test if a DAG uses only allowed operators.
-    """
-    for task in dag.tasks:
-        assert any(
-            task.task_type == allowed_op for allowed_op in ALLOWED_OPERATORS
-        ), f"{task.task_id} in {dag_id} ({fileloc}) uses {task.task_type}, which is not in the list of allowed operators."
-
-
-@pytest.mark.parametrize(
-    "dag_id,dag, fileloc", get_dags(), ids=[x[2] for x in get_dags()]
-)
-def test_dag_retries(dag_id, dag, fileloc):
-    """
-    test if a DAG has retries set
-    """
-    num_retries = dag.default_args.get("retries", 0)
-
-    if num_retries == 0 or num_retries is None:
-        pytest.fail(f"{dag_id} in {fileloc} must have task retries >= 1 it currently has {num_retries}.")
-    elif num_retries < 3:
-        warnings.warn(f"{dag_id} in {fileloc} should have task retries >= 3 it currently has {num_retries}.", UserWarning)
-    else:
-        assert num_retries >= 3, f"{dag_id} in {fileloc} must have task retries >= 2 it currently has {num_retries}."
-```
-**Summary** 
-
-This file defines a set of pytest-based validation tests for Airflow DAGs. It ensures that:
-
-- DAG Import Validation – Detects and reports any import errors in DAG files.
-- Tag Compliance – Checks that all DAGs have at least one tag and that tags are within an approved list.
-- Catchup Settings – Ensures that all DAGs have catchup set to False to prevent unintended backfills.
-- Operator Validation – Restricts DAGs to use only a predefined set of allowed operators.
-- Retry Configuration – Validates that DAGs have a retry setting of at least 1 and warns if it is less than 3.
-
-### Step 2 Add the `conftest.py` file to your `orchestrate/test_dags` directory.
-
-This file will import custom tests that the Datacoves team has created such as validating [variable calls are not made at the highest level](/docs/how-tos/datacoves/how_to_projects/how_to_configure_aws_secrets_manager.md) of a DAG. 
-
-```python
-# orchestrate/test_dags/conftest.py
-from datacoves_airflow_provider.testing.custom_reporter import *
-```
-
-### Step 3: Add the following file to your github actions.
-
-```yaml
-# 10_integrate_airflow_changes.yml
-name: 🎯 Airflow Validations
-
-on:  # yamllint disable-line rule:truthy
-  pull_request:
-    paths:
-      - orchestrate/*
-      - orchestrate/**/*
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# This cancels a run if another change is pushed to the same branch
-concurrency:
-  group: orchestrate-${{ github.ref }}
-  cancel-in-progress: true
-
-jobs:
-  airflow:
-    name: Pull Request Airflow Tests
-    runs-on: ubuntu-latest
-    # container: datacoves/ci-airflow-dbt-snowflake:3.3
-    container: datacoves/ci-airflow-dbt-snowflake:3.3
-
-    env:
-      AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate/dags
-      AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
-      AIRFLOW__ARTIFACTS_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate
-      DATACOVES__DBT_HOME: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/transform
-      DATACOVES__REPO_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
-      PYTHONPATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
-      FORCE_COLOR: 1
-      OUTPUT_FILE: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test_output.md
-
-    steps:
-      - name: Checkout branch
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Test DAGs Load time and variable usage at top level
-        id: test_load_time_variables
-        run: python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage --write-output --filename "$OUTPUT_FILE"
-
-      # if write-output is set in the prior step, the following step will run
-      - name: Add PR comment of results of test_load_time_variables tests
-        uses: thollander/actions-comment-pull-request@v2
-        with:
-          filePath: ${{ env.OUTPUT_FILE }}
-          comment_tag: Test DAGs Load time and variable usage at top level
-
-      - name: Custom Airflow Validation Tests
-        env:
-          NO_COLOR: 1
-        run: pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py --output-file "$OUTPUT_FILE"
-
-
-      - name: Add PR comment of results of custom Airflow validation tests
-        if: always()
-        uses: thollander/actions-comment-pull-request@v2
-        with:
-          # filePath: formatted_output.md
-          filePath: ${{ env.OUTPUT_FILE }}
-          comment_tag: Custom Tests
-          GITHUB_TOKEN: ${{ github.token }}
-```
-
-**Summary**
-
-This GitHub Actions workflow automatically:
-
-- Triggers when changes are made to the orchestrate directory.
-
-- Tests for variable usage at the top level in DAGs to prevent costly issues.
-
-- Runs custom validation tests and comments results on the PR.
-
-By integrating this workflow, you can ensure Airflow DAGs meet quality standards before deployment.
-
----
-
-// File: how-tos/airflow/use-variables-and-connections
-
-# Variables and Connections
-
-:::note
-dbt-coves generate airflow-dags does not support reading variables/connections, but you may generate the initial Python Airflow DAG and add the connection / variable information.
-:::
-The best way to store and retrieve information within Airflow is to use `Variables` and `Connections`, both available on the `Admin` upper dropdown.
-
-![select More](./assets/variables_connections_ui.png)
-
-The main difference between them is that [Variables](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/variable.html) is a generic multi-purpose store, while [Connections](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/connection.html) are aimed at third-party providers.
-
-:::tip
-Rather than using connections or variables stored in Airflow’s database, we recommend using a Secrets Manager. These secrets are encrypted and can be stored either in [Datacoves Secrets manager](./use-datacoves-secrets-manager.mdx) or a third-party secrets manager like [AWS Secrets Manager](./use-aws-secrets-manager.mdx)
-:::
-
-## Usage
-
-### Variables
-
-After creating a variable in Airflow's UI, using it is as simple as importing the `Variable` model in your DAG and `getting` it's name. If a variable contains `SECRET` on it's name, value will be hidden:
-
-
-![select More](./assets/variable_creation.png)
-
-```python
-from pendulum import datetime
-from airflow.decorators import dag, task
-from airflow.models import Variable
-
-@dag(
-    default_args={"start_date": datetime(2024, 1, 1)},
-    description="DAG that outputs a Variable",
-    schedule="0 0 1 */12 *",
-    tags=["version_1"],
-    catchup=False,
-)
-def variables_dag():
-
-    @task.datacoves_bash(="main")
-    def transform():
-        daily_run_tag = Variable.get("DBT_DAILY_RUN_TAG") 
-        return f"dbt build -s 'tag:{daily_run_tag}'"
-
-    transform()
-
-variables_dag()
-```
-
-### Connections
-
-Consuming connections data is also straightforward, though you need to take it's attributes into consideration, as they'll vary depending on the provider.
-
-In the following example, a connection of `type Airbyte` is created, and it's `host` is echoed in a DAG.
-
-![select More](./assets/connection_creation.png)
-
-```python
-from pendulum import datetime
-
-from airflow.decorators import dag, task
-from airflow.models import Connection
-
-@dag(
-    default_args={"start_date": datetime(2024, 1, 1)},
-    description="DAG that outputs Airbyte Hostname",
-    schedule="0 0 1 */12 *",
-    tags=["version_1"],
-    catchup=False,
-)
-def connections_dag():
-    
-    @task.datacoves_bash()
-    def echo_airbyte_host():
-        airbyte_connection = Connection.get_connection_from_secrets(conn_id="AIRBYTE_CONNECTION") 
-        return f"echo 'Airbyte hostname is {airbyte_connection.host}'"
-
-    echo_airbyte_host()
-
-connections_dag()
-```
-
----
-
 // File: how-tos/airflow/send-emails
 
 # How to send email notifications on DAG's failure
@@ -3363,7 +1721,7 @@ In Datacoves 3.3 and up, the `SMTP` will be automatically added to your environm
 
 Viola!🎉 The Airflow service will be restarted shortly and will now include the SMTP configuration required to send emails.
 
-:::note **Getting Started Guide:** If you are making your way through our [getting started guide](../../getting-started/Admin/), please continue on to [developing DAGs](getting-started/Admin/creating-airflow-dags.md).
+:::note **Getting Started Guide:** If you are making your way through our [getting started guide](/docs/category/administrator), please continue on to [developing DAGs](getting-started/Admin/creating-airflow-dags.md).
 :::
 ## Set up a custom SMTP (Optional)
 
@@ -4236,19 +2594,1596 @@ nodes:
 
 ---
 
-// File: how-tos/datacoves/README
+// File: how-tos/airflow/DAGs/create-dag-level-docs
 
-# Admin Configuration in Datacoves
+# How to Add Docs at the DAG Level in Airflow
 
-These how to guides are dedicated to **Datacoves admin configurations**. See how to configure:
+## Overview
+The `dag.doc_md` attribute allows DAG authors to add markdown-formatted documentation directly to their DAGs. This documentation is visible in the Airflow web interface, offering a convenient way to describe the DAG's purpose, its dependencies, the tasks it includes, and any other relevant information. This feature enhances readability and maintainability, making it easier for teams to understand and collaborate on Airflow DAGs.
 
-- Projects
-- Environments
-- Connection templates
-- Environments
-- User invitations
+1. Start by writing a multi-line docstring at the beginning of your DAG file. This docstring may provide a detailed explanation of the DAG's functionality, its schedule, and any important considerations. You can use Markdown syntax for formatting.
+   
+2. After defining your DAG, assign the module's docstring (__doc__) to the doc_md variable. This makes the documentation written in the docstring visible in the Airflow UI.
+   
+3. Once your DAG is deployed, you can view the documentation by navigating to the DAG's details page in the Airflow web interface. The markdown-formatted documentation will be displayed under the DAG Details tab.
 
-And more!
+![see dag docs](./assets/see-dag-docs.gif)
+
+### Example: 
+```python
+"""
+# Example DAG
+
+This DAG demonstrates how to use the `dag.doc_md` feature in Airflow.
+It includes tasks for demonstration purposes.
+
+## Schedule
+
+- **Frequency**: Runs daily at midnight.
+- **Catch Up**: False
+
+## Tasks
+
+1. **task_1**: Description of task 1.
+2. **task_2**: Description of task 2.
+"""
+
+from airflow.decorators import dag, task
+from pendulum import datetime
+...
+@dag(
+    # This is used to display the markdown docs at the top of this file in the Airflow UI when viewing a DAG
+    doc_md = __doc__,
+ ...
+# Invoke Dag
+datacoves_sample_dag()
+
+```
+
+## Best Practices
+**Clarity and Conciseness**: Write clear and concise documentation. Aim to provide enough detail for someone unfamiliar with the DAG to understand its purpose and operation.
+
+**Use Markdown for Formatting**: Leverage Markdown syntax to format your documentation. Use headings, lists, code blocks, and links to make your documentation easy to read and navigate. See <a href="https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax" target="_blank" rel="noopener">Github's Basic writing and formatting syntax</a> for more information.
+
+**Update Documentation as Necessary**: Keep the documentation up to date with changes to the DAG. This ensures that the documentation remains a reliable source of information for the DAG.
+
+---
+
+// File: how-tos/airflow/DAGs/external-python-dag
+
+# External Python DAG 
+
+If you need additional libraries for your DAG such as pandas, let us know so that we can configure them in your environment. 
+
+:::note
+Below we make use of a `python_scripts` folder inside the `orchestrate` folder and develop as a best practice we locate our custom scripts in this location.
+:::
+## orchestrate/python_scripts
+
+```python
+#sample_script.py
+
+import pandas as pd
+
+def print_sample_dataframe():
+
+    # Creating a simple DataFrame
+    data = {'Name': ['Alice', 'Bob', 'Charlie'],
+            'Age': [25, 30, 35],
+            'City': ['New York', 'San Francisco', 'Los Angeles']}
+
+    df = pd.DataFrame(data)
+
+    # Displaying the DataFrame
+    print("DataFrame created using Pandas:")
+    print(df)
+
+print_sample_dataframe()
+```
+
+## orchestrate/dags
+Create a DAG in the `dags` folder.
+
+To run the custom script from an Airflow DAG, you will use the `@task.datacoves_bash` decorator as seen in the `python_task` below.
+
+:::tip 
+See [Datacoves Decorators](reference/airflow/datacoves-decorators.md) documentation for more information on the Datacoves Airflow Decorators.
+:::
+```python
+from airflow.decorators import dag, task
+from pendulum import datetime
+
+@dag(
+    default_args={
+        "start_date": datetime(2022, 10, 10),
+        "owner": "Noel Gomez",
+        "email": "gomezn@example.com",
+        "email_on_failure": True,
+    },
+    catchup=False,
+    tags=["version_6"],
+    description="Datacoves Sample DAG",
+    schedule="0 0 1 */12 *",
+)
+def datacoves_sample_dag():
+    
+    @task.datacoves_bash()
+    def run_python_script():
+        return "python orchestrate/python_scripts/sample_script.py"
+
+    run_python_script()
+
+datacoves_sample_dag()
+```
+
+---
+
+// File: how-tos/airflow/DAGs/dynamically-set-schedule
+
+# How to Dynamically set the schedule Interval
+
+By default, DAGs are created with a `paused` state in Airflow, but you can change this with the `is_paused_on_creation=True` option. However, you will likely not want to schedule DAGs in a development Airflow instance. The steps below describe how do not set a schedule in a Development Airflow instance.
+
+You can dynamically set the DAG schedule based on your Datacoves environment (development or production). By using a function called get_schedule, you can ensure that the correct schedule is applied only in the production Airflow instance.
+
+Here is how to achieve this:
+
+**Step 1:** Create a `get_schedule.py` file inside of `orchestrate/utils`
+
+**Step 2:** Paste the following code:
+Note: Find your environment slug [here](reference/admin-menu/environments.md)
+```python
+# get_schedule.py
+import os
+from typing import Union
+
+DEV_ENVIRONMENT_SLUG = "dev123" # Replace with your environment slug
+
+def get_schedule(default_input: Union[str, None]) -> Union[str, None]:
+    """
+    Sets the application's schedule based on the current environment setting. Allows you to
+    set the the default for dev to none and the the default for prod to the default input.
+
+    This function checks the Datacoves Slug through 'DATACOVES__ENVIRONMENT_SLUG' variable to determine
+    if the application is running in a specific environment (e.g., 'dev123'). If the application
+    is running in the 'dev123' environment, it indicates that no schedule should be used, and
+    hence returns None. For all other environments, the function returns the given 'default_input'
+    as the schedule.
+
+   Parameters:
+    - default_input (Union[str, None]): The default schedule to return if the application is not
+      running in the dev environment.
+
+    Returns:
+    - Union[str, None]: The default schedule if the environment is not 'dev123'; otherwise, None,
+      indicating that no schedule should be used in the dev environment.
+    """
+    env_slug = os.environ.get("DATACOVES__ENVIRONMENT_SLUG", "").lower()
+    if env_slug == DEV_ENVIRONMENT_SLUG:
+        return None
+    else:
+        return default_input
+```
+**Step 3:** In your DAG, import the `get_schedule` function using `from orchestrate.utils.get_schedule import get_schedule` and pass in your desired schedule.
+
+ie) If your desired schedule is `'0 1 * * *'` then you will set `schedule=get_schedule('0 1 * * *')` as seen in the example below. 
+```python
+from airflow.decorators import dag, task
+from pendulum import datetime
+from orchestrate.utils.get_schedule import get_schedule
+
+@dag(
+    default_args={
+        "start_date": datetime(2022, 10, 10),
+        "owner": "Noel Gomez",
+        "email": "gomezn@example.com",
+        "email_on_failure": True,
+    },
+    is_paused_on_creation=True, 
+    catchup=False,
+    tags=["version_8"],
+    description="Datacoves Sample DAG",
+    schedule=get_schedule('0 1 * * *'),  # Replace with desired schedule
+)
+def datacoves_sample_dag():
+    
+    @task.datacoves_dbt(connection_id="main")
+    def run_dbt_task():
+        return "dbt debug"
+
+    run_dbt_task()
+
+datacoves_sample_dag()
+```
+
+---
+
+// File: how-tos/airflow/DAGs/generate-dags-from-yml
+
+# Generate DAGs from yml
+
+You have the option to write out your DAGs in python or you can write them using yml and then have dbt-coves generate the python DAG for you.
+
+## Configure config.yml
+This configuration is for the `dbt-coves generate airflow-dags` command which generates the DAGs from your yml files. Visit the [dbt-coves docs](https://github.com/datacoves/dbt-coves?tab=readme-ov-file#settings) for the full dbt-coves configuration settings.
+
+dbt-coves will read settings from `<dbt_project_path>/.dbt_coves/config.yml`. We must create these files in order for dbt-coves to function. 
+
+**Step 1:** Create the `.dbt-coves` folder at the root of your dbt project (where the dbt_project.yml file is located). Then create a file called `config.yml` inside of `.dbt-coves`. 
+
+:::note 
+Datacoves' recommended dbt project location is `transform/` eg) `transform/.dbt-coves/config.yml`. This will require some minor refactoring and ensuring that the  `dbt project path ` in your environment settings reflects accordingly. 
+:::
+**Step 2:** We use environment variables such as `DATACOVES__AIRFLOW_DAGS_YML_PATH` that are pre-configured for you. For more information on these variables see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
+- `yml_path`: This is where dbt-coves will look for the yml files to generate your Python DAGs.
+- `dags_path`: This is where dbt-coves will place your generated python DAGs.
+
+Place the following in your `config.yml file`
+```yml
+generate:
+...
+    airflow_dags:
+    # source location for yml files
+    yml_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_YML_PATH') }}"
+    
+    # destination for generated python dags
+    dags_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_PATH') }}"
+...
+```
+
+:::tip 
+If using an Extract and Load tool in your DAG you can dynamically generate your sources; however, additional configuration will be needed inside the config.yml file. See [Airbyte](./run-airbyte-sync-jobs#generate-dags-from-yml-with-dbt-coves). For [Fivetran](./run-fivetran-sync-jobs#configure-your-transform-dbt-coves-config-yml-file) contact us to complete the setup.
+:::
+## Create the yml file for your Airflow DAG
+
+dbt-coves will look for your yml inside your `orchestrate/dags_yml_definition` folder to generate your Python DAGs. Please create these folders if you have not already done so.
+:::note
+When you create a DAG with YAML the name of the file will be the name of the DAG.
+eg) `yml_dbt_dag.yml` generates a dag named `yml_dbt_dag`
+:::
+Let's create our first DAG using YAML. 
+
+**Step 1**: Create a new file named `my_first_yml.yml` in your `orchestrate/dags_yml_definition` folder.
+
+**Step 2:** Add the following YAML to your file and be sure to change 
+
+```yml
+description: "Sample DAG for dbt build"
+schedule: "0 0 1 */12 *"
+tags:
+  - version_2
+default_args:
+  start_date: 2022-10-10
+  owner: Noel Gomez # Replace this with your name
+  email: gomezn@example.com # Replace with the email of the recipient for failures
+  email_on_failure: true
+catchup: false
+
+nodes:
+  run_dbt:
+    type: task
+    operator: operators.datacoves.dbt.DatacovesDbtOperator
+    bash_command: "dbt run -s personal_loans" 
+```
+:::tip
+In the examples we make use of the Datacoves Operators which handle things like copying and running dbt deps. For more information on what these operators handle, see [Datacoves Operators](reference/airflow/datacoves-operator.md)
+:::
+### How to create your own task group with YAML
+
+The example below shows how to create your own task group with YAML.
+
+#### Field Reference:
+
+- **type**: This must be `task_group`
+- **tooltip**: Hover message for the task group. 
+- **tasks**: Here is where you will define the individual tasks in the task group.
+
+:::note
+Specify the "task group" and "task" names at the beginning of their respective sections, as illustrated below:
+:::
+```yaml
+nodes:
+  extract_and_load_dlt: # The name of the task group
+    type: task_group
+    tooltip: "dlt Extract and Load"
+
+    tasks:
+      load_us_population: # The name of the task 
+        operator: operators.datacoves.bash.DatacovesBashOperator
+        # activate_venv: true
+        # Virtual Environment is automatically activated
+
+        cwd: "load/dlt/csv_to_snowflake/"
+        bash_command: "python load_csv_data.py"
+
+      # Add more tasks here  
+      task_2:
+        ...  
+```
+
+## Generate your python file from your yml file
+To generate your DAG, be sure you have the yml you wish to generate a DAG from open. 
+
+Select `more` in the bottom bar.
+
+Select `Generate Airflow Dag for YML`. This will run the command to generate the individual yml.
+
+![Generate Airflow Dag](./assets/generate_airflow_dag.gif)
+
+
+## Generate all your python files
+
+To generate all of the DAGs from your `orchestrate/dag_yml_definitions/` directory
+
+- Run `dbt-coves generate airflow-dags` in your terminal.
+
+All generated python DAGs will be placed in the `orchestrate/dags`
+
+```python
+from pendulum import datetime
+
+from airflow.decorators import dag
+from operators.datacoves.dbt import DatacovesDbtOperator
+
+@dag(
+    default_args={
+        "start_date": datetime(2022, 10, 10),
+        "owner": "Noel Gomez",
+        "email": "gomezn@example.com",
+        "email_on_failure": True,
+    },
+    description="Sample DAG for dbt build",
+    schedule="0 0 1 */12 *",
+    tags=["version_2"],
+    catchup=False,
+)
+def yml_dbt_dag():
+    run_dbt = DatacovesDbtOperator(
+        task_id="run_dbt", bash_command="dbt run -s personal_loans"
+    )
+
+dag = yml_dbt_dag()
+```
+
+---
+
+// File: how-tos/airflow/DAGs/get-current-branch-name
+
+# Retrieving the Current Branch Name in a Git Repository
+
+In Airflow, Datacoves will place your repo into `/opt/airflow/dags/` 
+
+To retrieve the current branch name in a Git repository. 
+
+
+``` bash
+cat /opt/airflow/dags/.git/HEAD | sed 's~ref: refs/heads/~~'
+```
+
+### This command consists of two parts:
+
+`cat .git/HEAD`: This part of the command displays the content of the HEAD file, which contains a reference to the current branch in the Git repository.
+
+`sed 's~ref: refs/heads/~~'`: The output of the cat command is then piped to the sed command, which is used to remove the `ref: refs/heads/` prefix from the branch name, thereby extracting the current branch name.
+
+---
+
+// File: how-tos/airflow/DAGs/s3-to-snowflake
+
+# Loading S3 Files into Snowflake 
+
+## Schema Evolution 
+
+Snowflake has a built-in feature for [schema evolution](https://docs.snowflake.com/en/user-guide/data-load-schema-evolution). It allows us to create the initial table using a file as a template and then it will automatically handle any changes to the schema going forward. 
+
+### Caveats and limitations
+
+Schema evolution is [limited to a change that adds a maximum of 10 columns or evolving no more than 1 schema per COPY operation](https://docs.snowflake.com/en/user-guide/data-load-schema-evolution#usage-notes)
+
+You cannot go from a column containing `NUMBER` values to `VARCHAR`, but you can go from `VARCHAR` to `NUMBER` as it will insert it as `VARCHAR`.  
+
+**Step 1:** In a Snowflake SQL worksheet Navigate to the database and schema where you will be loading the data to. 
+
+**Step 2:** Create a custom file format for the data that you are planning to load. In this example we are using a custom CSV file format. 
+
+```sql
+CREATE OR REPLACE FILE FORMAT MY_CSV_FORMAT
+TYPE = 'CSV' 
+PARSE_HEADER = TRUE
+ERROR_ON_COLUMN_COUNT_MISMATCH = FALSE;
+```
+**Step 3:** Now we will create a Snowflake stage and link our custom file format to it. 
+```sql
+CREATE OR REPLACE STAGE TEST_STAGE
+    FILE_FORMAT = MY_CSV_FORMAT;
+```
+
+**Step 4:** We are now going to upload a csv file to this Snowflake stage that we will use as a template to create the table where data will be loaded. You can do this via the Snowflake UI or by using the SnowSQL command line tool.  
+
+This example will use SnowSQL and our data looks like this: 
+
+![Sample data](../assets/s3_sample_data.jpg)
+
+The SnowSQL command to upload the file to the Snowflake stage is below: 
+```
+PUT file://test_file.csv @TEST_STAGE;
+```
+
+Where test_file.csv is in the same folder from where we are running the SnowSQL command. 
+
+**Step 5:** Once the file has been uploaded to the test stage, we create the initial table using it as a template and enabling schema evolution. 
+
+```sql
+CREATE OR REPLACE TABLE TEST_TABLE
+    ENABLE_SCHEMA_EVOLUTION== TRUE
+    USING TEMPLATE (
+        SELECT ARRAY_AGG(OBJECT_CONSTRUCT(*))
+            FROM TABLE(
+                INFER_SCHEMA(
+                    LOCATION->'@TEST_STAGE/test_file.csv.gz,
+                    FILE_FORMAT=>'my_csv_format'
+                )
+            )
+    );
+```
+
+The TEST_TABLE schema now looks like this: 
+
+![test_table](../assets/s3_test_table_schema.jpg)
+
+However, the table does not have any data loaded into it. 
+
+![Empty test_table](../assets/s3_test_table_empty.jpg)
+
+**Step 6:** To load the data from the file we used as a template we use the following COPY INTO SQL. 
+
+```sql
+COPY INTO TEST_TABLE
+    FROM '@TEST_STAGE/test_file.csv.gz'
+    FILE_FORMAT =  'my_csv_format'
+    MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE;
+```
+
+And we can now see the data in the table: 
+
+![test_table copied](../assets/s3_test_table_copied.jpg)
+
+**Step 7:** Now we’re going to load another file into TEST_TABLE that has an additional column. 
+
+![Test data additional column](../assets/s3_test_table_additional_col.jpg)
+
+Again, we will use the SnowSQL PUT command seen below: 
+
+```
+PUT files://test_file_copy.csv @TEST_STAGE;
+```
+
+**Step 8:** Now we can run another COPY INTO statement that references the new file. 
+```sql
+COPY INTO TEST_TABLE
+    FROM '@TEST_STAGE/test_file_copy.csv.gz'
+    FILE_FORMAT = 'my_csv_format'
+    MATCH_BY_COLUMN_NAME = CASE_INSENSITIVE;
+```
+
+And now the table has an additional column called COUNTRY_CODE: 
+
+![test_table additional column](../assets/s3_test_table_additional_call_snowflake.jpg)
+
+## Loading JSON data into a variant column 
+
+If the data that you want to load is in JSON format and the schema is likely to change then a recommended pattern is to load the JSON into a single Snowflake variant column. This allows you to parse out and model the data downstream without having to worry about the change in schema. 
+
+**Step 1:** 1. Create a Snowflake table with a single variant column. 
+
+```sql
+CREATE OR REPLACE TABLE VARIABLE_TABLE (MAIN_COLUMN VARIANT);
+```
+
+**Step 2:**  Now create a custom file format for the JSON data.
+
+```sql
+CREATE OR REPLACE FILE FORMAT MY_JSON_FORMAT
+    TYPE = 'JSON'
+    STRIP_OUTER_ARRAY = TRUE;
+```
+
+**Step 3:** After this we create a Snowflake stage that uses the JSON custom file format. 
+
+```sql
+CREATE OR REPLACE STAGE JSON_STAGE
+    FILE_FORMAT = MY_JSON_FORMAT;
+```
+
+**Step 4:** We can now load JSON files that have been staged using the following COPY INTO command. 
+
+```sql
+COPY INTO VARIANT_TABLE 
+    FROM @JSON_STAGE
+```
+
+Our variant table now looks like this: 
+
+![json variant table](../assets/json_variant_table.jpg)
+
+---
+
+// File: how-tos/airflow/DAGs/run-adf-pipeline
+
+# Use Microsoft Azure Data Factory Operators 
+
+You can use Airflow in Datacoves to trigger a Microsoft Azure Data Factory pipeline. This guide will walk you through the configuration process. 
+
+## Prerequisites 
+
+-  You will need to set up a [Microsoft Entra Application](https://learn.microsoft.com/en-us/entra/identity-platform/howto-create-service-principal-portal).
+-  Assign the `Data Factory Contributor` role to your Microsoft Entra Application. You can do this by heading into Resource Groups and then following [these instructions](https://learn.microsoft.com/en-us/entra/identity-platform/howto-create-service-principal-portal#assign-a-role-to-the-application).
+-  Collect the following values from your ADF account, more information on where to find these items in the next section:
+   -  `DATA_FACTORY_NAME`
+   -  `RESOURCE_GROUP_NAME`
+   -  `SUBSCRIPTION_ID`
+   -  `APPLICATION_CLIENT_ID`
+   -  `TENANT_ID`
+   -  `CLIENT_SECRET`
+
+### How to get the ADF information 
+
+**Step 1:**  Login to your Microsoft Azure console and navigate to the [Data Factories service](https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.DataFactory%2FdataFactories).
+
+**Step 2:** Copy the`DATA_FACTORY_NAME` for the factory which holds your data pipeline.
+
+**Step 3:** Open the factory and copy the `RESOURCE_GROUP_NAME`, and the `SUBSCRIPTION_ID` from the Overview tab 
+
+**Step 4:** Navigate to the Microsoft Entra ID service, click on number next to *Applicaitons* on the Overview tab. Next click the *All Applications* tab, open the application or register a new application then open it and copy the `APPLICATION_CLIENT_ID` and Directory`TENANT_ID`.
+
+**Step 5:** Click on *Certificates and Secrets* and generate a new secret for your Microsoft Entra Application and copy the *Value*. This is the `CLIENT_SECRET`.
+
+## Create a Microsoft Azure Data Factory Connection in Airflow 
+
+**Step 1:** In Datacoves, a user with the `securityadmin` role must go to the `Airflow Admin -> Connection` menu.
+
+ ![Airflow Connection](./assets/admin-connections.png)
+
+**Step 2:** Create a new connection using the following details.
+
+- **Connection Id:** `azure_data_factory_default` - this name will be used in the Airflow DAG and is the default name used by the ADF Operator
+
+- **Connection Type:** `Azure Data Factory` 
+
+- **Client ID:** Your `APPLICATION_CLIENT_ID` 
+
+- **Secret:**  Your `CLIENT_SECRET` 
+
+- **Tenant ID:** Your `TENANT_ID` 
+
+- **Factory Name**: Your `DATA_FACTORY_NAME`
+
+- **Resource Group Name**: Your `RESOURCE_GROUP_NAME`
+  
+- **Subscription ID:** Your `SUBSCRIPTION_ID` 
+
+:::note
+ Replace the values in the screenshot below with the actual values found above.
+:::
+
+![adf connection](./assets/airflow_adf_connection.png)
+ 
+## Example DAG 
+
+:::note
+You will need to update the `pipeline_name`, `resource_group_name`, and `factory_name` arguments below with the correct names.
+:::
+Once you have configured your Databricks connection and variables, you are ready to create your DAG. Head into the `Transform` tab to begin writing your DAG inside `orchestrate/dags`.
+
+```python
+
+"""Example Airflow Azure Data Factory DAG."""
+
+from datetime import datetime
+from airflow.decorators import dag, task_group
+from airflow.providers.microsoft.azure.operators.data_factory import AzureDataFactoryRunPipelineOperator
+from airflow.providers.microsoft.azure.sensors.data_factory import AzureDataFactoryPipelineRunStatusSensor
+
+@dag(
+    schedule="@daily",
+    start_date=datetime(2024, 1, 1),
+    tags=["version_1"],
+    catchup=False,
+    default_args={
+        "azure_data_factory_conn_id": "azure_data_factory_default",
+        "factory_name": "your-factory-name", 
+        "resource_group_name": "your-resource-name",
+    },
+)
+def adf_example_run():
+    """Run an Azure Data Factory pipeline with async status checking."""
+
+    @task_group(group_id="adf_pipeline_group", tooltip="ADF Pipeline Group")
+    def adf_pipeline_tasks():
+        run_pipeline = AzureDataFactoryRunPipelineOperator(
+            task_id="run_pipeline",
+            pipeline_name="myTestPipeline",  # Rename to your Pipeline name
+            parameters={"myParam": "value"},
+            wait_for_termination=False,
+        )
+
+        # Deferrable sensor for async pipeline status checking
+        pipeline_run_async_sensor = AzureDataFactoryPipelineRunStatusSensor(
+            task_id="pipeline_run_async_sensor",
+            run_id=run_pipeline.output["run_id"],
+            deferrable=True,
+        )
+
+        run_pipeline >> pipeline_run_async_sensor
+
+    adf_pipeline_group = adf_pipeline_tasks()
+
+DAG = adf_example_run()
+```
+ 
+## Understanding the Airflow DAG 
+
+- Understand how to [authenticate with ADF](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-azure/stable/connections/adf.html).
+- The DAG makes use of the [AzureDataFactoryRunPipelineOperator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-azure/stable/operators/adf_run_pipeline.html) to run an Azure Data Factory pipeline. It also shows how it’s possible to pass parameters that can be used in the pipeline.
+
+---
+
+// File: how-tos/airflow/DAGs/run-airbyte-sync-jobs
+
+# Run Airbyte sync jobs
+
+In our quest to simplify the way tools integrate in the Modern Data Stack, we developed the generate airflow-dags command in the <a href="https://github.com/datacoves/dbt-coves?tab=readme-ov-file#generate-airflow-dags" target="_blank" rel="noopener">dbt-coves</a> library.
+
+The main idea behind this concept is to use tags defined on dbt sources and determine which data to load via different tools (e.g. Airbyte or Fivetran). Using this information, we can dynamically create _Extract and Load_ tasks in an Airflow DAG before running dbt.
+
+:::note
+Support for Fivetran Tasks coming soon. More Information in [run Fivetran sync jobs](./run-fivetran-sync-jobs).
+:::
+## Before you start
+
+### Ensure your Airflow environment is properly configured
+
+Follow this guide on [How to set up Airflow](../initial-setup)'s environment.
+
+### Airbyte connection
+
+As Airflow will trigger connections in the Airbyte's server, Datacoves automatically adds the connection in Airflow.
+
+To view this connection, a user with the Datacoves sysadmin group can go to the Airflow `Admin -> Connections` menu.
+
+![Admin Connections](./assets/admin-connections.png)
+
+:::note
+ `host` is created using your environment (3 letters + 3 digits like xyz123) `<environment slug> + "-airbyte-airbyte-server-svc"`.
+:::
+![Admin Connections](./assets/airbyte-connection-details.png)
+
+### Turn off Airbyte's scheduler
+
+To avoid conflicts between Airflow triggering Airbyte jobs and Airbyte scheduling its own jobs at the same time, we suggest you set `replication frequency` to `manual` on each Airbyte connection that will be triggered by Airflow:
+
+![Replication frequency](./assets/airbyte-replication-frequency.png)
+
+### Generate DAG's from yml with dbt-coves
+
+To connect Extract & Load with Transform in your DAG, you must configure your dbt-coves config file. We recommend the path to be `transform/.dbt-coves/config.yml`.
+
+### Field reference:
+- **yml_path**: Relative path to dbt project where yml to generate python DAGs will be stored
+- **dags_path**: Relative path to dbt project where generated python DAGs will be stored
+- **dbt_project_path**: Relative path to dbt project, used to run `dbt ls` to discover sources
+- **airbyte_connection_id**: Id of the airflow connection that holds the information to connect to Airbyte system. (this was set up above)
+
+
+:::tip
+We make use of environment variables that we have configured for you upon set up. For more information on these variables please see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
+:::
+```yml
+generate:
+  ...
+  airflow_dags:
+    # source location for yml files
+    yml_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_YML_PATH') }}"
+
+    # destination for generated python dags
+    dags_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_PATH') }}"
+
+    generators_params:
+      AirbyteDbtGenerator:
+        # Airbyte server
+        host: "{{ env_var('DATACOVES__AIRBYTE_HOST_NAME') }}"
+        port: "{{ env_var('DATACOVES__AIRBYTE_PORT') }}"
+
+        # Aiflow Connection
+        airbyte_conn_id: airbyte_connection
+
+        # dbt project location for dbt ls
+        dbt_project_path: "{{ env_var('DATACOVES__DBT_HOME') }}"
+         # Optional
+        run_dbt_compile: true
+        run_dbt_deps: false
+
+```
+
+## Example YML DAG
+
+Now you are ready to write out your DAG using yml. In the following example DAG, you can notice a special task `load` that uses a `generator` instead of an `operator`. This will allow for the information to be pulled dynamically from airbyte such as connection_id. 
+
+:::tip
+We make use of special generators from the dbt-coves extension. For more information please see [DAG Generators](reference/airflow/dag-generators.md)
+:::
+
+### Field reference:
+
+- **generator**: The Airbyte Tasks Generator uses the value `AirbyteDbtGenerator`.
+- **dbt_list_args**: arguments sent to `dbt ls` to retrieve the dbt project sources used to retrieve Airbyte connections. The AirbyteDbtGenerator generator will find the Airbyte connections to trigger using dbt sources's database, schema and table name.
+
+### YML version
+
+```yml
+description: "Loan Run"
+schedule: "0 0 1 */12 *"
+tags:
+  - version_1
+default_args:
+  start_date: 2021-01
+catchup: false
+
+nodes:
+  extract_and_load_airbyte:
+    generator: AirbyteDbtGenerator
+    type: task_group
+
+    tooltip: "Airbyte Extract and Load"
+    # The daily_run_airbyte tag must be set in the source.yml
+    dbt_list_args: "--select tag:daily_run_airbyte"
+
+  transform:
+    operator: operators.datacoves.bash.DatacovesBashOperator
+    type: task
+
+    bash_command: "dbt build -s 'tag:daily_run_airbyte+'"
+    dependencies: ["extract_and_load_airbyte"]
+
+```
+
+---
+
+// File: how-tos/airflow/DAGs/run-dbt
+
+# How to run dbt from an Airflow worker
+
+Airflow synchronizes a git repository's [configured git branch](/docs/how-tos/datacoves/how_to_environments.md#services-configuration) every minute. (The branch specified in  the `Git branch name` field in the environment's DAGs sync configuration)
+
+To run `dbt` commands easily, we provide a pre-configured virtual environment with the necessary python dependencies such as dbt. Our Airflow Operator also does the following automatically:
+
+- Copies the cloned dbt project to a writable folder within the Airflow file system
+- Runs `dbt deps` if `dbt_modules` and `dbt_packages` folders do not exist
+- Sets the current directory to the dbt_project_folder
+
+This means that you can simply run `dbt <dbt subcommand>` in your Airflow DAG and we will handle the rest.
+
+## Create a DAG that uses the script
+
+If your dbt command like `dbt run` works in your development environment(**Try dbt run in your terminal**), then you should be able to create an Airflow DAG that will run this command automatically.
+
+:::tip 
+Keep in mind that in an Airflow context `dbt` is installed in an isolated Python Virtual Environment to avoid clashing with Airflow python dependencies. Datacoves default Python's virtualenv is located in `/opt/datacoves/virtualenvs/main`. No need to worry about the complexity when using the `@task.datacoves_dbt` decorator because it will automatically activate that environment amongst other actions.
+
+See [Datacoves Decorators](reference/airflow/datacoves-decorators.md) for more information.
+:::
+### Lets create a DAG!
+
+**Step 1:** If using Git Sync, switch to your configured branch (`airflow_development` or `main`), create a python file inside of `orchestrate/dags` named `my_sample_dag.py`
+
+**Step 2:** Paste in the code below and be sure to replace information such as name, email and model name with your own.
+
+### Python version
+
+```python
+from pendulum import datetime
+from airflow.decorators import dag, task
+
+@dag(
+    default_args={
+        "start_date": datetime(2024, 1, 1),
+        "owner": "Noel Gomez",  # Replace with name
+        "email": "gomezn@example.com",  # Replace with your email
+        "email_on_failure": True,
+    },
+    description="Sample DAG for dbt run",
+    schedule="0 0 1 */12 *",  # Replace with your desired schedule
+    tags=["version_2"],
+    catchup=False,
+)
+def my_sample_dag():
+
+    @task.datacoves_dbt(connection_id="main")
+    def run_dbt():
+        return "dbt run -s personal_loans"  # Replace with your model
+
+    run_dbt()
+
+my_sample_dag()
+```
+
+**Step 3:** Push your changes to the branch.
+
+**Step 4:** Head over to Airflow in the Datacoves UI and refresh. It may take a minute but you should see your DAG populate. 
+
+**Step 5:** Regardless of the schedule you set, the default during development is to have the DAG paused. You can trigger the DAG to see it in action or turn it on to test the schedule.
+
+### YAML version
+If you are making use of the `dbt-coves generate airflow-dags` command, you can write DAGs using YML.
+
+The name of the file will used as the DAG name. 
+
+```yaml
+description: "Sample DAG for dbt run"
+schedule: "0 0 1 */12 *"
+tags:
+  - version_2
+default_args:
+  start_date: 2024-01-01
+  owner: Noel Gomez # Replace with your name
+  # Replace with the email of the recipient for failures
+  email: gomezn@example.com 
+  email_on_failure: true
+catchup: false
+
+nodes:
+  run_dbt:
+    type: task
+    operator: operators.datacoves.dbt.DatacovesDbtOperator
+    bash_command: "dbt run -s personal_loans" # Replace with your model name
+```
+
+---
+
+// File: how-tos/airflow/DAGs/retry-dbt-tasks
+
+# Retry a dbt task
+
+## Overview
+
+Retrying failed dbt models is a common workflow requirement when working with data transformations. This guide explains how to implement dbt task retry functionality in Airflow using Datacoves' custom `datacoves_dbt` decorator.
+
+## Prerequisites
+
+- Datacoves version 3.4 or later
+- dbt API feature enabled in your environment (contact support for further assistance)
+
+## How dbt Retries Work
+
+The retry mechanism works by:
+
+1. **Capturing results** of a dbt run including any failures
+2. **Storing these results** using the dbt API
+3. **Retrieving the previous run state** when a retry is initiated
+4. **Selectively running** only the failed models and their downstream dependencies
+
+## Implementing dbt Retries
+
+### Step 1: Configure the `datacoves_dbt` Decorator
+
+When defining your task, enable the necessary parameters for retries:
+
+```python
+@task.datacoves_dbt(
+    connection_id="your_connection",
+    dbt_api_enabled=True,        # Enable dbt API functionality
+    download_run_results=True,   # Allow downloading previous run results
+)
+```
+
+### Step 2: Add Conditional Logic for Retry
+
+Implement logic in your task function to check for existing results and execute the appropriate dbt command:
+
+```python
+@task.datacoves_dbt(
+    connection_id="your_connection",
+    dbt_api_enabled=True,
+    download_run_results=True,
+)
+def dbt_build(expected_files: list = []):
+    if expected_files:
+        return "dbt build -s result:error+ --state logs"
+    else:
+        return "dbt build -s your_models+"
+```
+
+### Step 3: Call the Task with Expected Files Parameter
+
+```python
+dbt_build(expected_files=["run_results.json"])
+```
+
+## Complete Example
+
+Here's a complete DAG implementation:
+
+```python
+"""
+## Retry dbt Example
+This DAG demonstrates how to retry a DAG that fails during a run
+"""
+
+from airflow.decorators import dag, task
+from orchestrate.utils import datacoves_utils
+
+
+@dag(
+    doc_md = __doc__,
+    catchup = False,
+    default_args=datacoves_utils.set_default_args(
+        owner = "Your Name",
+        owner_email = "your.email@example.com"
+    ),
+    schedule = datacoves_utils.set_schedule("0 0 1 */12 *"),
+    description="Sample DAG demonstrating how to run the dbt models that fail",
+    tags=["dbt_retry"],
+)
+def retry_dbt_failures():
+    @task.datacoves_dbt(
+        connection_id="your_connection",
+        dbt_api_enabled=True,
+        download_run_results=True,
+    )
+    def dbt_build(expected_files: list = []):
+        if expected_files:
+            return "dbt build -s result:error+ --state logs"
+        else:
+            return "dbt build -s model_a+ model_b+"
+
+    dbt_build(expected_files=["run_results.json"])
+
+retry_dbt_failures()
+```
+
+---
+
+// File: how-tos/airflow/DAGs/run-databricks-notebook
+
+# Run Databricks Notebooks 
+
+You can use Airflow in Datacoves to trigger a Databricks notebook. This guide will walk you through the configuration process. 
+
+## Prerequisites 
+
+- **Databricks Host:** This is the URL of your Databricks cluster. It typically looks like `https://<databricks-instance>.databricks.com`.
+- **Databricks Cluster ID:** This is the identifier of the cluster you want to use to run your notebook.
+- **Databricks Token:** If you do not have admin privileges, work with an admin to get the token. Follow the [Databricks documentation here](https://docs.databricks.com/en/dev-tools/auth/pat.html).
+- **Databricks Notebook Repo Path:** This is the full path to the notebook you want to trigger from Airflow. We recommend using the Git Notebook feature in Databricks. This notebook is usually located in a Repos directory in Databricks.
+
+### How to get Databricks Host and Databricks Cluster ID
+
+**Step 1:** Sign into your Databricks account.
+
+**Step 2:** Navigate to compute.
+
+![databricks compute](./assets/databricks_compute.png)
+
+**Step 3:** Click on your desired cluster.
+
+**Step 4:** Scroll to `Advanced Options` and `JDBC/ODBC`. Copy the value under `Server Hostname`. The host value will look something like this: `<databricks-instance>.databricks.com`.
+
+**Step 5:** Scroll to `Tags` and expand `Automatically added tags`. Your `ClusterId` should look something like this: `0123-5678910-abcdefghijk`.
+
+### How to get Databricks Token
+
+If you do not have admin privileges, work with an admin to get the token. Follow the [Databricks documentation here](https://docs.databricks.com/en/dev-tools/auth/pat.html).
+
+### How to get Databricks Notebook Path
+
+**Step 1:** Navigate to your notebook in the Databricks user interface.
+
+**Step 2:** To the right of the notebook name, there will be three dots. Click on this and select the option to copy the full path to your clipboard.
+
+![copy url](./assets/databricks_copyurl.png)
+
+## Handling Databricks Variables in Airflow
+
+It is best practice to use Airflow variables for values that may need to change in your Airflow DAG. This allows for easy updates without redeployment of your Airflow code.
+
+It is possible to hardcode these two variables in your DAG if you don’t see them needing to be changed.
+
+- **DATABRICKS_CLUSTER_ID**: Your databricks Cluster ID
+- **MY_NOTEBOOK_REPO_PATH**: This should be a meaningful name as you may have many notebooks you wish to trigger eg) INSERT_INTO_RAW_REPO_PATH
+
+
+**Step 1:** A user with Airflow admin privileges must go to the Airflow `Admin -> Variables` menu and add the variables and their values.
+
+
+## Create a Databricks Connection in Airflow
+
+**Step 1:** A user with Airflow admin privileges must go to the `Airflow Admin -> Connection` menu.
+
+![admin connection](./assets/admin-connections.png)
+
+**Step 2:** Create a new connection using the following details:
+
+- **Connection Id:** `databricks_default` - this name will be used in your DAG
+- **Connection Type:** `Databricks`
+- **Host:** Your Databricks host. E.g. `https://<databricks-instance>.databricks.com`
+- **Password:** Enter your `Databricks Token`
+
+![Databricks Connection](./assets/airflow_databricks_connection.png)
+
+**Step 3:** Click `Save`
+
+## Example DAG 
+
+Once you have configured your Databricks connection and variables, you are ready to create your DAG. Head into the `Transform` tab to begin writing your DAG inside the dags folder, e.g. `orchestrate/dags`.
+
+### Git Notebook as the source (Recommended)
+
+We recommend using a git as the source to leverage version control when developing notebooks. Be aware that if changes are made in the databricks tracked branch (`GIT_BRANCH`), they will be executed in Airflow regardless if the changes are committed into Git. The best practice is to have users develop on feature branches and then merge to main.
+
+```python
+import os
+from datetime import datetime
+from airflow.models import Variable
+from airflow.decorators import dag
+from airflow.providers.databricks.operators.databricks import DatabricksSubmitRunDeferrableOperator
+
+DATABRICKS_CLUSTER_ID = Variable.get("DATABRICKS_CLUSTER_ID")
+MY_NOTEBOOK_REPO_PATH = "/PATH/TO/MY/NOTEBOOK"
+GIT_BRANCH = "main"  # Specify the branch you want to use
+
+@dag(
+    schedule="@daily",
+    start_date=datetime(2024, 1, 1),
+    tags=["version_1"],
+    catchup=False
+)
+def databricks_example_run():
+
+    notebook_task_params = {
+        "task_key": "unique-task-key",
+        "notebook_task": {
+            "notebook_path": MY_NOTEBOOK_REPO_PATH,
+            "base_parameters": {
+                "branch": GIT_BRANCH  # Specify the branch in variable
+            }
+        },
+        "source": "GIT",
+        "existing_cluster_id": DATABRICKS_CLUSTER_ID,
+        "run_name": "databricks_workbook_run",  # Update with a unique name
+    }
+
+    DatabricksSubmitRunDeferrableOperator(
+        task_id="notebook_task",  # Rename with appropriate name
+        json=notebook_task_params,
+        databricks_conn_id="databricks_default"  # Must match databricks connection id set above
+    )
+
+dag = databricks_example_run()
+```
+## Understanding the Airflow DAG 
+
+- The DAG makes use of the [`DatabricksSubmitRunDeferrableOperator`](https://airflow.apache.org/docs/apache-airflow-providers-databricks/stable/operators/submit_run.html) which uses the [jobs/runs/submit](https://docs.databricks.com/api/workspace/jobs/submit) endpoint of the Databricks API. You can see the full list of options available by looking at the previous two links. 
+ 
+- We’re passing a [Notebook task object](https://docs.databricks.com/api/workspace/jobs/submit#notebook_task) with the source set to `GIT`, meaning the notebook will be retrieved from Databricks Repos, which is synced with a version-controlled Git repository. Alternatively, you can set the source to `WORKSPACE` to pull the notebook code directly from the local Databricks workspace. Using `GIT` is generally more reliable for production environments because it ensures that the notebook code is managed through a version-controlled system, providing consistency and traceability.
+  
+- And lastly, we have customized the `run_name`. In a non-example DAG, you would want this to be unique so you can better identify the runs in Airflow and Databricks.
+
+---
+
+// File: how-tos/airflow/DAGs/run-fivetran-sync-jobs
+
+# Run Fivetran sync jobs
+
+In Addition to triggering Airbyte loads jobs [run Airbyte sync jobs](/docs/how-tos/airflow/DAGs/run-airbyte-sync-jobs) you can also trigger Fivetran jobs from your Airflow DAG.
+
+## Before you start
+
+### Ensure your Airflow environment is properly configured
+
+Follow this guide on [How to set up Airflow](/docs/how-tos/airflow/initial-setup)'s environment.
+
+### Fivetran connection
+
+Airflow needs to be connected to your Fivetran account to both read and trigger your Connectors, so first you need to set up a connection.
+
+A user with Airflow admin privileges must go to the Airflow `Admin -> Connections` menu.
+
+![Admin Connections](./assets/admin-connections.png)
+
+Create a new connection using the following details:
+
+![Admin Connections](./assets/fivetran-connection-details.png)
+
+:::tip
+Once your Fivetran API key and secret have been generated, for security reasons, the secret cannot be viewed again through the Fivetran interface. If you lose or forget your API secret, you will need to generate a new API key and secret pair so be sure to store them somewhere secure for reference later. See <a href="https://fivetran.com/docs/rest-api/getting-started" target="_blank" rel="noopener">Fivetran Documentation</a> on how to generate your Fivetran `API Key` and `API Secret`. 
+:::
+
+### Configure your transform dbt-coves config yml file
+
+By default, dbt-coves cannot query the necessary information for Fivetran connections. You will need to configure these in your yml DAG manually, or contact us to configure Datacoves with the necessary information.
+Below are the configurations in for dbt-coves airflow-dags. You will need to configure these if using dbt-coves to generate DAGs from YML
+
+### Field reference:
+- **yml_path**: Relative path to dbt project where yml to generate python DAGs will be stored
+- **dags_path**: Relative path to dbt project where generated python DAGs will be stored
+
+:::tip
+We make use of environment variables that we have configured for you upon set up. For more information on these variables please see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
+:::
+
+```yaml
+generate:
+...
+  airflow_dags:
+    # source location for yml files
+    yml_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_YML_PATH') }}"
+
+    # destination for generated python dags
+    dags_path: "/config/workspace/{{ env_var('DATACOVES__AIRFLOW_DAGS_PATH') }}"
+```
+
+## Example DAG
+
+### Python version
+
+```python
+from pendulum import datetime
+from airflow.decorators import dag, task, task_group
+from fivetran_provider_async.operators import FivetranOperator
+from fivetran_provider_async.sensors import FivetranSensor
+
+@dag(
+    default_args={"start_date": datetime(2024, 1, 1)},
+    description="Loan Run",
+    schedule="0 0 1 */12 *",
+    tags=["version_1"],
+    catchup=False,
+)
+def daily_loan_run():
+
+    @task_group(
+        group_id="extract_and_load_fivetran",
+        tooltip="Fivetran Extract and Load"
+    )
+    def extract_and_load_fivetran():
+
+        fivetran_trigger = FivetranOperator(
+            task_id="datacoves_snowflake_google_analytics_4_trigger",
+            connector_id="speak_menial",
+            do_xcom_push=True,
+            fivetran_conn_id="fivetran_connection",
+        )
+
+        fivetran_sensor = FivetranSensor(
+            task_id="datacoves_snowflake_google_analytics_4_sensor",
+            connector_id="speak_menial",
+            poke_interval=60,
+            fivetran_conn_id="fivetran_connection",
+        )
+
+        fivetran_trigger >> fivetran_sensor  # Ensure proper task execution order
+
+    tg_extract_and_load_fivetran = extract_and_load_fivetran()
+
+    @task.datacoves_dbt(connection_id="main")
+    def transform():
+        return "dbt build -s 'tag:daily_run_fivetran+'"
+
+    transform_task = transform()
+    transform_task.set_upstream([tg_extract_and_load_fivetran])
+
+dag = daily_loan_run()
+```
+
+### Fields reference
+
+- **extract_and_load_fivetran**: The name of the task group. This can be named whatever you like and will show up in airflow.
+![Extract and Load DAG](./assets/extract_load_airflow_dag.png)
+- **tooltip**: The tooltip argument allows you to provide explanatory text or helpful hints about specific elements in the Airflow UI
+- **tasks**: Define all of your tasks within the task group.
+
+You will need to define two operators: `fivetran_provider.operators.fivetran.FivetranOperator` and `fivetran_provider.sensors.fivetran.FivetranSensor`
+
+- **example_task_trigger**: Name your trigger task accordingly and define arguments below.
+  - **operator**: `fivetran_provider.operators.fivetran.FivetranOperator`
+  - **connector_id**: Find in Fivetran UI. Select your desired source. Click into `Setup` and locate the `Fivetran Connector ID`
+
+  ![Fivetran Connection ID](./assets/fivetran_connector_id.png)
+
+  - **do_xcom_push**:  Indicate that the output of the task should be sent to XCom, making it available for other tasks to use.
+  - **fivetran_conn_id**: This is the `connection_id` that was configured above in the Fivetran UI as seen [above](#fivetran-connection).
+- **example_task_sensor**: Name your Sensor task accordingly and define arguments below.
+  -  **operator**: `fivetran_provider.sensors.fivetran.FivetranSensor`
+  -  **connector_id**: Find in Fivetran UI.
+  -  **poke_interval**: The poke interval is the time in seconds that the sensor waits before rechecking if the connector is done loading data. Defaults to 60.
+  - **fivetran_conn_id**: This is the `connection_id` that was configured above in the Fivetran UI as seen [above](#fivetran-connection).
+  - **dependencies**: A list of tasks this task depends on.
+  
+### YAML version
+
+```yaml
+description: "Loan Run"
+schedule: "0 0 1 */12 *"
+tags:
+  - version_1
+default_args:
+  start_date: 2024-01-01
+catchup: false
+
+# DAG Tasks
+nodes:
+  # The name of the task group. Will populate in Airflow DAG
+  extract_and_load_fivetran:
+    type: task_group
+    # Change to fit your use case
+    tooltip: "Fivetran Extract and Load"
+    tasks:
+      # Rename with your desired task name. We recommend the suffix _trigger
+      datacoves_snowflake_google_analytics_4_trigger:
+        operator: fivetran_provider_async.operators.FivetranOperator
+        # Change this to your specific connector ID 
+        connector_id: speak_menial
+        do_xcom_push: true
+        fivetran_conn_id: fivetran_connection
+      # Rename with your desired task name. We recommend the suffix _sensor
+      datacoves_snowflake_google_analytics_4_sensor:
+        operator:fivetran_provider_async.sensors.FivetranSensor
+        # Change this to your specific connector ID 
+        connector_id: speak_menial
+        # Set your desired poke interval. Defaults to 60.
+        poke_interval: 60
+        fivetran_conn_id: fivetran_connection
+        # Set your dependencies for tasks. This task depends on datacoves_snowflake_google_analytics_4_trigger
+        dependencies:
+          - datacoves_snowflake_google_analytics_4_trigger
+
+  transform:
+    operator: operators.datacoves.dbt.DatacovesDbtOperator
+    type: task
+    # The daily_run_fivetran tag must be set in the source.yml
+    bash_command: "dbt build -s 'tag:daily_run_fivetran+'"
+
+    dependencies: ["extract_and_load_fivetran"]
+```
+
+---
+
+// File: how-tos/airflow/DAGs/test-dags
+
+# Run DAG tests in your CI/CD 
+
+In Datacoves you can easily test your Airflow DAGs using [pytest](/reference/airflow/datacoves-commands.md#datacoves-my-pytest) in the command line. However you can also run these validations in your CI/CD pipeline. 
+
+To do this follow these steps:
+
+### Step 1: Create your pytest validations file in the `orchestrate/test_dags` directory. 
+
+Here is an example script:
+
+```python
+# orchestrate/test_dags/validate_dags.py
+"""Example DAGs test. This test ensures that all Dags have tags, retries set to two, and no import errors.
+This is an example pytest and may not be fit the context of your DAGs. Feel free to add and remove tests."""
+
+import os
+import logging
+from contextlib import contextmanager
+import pytest
+import warnings
+from airflow.models import DagBag
+
+APPROVED_TAGS = {'extract_and_load',
+                'transform',
+                'python_script',
+                'ms_teams_notification',
+                'slack_notification',
+                'marketing_automation',
+                'update_catalog',
+                'parameters',
+                'sample'}
+
+ALLOWED_OPERATORS = [
+    "_PythonDecoratedOperator",  # this allows the @task decorator
+    "DatacovesBashOperator",
+    "DatacovesDbtOperator",
+    "DatacovesDataSyncOperatorSnowflake",
+    "_DatacovesDataSyncSnowflakeDecoratedOperator",
+    "_DatacovesDataSyncRedshiftDecoratedOperator",
+    "AirbyteTriggerSyncOperator",
+    'FivetranOperator',
+    'FivetranSensor',
+]
+
+@contextmanager
+def suppress_logging(namespace):
+    logger = logging.getLogger(namespace)
+    old_value = logger.disabled
+    logger.disabled = True
+    try:
+        yield
+    finally:
+        logger.disabled = old_value
+
+### Custom tests start here ###
+def get_import_errors():
+    """
+    Generate a tuple for import errors in the dag bag
+    """
+    with suppress_logging("airflow"):
+        dag_bag = DagBag(include_examples=False)
+
+        def strip_path_prefix(path):
+            return os.path.relpath(path, os.environ.get("AIRFLOW_HOME"))
+
+        # prepend "(None,None)" to ensure that a test object is always created even if it's a no op.
+        return [(None, None)] + [
+            (strip_path_prefix(k), v.strip()) for k, v in dag_bag.import_errors.items()
+        ]
+
+
+def get_dags():
+    """
+    Generate a tuple of dag_id, <DAG objects> in the DagBag
+    """
+    with suppress_logging("airflow"):
+        dag_bag = DagBag(include_examples=False)
+
+    def strip_path_prefix(path):
+        return os.path.relpath(path, os.environ.get("AIRFLOW__CORE__DAGS_FOLDER"))
+
+    return [(k, v, strip_path_prefix(v.fileloc)) for k, v in dag_bag.dags.items()]
+
+
+@pytest.mark.parametrize(
+    "rel_path,rv", get_import_errors(), ids=[x[0] for x in get_import_errors()]
+)
+def test_file_imports(rel_path, rv):
+    """Test for import errors on a file"""
+    if rel_path and rv:
+        raise Exception(f"{rel_path} failed to import with message \n {rv}")
+
+
+
+@pytest.mark.parametrize(
+    "dag_id,dag,fileloc", get_dags(), ids=[x[2] for x in get_dags()]
+)
+def test_dag_tags(dag_id, dag, fileloc):
+    """
+    test if a DAG is tagged and if TAGs are in the approved list
+    """
+    assert dag.tags, f"{dag_id} in {fileloc} has no tags"
+    if APPROVED_TAGS:
+        assert not set(dag.tags) - APPROVED_TAGS
+
+
+@pytest.mark.parametrize(
+    "dag_id,dag, fileloc", get_dags(), ids=[x[2] for x in get_dags()]
+)
+def test_dag_has_catchup_false(dag_id, dag, fileloc):
+    """
+    test if a DAG has catchup set to False
+    """
+    assert (
+        dag.catchup == False
+    ), f"{dag_id} in {fileloc} must have catchup set to False."
+
+
+
+@pytest.mark.parametrize(
+    "dag_id, dag, fileloc", get_dags(), ids=[x[0] for x in get_dags()]
+)
+def test_dag_uses_allowed_operators_only(dag_id, dag, fileloc):
+    """
+    Test if a DAG uses only allowed operators.
+    """
+    for task in dag.tasks:
+        assert any(
+            task.task_type == allowed_op for allowed_op in ALLOWED_OPERATORS
+        ), f"{task.task_id} in {dag_id} ({fileloc}) uses {task.task_type}, which is not in the list of allowed operators."
+
+
+@pytest.mark.parametrize(
+    "dag_id,dag, fileloc", get_dags(), ids=[x[2] for x in get_dags()]
+)
+def test_dag_retries(dag_id, dag, fileloc):
+    """
+    test if a DAG has retries set
+    """
+    num_retries = dag.default_args.get("retries", 0)
+
+    if num_retries == 0 or num_retries is None:
+        pytest.fail(f"{dag_id} in {fileloc} must have task retries >= 1 it currently has {num_retries}.")
+    elif num_retries < 3:
+        warnings.warn(f"{dag_id} in {fileloc} should have task retries >= 3 it currently has {num_retries}.", UserWarning)
+    else:
+        assert num_retries >= 3, f"{dag_id} in {fileloc} must have task retries >= 2 it currently has {num_retries}."
+```
+**Summary** 
+
+This file defines a set of pytest-based validation tests for Airflow DAGs. It ensures that:
+
+- DAG Import Validation – Detects and reports any import errors in DAG files.
+- Tag Compliance – Checks that all DAGs have at least one tag and that tags are within an approved list.
+- Catchup Settings – Ensures that all DAGs have catchup set to False to prevent unintended backfills.
+- Operator Validation – Restricts DAGs to use only a predefined set of allowed operators.
+- Retry Configuration – Validates that DAGs have a retry setting of at least 1 and warns if it is less than 3.
+
+### Step 2 Add the `conftest.py` file to your `orchestrate/test_dags` directory.
+
+This file will import custom tests that the Datacoves team has created such as validating [variable calls are not made at the highest level](/docs/how-tos/datacoves/how_to_projects/how_to_configure_aws_secrets_manager.md) of a DAG. 
+
+```python
+# orchestrate/test_dags/conftest.py
+from datacoves_airflow_provider.testing.custom_reporter import *
+```
+
+### Step 3: Add the following file to your github actions.
+
+```yaml
+# 10_integrate_airflow_changes.yml
+name: 🎯 Airflow Validations
+
+on:  # yamllint disable-line rule:truthy
+  pull_request:
+    paths:
+      - orchestrate/*
+      - orchestrate/**/*
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# This cancels a run if another change is pushed to the same branch
+concurrency:
+  group: orchestrate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  airflow:
+    name: Pull Request Airflow Tests
+    runs-on: ubuntu-latest
+    # container: datacoves/ci-airflow-dbt-snowflake:3.3
+    container: datacoves/ci-airflow-dbt-snowflake:3.3
+
+    env:
+      AIRFLOW__CORE__DAGS_FOLDER: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate/dags
+      AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT: 300
+      AIRFLOW__ARTIFACTS_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/orchestrate
+      DATACOVES__DBT_HOME: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/transform
+      DATACOVES__REPO_PATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+      PYTHONPATH: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+      FORCE_COLOR: 1
+      OUTPUT_FILE: /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}/test_output.md
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Test DAGs Load time and variable usage at top level
+        id: test_load_time_variables
+        run: python /usr/app/test_dags.py --dag-loadtime-threshold 1 --check-variable-usage --write-output --filename "$OUTPUT_FILE"
+
+      # if write-output is set in the prior step, the following step will run
+      - name: Add PR comment of results of test_load_time_variables tests
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          filePath: ${{ env.OUTPUT_FILE }}
+          comment_tag: Test DAGs Load time and variable usage at top level
+
+      - name: Custom Airflow Validation Tests
+        env:
+          NO_COLOR: 1
+        run: pytest $AIRFLOW__ARTIFACTS_PATH/test_dags/validate_dags.py --output-file "$OUTPUT_FILE"
+
+
+      - name: Add PR comment of results of custom Airflow validation tests
+        if: always()
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          # filePath: formatted_output.md
+          filePath: ${{ env.OUTPUT_FILE }}
+          comment_tag: Custom Tests
+          GITHUB_TOKEN: ${{ github.token }}
+```
+
+**Summary**
+
+This GitHub Actions workflow automatically:
+
+- Triggers when changes are made to the orchestrate directory.
+
+- Tests for variable usage at the top level in DAGs to prevent costly issues.
+
+- Runs custom validation tests and comments results on the PR.
+
+By integrating this workflow, you can ensure Airflow DAGs meet quality standards before deployment.
+
+---
+
+// File: how-tos/airflow/DAGs/use-variables-and-connections
+
+# Variables and Connections
+
+:::note
+dbt-coves generate airflow-dags does not support reading variables/connections, but you may generate the initial Python Airflow DAG and add the connection / variable information.
+:::
+The best way to store and retrieve information within Airflow is to use `Variables` and `Connections`, both available on the `Admin` upper dropdown.
+
+![select More](../assets/variables_connections_ui.png)
+
+The main difference between them is that [Variables](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/variable.html) is a generic multi-purpose store, while [Connections](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/connection.html) are aimed at third-party providers.
+
+:::tip
+Rather than using connections or variables stored in Airflow’s database, we recommend using a Secrets Manager. These secrets are encrypted and can be stored either in [Datacoves Secrets manager](../use-datacoves-secrets-manager.mdx) or a third-party secrets manager like [AWS Secrets Manager](../use-aws-secrets-manager.mdx)
+:::
+
+## Usage
+
+### Variables
+
+After creating a variable in Airflow's UI, using it is as simple as importing the `Variable` model in your DAG and `getting` it's name. If a variable contains `SECRET` on it's name, value will be hidden:
+
+
+![select More](../assets/variable_creation.png)
+
+```python
+from pendulum import datetime
+from airflow.decorators import dag, task
+from airflow.models import Variable
+
+@dag(
+    default_args={"start_date": datetime(2024, 1, 1)},
+    description="DAG that outputs a Variable",
+    schedule="0 0 1 */12 *",
+    tags=["version_1"],
+    catchup=False,
+)
+def variables_dag():
+
+    @task.datacoves_bash(="main")
+    def transform():
+        daily_run_tag = Variable.get("DBT_DAILY_RUN_TAG") 
+        return f"dbt build -s 'tag:{daily_run_tag}'"
+
+    transform()
+
+variables_dag()
+```
+
+### Connections
+
+Consuming connections data is also straightforward, though you need to take it's attributes into consideration, as they'll vary depending on the provider.
+
+In the following example, a connection of `type Airbyte` is created, and it's `host` is echoed in a DAG.
+
+![select More](../assets/connection_creation.png)
+
+```python
+from pendulum import datetime
+
+from airflow.decorators import dag, task
+from airflow.models import Connection
+
+@dag(
+    default_args={"start_date": datetime(2024, 1, 1)},
+    description="DAG that outputs Airbyte Hostname",
+    schedule="0 0 1 */12 *",
+    tags=["version_1"],
+    catchup=False,
+)
+def connections_dag():
+    
+    @task.datacoves_bash()
+    def echo_airbyte_host():
+        airbyte_connection = Connection.get_connection_from_secrets(conn_id="AIRBYTE_CONNECTION") 
+        return f"echo 'Airbyte hostname is {airbyte_connection.host}'"
+
+    echo_airbyte_host()
+
+connections_dag()
+```
 
 ---
 
@@ -4732,7 +4667,7 @@ Please, follow the [AWS Secrets Manager documentation](https://docs.aws.amazon.c
 
 ![Secrets Backend](../assets/aws_secrets_connection.jpg)
 
-To learn how to read a variable from the AWS Secrets Manager check out our [How To](../README.md)
+To learn how to read a variable from the AWS Secrets Manager check out our [How To](/docs/category/how-tos/)
 
 :::tip
 For security purposes, once this has been saved you will not be able to view the values. To modify the Secrets backend you will need to set the Secrets backend to `None` and save the changes. Then start the setup again.
@@ -4911,18 +4846,6 @@ To enable Datacoves cloning from Azure DevOps, you must complete a series of ste
     - Give it a description and select `Add`.
   </TabItem>
 </Tabs>
-
----
-
-// File: how-tos/datahub/README
-
-# DataHub in Datacoves 
-
-These how to guides are dedicated to DataHub in Datacoves. See how to:
-
-- Manage your DataHub instance from the VS Code terminal
-- Configure dbt ingestion
-- Configure Snowflake ingestion
 
 ---
 
@@ -5250,14 +5173,6 @@ Before a story is added to development backlog:
 1. Check sources are available in Snowflake for story or add story to ingest new data
 2. Initial discovery of data is performed to understand the data and determine what steps may be required to deliver the requested output. Any data model design is agreed and work is broken up into sprint tasks
 3. Assure any other requirements are well defined in story e.g. column descriptions, model layout, required tests, etc.
-
----
-
-// File: how-tos/dbt/README
-
-# dbt in Datacoves
-
-These how to guides cover how to resolve common dbt issues
 
 ---
 
@@ -5967,7 +5882,7 @@ These how to guides cover some Git best practices as well as some setup guides.
 
 # Metrics and Logs How Tos
 
-Datacoves provides [Grafana](/reference/metrics-and-logs/grafana.md) to monitor Airflow, Docker image builds, and more! 
+Datacoves provides [Grafana](/reference/datacoves/metrics-and-logs/grafana.md) to monitor Airflow, Docker image builds, and more! 
 
 A user must have a Datacoves role with Grafana access. These include, `Datacoves Admin`, `Project Admin`, or `Environment Admin`. 
 
@@ -6156,14 +6071,6 @@ In the example below I have added a new DAG called `my_airflow_dag_test`.
 ![View new DAG](assets/my_airflow_tab.gif)
 
 **Step 3:** Continue iterating until you are ready to test running your DAG. The limitation of My Airflow is that tasks cannot be run in parallel so robustly testing a DAG run is limited. Once you are ready to test a DAG run merge your feature branch into `airflow_development`. This will populate your DAG in Team Airflow.
-
----
-
-// File: how-tos/snowflake/README
-
-# How to set up Snowflake
-
-These how to guides are dedicated to Snowflake. Learn how to set up different aspects of Snowflake including a proper design of roles and permissions.
 
 ---
 
@@ -6396,17 +6303,6 @@ Once the file has been configured you can run `secure/run_permifrost.sh` to appl
 
 ---
 
-// File: how-tos/superset/README
-
-# Superset in Datacoves 
-
-These how to guides are dedicated to Superset in Datacoves. See how to:
-
-- Add a database
-- Add adataset
-
----
-
 // File: how-tos/superset/how_to_database
 
 ## How to Add a Database Connection in Superset
@@ -6458,19 +6354,6 @@ Click **+ Dataset**
 Finally, select the Database, Schema, and Table / View for this dataset then click **Add** at the bottom of the window.
 
 ![Dataset Details](./assets/add-dataset-3.png)
-
----
-
-// File: how-tos/vscode/README
-
-# VS Code in Datacoves
-
-These how to guides are dedicated to our Hosted VS Code. This powerful IDE gives you all the power you need along with the customization options. 
-These steps are essential to our Transform Tab.
-
-- Connectiong to your git repo
-- Connecting to your data warehouse
-- Overriding default settings
 
 ---
 
@@ -6903,83 +6786,47 @@ rm -rf /config/workspace/.git
 
 ---
 
-// File: how-tos/vscode/datacoves-copilot/llm
+// File: how-tos/vscode/datacoves-copilot/v1
 
-# Working with an LLM in Datacoves Copilot
+# Datacoves Copilot v1
 
-Once you have [configured your LLM](./v2-llm-config.md), working with the AI chat is a breeze! 
+This section describes how to configure and use Datacoves Copilot v1.
 
-## Pre-configured presets
+Datacoves Copilot v1 supports ChatGPT and Azure Open AI LLMs, Datacoves v4+ includes Datacoves Copilot 2.0 which enhances the experience and supports many more LLM providers.
 
-While there are many use cases for AI in the development workflow there are a couple of tasks that come up regularly. To improve the user experience, we have created some presets that provide the LLM with specific instructions to get the best result. Use these or configure your own custom presets. 
+# How Tos
 
-Current out of the box presents include:
+- [LLM Config](./v1-llm-config.md)
+- [Working with an LLM in Datacoves](./v1-llm.mdx)
 
-- **Document dbt model:** Will provide descriptions for yml file you have open and provided as context.
-- **Explain dbt model:** Will explain a dbt model file you have open and provided as context.
-- **Explain dbt macro:** Will explain a dbt macro file you have open and provided as context.
-- **Add descriptions to CSV:** Will provide descriptions for CSV files you have open and provided as context. 
+---
 
-## How to use the Chat/Presets
+// File: how-tos/vscode/datacoves-copilot/v1-llm-config
 
-### Extension UI/UX
+# Configure your LLM for Datacoves Copilot v1
 
-To use your LLM head to the Datacoves Power User extension and open up `Copilot`. 
+:::note Datacoves Copilot v1 only support the 4o model gpt model.
 
-<img src="/how-tos/vscode/datacoves-copilot/assets/llm_menu.png" alt="LLM Menu" width="250" height="500" />
+:::
+### Step 1: Create a Datacoves Secret
 
-### Provide files for context 
-The most important thing to remember is providing context to the LLM. In order to do this simply open up the file you wish to work with.
+Creating a [Datacoves Secret](/docs/how-tos/datacoves/how_to_secrets.md) requires some key fields to be filled out:
 
-![llm file open](assets/llm_file_open.png)
+- **Name:** The secret must be named `datacoves-copilot-llm-api`
+- **Description:** Provide a simple description such as: `Open AI config`
+- **Format:** Select `Raw JSON`
+- **Value**: The value will vary based on the LLM you are utilizing.
+  - **Open AI:** You only need your API key. Head to [Open AI](https://platform.openai.com/api-keys) to create your key. `{"OPENAI_API_KEY": "Your key here"}`
+  - **Azure Open AI:** This requires two credentials. Head to [ai.azure.com](https://ai.azure.com) to find your credentials under the [Deployments](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/working-with-models?tabs=powershell#model-deployment-upgrade-configuration) tab. `{"AZURE_OPENAI_ENDPOINT": "Your endpoint here", "AZURE_OPENAI_API_KEY"  : "Your key here"}`
+- **Scope:** Select the desired scope, either `Project` or `Environment`.
+- **Project/Environment:** Select the `Project` or `Environment` that will access this LLM.
 
-### Send specific lines of code for context
-Highlight the lines of code you wish to send.
+Lastly, be sure to toggle on the `Share with developers` option so that users with developer access will be able to use the LLM.
+![Share with Devs](assets/llm_share_with_devs.png)
 
-![context lines](assets/llm_line_context.png)
+### Example Secret
 
-### Don't provide context
-In the case that you don't want to send an open file for context you can select the icon below.
-
-![llm context](assets/llm_context.gif)
-
-## Using LLM code 
-Datacoves Copilot makes copying AI generated code simple with 3 options. 
-
-![Code Options](assets/llm_code_options.png)
-
-### Replace
-Replace the entire code file with the LLM code.
-
-![llm Replace](assets/llm_replace.gif)
-
-### Insert 
-Insert LLM code into your file.
-
-![llm Insert](assets/llm_insert.gif)
-
-### Copy
-Traditional copy and paste. 
-
-![llm Copy](assets/llm_copy.gif)
-
-### New Chat
-To start a new chat click on the `New Chat` button.
-
-![New Chat](assets/llm_new_chat.png)
-
-## Prefer a Video?
-
-<div style={{ position: 'relative', paddingBottom: '56.25%', height: 0 }}>
-  <iframe
-    src="https://www.loom.com/embed/b6e987152c114c3c8d44dc7712aa3e22?sid=d8847855-38cc-4a84-90b3-6be7e660f8b5"
-    frameBorder="0"
-    webkitAllowFullScreen
-    mozAllowFullScreen
-    allowFullScreen
-    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-  />
-</div>
+![Example ](assets/llm_example.png)
 
 ---
 
@@ -7006,7 +6853,9 @@ Current out of the box presents include:
 
 To use your LLM head to the Datacoves Power User extension and open up `Copilot`.
 
-<img src="/docs/how-tos/vscode/datacoves-copilot/assets/llm_menu.png" alt="LLM Menu" width="250" height="500"/>
+<div style={{ width: "250px" }}>
+  ![LLM Menu](./assets/llm_menu.png)
+</div>
 
 ### Provide files for context
 
@@ -7068,47 +6917,31 @@ To start a new chat click on the `New Chat` button.
 
 ---
 
-// File: how-tos/vscode/datacoves-copilot/v1-llm-config
+// File: how-tos/vscode/datacoves-copilot/v2
 
-# Configure your LLM for Datacoves Copilot v1
+# Datacoves Copilot v2
 
-:::note Datacoves Copilot v1 only support the 4o model gpt model.
+This section describes how to configure and use Datacoves Copilot v2, which comes installed on Datacoves v4+, enhancing the experience and supporting the following LLM providers:
 
-:::
-### Step 1: Create a Datacoves Secret
-
-Creating a [Datacoves Secret](/docs/how-tos/datacoves/how_to_secrets.md) requires some key fields to be filled out:
-
-- **Name:** The secret must be named `datacoves-copilot-llm-api`
-- **Description:** Provide a simple description such as: `Open AI config`
-- **Format:** Select `Raw JSON`
-- **Value**: The value will vary based on the LLM you are utilizing.
-  - **Open AI:** You only need your API key. Head to [Open AI](https://platform.openai.com/api-keys) to create your key. `{"OPENAI_API_KEY": "Your key here"}`
-  - **Azure Open AI:** This requires two credentials. Head to [ai.azure.com](https://ai.azure.com) to find your credentials under the [Deployments](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/working-with-models?tabs=powershell#model-deployment-upgrade-configuration) tab. `{"AZURE_OPENAI_ENDPOINT": "Your endpoint here", "AZURE_OPENAI_API_KEY"  : "Your key here"}`
-- **Scope:** Select the desired scope, either `Project` or `Environment`.
-- **Project/Environment:** Select the `Project` or `Environment` that will access this LLM.
-
-Lastly, be sure to toggle on the `Share with developers` option so that users with developer access will be able to use the LLM.
-![Share with Devs](assets/llm_share_with_devs.png)
-
-### Example Secret
-
-![Example ](assets/llm_example.png)
-
----
-
-// File: how-tos/vscode/datacoves-copilot/v1
-
-# Datacoves Copilot v1
-
-This section describes how to configure and use Datacoves Copilot v1.
-
-Datacoves Copilot v1 supports ChatGPT and Azure Open AI LLMs, Datacoves v4+ includes Datacoves Copilot 2.0 which enhances the experience and supports many more LLM providers.
+- Amazon Bedrock
+- Anthropic
+- Cerebras
+- Chutes AI
+- DeepSeek
+- Glama
+- Google Gemini
+- Hugging Face
+- Mistral
+- Ollama
+- OpenAI
+- OpenAI Compatible (i.e. Azure)
+- Open Router
+- Requesty
+- xAI (Grok)
 
 # How Tos
 
-- [LLM Config](./v1-llm-config.md)
-- [Working with an LLM in Datacoves](./v1-llm.mdx)
+- [LLM Config](/how-tos/vscode/datacoves-copilot/v2-llm-config.md)
 
 ---
 
@@ -7362,34 +7195,6 @@ Fine tune model usage using this additional key:
 ### Example Secret
 
 ![Example ](assets/v2_llm_example.png)
-
----
-
-// File: how-tos/vscode/datacoves-copilot/v2
-
-# Datacoves Copilot v2
-
-This section describes how to configure and use Datacoves Copilot v2, which comes installed on Datacoves v4+, enhancing the experience and supporting the following LLM providers:
-
-- Amazon Bedrock
-- Anthropic
-- Cerebras
-- Chutes AI
-- DeepSeek
-- Glama
-- Google Gemini
-- Hugging Face
-- Mistral
-- Ollama
-- OpenAI
-- OpenAI Compatible (i.e. Azure)
-- Open Router
-- Requesty
-- xAI (Grok)
-
-# How Tos
-
-- [LLM Config](/how-tos/vscode/datacoves-copilot/v2-llm-config.md)
 
 ---
 
@@ -7744,12 +7549,6 @@ Each row contains 2 action buttons:
 
 - Edit
 - Delete
-
----
-
-// File: reference/airflow/README
-
-# Airflow Reference
 
 ---
 
@@ -8181,7 +7980,7 @@ From Datacoves 3.4 onwards, the `datacoves_dbt` decorator allows users to upload
 :::note
 dbt-API is a feature that is not enabled by default. Please contact support for further assistance.
 :::
-This is particularly useful for performing [dbt retries](/how-tos/airflow/retry-dbt-tasks.md).
+This is particularly useful for performing [dbt retries](/how-tos/airflow/DAGs/retry-dbt-tasks.md).
 
 The new datacoves_dbt parameters are:
 
@@ -8480,12 +8279,6 @@ sync_airflow_db()
 
 ---
 
-// File: reference/datacoves/README
-
-# Datacoves reference
-
----
-
 // File: reference/datacoves/versioning
 
 # Datacoves versioning
@@ -8575,7 +8368,32 @@ __(*)__ min. requirements may vary depending on the number of environments
 
 ---
 
-// File: reference/metrics-and-logs/README
+// File: reference/datacoves/csv-in-datacoves
+
+# CSVs in VS Code
+
+This page is all about working with CSV files in Datacoves' VS Code in the browser. 
+
+## Features
+
+### Rainbow CSV
+
+ Rainbow CSV comes installed by default to bring color to your CSV files, making it more human readable. 
+![Rainbow CSV](assets/csv_rainbow_view.jpg)
+
+### Editing CSVs
+Editing CSVs is made simple with the `Edit CSV` option or right clicking on the file. 
+![CSV edit button](assets/csv_edit_button.jpg)
+
+This will open up the CSV editor seen below.
+![CSV Auto Save](assets/csv_edit_view.jpg)
+
+### Autosave
+Unlike the rest of VS Code in the browser experience which makes use of Autosave. When editing CSVs we are using the CSV preview extension which does not autosave. Always save using `CMD/CTRL + S` or use the `Apply changes to file and save` button.
+
+---
+
+// File: reference/datacoves/metrics-and-logs/README
 
 # Metrics & Logs
 
@@ -8585,7 +8403,7 @@ The Metrics & Logs menu link provides access to Grafana, where you'll find chart
 
 ---
 
-// File: reference/metrics-and-logs/grafana
+// File: reference/datacoves/metrics-and-logs/grafana
 
 # Grafana Dashboards
 
@@ -8710,37 +8528,6 @@ Please email us at support@datacoves.com if you think you have found an issue or
 
 ---
 
-// File: reference/vscode/README
-
-# Datacoves Reference
-
----
-
-// File: reference/vscode/csv-in-datacoves
-
-# CSVs in VS Code
-
-This page is all about working with CSV files in Datacoves' VS Code in the browser. 
-
-## Features
-
-### Rainbow CSV
-
- Rainbow CSV comes installed by default to bring color to your CSV files, making it more human readable. 
-![Rainbow CSV](assets/csv_rainbow_view.jpg)
-
-### Editing CSVs
-Editing CSVs is made simple with the `Edit CSV` option or right clicking on the file. 
-![CSV edit button](assets/csv_edit_button.jpg)
-
-This will open up the CSV editor seen below.
-![CSV Auto Save](assets/csv_edit_view.jpg)
-
-### Autosave
-Unlike the rest of VS Code in the browser experience which makes use of Autosave. When editing CSVs we are using the CSV preview extension which does not autosave. Always save using `CMD/CTRL + S` or use the `Apply changes to file and save` button.
-
----
-
 // File: reference/vscode/datacoves-env-vars
 
 # Datacoves Environment Variables
@@ -8778,13 +8565,9 @@ env | grep DATACOVES | sort
 
 ---
 
-// File: reference/vscode/tips
+// File: reference/vscode/README
 
-# VS Code Tips and tricks
-
-## Shortcuts
-
-- `cmd + alt + Shift + L` ➡️ Select all occurrences of a selected phrase
+# Datacoves reference - vscode
 
 ---
 

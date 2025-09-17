@@ -15,7 +15,7 @@ Support for Fivetran Tasks coming soon. More Information in [run Fivetran sync j
 
 ### Ensure your Airflow environment is properly configured
 
-Follow this guide on [How to set up Airflow](./initial-setup)'s environment.
+Follow this guide on [How to set up Airflow](../initial-setup)'s environment.
 
 ### Airbyte connection
 

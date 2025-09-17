@@ -121,16 +121,14 @@ const config = {
           to: '/docs/getting-started/create-account',
         },
         {
-          //type: 'docSidebar',//AC: uncommented this to use custom sidebar
-          //sidebarId: 'gettingStartedSidebar',//AC: uncommented this to use custom sidebar
+          //type: 'docSidebar', uncommented this to use custom sidebar
+          //sidebarId: 'gettingStartedSidebar', uncommented this to use custom sidebar
           label: 'Administrator', // You can add more internal doc links here
-          to: '/docs/getting-started/Admin/',
+          to: '/docs/category/administrator',
         },
          {
-          //type: 'docSidebar',//AC: uncommented this to use custom sidebar
           label: 'Developer', // You can add more internal doc links here
-         // sidebarId: 'gettingStartedSidebar',
-          to: '/docs/getting-started/developer/',
+          to: '/docs/category/developer/',
         },
         // Add more internal docs here if needed
       ],
@@ -143,19 +141,19 @@ const config = {
       items: [
         {
           label: 'Airflow',
-          to: '/docs/how-tos/airflow/',
+          to: '/docs/category/airflow/',
           //type: 'docSidebar',//add sidebar 
          //// sidebarId: 'howToSidebar',
         },
         {
           label: 'Datacoves',
-          to: '/docs/how-tos/datacoves/',
+          to: '/docs/category/datacoves/',
           //type: 'docSidebar',//add sidebar 
          //// sidebarId: 'howToSidebar',
         },
         {
           label: 'Datahub',
-          to: '/docs/how-tos/datahub/',
+          to: '/docs/category/datahub/',
           //type: 'docSidebar',//add sidebar 
          //// sidebarId: 'howToSidebar',
         },
@@ -167,13 +165,19 @@ const config = {
         },
          {
           label: 'dbt',
-          to: '/docs/how-tos/dbt',
+          to: '/docs/category/dbt',
           //type: 'docSidebar',//add sidebar 
          //// sidebarId: 'howToSidebar',
         },
          {
           label: 'Git',
           to: '/docs/how-tos/git',
+          //type: 'docSidebar',//add sidebar 
+         //// sidebarId: 'howToSidebar',
+        },
+         {
+          label: 'Metrics & Logs',
+          to: '/docs/how-tos/metrics-and-logs',
           //type: 'docSidebar',//add sidebar 
          //// sidebarId: 'howToSidebar',
         },
@@ -185,19 +189,19 @@ const config = {
         },
          {
           label: 'Snowflake',
-          to: '/docs/how-tos/snowflake',
+          to: '/docs/category/snowflake',
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'howToSidebar',
         },
          {
           label: 'Superset',
-          to: '/docs/how-tos/superset',
+          to: '/docs/category/superset',
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'howToSidebar',
         },
          {
           label: 'VS Code',
-          to: '/docs/how-tos/vscode',
+          to: '/docs/category/vscode',
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'howToSidebar',
         },
@@ -234,6 +238,12 @@ const config = {
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'bestPracticesSidebar',
         },
+        {
+          label: 'VS Code',
+          to: '/docs/best-practices/vscode/',
+          //type: 'docSidebar',//add sidebar 
+         // sidebarId: 'bestPracticesSidebar',
+        },
          
         ],
       },
@@ -251,14 +261,14 @@ const config = {
         },
         {
           label: 'Airflow',
-          to: '/docs/reference/airflow/',
+          to: '/docs/category/airflow-1/',
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'referenceSidebar',
   
         },
         {
           label: 'Datacoves',
-          to: '/docs/reference/datacoves/',
+          to: '/docs/category/datacoves-1/',
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'referenceSidebar',
         },
@@ -268,15 +278,16 @@ const config = {
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'referenceSidebar',
         },
+      
          {
-          label: 'Metrics & Logs',
-          to: '/docs/reference/metrics-and-logs/',
+          label: 'Security',
+          to: '/docs/reference/security/',
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'referenceSidebar',
         },
          {
-          label: 'Security',
-          to: '/docs/reference/security/',
+          label: 'VS Code',
+          to: '/docs/reference/vscode/',
           //type: 'docSidebar',//add sidebar 
          // sidebarId: 'referenceSidebar',
         },
@@ -288,12 +299,12 @@ const config = {
       position: 'left',
       items:[
         {
-          label: 'Learning Resources',
-          to: 'https://datacoves.com/learning-resources?_gl=1*18cmhau*_ga*MjYwMzYwODE1LjE3NTIyNTAwNDk.*_ga_WFBP8GG4YV*czE3NTYyNDYzMzAkbzUwJGcxJHQxNzU2MjQ2NDg4JGo2MCRsMCRoMA..'
-        },
-        {
           label: 'Educational Data Resources',
           to: 'https://datacoves.com/data-resources#Educational',
+        },
+        {
+          label: 'Learning Resources',
+          to: 'https://datacoves.com/learning-resources?_gl=1*18cmhau*_ga*MjYwMzYwODE1LjE3NTIyNTAwNDk.*_ga_WFBP8GG4YV*czE3NTYyNDYzMzAkbzUwJGcxJHQxNzU2MjQ2NDg4JGo2MCRsMCRoMA..'
         },
       ] },
      {
@@ -312,13 +323,13 @@ const config = {
   },*/
   links: [
     {
-       // title: 'datacoves', required (can't be empty)
+       
       items: [
         {
           // put your brand HTML here as an item
             html: `
             <div class="footer__brand footer__brand--wide">
-              <img src="/docusaurus-test/img/datacoves-footer-logo.png" alt="Datacoves-logo" class="footer__brand-logo" />
+              <img src="/img/datacoves-footer-logo.png" alt="Datacoves-logo" class="footer__brand-logo" />
               <p class="footer__brand-desc text--left">
                 Datacoves is an enterprise DataOps platform with managed dbt and Airflow
                 for data transformation and orchestration, as well as VS Code in the browser
@@ -370,7 +381,7 @@ const config = {
             items: [
               {
                 label: 'Product',
-                to: 'https://datacoves.com',
+                to: 'https://datacoves.com/product',
               },
               {
                 label: 'Blog',
@@ -392,7 +403,7 @@ const config = {
               },
               {
                 label: 'SLA',
-                to: 'https://docs.datacoves.com/sla.html',
+                to: '/sla',
               },
               
             ],

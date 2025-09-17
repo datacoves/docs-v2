@@ -1,6 +1,6 @@
 ---
 title: Git
-sidebar_position: 70
+sidebar_position: 6
 ---
 # How to use Git
 

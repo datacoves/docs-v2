@@ -1,0 +1,7 @@
+
+label: Snowflake
+position: 9
+link:
+  type: generated-index
+  title: snowflake
+  description: These how to guides are dedicated to Snowflake. Learn how to set up different aspects of Snowflake including a proper design of roles and permissions.

@@ -9,12 +9,12 @@ dbt-coves generate airflow-dags does not support reading variables/connections, 
 :::
 The best way to store and retrieve information within Airflow is to use `Variables` and `Connections`, both available on the `Admin` upper dropdown.
 
-![select More](./assets/variables_connections_ui.png)
+![select More](../assets/variables_connections_ui.png)
 
 The main difference between them is that [Variables](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/variable.html) is a generic multi-purpose store, while [Connections](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/connection.html) are aimed at third-party providers.
 
 :::tip
-Rather than using connections or variables stored in Airflow’s database, we recommend using a Secrets Manager. These secrets are encrypted and can be stored either in [Datacoves Secrets manager](./use-datacoves-secrets-manager.mdx) or a third-party secrets manager like [AWS Secrets Manager](./use-aws-secrets-manager.mdx)
+Rather than using connections or variables stored in Airflow’s database, we recommend using a Secrets Manager. These secrets are encrypted and can be stored either in [Datacoves Secrets manager](../use-datacoves-secrets-manager.mdx) or a third-party secrets manager like [AWS Secrets Manager](../use-aws-secrets-manager.mdx)
 :::
 
 ## Usage
@@ -24,7 +24,7 @@ Rather than using connections or variables stored in Airflow’s database, we re
 After creating a variable in Airflow's UI, using it is as simple as importing the `Variable` model in your DAG and `getting` it's name. If a variable contains `SECRET` on it's name, value will be hidden:
 
 
-![select More](./assets/variable_creation.png)
+![select More](../assets/variable_creation.png)
 
 ```python
 from pendulum import datetime
@@ -56,7 +56,7 @@ Consuming connections data is also straightforward, though you need to take it's
 
 In the following example, a connection of `type Airbyte` is created, and it's `host` is echoed in a DAG.
 
-![select More](./assets/connection_creation.png)
+![select More](../assets/connection_creation.png)
 
 ```python
 from pendulum import datetime

@@ -1,5 +1,5 @@
 ---
 title: Airflow
-sidebar_position: 120
+sidebar_position: 2
 ---
 # Airflow Reference

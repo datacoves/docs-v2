@@ -1,5 +1,5 @@
 ---
-title: Configure Airflow
+title: Airflow - Configure 
 sidebar_position: 2
 ---
 # Configuring Airflow

@@ -1,6 +1,6 @@
 ---
-title: V2 llm config
-sidebar_position: 6
+title: Config
+sidebar_position: 9
 ---
 
 # Configure your LLM in Datacoves Copilot v2

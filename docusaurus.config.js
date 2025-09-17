@@ -128,7 +128,7 @@ const config = {
         },
          {
           label: 'Developer', // You can add more internal doc links here
-          to: '/docs/category/developer/',
+          to: '/docs/getting-started/developer/',
         },
         // Add more internal docs here if needed
       ],
@@ -381,7 +381,7 @@ const config = {
             items: [
               {
                 label: 'Product',
-                to: 'https://datacoves.com/product',
+                to: 'https://datacoves.co/product',
               },
               {
                 label: 'Blog',

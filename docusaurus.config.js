@@ -5,7 +5,8 @@
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
 import {themes as prismThemes} from 'prism-react-renderer';
-import searchLocalPlugin from 'docusaurus-search-local';
+
+
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -87,7 +88,7 @@ const config = {
         outputPath: '.',       // '.' means the root of the build folder
       },
     ],
-    [
+   [
     'docusaurus-search-local',
   {
     indexDocs: true,
@@ -141,57 +142,49 @@ const config = {
         {
           label: 'Airflow',
           to: '/docs/category/airflow/',
-      
         },
         {
           label: 'Datacoves',
           to: '/docs/category/datacoves/',
-         
         },
         {
           label: 'Datahub',
           to: '/docs/category/datahub/',
-      
         },
          {
           label: 'DataOps',
           to: '/docs/how-tos/dataops/',
-      
         },
          {
           label: 'dbt',
           to: '/docs/category/dbt',
-
         },
          {
           label: 'Git',
           to: '/docs/how-tos/git',
-   
         },
          {
           label: 'Metrics & Logs',
           to: '/docs/how-tos/metrics-and-logs',
-        
         },
          {
           label: 'My Airflow',
           to: '/docs/how-tos/my_airflow',
-  
+
         },
          {
           label: 'Snowflake',
           to: '/docs/category/snowflake',
-      
+
         },
          {
           label: 'Superset',
           to: '/docs/category/superset',
-      
         },
          {
           label: 'VS Code',
-          to: '/docs/category/vscode',
-      
+          to: '/docs/category/vs-code',
+
         },
         
       ],
@@ -205,12 +198,12 @@ const config = {
         {
           label: 'Datacoves',
           to: '/docs/best-practices/datacoves/',
-       
+
         },
         {
           label: 'dbt',
           to: '/docs/best-practices/dbt/dbt-guidelines',
-        
+
         },
         {
           label: 'Git',
@@ -225,7 +218,7 @@ const config = {
         {
           label: 'VS Code',
           to: '/docs/best-practices/vscode/',
-       
+
         },
          
         ],
@@ -250,19 +243,23 @@ const config = {
         {
           label: 'Datacoves',
           to: '/docs/category/datacoves-1/',
+
         },
         {
          label: 'dbt docs',
           to: 'https://docs.getdbt.com/',
+
         },
       
          {
           label: 'Security',
           to: '/docs/reference/security/',
+
         },
          {
           label: 'VS Code',
           to: '/docs/reference/vscode/',
+
         },
      
         ],
@@ -398,7 +395,6 @@ const config = {
         darkTheme: prismThemes.dracula,
       },
       
-  
     
     }),
 };

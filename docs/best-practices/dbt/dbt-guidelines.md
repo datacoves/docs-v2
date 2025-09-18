@@ -1,5 +1,5 @@
 ---
-title: Dbt guidelines
+title: dbt guidelines
 sidebar_position: 1
 ---
 

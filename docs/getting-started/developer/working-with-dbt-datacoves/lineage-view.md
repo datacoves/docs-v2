@@ -39,6 +39,6 @@ You can also look up other dbt models and change the parent and child nodes disp
 
 ## Configuration
 
-Lineage Panel has 3 configurable settings. As with any VSCode setting, these can be [overridden](/docs/how-tos/vscode/override) in the `settings.json` file located in `workspace/.vscode/settings.json`:
+Lineage Panel has 3 configurable settings. As with any VSCode setting, these can be [overridden](/docs/how-tos/vs-code/override) in the `settings.json` file located in `workspace/.vscode/settings.json`:
 
 - Default Expansion (`dbt.lineage.defaultExpansion`: number): How many nodes should expand by default for the currently-opened model.

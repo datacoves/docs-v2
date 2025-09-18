@@ -75,7 +75,7 @@ The `visualization` folder is used to place configs related to superset or other
 The `visualization/streamlit` folder is used for Streamlit apps. This folder is only needed if using Streamlit.
 
 ### .vscode/settings.json
-The `.vscode/settings.json` folder is used for customized settings in order to override the default workspace settings. This file can contain secrets so be sure to add it to the `.gitignore` to avoid version control. See our [How to Override default VS sCode settings](how-tos/vscode/override.md) for more info
+The `.vscode/settings.json` folder is used for customized settings in order to override the default workspace settings. This file can contain secrets so be sure to add it to the `.gitignore` to avoid version control. See our [How to Override default VS sCode settings](how-tos/vs-code/override.md) for more info
 
 ---
 
@@ -908,7 +908,7 @@ For more information, please see the **[Snowflake VS Code Extension Docs](https:
 
 ## This video guide covers:
 
-- [User Settings Configurations](how-tos/vscode/initial.md)
+- [User Settings Configurations](how-tos/vs-code/initial.mdx)
 - Terminal setup
 - A high level overview of VS Code editor
 - How to reset your environment
@@ -1106,7 +1106,7 @@ You can also look up other dbt models and change the parent and child nodes disp
 
 ## Configuration
 
-Lineage Panel has 3 configurable settings. As with any VSCode setting, these can be [overridden](/docs/how-tos/vscode/override) in the `settings.json` file located in `workspace/.vscode/settings.json`:
+Lineage Panel has 3 configurable settings. As with any VSCode setting, these can be [overridden](/docs/how-tos/vs-code/override) in the `settings.json` file located in `workspace/.vscode/settings.json`:
 
 - Default Expansion (`dbt.lineage.defaultExpansion`: number): How many nodes should expand by default for the currently-opened model.
 
@@ -6383,7 +6383,7 @@ Finally, select the Database, Schema, and Table / View for this dataset then cli
 
 ---
 
-// File: how-tos/vscode/initial
+// File: how-tos/vs-code/initial
 
 # How to Configure your VS Code in the Datacoves Transform tab
 
@@ -6599,7 +6599,7 @@ Datacoves will take a couple of minutes to apply the new settings, clone your re
 
 ---
 
-// File: how-tos/vscode/environment-variables
+// File: how-tos/vs-code/environment-variables
 
 # How to add Environment variables to VS Code
 
@@ -6685,11 +6685,11 @@ If you do not save changes, the variable will not be deleted.
 
 ---
 
-// File: how-tos/vscode/override
+// File: how-tos/vs-code/override
 
 # How to override default VS Code settings
 
-Once you have [set up your Visual Studio Code](./initial.md) environment, you have the possibility to override certain settings we provide by default. This is done in your Workspace settings.
+Once you have [set up your Visual Studio Code](./initial.mdx) environment, you have the possibility to override certain settings we provide by default. This is done in your Workspace settings.
 
 ## Create your workspace settings file
 
@@ -6773,7 +6773,7 @@ These customizations will only be available in the individual user workspace. To
 
 ---
 
-// File: how-tos/vscode/reset-user-env
+// File: how-tos/vs-code/reset-user-env
 
 # Reset the User's Env if the git Repository is Changed in the Project. 
 
@@ -6797,7 +6797,7 @@ mkdir workspace
 
 ---
 
-// File: how-tos/vscode/reset-git
+// File: how-tos/vs-code/reset-git
 
 # Reset git 
 
@@ -6813,7 +6813,32 @@ rm -rf /config/workspace/.git
 
 ---
 
-// File: how-tos/vscode/datacoves-copilot/v1
+// File: how-tos/vs-code/csv-in-datacoves
+
+# CSVs in VS Code
+
+This page is all about working with CSV files in Datacoves' VS Code in the browser. 
+
+## Features
+
+### Rainbow CSV
+
+ Rainbow CSV comes installed by default to bring color to your CSV files, making it more human readable. 
+![Rainbow CSV](assets/csv_rainbow_view.jpg)
+
+### Editing CSVs
+Editing CSVs is made simple with the `Edit CSV` option or right clicking on the file. 
+![CSV edit button](assets/csv_edit_button.jpg)
+
+This will open up the CSV editor seen below.
+![CSV Auto Save](assets/csv_edit_view.jpg)
+
+### Autosave
+Unlike the rest of VS Code in the browser experience which makes use of Autosave. When editing CSVs we are using the CSV preview extension which does not autosave. Always save using `CMD/CTRL + S` or use the `Apply changes to file and save` button.
+
+---
+
+// File: how-tos/vs-code/datacoves-copilot/v1
 
 # Datacoves Copilot v1
 
@@ -6951,7 +6976,7 @@ To start a new chat click on the `New Chat` button.
 
 ---
 
-// File: how-tos/vscode/datacoves-copilot/v2
+// File: how-tos/vs-code/datacoves-copilot/v2
 
 # Datacoves Copilot v2
 
@@ -7240,7 +7265,7 @@ Fine tune model usage using this additional key:
 
 ---
 
-// File: how-tos/vscode/datacoves-copilot/README
+// File: how-tos/vs-code/datacoves-copilot/README
 
 # AI LLMs for Datacoves Copilot
 Datacoves can integrate seamlessly with your existing ChatGPT or Azure Open AI LLMs. These how tos will go over configuration and usage of AI within Datacoves.
@@ -8407,31 +8432,6 @@ __(*)__ min. requirements may vary depending on the number of environments
 | SMTP account |  Airflow notifications  |  N/A                     | 1 service account         |
 | Slack account |  Airflow notifications  |  N/A                     | 1 account         |
 | MS Teams account |  Airflow notifications  |  N/A                     | 1 account         |
-
----
-
-// File: reference/datacoves/csv-in-datacoves
-
-# CSVs in VS Code
-
-This page is all about working with CSV files in Datacoves' VS Code in the browser. 
-
-## Features
-
-### Rainbow CSV
-
- Rainbow CSV comes installed by default to bring color to your CSV files, making it more human readable. 
-![Rainbow CSV](assets/csv_rainbow_view.jpg)
-
-### Editing CSVs
-Editing CSVs is made simple with the `Edit CSV` option or right clicking on the file. 
-![CSV edit button](assets/csv_edit_button.jpg)
-
-This will open up the CSV editor seen below.
-![CSV Auto Save](assets/csv_edit_view.jpg)
-
-### Autosave
-Unlike the rest of VS Code in the browser experience which makes use of Autosave. When editing CSVs we are using the CSV preview extension which does not autosave. Always save using `CMD/CTRL + S` or use the `Apply changes to file and save` button.
 
 ---
 

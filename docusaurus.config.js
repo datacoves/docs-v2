@@ -21,7 +21,6 @@ const config = {
   },
 
   // Set the production url of your site here
-  // Amy: GitHub Pages deployment config
   url:'https://docs.datacov.es',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
@@ -123,11 +122,11 @@ const config = {
         {
           //type: 'docSidebar', uncommented this to use custom sidebar
           //sidebarId: 'gettingStartedSidebar', uncommented this to use custom sidebar
-          label: 'Administrator', // You can add more internal doc links here
+          label: 'Administrator', 
           to: '/docs/category/administrator',
         },
          {
-          label: 'Developer', // You can add more internal doc links here
+          label: 'Developer', 
           to: '/docs/category/developer/',
         },
         // Add more internal docs here if needed
@@ -142,68 +141,57 @@ const config = {
         {
           label: 'Airflow',
           to: '/docs/category/airflow/',
-          //type: 'docSidebar',//add sidebar 
-         //// sidebarId: 'howToSidebar',
+      
         },
         {
           label: 'Datacoves',
           to: '/docs/category/datacoves/',
-          //type: 'docSidebar',//add sidebar 
-         //// sidebarId: 'howToSidebar',
+         
         },
         {
           label: 'Datahub',
           to: '/docs/category/datahub/',
-          //type: 'docSidebar',//add sidebar 
-         //// sidebarId: 'howToSidebar',
+      
         },
          {
           label: 'DataOps',
           to: '/docs/how-tos/dataops/',
-          //type: 'docSidebar',//add sidebar 
-         //// sidebarId: 'howToSidebar',
+      
         },
          {
           label: 'dbt',
           to: '/docs/category/dbt',
-          //type: 'docSidebar',//add sidebar 
-         //// sidebarId: 'howToSidebar',
+
         },
          {
           label: 'Git',
           to: '/docs/how-tos/git',
-          //type: 'docSidebar',//add sidebar 
-         //// sidebarId: 'howToSidebar',
+   
         },
          {
           label: 'Metrics & Logs',
           to: '/docs/how-tos/metrics-and-logs',
-          //type: 'docSidebar',//add sidebar 
-         //// sidebarId: 'howToSidebar',
+        
         },
          {
           label: 'My Airflow',
           to: '/docs/how-tos/my_airflow',
-          //type: 'docSidebar',//add sidebar 
-         //// sidebarId: 'howToSidebar',
+  
         },
          {
           label: 'Snowflake',
           to: '/docs/category/snowflake',
-          //type: 'docSidebar',//add sidebar 
-         // sidebarId: 'howToSidebar',
+      
         },
          {
           label: 'Superset',
           to: '/docs/category/superset',
-          //type: 'docSidebar',//add sidebar 
-         // sidebarId: 'howToSidebar',
+      
         },
          {
           label: 'VS Code',
           to: '/docs/category/vscode',
-          //type: 'docSidebar',//add sidebar 
-         // sidebarId: 'howToSidebar',
+      
         },
         
       ],
@@ -217,32 +205,27 @@ const config = {
         {
           label: 'Datacoves',
           to: '/docs/best-practices/datacoves/',
-          //type: 'docSidebar',//add sidebar 
-         // sidebarId: 'bestPracticesSidebar',
+       
         },
         {
           label: 'dbt',
           to: '/docs/best-practices/dbt/dbt-guidelines',
-          //type: 'docSidebar',//add sidebar 
-         // sidebarId: 'bestPracticesSidebar',
+        
         },
         {
           label: 'Git',
           to: '/docs/best-practices/git/',
-          //type: 'docSidebar',//add sidebar 
-         // sidebarId: 'bestPracticesSidebar',
+     
         },
          {
           label: 'Snowflake',
           to: '/docs/category/snowflake-1/',
-          //type: 'docSidebar',//add sidebar 
-         // sidebarId: 'bestPracticesSidebar',
+  
         },
         {
           label: 'VS Code',
           to: '/docs/best-practices/vscode/',
-          //type: 'docSidebar',//add sidebar 
-         // sidebarId: 'bestPracticesSidebar',
+       
         },
          
         ],
@@ -256,40 +239,30 @@ const config = {
         {
           label: 'Administration Menu',
           to: '/docs/reference/admin-menu/',
-          //type: 'docSidebar',//add sidebar 
-         // sidebarId: 'referenceSidebar',
+      
         },
         {
           label: 'Airflow',
           to: '/docs/category/airflow-1/',
-          //type: 'docSidebar',//add sidebar 
-         // sidebarId: 'referenceSidebar',
+
   
         },
         {
           label: 'Datacoves',
           to: '/docs/category/datacoves-1/',
-          //type: 'docSidebar',//add sidebar 
-         // sidebarId: 'referenceSidebar',
         },
         {
          label: 'dbt docs',
           to: 'https://docs.getdbt.com/',
-          //type: 'docSidebar',//add sidebar 
-         // sidebarId: 'referenceSidebar',
         },
       
          {
           label: 'Security',
           to: '/docs/reference/security/',
-          //type: 'docSidebar',//add sidebar 
-         // sidebarId: 'referenceSidebar',
         },
          {
           label: 'VS Code',
           to: '/docs/reference/vscode/',
-          //type: 'docSidebar',//add sidebar 
-         // sidebarId: 'referenceSidebar',
         },
      
         ],
@@ -316,17 +289,13 @@ const config = {
 
       footer: {
   style: 'dark',
-/* logo: {
-    alt: 'Datacoves Logo',
-    src: 'img/datacoves-logo.svg',
-    href: 'https://datacoves.com',
-  },*/
+
   links: [
     {
        
       items: [
         {
-          // put your brand HTML here as an item
+          // Datacoves footer logo and description
             html: `
             <div class="footer__brand footer__brand--wide">
               <img src="/img/datacoves-footer-logo.png" alt="Datacoves-logo" class="footer__brand-logo" />

@@ -22,7 +22,7 @@ const config = {
   },
 
   // Set the production url of your site here
-  url:'https://docs.datacov.es',
+  url:'https://docs.datacoves.com',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -30,7 +30,7 @@ const config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'datacoves', // Usually your GitHub org/user name.
-  projectName:  'docs.datacov.es', // Usually your repo name.
+  projectName:  'docs.datacoves.com', // Usually your repo name.
   deploymentBranch: 'gh-pages',
     
   onBrokenLinks: 'warn',//changed to ignore from throw

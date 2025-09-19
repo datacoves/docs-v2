@@ -170,11 +170,7 @@ const config = {
           to: '/docs/how-tos/git',
      
         },
-         {
-          label: 'Metrics & Logs',
-          to: '/docs/how-tos/metrics-and-logs',
-     
-        },
+         
          {
           label: 'My Airflow',
           to: '/docs/how-tos/my_airflow',

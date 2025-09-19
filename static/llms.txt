@@ -4841,6 +4841,85 @@ To enable Datacoves cloning from Azure DevOps, you must complete a series of ste
 
 ---
 
+// File: how-tos/datacoves/metrics-and-logs/README
+
+# Metrics and Logs How Tos
+
+Datacoves provides [Grafana](./grafana.md) to monitor Airflow, Docker image builds, and more! 
+
+A user must have a Datacoves role with Grafana access. These include, `Datacoves Admin`, `Project Admin`, or `Environment Admin`. 
+
+![Grafana Icon](assets/grafana-eye.jpg)
+
+---
+
+// File: how-tos/datacoves/metrics-and-logs/view-failed-git-sync
+
+# Monitor git sync or s3 sync failure
+
+This how-to will walk you through the steps to view git sync/s3 failures in Grafana.
+
+### Step 1
+
+A user with Grafana access can navigate to the Grafana UI by clicking on the Eye icon in the top right corner of the Datacoves UI.
+
+![Grafana icon](assets/grafana-eye.jpg)
+
+### Step 2
+
+Navigate to `Alerting` and select `Alerting rules`.
+
+<img src="/how-tos/metrics-and-logs/assets/grafana-alerting-menu.jpg" alt="Grafana Alerting Menu" width="300" height="600" />
+
+
+### Step 3
+
+Expand the folder under `Mimir/Cortex/Loki` and select the `view` icon on the `AirflowWorkerFailedToInit` rule.
+
+![Grafana view](assets/grafana-view.jpg)
+
+### Step 4
+
+Select `View in Explorer` to see the Graph and other information. 
+
+![View in Explorer](assets/grafana-view-in-explorer.jpg)
+
+---
+
+// File: how-tos/datacoves/metrics-and-logs/grafana
+
+# Grafana Dashboards
+
+## Navigation menu
+
+Accessing the dashboards list is easy:
+
+:::tip
+We recommend you bookmark your favorite dashboards so they are pinned in the home page.
+:::
+
+![Dashboards Nav menu](./assets/dashboards-nav.png)
+
+## Prebuilt dashboards
+
+Grafana comes with a set of prebuilt dashboards that you can use right away.
+
+![Dashboards List](./assets/dashboards-list.png)
+
+:::warning
+The following dashboards are not working quite right yet, so please don't use them:  
+. etcd  
+. Kubernetes / Compute Resources / Namespace (Workloads)  
+. Kubernetes / Compute Resources / Node (Pods)  
+. Kubernetes / Compute Resources / Workload  
+. Kubernetes / Controller Manager  
+. Kubernetes / Proxy  
+. Kubernetes / Scheduler  
+. Node Exporter / (all)
+:::
+
+---
+
 // File: how-tos/datahub/how_to_datahub_dbt
 
 # Ingesting dbt Metadata into DataHub
@@ -5870,85 +5949,6 @@ These how to guides cover some Git best practices as well as some setup guides.
 
 ---
 
-// File: how-tos/metrics-and-logs/README
-
-# Metrics and Logs How Tos
-
-Datacoves provides [Grafana](./grafana.md) to monitor Airflow, Docker image builds, and more! 
-
-A user must have a Datacoves role with Grafana access. These include, `Datacoves Admin`, `Project Admin`, or `Environment Admin`. 
-
-![Grafana Icon](assets/grafana-eye.jpg)
-
----
-
-// File: how-tos/metrics-and-logs/view-failed-git-sync
-
-# Monitor git sync or s3 sync failure
-
-This how-to will walk you through the steps to view git sync/s3 failures in Grafana.
-
-### Step 1
-
-A user with Grafana access can navigate to the Grafana UI by clicking on the Eye icon in the top right corner of the Datacoves UI.
-
-![Grafana icon](assets/grafana-eye.jpg)
-
-### Step 2
-
-Navigate to `Alerting` and select `Alerting rules`.
-
-<img src="/how-tos/metrics-and-logs/assets/grafana-alerting-menu.jpg" alt="Grafana Alerting Menu" width="300" height="600" />
-
-
-### Step 3
-
-Expand the folder under `Mimir/Cortex/Loki` and select the `view` icon on the `AirflowWorkerFailedToInit` rule.
-
-![Grafana view](assets/grafana-view.jpg)
-
-### Step 4
-
-Select `View in Explorer` to see the Graph and other information. 
-
-![View in Explorer](assets/grafana-view-in-explorer.jpg)
-
----
-
-// File: how-tos/metrics-and-logs/grafana
-
-# Grafana Dashboards
-
-## Navigation menu
-
-Accessing the dashboards list is easy:
-
-:::tip
-We recommend you bookmark your favorite dashboards so they are pinned in the home page.
-:::
-
-![Dashboards Nav menu](./assets/dashboards-nav.png)
-
-## Prebuilt dashboards
-
-Grafana comes with a set of prebuilt dashboards that you can use right away.
-
-![Dashboards List](./assets/dashboards-list.png)
-
-:::warning
-The following dashboards are not working quite right yet, so please don't use them:  
-. etcd  
-. Kubernetes / Compute Resources / Namespace (Workloads)  
-. Kubernetes / Compute Resources / Node (Pods)  
-. Kubernetes / Compute Resources / Workload  
-. Kubernetes / Controller Manager  
-. Kubernetes / Proxy  
-. Kubernetes / Scheduler  
-. Node Exporter / (all)
-:::
-
----
-
 // File: how-tos/my_airflow/README
 
 # My Airflow 101
@@ -6387,215 +6387,268 @@ Finally, select the Database, Schema, and Table / View for this dataset then cli
 
 # How to Configure your VS Code in the Datacoves Transform tab
 
+
 When you first log into Datacoves, you will see that VS Code is disabled.
+
 
 We need to connect to your git repository and to your data warehouse and configure your dbt profiles.yml. To do this, you need to update your user settings.
 
+
 ## Open Your User Settings
+
 
 At the top right corner of the page, click the User icon and select _Settings_
 
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
 ![User Settings](./assets/menu_user_settings.gif)
+</div>
+
 
 ## Setup git connection credentials
 
+
 On the settings page scroll down to the Git SSH keys section.
 
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
 ![Git Settings](./assets/user_settings_git.png)
+</div>
+
 
 Click the Add drop down and select whether you want to provide an existing private key or have Datacoves auto generate one for you.
 
+
+<div style={{ maxWidth: "300px", margin: "0 auto" }}>
 ![Git Settings Add](./assets/user_settings_git2.png)
+</div>
+
 
 Datacoves will generate and display the corresponding public key, you will need to configure the public key for your git provider.
 
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
 ![Git Settings Public Key](./assets/user_settings_git3.png)
+</div>
+
 
 Click the _Copy_ button and follow the instructions to configure the public key for your git server.
 
+
 [Github SSH Key Configuration Instructions](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
+
 
 [Gitlab SSH Key Configuration Instructions](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/How-to-configure-GitLab-SSH-keys-for-secure-Git-connections#:~:text=Configure%20GitLab%20SSH%20keys,-Log%20into%20GitLab%20and%20click)
 
+
 [Bitbucket SSH Key Configuration Instructions](https://dev.to/jorge_rockr/configuring-ssh-key-for-bitbucket-repositories-2925)
+
 
 Once your public SSH key has been added to your git server, test your connection.
 
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
 ![Git Settings Test](./assets/user_settings_git4.png)
+</div>
+
 
 If Datacoves is able to connect to your Git repository, you will see _Tested_ next to the repository url.
 
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
 ![Git Settings Tested](./assets/user_settings_git5.png)
+</div>
 
 # Set up Database Connection 
 
 :::note
-Below you will see a reference chart with the information you will need based on your data warehouse provider. **Select your data warehouse provider from the table below to see the how to guide.** 
+Below you will see a reference chart with the information you will need based on your data warehouse provider. **Select your data warehouse provider from the table below to see the how to guide.**
 :::
 
 <details>
   <summary><strong>BigQuery Setup Instructions</strong></summary>
 
- # BigQuery Setup
- 
- In the Database Connection Section, click `Add`
- 
- ![BigQuery Setup Connection](./assets/connection_bigquery_dropdown.png)
- 
- Give the connection a name. 
- 
- :::tip
- This will be used as your dbt target name and is typically `dev`. 
- :::
- 
- Next select a connection template. A connection template will have defaults pre-configured by your administrator.
- 
- ## Fill in connection details 
- 
- Datacoves will test the connection and display `Tested` next to the connection if successful. 
- 
- ![BigQuery Fields](./assets/connection_bigquery_fields.png)
- 
- Click `Save`
+# BigQuery Setup
+
+In the Database Connection Section, click `Add`
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
+  ![BigQuery Setup Connection](./assets/connection_bigquery_dropdown.png)
+</div>
+
+Give the connection a name.
+
+:::tip
+This will be used as your dbt target name and is typically `dev`.
+:::
+
+Next select a connection template. A connection template will have defaults pre-configured by your administrator.
+
+## Fill in connection details
+
+Datacoves will test the connection and display `Tested` next to the connection if successful.
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
+  ![BigQuery Fields](./assets/connection_bigquery_fields.png)
+</div>
+
+Click `Save`
 
 </details>
 
 <details>
   <summary><strong>Databricks Setup Instructions</strong></summary>
 
-  # Databricks Setup
-  
-  In the Database Connection Section, click `Add`
-  
+# Databricks Setup
+
+In the Database Connection Section, click `Add`
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
   ![Databricks Setup Connection](./assets/connection_databricks_dropdown.png)
-  
-  Give the connection a name. 
-  
-  :::tip
-  This will be used as your dbt target name and is typically `dev`. 
-  :::
-  
-  Next select a connection template. A connection template will have defaults pre-configured by your administrator.
-  
-  ## Fill in connection details 
-  
-  Datacoves will test the connection and display `Tested` next to the connection if successful. 
-  
-  
+</div>
+
+Give the connection a name.
+
+:::tip
+This will be used as your dbt target name and is typically `dev`.
+:::
+
+Next select a connection template. A connection template will have defaults pre-configured by your administrator.
+
+## Fill in connection details
+
+Datacoves will test the connection and display `Tested` next to the connection if successful.
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
   ![Databricks Fields](./assets/connection_databricks_fields.png)
-  
-  Click `Save`
-  
+</div>
+
+Click `Save`
 
 </details>
 
 <details>
   <summary><strong>Redshift Setup Instructions</strong></summary>
 
-  # Redshift Setup
-  
-  In the Database Connection Section, click `Add`
-  
+# Redshift Setup
+
+In the Database Connection Section, click `Add`
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
   ![Redshift Setup Connection](./assets/connection_redshift_dropdown.png)
-  
-  Give the connection a name. 
-  
-  :::tip
-  This will be used as your dbt target name and is typically `dev`. 
-  :::
-  
-  Next select a connection template. A connection template will have defaults pre-configured by your administrator.
-  
-  ## Fill in connection details 
-  
-  Datacoves will test the connection and display `Tested` next to the connection if successful. 
-  
-  
+</div>
+
+Give the connection a name.
+
+:::tip
+This will be used as your dbt target name and is typically `dev`.
+:::
+
+Next select a connection template. A connection template will have defaults pre-configured by your administrator.
+
+## Fill in connection details
+
+Datacoves will test the connection and display `Tested` next to the connection if successful.
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
   ![Redshift Fields](./assets/connection_redshift_fields.png)
-  
-  Click `Save`
+</div>
+
+Click `Save`
 
 </details>
 
 <details>
   <summary><strong>Snowflake Setup Instructions</strong></summary>
 
-  # Snowflake Setup
-  
-  ## Setup Snowflake with Key Pair
-  
-  When connecting to Snowflake, you can use either key based authentication or username/password authentication.
-  
-  :::note
-  To enable key-pair authentication, you admin must select `Inferred from user info using a custom template` when setting up the [Connection Template](/how-tos/datacoves/how_to_connection_template.md). The Snowflake username must match the username associated with the email used to authenticate with Datacoves for example `some_user` would be the snowflake username for `some_user@example.com`, please let us know if your username is different.
-  :::
-  
-  If using key based authentication, you will need to provide or generate a key which will need to be added to Snowflake manually or contact us for information on how to automate this integration with Snowflake.
-  
-  Provide or automatically generate your keys. Then add the public key to Snowflake.
-  
+# Snowflake Setup
+
+## Setup Snowflake with Key Pair
+
+When connecting to Snowflake, you can use either key based authentication or username/password authentication.
+
+:::note
+To enable key-pair authentication, your admin must select `Inferred from user info using a custom template` when setting up the [Connection Template](/how-tos/datacoves/how_to_connection_template.md). The Snowflake username must match the username associated with the email used to authenticate with Datacoves, e.g., `some_user` would be the Snowflake username for `some_user@example.com`.
+:::
+
+If using key based authentication, you will need to provide or generate a key which will need to be added to Snowflake manually or contact us for information on how to automate this integration with Snowflake.
+
+Provide or automatically generate your keys. Then add the public key to Snowflake.
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
   ![Snowflake Settings Generate Keys](./assets/user_settings_snowflake.png)
-  
-  ## Assign the public key to the Snowflake User
-  
-  ```
-  alter user <username> set rsa_public_key='<public key>';
-  ```
-  
-  More information can be found in the [Snowflake Documentation](https://docs.snowflake.com/en/user-guide/key-pair-auth.html#step-4-assign-the-public-key-to-a-snowflake-user)
-  
-  ## Complete the connection
-  
-  In the Database Connection Section, click `Add`
-  
+</div>
+
+## Assign the public key to the Snowflake User
+
+```
+alter user <username> set rsa_public_key='<public key>';
+```
+
+More information can be found in the [Snowflake Documentation](https://docs.snowflake.com/en/user-guide/key-pair-auth.html#step-4-assign-the-public-key-to-a-snowflake-user)
+
+## Complete the connection
+
+In the Database Connection Section, click `Add`
+
+<div style={{ maxWidth: "200px", margin: "0 auto" }}>
   ![Snowflake Setup Connection](./assets/user_settings_snowflake2.png)
-  
-  Give the connection a name. 
-  
-  :::tip
-  This will be used as your dbt target name and is typically `dev`. 
-  :::
-  
-  Next select a connection template. A connection template will have defaults pre-configured by your administrator.
-  
+</div>
+
+Give the connection a name.
+
+:::tip
+This will be used as your dbt target name and is typically `dev`.
+:::
+
+Next select a connection template. A connection template will have defaults pre-configured by your administrator.
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
   ![Snowflake Setup Connection Details](./assets/user_settings_snowflake3.png)
-  
-  ## Fill in connection details
-  
-  Datacoves will test the connection and display `Tested` next to the connection if successful. 
-  
-  :::note
-  You can create additional dbt targets as shown below. This will allow you to execute dbt commands passing a specific target such as `dbt run my_model -t prd`
-  :::
-  
+</div>
+
+## Fill in connection details
+
+Datacoves will test the connection and display `Tested` next to the connection if successful.
+
+:::note
+You can create additional dbt targets as shown below. This will allow you to execute dbt commands passing a specific target such as `dbt run my_model -t prd`
+:::
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
   ![Snowflake Setup Connection Tested](./assets/user_settings_snowflake4.png)
-  
-  ### Key Pair 
-  
-  If using key pair, you will need to change the auth method to key-pair.
-  
+</div>
+
+### Key Pair
+
+If using key pair, you will need to change the auth method to key-pair.
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
   ![Select Auth](./assets/connection_select_auth.png)
-  
-  Select the drop down and your key you configured earlier should populate.
-  
+</div>
+
+Select the drop down and your key you configured earlier should populate.
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
   ![Select Key](./assets/connection_select_key.png)
-  
-  Click `Save`
-  
+</div>
+
+Click `Save`
 
 </details>
 
 ## Once your data warehouse is configured you are now ready to transform your data with dbt
 
 - Scroll to the top of the screen, click `Launchpad` or the Datacoves logo.
-
 - Click `Open` to go into your development environment.
 
 :::note
 Datacoves will take a couple of minutes to apply the new settings, clone your repo, and finish setting up your environment for the first time.
 :::
 
-![Workbench Link](./assets/navigation_launchpad.gif)
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
+  ![Workbench Link](./assets/navigation_launchpad.gif)
+</div>
 
 ---
 

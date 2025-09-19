@@ -29,7 +29,7 @@ const sidebars = {
       items: ['tutorial-basics/create-a-document'],
     },
   ],
-  */
+   */
 };
 
 module.exports = sidebars;

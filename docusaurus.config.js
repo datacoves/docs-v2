@@ -22,7 +22,6 @@ const config = {
   },
 
   // Set the production url of your site here
-  // Amy: GitHub Pages deployment config
   url:'https://docs.datacov.es',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
@@ -143,34 +142,28 @@ const config = {
         {
           label: 'Airflow',
           to: '/docs/category/airflow/',
-     
         },
         {
           label: 'Datacoves',
           to: '/docs/category/datacoves/',
-
         },
         {
           label: 'Datahub',
           to: '/docs/category/datahub/',
-    
         },
          {
           label: 'DataOps',
           to: '/docs/how-tos/dataops/',
-   
         },
          {
           label: 'dbt',
           to: '/docs/category/dbt',
-   
         },
          {
           label: 'Git',
           to: '/docs/how-tos/git',
-     
         },
-         
+
          {
           label: 'My Airflow',
           to: '/docs/how-tos/my_airflow',
@@ -179,17 +172,16 @@ const config = {
          {
           label: 'Snowflake',
           to: '/docs/category/snowflake',
-   
+
         },
          {
           label: 'Superset',
           to: '/docs/category/superset',
-   
         },
          {
           label: 'VS Code',
           to: '/docs/category/vs-code',
-   
+
         },
         
       ],
@@ -203,12 +195,12 @@ const config = {
         {
           label: 'Datacoves',
           to: '/docs/best-practices/datacoves/',
-   
+
         },
         {
           label: 'dbt',
           to: '/docs/best-practices/dbt/dbt-guidelines',
-  
+
         },
         {
           label: 'Git',
@@ -242,29 +234,29 @@ const config = {
         {
           label: 'Airflow',
           to: '/docs/category/airflow-1/',
-   
+
   
         },
         {
           label: 'Datacoves',
           to: '/docs/category/datacoves-1/',
-       
+
         },
         {
          label: 'dbt docs',
           to: 'https://docs.getdbt.com/',
-    
+
         },
       
          {
           label: 'Security',
           to: '/docs/reference/security/',
-          
+
         },
          {
           label: 'VS Code',
           to: '/docs/reference/vscode/',
-         
+
         },
      
         ],
@@ -291,17 +283,13 @@ const config = {
 
       footer: {
   style: 'dark',
-/* logo: {
-    alt: 'Datacoves Logo',
-    src: 'img/datacoves-logo.svg',
-    href: 'https://datacoves.com',
-  },*/
+
   links: [
     {
        
       items: [
         {
-          // put your brand HTML here as an item
+          // Datacoves footer logo and description
             html: `
             <div class="footer__brand footer__brand--wide">
               <img src="/img/datacoves-footer-logo.png" alt="Datacoves-logo" class="footer__brand-logo" />
@@ -404,7 +392,6 @@ const config = {
         darkTheme: prismThemes.dracula,
       },
       
-  
     
     }),
 };

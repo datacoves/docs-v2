@@ -58,6 +58,7 @@
     - [Manage Users](/how-tos/datacoves/how_to_manage_users.md)
     - [Update Repository](/getting-started/Admin/configure-repository.md)
     - [Configure VSCode Environment Variables](/how-tos/datacoves/how_to_environment_variables.md)
+    - [Check Worker Consumption](/how-tos/datacoves/how_to_check_worker_consumption.md)
   - [Datahub](/how-tos/datahub/)
     - [Configure dbt metadata ingestion](/how-tos/datahub/how_to_datahub_dbt.md)
     - [Configure Snowflake metadata ingestion](/how-tos/datahub/how_to_datahub_snowflake.md)

@@ -46,7 +46,7 @@ If you're working on a Github repository and using Github Actions for CI/CD, the
 
 ### load/
 
-The `load/` folder can contain extract and load configurations as well as other scripts or frameworks you may be using to extract and laod data.
+The `load/` folder can contain extract and load configurations as well as other scripts or frameworks you may be using to extract and load data.
 
 ### secure/
 

@@ -1,6 +1,6 @@
 ---
 title: Integrations
-sidebar_position: 114
+sidebar_position: 50
 ---
 # Integrations Admin
 

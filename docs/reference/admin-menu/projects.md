@@ -1,6 +1,6 @@
 ---
 title: Projects
-sidebar_position: 116
+sidebar_position: 70
 ---
 # Projects Admin
 

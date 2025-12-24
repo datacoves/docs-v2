@@ -1,6 +1,6 @@
 ---
 title: Secrets
-sidebar_position: 117
+sidebar_position: 80
 ---
 # Secrets Admin
 

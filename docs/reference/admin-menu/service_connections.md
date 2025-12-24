@@ -1,6 +1,6 @@
 ---
 title: Service Connections
-sidebar_position: 118
+sidebar_position: 90
 ---
 # Service Connections Admin
 

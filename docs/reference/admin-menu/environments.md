@@ -1,6 +1,6 @@
 ---
 title: Environments
-sidebar_position: 112
+sidebar_position: 20
 ---
 # Environments Admin
 

@@ -1,5 +1,5 @@
 ---
-title: Secrets
+title: External Links
 sidebar_position: 30
 ---
 # External Links

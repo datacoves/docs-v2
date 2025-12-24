@@ -1,6 +1,6 @@
 ---
 title: Connection Templates
-sidebar_position: 111
+sidebar_position: 20
 ---
 # Connection Templates Admin
 

@@ -1,6 +1,6 @@
 ---
 title: Invitations
-sidebar_position: 115
+sidebar_position: 60
 ---
 # Invitations Admin
 

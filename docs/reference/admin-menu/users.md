@@ -1,6 +1,6 @@
 ---
 title: Users
-sidebar_position: 119
+sidebar_position: 100
 ---
 # Users Admin
 

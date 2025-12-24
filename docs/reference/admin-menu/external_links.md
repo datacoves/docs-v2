@@ -8,7 +8,7 @@ sidebar_position: 30
 
 External links are a kind of bookmark which can be added by an administrator to the standard tabs atop a Datacoves screen: Docs, Load, Transform, Observe, Orchestrate, and Analyze.  They are useful for ensuring all users of a given environment have access to commonly used websites.
 
-![Link in use](./assets/extlink_result.jpg)
+![Link in use](./assets/extlink_result.png)
 
 ## Managing links
 

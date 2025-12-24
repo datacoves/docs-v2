@@ -1,6 +1,6 @@
 ---
 title: Account Settings & Billing
-sidebar_position: 100
+sidebar_position: 10
 ---
 # Account Settings & Billing
 

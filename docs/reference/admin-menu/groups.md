@@ -1,6 +1,6 @@
 ---
 title: Groups
-sidebar_position: 40
+sidebar_position: 50
 ---
 # Groups Admin
 

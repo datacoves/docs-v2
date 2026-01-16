@@ -2,7 +2,7 @@
 title: dbt 
 sidebar_position: 2
 ---
-# Overview <!-- {docsify-ignore-all} -->
+# Overview
 
 As any data environment grows, it can become difficult for new team members to unravel complex pieces of logic within the project.
 

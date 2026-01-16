@@ -22,7 +22,8 @@ Click `Configure`, give it a name, and optionally select an image to use as the 
 
 ![Create Incoming Webhook](./assets/create-incoming-webhook.png)
 
-:::info Store this URL in a safe place as you will need it in a subsequent step and anyone with this link can send notification to that MS Teams channel
+:::info
+Store this URL in a safe place as you will need it in a subsequent step and anyone with this link can send notification to that MS Teams channel.
 :::
 ## Prepare Airflow
 ### Create a new Integration
@@ -85,9 +86,11 @@ To send MS Teams notifications, in the Airflow DAG we need to import the appropr
 - `message`: the body of the message
 - `theme_color`: theme color of the MS Teams card
 
-:::info  `on_failure_callback` will throw an error if using lists causing your task to fail.
-### Python version
+:::info
+`on_failure_callback` will throw an error if using lists causing your task to fail.
 :::
+
+### Python version
 
 ```python
 from pendulum import datetime

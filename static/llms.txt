@@ -4486,6 +4486,271 @@ That's all! Now you can use this new persistent variable in your VSCode instance
 
 ---
 
+// File: how-tos/datacoves/how_to_worker_usage
+
+# Billing API
+
+Datacoves provides API endpoints for users to retrieve billing information about their environments. Specifically, admins can get the number of minutes billed for Airflow and Airbyte services. These endpoints are secured and require a **Project-level token** for authentication.
+
+This guide explains how to use the Datacoves Billing API to retrieve worker usage minutes for your environment(s).
+
+## Billing API URL & Generating an API Key
+
+To obtain the Billing API URL and your API key:
+
+1. Navigate to your project settings in the Datacoves admin panel
+2. Go to the **Keys** section
+3. Copy the **Billing API URL** we will use it below 
+4. Click on **Generate New API Key**
+
+![Generate API Key](./assets/project-apikey.png)
+
+Once generated, copy and securely store your API key. It will only be shown once.
+
+## General API information
+
+### Authentication
+
+Include the key in the `Authorization` header:
+
+```
+Authorization: Token YOUR_API_KEY
+```
+
+### Service Types
+
+The API categorizes worker usage by service type:
+
+- **airflow**: Usage from Airflow workers
+- **airbyte**: Usage from Airbyte workers  
+- **unknown**: Usage that couldn't be categorized
+
+### Notes
+
+- API can only be accessed from within the same cluster e.g. you can run the script in the terminal in VS Code or in Airflow
+- All dates should be in `YYYY-MM-DD` format
+- If no dates are provided, the API defaults to providing the usage for the last 30 days
+- If no `service` parameter is provided, results include both Airflow and Airbyte.
+- The `amount_minutes` field represents the total minutes of worker usage excluding "warm-up" time
+- Data is aggregated per day and per service.
+- Times are returned in UTC format
+- Only environments you have access to via your project token are included.
+
+**Query Note:**
+- Maximum allowed date range is 6 months (180 days). To query more than this, multiple queries must be run.
+- If the date range exceeds 6 months, the API returns an error.
+
+### Troubleshooting
+
+- Ensure your token is valid and has access to the requested environments.
+- Check date formats and range limits.
+- For further assistance, contact Datacoves support.
+
+
+## API Endpoints
+
+The Billing API URL should be similar to `https://api.<Cluster_URL>/api/v1/billing`
+
+### Get Usage for All Environments
+
+**GET** `<BILLING_API_URL>/`
+
+Returns usage data for all environments in your account.
+
+### Get Usage for a Specific Environment
+
+`env-slug` is the slug for the specific environment like `abc123`
+
+**GET** `<BILLING_API_URL>/{env-slug}/`
+
+Returns usage data for the environment specified.
+
+#### Path Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `env-slug` | string | Yes | The slug identifier for your environment |
+
+### Query Parameters
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| `start_date` | string (YYYY-MM-DD) | No | Today - 30 days | The start date for the usage period |
+| `end_date` | string (YYYY-MM-DD) | No | Today's date  | The end date for the usage period |
+| `service` | string | No | All services | Filter by service type: `airflow`, `airbyte`, or `unknown` |
+
+## Response Format
+
+The API returns an array of usage records with the following fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `environment_slug` | string | The environment identifier |
+| `service` | string | The service type: `airflow`, `airbyte`, or `unknown` |
+| `date` | datetime | The timestamp of the usage record |
+| `amount_minutes` | integer | The number of minutes used |
+
+### Sample Response
+
+```json
+[
+  {
+    "environment_slug": "abc123",
+    "service": "airflow",
+    "date": "2025-11-15T10:30:00Z",
+    "amount_minutes": 120
+  },
+  {
+    "environment_slug": "abc123",
+    "service": "airbyte",
+    "date": "2025-11-15T14:20:00Z",
+    "amount_minutes": 60
+  }
+]
+```
+
+## Sample Error Responses
+
+- **Invalid date format:**
+
+  ```json
+  { "error": "Invalid date format. Use YYYY-MM-DD." }
+  ```
+
+- **Date range exceeds 6 months:**
+
+  ```json
+  { "error": "Date range cannot exceed 6 months (180 days)." }
+  ```
+
+- **Start date after end date:**
+
+  ```json
+  { "error": "start_date must be before end_date." }
+  ```
+
+## Sample Python Script
+
+Create a `.env` file with the following variables
+```shell
+DATACOVES__API_URL = "https://..."
+DATACOVES__API_TOKEN = "...."
+DATACOVES__ENVIRONMENT = "abc123"
+```
+
+Use the API in a Python script to query usage:
+
+```python
+import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+API_URL = os.getenv("DATACOVES__API_URL")
+API_KEY = os.getenv("DATACOVES__API_TOKEN")
+ENV_SLUG = os.getenv("DATACOVES__ENVIRONMENT")
+
+def get_worker_usage(start_date=None, end_date=None, service=None, env_slug=None):
+    """
+    Retrieve worker usage minutes for an environment or all environments.
+
+    Args:
+        env_slug (str, optional): Environment slug. If None, returns data for all environments
+        start_date (str, optional): Start date in YYYY-MM-DD format
+        end_date (str, optional): End date in YYYY-MM-DD format
+        service (str, optional): Filter by service type (airflow, airbyte, unknown)
+
+    Returns:
+        list: Usage records
+    """
+    if env_slug:
+        url = f"{API_URL}/{env_slug}/"
+    else:
+        url = f"{API_URL}/"
+
+    params = {}
+    if start_date:
+        params['start_date'] = start_date
+    if end_date:
+        params['end_date'] = end_date
+    if service:
+        params['service'] = service
+
+    response = requests.get(
+        url=url,
+        headers={"Authorization": f"Token {API_KEY}"},
+        params=params
+    )
+
+    print(f"Fetching: {response.url}")
+
+    if not response.ok:
+        print(response.text)
+        return
+
+    response.raise_for_status()
+    return response.json()
+
+def calculate_total_minutes_by_service(usage_data):
+    """
+    Calculate total minutes used per service.
+
+    Args:
+        usage_data (list): Usage records from API
+
+    Returns:
+        dict: Total minutes per service
+    """
+    totals = {}
+
+    for record in usage_data:
+        service = record['service']
+        minutes = record['amount_minutes']
+        totals[service] = totals.get(service, 0) + minutes
+    return totals
+
+def print_usage_info(usage):
+
+    totals = calculate_total_minutes_by_service(usage)
+
+    for service, minutes in totals.items():
+        hours = minutes / 60
+        print(f"  {service}: {minutes} minutes ({hours:.2f} hours)")
+
+
+# Example: Get usage for last 30 days
+print("#### Usage for last 30 days ####")
+usage = get_worker_usage()
+if usage:
+    print_usage_info(usage)
+else:
+    print("No Usage Data Returned for the last 30 days")
+
+# Example: Specific date range
+start_date = "2025-07-01"
+end_date = "2025-12-27"
+print(f"\n#### Usage for {start_date} through {end_date} ####")
+
+usage = get_worker_usage(start_date, end_date)
+
+if usage:
+    print_usage_info(usage)
+else:
+    print(f"No Usage Data Returned for {start_date} to {end_date}")
+
+# Example: specific environment
+print(f"\n#### Usage for environment {ENV_SLUG} ####")
+
+usage = get_worker_usage(env_slug=ENV_SLUG)
+
+if usage:
+    print_usage_info(usage)
+else:
+    print(f"No Usage Data Returned for environment {ENV_SLUG} from {start_date} to {end_date}")
+```
+
+---
+
 // File: how-tos/datacoves/how_to_manage_users
 
 # How to Manage Users
@@ -7039,7 +7304,8 @@ This section describes how to configure and use Datacoves Copilot v2, which come
 - DeepSeek
 - Google Gemini
 - OpenAI
-- OpenAI Compatible (i.e. Azure)
+- Azure OpenAI
+- OpenAI Compatible
 - Open Router
 - xAI (Grok)
 
@@ -7052,6 +7318,7 @@ import TabItem from '@theme/TabItem';
 {label: 'Config', value: 'config'},
 {label: 'Anthropic', value: 'anthropic'},
 {label: 'OpenAI', value: 'openai'},
+{label: 'Azure OpenAI', value: 'azure'},
 {label: 'OpenAI Compatible', value: 'openaicompatible'},
 {label: 'Google Gemini', value: 'gemini'},
 {label: 'More Providers', value: 'additional'},
@@ -7078,6 +7345,30 @@ Lastly, be sure to toggle on the `Share with developers` option so that users wi
 ### Example Secret
 
 ![Example ](assets/v2_llm_example.png)
+
+### Learn more about Generative AI Use Cases with Datacoves Copilot
+
+#### Expand SELECT \* into columns
+
+<iframe
+  width="800"
+  height="500"
+  src="https://www.youtube.com/embed/7TYHnlaH-T8"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+  allowfullscreen
+></iframe>
+
+#### Generate Airflow DAG to run DBT
+
+<iframe
+  width="800"
+  height="500"
+  src="https://www.youtube.com/embed/Q0QEzQkdFpg"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+  allowfullscreen
+></iframe>
 
   </TabItem>
 
@@ -7115,9 +7406,12 @@ Website: https://www.anthropic.com/
 
 Datacoves Copilot supports the following Anthropic Claude models:
 
+- claude-sonnet-4-5 (Recommended - default)
+- claude-sonnet-4-20250514
+- claude-opus-4-5-20251101
 - claude-opus-4-1-20250805
 - claude-opus-4-20250514
-- claude-sonnet-4-20250514 (Recommended)
+- claude-haiku-4-5-20251001
 - claude-3-7-sonnet-20250219
 - claude-3-7-sonnet-20250219:thinking (Extended Thinking variant)
 - claude-3-5-sonnet-20241022
@@ -7159,26 +7453,23 @@ Website: https://openai.com/
 
 ### Supported Models (`apiModelId`)
 
-#### GPT-5 Family (Latest)
+#### GPT-5.x Family (Latest)
 
-The GPT-5 models are OpenAI's most advanced, offering superior coding capabilities and agentic task performance:
+The GPT-5.x models are OpenAI's most advanced, offering superior coding capabilities and agentic task performance:
 
-- gpt-5-2025-08-07 (default) - Best model for coding and agentic tasks
-- gpt-5-mini-2025-08-07 - Faster, cost-efficient for well-defined tasks
-- gpt-5-nano-2025-08-07 - Fastest, most cost-efficient option
+- gpt-5.1-codex-max (default) - Most intelligent coding model optimized for long-horizon, agentic coding tasks (400K context)
+- gpt-5.2 - Flagship model for coding and agentic tasks across industries (400K context)
+- gpt-5.2-chat-latest - Optimized for conversational AI and chat use cases
+- gpt-5.1 - Best model for coding and agentic tasks across domains (400K context)
+- gpt-5.1-codex - Optimized for agentic coding in Codex (400K context)
+- gpt-5.1-codex-mini - Cost-efficient version optimized for agentic coding (400K context)
 
-#### GPT-5-Codex
+#### GPT-5 Family
 
-OpenAI's specialized coding model with advanced capabilities:
-
-Key Features:
-
-400K Token Context Window - Process entire codebases and lengthy documentation
-Image Support - Analyze screenshots, diagrams, and visual documentation
-Prompt Caching - Reduced costs for repeated context through automatic caching
-Adaptive Reasoning - Dynamically adjusts reasoning depth based on task complexity
-
-Ideal for: Large-scale code analysis, multimodal tasks requiring visual understanding, complex refactoring projects, and extensive codebase operations.
+- gpt-5 - Best model for coding and agentic tasks across domains (400K context)
+- gpt-5-mini - Faster, cost-efficient for well-defined tasks
+- gpt-5-nano - Fastest, most cost-efficient option
+- gpt-5-codex - Specialized coding model
 
 #### GPT-4.1 Family
 
@@ -7224,6 +7515,109 @@ Optimized GPT-4 models:
 Refer to the [OpenAI Models documentation](https://platform.openai.com/docs/models) for the most up-to-date list of models and capabilities.
 
 </TabItem>
+<TabItem value="azure">
+
+## Azure OpenAI LLM Provider
+
+Datacoves Copilot supports Azure OpenAI models through the OpenAI API compatible interface.
+
+Website: https://azure.microsoft.com/en-us/products/ai-services/openai-service
+
+### Secret value format
+
+```json
+{
+  "default": {
+    "apiProvider": "openai",
+    "openAiApiKey": "<YOUR AZURE API KEY>",
+    "openAiBaseUrl": "https://<your-resource>.cognitiveservices.azure.com/openai/deployments/<deployment-name>/chat/completions?api-version=<API VERSION>",
+    "openAiModelId": "<deployment-name>",
+    "openAiUseAzure": true,
+    "id": "default"
+  }
+}
+```
+
+### Getting Azure OpenAI Credentials
+
+1. **Create Azure OpenAI Resource**: Go to Azure Portal and create an Azure OpenAI service resource
+2. **Deploy a Model**: In Azure AI Foundry, deploy a model (e.g., gpt-4o, gpt-4.1, gpt-5)
+3. **Get Endpoint**: Copy your endpoint URL from the resource overview
+4. **Get API Key**: Navigate to "Keys and Endpoint" section and copy one of the API keys
+5. **Get Deployment Name**: Use the deployment name you created (not the model name)
+
+### Endpoint URL Format
+
+Datacoves Copilot uses the **Chat Completions API**, so your `openAiBaseUrl` must use the chat completions path, including the deployment name and `api-version` parameter:
+
+```
+https://<your-resource>.cognitiveservices.azure.com/openai/deployments/<deployment-name>/chat/completions?api-version=<API VERSION>
+```
+
+For models that support **both** the Responses API and the Chat Completions API (for example GPT-4.1, GPT-5.x, o3, o4-mini), **always** use the Chat Completions URL above in Datacoves Copilot and **do not** use the default `/openai/v1/responses` URL shown in some Azure examples.
+
+### Supported Azure OpenAI Models (`openAiModelId`)
+
+Use your **deployment name** from Azure AI Foundry as the `openAiModelId`. This must match the deployment name exactly (for example `gpt-5.1` if your deployment is named `gpt-5.1`), not just the base model family name.
+
+#### GPT-5 Series (Latest)
+
+**Models with Chat Completions API support:**
+- gpt-5.2 (2025-12-11) - Flagship model, 400K context
+- gpt-5.2-chat (2025-12-11) - Chat optimized
+- gpt-5.1 (2025-11-13) - Advanced reasoning, 400K context
+- gpt-5.1-chat (2025-11-13) - Chat optimized reasoning
+- gpt-5 (2025-08-07) - Advanced reasoning, 400K context
+- gpt-5-mini (2025-08-07) - Cost-efficient, 400K context
+- gpt-5-nano (2025-08-07) - Fast, cost-efficient, 400K context
+- gpt-5-chat (2025-08-07, 2025-10-03) - Conversational, 128K context
+- gpt-oss-120b - Open-weight reasoning model
+- gpt-oss-20b - Open-weight reasoning model
+
+**Note:** The following GPT-5 models use Responses API only and are **not supported** by Datacoves Copilot:
+- gpt-5-codex, gpt-5-pro, gpt-5.1-codex, gpt-5.1-codex-mini, gpt-5.1-codex-max
+
+#### GPT-4.1 Series
+
+- gpt-4.1 (2025-04-14) - Advanced multimodal, 1M context
+- gpt-4.1-mini (2025-04-14) - Balanced performance, 1M context
+- gpt-4.1-nano (2025-04-14) - Lightweight, 1M context
+
+#### GPT-4o Series
+
+- gpt-4o (2024-11-20) - Optimized GPT-4, 128K context
+- gpt-4o (2024-08-06) - Optimized GPT-4, 128K context
+- gpt-4o (2024-05-13) - Original GPT-4o, 128K context
+- gpt-4o-mini (2024-07-18) - Fast, cost-efficient, 128K context
+
+#### GPT-4 Series
+
+- gpt-4 (turbo-2024-04-09) - GPT-4 Turbo with Vision, 128K context
+
+#### o-Series Reasoning Models
+
+- o3 (2025-04-16) - Reasoning model, 200K context
+- o4-mini (2025-04-16) - Mini reasoning, 200K context
+- o3-mini (2025-01-31) - Compact reasoning, 200K context
+- o1 (2024-12-17) - Reasoning model, 200K context
+- o1-mini (2024-09-12) - Smaller reasoning, 128K context
+- codex-mini (2025-05-16) - Coding specialized, 200K context
+
+#### GPT-3.5 Series
+
+- gpt-35-turbo (0125) - Chat optimized, 16K context
+- gpt-35-turbo (1106) - Chat optimized, 16K context
+- gpt-35-turbo-instruct (0914) - Completions API only
+
+**Important Notes:**
+- Datacoves Copilot uses the Chat Completions API endpoint
+- Responses API is not currently supported for Azure OpenAI
+- Use your **deployment name** in Azure as both the URL path segment and `openAiModelId`
+- The `api-version` parameter is required in the endpoint URL
+
+Refer to [Azure OpenAI documentation](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/models) for the most current model availability and regional deployment options.
+
+</TabItem>
 <TabItem value="openaicompatible">
 
 #### OpenAI Compatible
@@ -7233,8 +7627,10 @@ Refer to the [OpenAI Models documentation](https://platform.openai.com/docs/mode
 Datacoves Copilot supports a wide range of AI model providers that offer APIs compatible with the OpenAI API standard. This means you can use models from providers other than OpenAI, while still using a familiar API interface. This includes providers like:
 
 - Local models running through tools like Ollama and LM Studio (covered in separate sections).
-- Cloud providers like Azure, Perplexity, Together AI, Anyscale, and others.
+- Cloud providers like Perplexity, Together AI, Anyscale, and others.
 - Any other provider offering an OpenAI-compatible API endpoint.
+
+**Note:** For Azure OpenAI, see the dedicated [Azure OpenAI tab](#azure-openai) for specific setup instructions.
 
 ### Secret value format
 
@@ -7260,7 +7656,7 @@ Where:
 2. `openAiApiKey`: This is the secret key you obtain from the provider.
 3. `openAiModelId`: This is the model name of the specific model, each provider will expose a different set of models, please check provider's documentation.
 
-If you're using `Azure`, please set `"openAiUseAzure": true`, optionally you could specify a specific API version using `"azureApiVersion": "<VERSION>"`.
+
 
 #### Fine tune model usage
 
@@ -7311,48 +7707,25 @@ Website: https://ai.google.dev/
 
 Datacoves Copilot supports the following Gemini models:
 
-#### Model Aliases (Recommended)
+#### Gemini 3 (Latest)
 
-For stability and automatic updates, use these aliases that point to the latest stable versions:
+- gemini-3-pro-preview (Recommended - default) - 1M token context window with reasoning support
+- gemini-3-flash-preview - Fast, cost-efficient with 1M token context window
+
+#### Gemini 2.5 Pro Models
+
+- gemini-2.5-pro - 1M token context with thinking support
+- gemini-2.5-pro-preview-06-05
+- gemini-2.5-pro-preview-05-06
+- gemini-2.5-pro-preview-03-25
+
+#### Gemini 2.5 Flash Models
 
 - gemini-flash-latest - Always uses the newest stable Flash model
-- gemini-pro-latest - Always uses the newest stable Pro model
-
-#### Standard Models
-
-- gemini-2.5-flash-preview-05-20
-- gemini-2.5-flash-preview-04-17
-- gemini-2.5-flash-lite-preview-06-17
-- gemini-2.5-pro-exp-03-25
-- gemini-2.0-flash-001
-- gemini-2.0-flash-lite-preview-02-05
-- gemini-2.0-pro-exp-02-05
-- gemini-2.0-flash-exp
-- gemini-1.5-flash-002
-- gemini-1.5-flash-exp-0827
-- gemini-1.5-flash-8b-exp-0827
-- gemini-1.5-pro-002
-- gemini-1.5-pro-exp-0827
-- gemini-exp-1206
-
-#### Preview Models
-
-Preview models include Google's latest experimental features but may change without notice:
-
-- Models with -preview- in the name (e.g., gemini-2.5-flash-preview-05-20)
-- Models with -exp- suffix (e.g., gemini-2.0-flash-exp)
-- Models prefixed with gemini-exp- (e.g., gemini-exp-1206)
-
-Preview models are ideal for testing cutting-edge capabilities but may have breaking changes. Use stable aliases for production work.
-
-#### Thinking Models
-
-These models require reasoning budget to be enabled in Datacoves Copilot:
-
-- gemini-2.5-flash-preview-05-20:thinking
-- gemini-2.5-flash-preview-04-17:thinking
-- gemini-2.0-flash-thinking-exp-01-21
-- gemini-2.0-flash-thinking-exp-1219
+- gemini-2.5-flash - 1M token context with thinking support
+- gemini-2.5-flash-preview-09-2025
+- gemini-flash-lite-latest - Lightweight option
+- gemini-2.5-flash-lite-preview-09-2025
 
 Refer to the [Gemini documentation](https://ai.google.dev/gemini-api/docs/models) for more details on each model.
 
@@ -7426,6 +7799,47 @@ Website: https://openrouter.ai/
 OpenRouter supports a large and growing number of models.
 Refer to the [OpenRouter Models page](https://openrouter.ai/models) for the complete and up-to-date list.
 
+### xAI Grok
+
+xAI is the company behind Grok, a large language model known for its conversational abilities and large context window.
+Grok models are designed to provide helpful, informative, and contextually relevant responses.
+
+Website: https://x.ai/
+
+#### Secret value format
+
+```json
+{
+  "default": {
+    "reasoningEffort": "medium",
+    "apiModelId": "<MODEL ID>",
+    "xaiApiKey": "<YOUR API KEY>",
+    "apiProvider": "xai",
+    "id": "default"
+  }
+}
+```
+
+#### Getting an API Key
+
+1. Sign Up/Sign In: Go to the xAI Console. Create an account or sign in.
+2. Navigate to API Keys: Go to the API keys section in your dashboard.
+3. Create a Key: Click to create a new API key. Give your key a descriptive name (e.g., "Datacoves").
+4. Copy the Key: Important: Copy the API key immediately. You will not be able to see it again. Store it securely.
+
+#### Supported Models (`apiModelId`)
+
+- grok-code-fast-1 (Default) - xAI's Grok Code Fast model with 262K context window and prompt caching, optimized for reasoning and coding tasks
+- grok-4 - xAI's Grok-4 model with 262K context window, image support, and prompt caching
+- grok-3 - xAI's Grok-3 model with 128K context window and prompt caching
+- grok-3-fast - xAI's Grok-3 fast model with 128K context window and prompt caching
+- grok-3-mini - xAI's Grok-3 mini model with 128K context window, reasoning support, and prompt caching
+- grok-3-mini-fast - xAI's Grok-3 mini fast model with 128K context window, reasoning support, and prompt caching
+- grok-2-1212 - xAI's Grok-2 model (version 1212) with 128K context window
+- grok-2-vision-1212 - xAI's Grok-2 Vision model (version 1212) with image support and 32K context window
+
+Learn more about available models at [xAI Docs](https://docs.x.ai/docs/models).
+
   </TabItem>
 
 </Tabs>
@@ -7435,10 +7849,10 @@ Refer to the [OpenRouter Models page](https://openrouter.ai/models) for the comp
 // File: how-tos/vs-code/datacoves-copilot/README
 
 # AI LLMs for Datacoves Copilot
-Datacoves can integrate seamlessly with your existing ChatGPT or Azure Open AI LLMs. These how tos will go over configuration and usage of AI within Datacoves.
+Datacoves can integrate seamlessly with your existing ChatGPT or Azure OpenAI LLMs. These how tos will go over configuration and usage of AI within Datacoves.
 
 ### Prereqs
-- Have an existing LLM such as ChatGPT or [Azure Open AI](https://learn.microsoft.com/en-us/azure/ai-services/openai/assistants-quickstart?tabs=command-line%2Ckeyless%2Ctypescript-keyless&pivots=ai-foundry-portal)
+- Have an existing LLM such as ChatGPT or [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/assistants-quickstart?tabs=command-line%2Ckeyless%2Ctypescript-keyless&pivots=ai-foundry-portal)
 - Have access to API and Endpoint url credentials.
 - Have `Admin` access to configure credentials in Datacoves
 
@@ -7536,6 +7950,35 @@ On the Environments landing page you can see a list of environments associated w
 For each environment we can see the associated project, the name of the environment to be displayed on the landing page, and the number of associated service connections.
 
 Each row contains 2 action buttons, Edit and Delete.
+
+---
+
+// File: reference/admin-menu/external_links
+
+# External Links
+
+## Overview
+
+External links are a kind of bookmark which can be added by an administrator to the standard tabs atop a Datacoves screen: Docs, Load, Transform, Observe, Orchestrate, and Analyze.  They are useful for ensuring all users of a given environment have access to commonly used websites.
+
+![Link in use](./assets/extlink_result.png)
+
+## Managing links
+
+From the Launchpad sidebar, choose `External Links`:
+
+![External links administration](./assets/extlink_landing.png)
+
+You may choose an environment and look at the links already made.
+
+- Edit and delete options are next to each link
+- To add a link, click `+` next to the environment you wish to add a link to
+
+When editing or adding a link, a small dialog will appear.  You can then add the title as you wish it to appear in the menu, a URL, and the tab it should appear under:
+
+![External links dialog](./assets/extlink_dialog.png)
+
+When finished, click Save.
 
 ---
 

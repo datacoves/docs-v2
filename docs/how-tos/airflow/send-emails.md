@@ -45,7 +45,8 @@ In Datacoves 3.3 and up, the `SMTP` will be automatically added to your environm
 
 Viola!🎉 The Airflow service will be restarted shortly and will now include the SMTP configuration required to send emails.
 
-:::note **Getting Started Guide:** If you are making your way through our [getting started guide](/docs/category/administrator), please continue on to [developing DAGs](getting-started/Admin/creating-airflow-dags.md).
+:::note
+**Getting Started Guide:** If you are making your way through our [getting started guide](/docs/category/administrator), please continue on to [developing DAGs](getting-started/Admin/creating-airflow-dags.md).
 :::
 ## Set up a custom SMTP (Optional)
 
@@ -161,7 +162,8 @@ nodes:
 
 ## DRY default_args 
 
-:::tip We recommend placing your default_args in its own file and importing it for reusability. In the example below we created a file inside of orchestrate/utils/
+:::tip
+We recommend placing your default_args in its own file and importing it for reusability. In the example below we created a file inside of orchestrate/utils/.
 :::
 ```python
 # orchestrate/utils/default_args.py

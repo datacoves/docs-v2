@@ -20,6 +20,27 @@ git commit --allow-empty -m "trigger workflow"
 git push
 ```
 
+:::warning
+
+This technique will **not work** if your workflow is configured with path filters. Workflows that use `paths:` only trigger when files matching those paths are changed. Since an empty commit has no file changes, it won't match any paths.
+
+For example, this workflow will not be triggered by an empty commit:
+
+```yaml
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/**
+      - automate/**
+      - transform/**
+```
+
+If your workflow uses path filters, you'll need to either make an actual file change or modify the workflow to support manual triggers using `workflow_dispatch`.
+
+:::
+
 ## Best practices
 
 **Use a descriptive commit message** - Instead of a generic message, describe why you're triggering the workflow:

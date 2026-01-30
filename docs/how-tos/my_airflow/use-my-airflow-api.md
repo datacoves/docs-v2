@@ -135,3 +135,20 @@ if __name__ == "__main__":
 :::note
 Your API keys work for both My Airflow and Team Airflow (if you have access). The token is validated based on your user permissions.
 :::
+
+## Alternative: Generate keys via CLI
+
+You can also manage API keys directly from the terminal using the `datacoves` CLI:
+
+```bash
+# List existing keys
+datacoves my api-key list
+
+# Generate a new key
+datacoves my api-key generate --name "My Script"
+
+# Delete a key (use the prefix shown in list)
+datacoves my api-key delete abc12345
+```
+
+See [Datacoves CLI Commands](/reference/airflow/datacoves-commands.md#datacoves-my-api-key) for more details.

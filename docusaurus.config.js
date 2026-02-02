@@ -34,7 +34,7 @@ const config = {
   deploymentBranch: 'gh-pages',
     
   onBrokenLinks: 'warn',//changed to ignore from throw
-  onBrokenMarkdownLinks: 'warn',
+  markdown: { hooks: { onBrokenMarkdownLinks: 'warn' } },
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -51,12 +51,21 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          /*
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-            */
+          lastVersion: '4.1',
+          onlyIncludeVersions: ['4.1'],
+          includeCurrentVersion: false,
+          versions: {
+            '5.0': {
+              label: '5.0 (Unreleased)',
+              path: '5.0',
+              banner: 'unreleased',
+            },
+            '4.1': {
+              label: '4.1',
+              path: '4.1',
+              banner: 'none',
+            },
+          },
         },
         blog: {
           showReadingTime: true,
@@ -112,169 +121,41 @@ const config = {
   },
   items: [
     {
+      type: 'custom-versionedCategoryLink',
       label: 'Getting Started',
-      to: '/docs/category/getting-started',
+      category: 'getting-started',
       position: 'left',
-      items: [
-        {
-          label: 'Account Pre-reqs', 
-          to: '/docs/getting-started/create-account',
-        },
-        {
-          //type: 'docSidebar', uncommented this to use custom sidebar
-          //sidebarId: 'gettingStartedSidebar', uncommented this to use custom sidebar
-          label: 'Administrator', 
-          to: '/docs/category/administrator',
-        },
-         {
-          label: 'Developer', 
-          to: '/docs/category/developer/',
-        },
-        // Add more internal docs here if needed
-      ],
     },
     {
+      type: 'custom-versionedCategoryLink',
       label: 'How to',
-      to: '/docs/category/how-tos',
+      category: 'how-tos',
       position: 'left',
-     
-      items: [
-        {
-          label: 'Airflow',
-          to: '/docs/category/airflow/',
-        },
-        {
-          label: 'Datacoves',
-          to: '/docs/category/datacoves/',
-        },
-        {
-          label: 'Datahub',
-          to: '/docs/category/datahub/',
-        },
-         {
-          label: 'DataOps',
-          to: '/docs/how-tos/dataops/',
-        },
-         {
-          label: 'dbt',
-          to: '/docs/category/dbt',
-        },
-         {
-          label: 'Git',
-          to: '/docs/how-tos/git',
-        },
-
-         {
-          label: 'My Airflow',
-          to: '/docs/how-tos/my_airflow',
-
-        },
-         {
-          label: 'Snowflake',
-          to: '/docs/category/snowflake',
-
-        },
-         {
-          label: 'Superset',
-          to: '/docs/category/superset',
-        },
-         {
-          label: 'VS Code',
-          to: '/docs/category/vs-code',
-
-        },
-        
-      ],
     },
-
-     {
+    {
+      type: 'custom-versionedCategoryLink',
       label: 'Best Practices',
-      to: '/docs/category/best-practices/',
+      category: 'best-practices',
       position: 'left',
-      items: [
-        {
-          label: 'Datacoves',
-          to: '/docs/best-practices/datacoves/',
-
-        },
-        {
-          label: 'dbt',
-          to: '/docs/best-practices/dbt/dbt-guidelines',
-
-        },
-        {
-          label: 'Git',
-          to: '/docs/best-practices/git/',
-     
-        },
-         {
-          label: 'Snowflake',
-          to: '/docs/category/snowflake-1/',
-  
-        },
-        {
-          label: 'VS Code',
-          to: '/docs/best-practices/vscode/',
-
-        },
-         
-        ],
+    },
+    {
+      type: 'custom-versionedCategoryLink',
+      label: 'Reference',
+      category: 'reference',
+      position: 'left',
+    },
+    {
+      type: 'custom-versionedCategoryLink',
+      label: 'Tutorials',
+      category: 'tutorials',
+      position: 'left',
+    },
+     {
+        type: 'docsVersionDropdown',
+        position: 'right',
+        dropdownActiveClassDisabled: true,
       },
       {
-      label: 'Reference',
-      to: '/docs/category/reference/',
-      position: 'left',
-    
-      items: [
-        {
-          label: 'Administration Menu',
-          to: '/docs/reference/admin-menu/',
-      
-        },
-        {
-          label: 'Airflow',
-          to: '/docs/category/airflow-1/',
-
-  
-        },
-        {
-          label: 'Datacoves',
-          to: '/docs/category/datacoves-1/',
-
-        },
-        {
-         label: 'dbt docs',
-          to: 'https://docs.getdbt.com/',
-
-        },
-      
-         {
-          label: 'Security',
-          to: '/docs/reference/security/',
-
-        },
-         {
-          label: 'VS Code',
-          to: '/docs/reference/vscode/',
-
-        },
-     
-        ],
-      },
-    { label: 'Tutorials', 
-      to: '/docs/category/tutorials/',
-      position: 'left',
-      items:[
-        {
-          label: 'Educational Data Resources',
-          to: 'https://datacoves.com/data-resources#Educational',
-        },
-        {
-          label: 'Learning Resources',
-          to: 'https://datacoves.com/learning-resources?_gl=1*18cmhau*_ga*MjYwMzYwODE1LjE3NTIyNTAwNDk.*_ga_WFBP8GG4YV*czE3NTYyNDYzMzAkbzUwJGcxJHQxNzU2MjQ2NDg4JGo2MCRsMCRoMA..'
-        },
-      ] },
-     {
         type: 'search',
         position: 'right', // setting the search bar to the right of the nav
       },

@@ -14,7 +14,7 @@ const FeatureList = [
        How to guides provide step-by-step instructions to accomplish tasks on the platform. Topics include Airflow, Datacoves, dbt, Git, and Snowflake for practical use.
       </>
     ),
-    link: '/docs/category/how-tos',
+    link: '/docs/4.1/category/how-tos',
   },
   {
     title: 'Best Practice',
@@ -24,7 +24,7 @@ const FeatureList = [
        Best Practice guides help you improve your analytics workflows with proven strategies. These come from experience working at large enterprises across multiple teams.
       </>
     ),
-    link: '/docs/category/best-practices',
+    link: '/docs/4.1/category/best-practices',
   },
   {
     title: 'Reference',
@@ -34,7 +34,7 @@ const FeatureList = [
        Reference guides provide detailed technical information on tools like the Administration Menu, Airflow, Datacoves, Metrics & Logs, Security, and VS Code for easy lookup.
       </>
     ),
-     link: '/docs/category/reference',
+     link: '/docs/4.1/category/reference',
   },
 ];
 

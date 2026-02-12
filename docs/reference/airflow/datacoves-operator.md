@@ -4,8 +4,8 @@ sidebar_position: 128
 ---
 # Datacoves Operators & Generators
 
-:::note All operators use Datacoves Service connections with `Delivery Mode` set to `Environment Variables`
-When utilizing dbt-coves to generate DAGs, it's crucial to grasp the functionality of the two frequently used operators and their behind-the-scenes operations, enhancing your Airflow experience.
+:::note
+All operators use Datacoves Service connections with `Delivery Mode` set to `Environment Variables`. When utilizing dbt-coves to generate DAGs, it's crucial to grasp the functionality of the two frequently used operators and their behind-the-scenes operations, enhancing your Airflow experience.
 :::
 
 ## Datacoves Bash Operator

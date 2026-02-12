@@ -65,6 +65,7 @@
 }
 .footer {
   background-color: #00044A; /* Datacoves navy brand color */
+  margin-top: 3rem;
 }
 
 .footer__logo img,
@@ -285,6 +286,54 @@ html[data-theme='dark'] .searchInputContainer_BATj input[type="search"] {
 /* Popup magnifying glass icon */
 html[data-theme='dark'] .searchInputContainer_BATj svg {
   color: #3496E0 !important;
+}
+
+/* Add spacing between sidebar and main content */
+.theme-doc-sidebar-container {
+  margin-right: 1.5rem;
+}
+
+@media (min-width: 997px) {
+  .theme-doc-sidebar-container {
+    margin-right: 2rem;
+  }
+}
+
+/* Fix sidebar extending below footer */
+.theme-doc-sidebar-container {
+  --doc-sidebar-width: 300px;
+}
+
+/* Ensure sidebar doesn't overlap footer */
+aside.theme-doc-sidebar-container {
+  clip-path: inset(0);
+}
+
+/* Make sidebar sticky behavior respect footer */
+.theme-doc-sidebar-menu {
+  max-height: calc(100vh - var(--ifm-navbar-height) - 2rem);
+}
+
+/* Add space at the bottom of the sidebar */
+.menu.thin-scrollbar {
+  padding-bottom: 4rem !important;
+}
+
+nav.menu {
+  padding-bottom: 4rem !important;
+}
+
+.sidebar_node_modules-\@docusaurus-theme-classic-lib-theme-DocSidebar-Desktop-Content-styles-module {
+  padding-bottom: 4rem !important;
+}
+
+aside[class*="sidebar"] nav {
+  padding-bottom: 4rem !important;
+}
+
+/* Ensure main doc wrapper contains sidebar properly */
+.docMainContainer {
+  min-height: calc(100vh - var(--ifm-navbar-height));
 }
 
 

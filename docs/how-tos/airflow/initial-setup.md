@@ -16,9 +16,11 @@ Edit the desired environment and click on the `Stack Services` tab. Ensure that 
 
 ## Airflow Configurations
 
-:::info You will need to add folders to your project repository in order to match the folder defaults for Airflow; These folders are `orchestrate/dags` and `orchestrate/dags_yml_definitions`. Please see the recommended [folder structure](best-practices/datacoves/folder-structure.md) for all folder structure recommendations.
-Once you enabled Airflow, click on the `Services configuration > Airflow Settings` tab and configure each of the following fields accordingly:
+:::info
+You will need to add folders to your project repository in order to match the folder defaults for Airflow; These folders are `orchestrate/dags` and `orchestrate/dags_yml_definitions`. Please see the recommended [folder structure](best-practices/datacoves/folder-structure.md) for all folder structure recommendations.
 :::
+
+Once you enabled Airflow, click on the `Services configuration > Airflow Settings` tab and configure each of the following fields accordingly:
 
 ### Fields Reference: 
 
@@ -58,8 +60,8 @@ Once configured, you will need to configure your CI/CD process to clone your pro
 
 ### Logs Configuration - Private Deployment ONLY. Not applicable in SaaS.
 
-:::info  
-Log Storage limit: 15 days. Airflow logs are not stored indefinitely and will be deleted after 15 days. 
+:::info
+Log Storage limit: 15 days. Airflow logs are not stored indefinitely and will be deleted after 15 days.
 :::
 
 There are **2 options** for logs - **EFS** and **S3**. Below you will see the fields required for each:

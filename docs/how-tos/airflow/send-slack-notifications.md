@@ -90,15 +90,16 @@ Slack will receive a message with a 'Logs' link that users can click on and go d
 
 In the examples below, we will send a notification on failing tasks or when the full DAG completes successfully using our custom callbacks: `inform_failure` and `inform_success`.
 
-:::noteIn addition to `inform_failure` and `inform_success`, we support these callbacks `inform_failure`, `inform_success`, `inform_retry`, `inform_sla_miss`
-
+:::note
+In addition to `inform_failure` and `inform_success`, we support these callbacks `inform_failure`, `inform_success`, `inform_retry`, `inform_sla_miss`.
 :::
 To send Slack notifications, in the Airflow DAG we need to import the appropriate callbacks and call them with:
 
 - `slack_webhook_conn_id`: the name of the Datacoves Integration created above
 - `text`: to customize the message sent to Slack.
 
-:::warning `on_failure_callback` will throw an error if using lists causing your task to fail.
+:::warning
+`on_failure_callback` will throw an error if using lists causing your task to fail.
 :::
 ### Python version
 

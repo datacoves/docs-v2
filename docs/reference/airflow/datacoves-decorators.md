@@ -6,8 +6,8 @@ sidebar_position: 125
 
 With the introduction of the task flow API in Airflow we have released the Datacoves decorators to make writing DAGs simple! 
 
-:::note 
-While the Datacoves decorators are recommended, the [Datacoves Operators](/reference/airflow/datacoves-operator.md), are still supported. 
+:::note
+While the Datacoves decorators are recommended, the [Datacoves Operators](/reference/airflow/datacoves-operator.md) are still supported.
 :::
 
 ## Decorators 

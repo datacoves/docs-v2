@@ -14,6 +14,7 @@ The `my` subcommand executes commands for My Airflow.
 Currently, the `datacoves my` subcommand has the following subcommands:
 - `my import`
 - `my pytest`
+- `my api-key`
 
 ### datacoves my import
 
@@ -37,4 +38,42 @@ This command allows you to run pytest validations straight from the command line
 
 ```bash
 datacoves my pytest -- orchestrate/test_dags/validate_dags.py
+```
+
+### datacoves my api-key
+
+Manage My Airflow API keys from the command line. These keys allow you to access the My Airflow API programmatically.
+
+#### List existing keys
+
+```bash
+datacoves my api-key list
+```
+
+This displays all environments where My Airflow is enabled, along with the API URL and any existing keys.
+
+#### Generate a new key
+
+```bash
+datacoves my api-key generate
+```
+
+You can optionally provide a name for the key:
+
+```bash
+datacoves my api-key generate --name "My Script"
+```
+
+The command will output the API URL and key. Save the key immediately as it won't be shown again.
+
+#### Delete a key
+
+```bash
+datacoves my api-key delete <token-prefix>
+```
+
+Use the first 8 characters of the token (shown in the list command) to identify which key to delete.
+
+```bash
+datacoves my api-key delete abc12345
 ```

@@ -18,15 +18,22 @@ To synchronize the Airflow database, we can use an Airflow DAG with the Datacove
 @task.datacoves_airflow_db_sync
 ``` 
 
-:::note
-To avoid synchronizing unnecessary Airflow tables, the following Airflow tables are synced by default: `ab_permission`, `ab_role`, `ab_user`, `dag`, `dag_run`, `dag_tag`, `import_error`, `job`, `task_fail`, `task_instance`
-:::
-These decorator can receive:
+To avoid synchronizing unnecessary data, the following Airflow tables are always loaded.  Where possible, these are loaded incrementally for higher performance:
+- `ab_permission`
+- `ab_role`
+- `ab_user`
+- `dag` (incrementally loaded by last_pickled)
+- `dag_run` (incrementally loaded by execution_date)
+- `dag_tag`
+- `import_error` (incrementally loaded by timestamp)
+- `job` (incrementally loaded by start_date)
+- `task_fail` (incrementally loaded by start_date)
+- `task_instance` (incrementally loaded by updated_at)
 
+The decorator can receive:
 - `db_type`: the destination warehouse type, "snowflake" or "redshift"
-- `connection_id`: the name of the Airflow Service Connection in Datacoves that will be used by the operator. 
-- `tables`: a list of tables to override the default ones. _Warning:_ An empty list `[]` will perform a full-database sync.
-- `additional_tables`: a list of additional tables you would want to add to the default set.
+- `connection_id`: the name of the Airflow Service Connection in Datacoves that will be used by the operator
+- `tables`: list of additional tables to load
 - `destination_schema`: the destination schema where the Airflow tables will end-up. By default, the schema will be named as follows: `airflow-\{datacoves environment slug\}` for example `airflow-qwe123`
 
 ![airflow_load](assets/service_connection_airflow_raw.png)
@@ -39,7 +46,7 @@ from airflow.decorators import dag, task
 
 @dag(
     default_args={
-        "start_date": datetime(2022, 10, 10),
+        "start_date": datetime(2026, 1, 1),
         "owner": "Bruno",
         "email": "bruno@example.com",
         "email_on_failure": False,
@@ -55,7 +62,7 @@ def airflow_data_sync():
         db_type="snowflake",
         destination_schema="airflow_dev",
         connection_id="main",
-        # additional_tables=["additional_table_1", "additional_table_2"],
+        # tables=["additional_table_1", "additional_table_2"],
     )
     def sync_airflow_db():
         pass

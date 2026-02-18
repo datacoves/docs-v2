@@ -21,43 +21,51 @@ A Project configuration consists of the following fields:
   - **Clone strategy:** Determines how Datacoves will communicate with your git repository (SSH, HTTPS, or Azure DevOps Secret/Certificate). Select your desired cloning strategy to see configuration instructions:
 
 <Tabs>
-  <TabItem value="ssh" label="SSH" default>
-    When SSH is selected, an SSH public key will be automatically generated for you to configure in your git provider as a deployment key.
+<TabItem value="ssh" label="SSH" default>
 
-    ![Repo SSH Key](../assets/projects_ssh_key.png)
-  </TabItem>
+When SSH is selected, an SSH public key will be automatically generated for you to configure in your git provider as a deployment key.
 
-  <TabItem value="https" label="HTTPS">
-    When HTTPS is selected, the following fields must be filled in: `Git HTTPS url`, `Username`, and `Password`.
+![Repo SSH Key](../assets/projects_ssh_key.png)
 
-    ![Repo User Password Prompt](../assets/projects_https_data.png)
-  </TabItem>
+</TabItem>
 
-  <TabItem value="azure-secret" label="Azure DevOps Secret">
-    When Azure DevOps Secret is selected, a secret key is required for authentication. This assumes you have already created your EntraID application and added it as a user.
+<TabItem value="https" label="HTTPS">
 
-    See this [how-to guide on configuring Azure DevOps](how_to_configure_azure_DevOps) for detailed configuration information.
+When HTTPS is selected, the following fields must be filled in: `Git HTTPS url`, `Username`, and `Password`.
 
-    - **Git SSH url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal
-    - **Azure HTTPS Clone url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal
-    - **Tenant ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)
-    - **Application ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)
-    - **Client Secret:** [Secret value](how_to_configure_azure_DevOps) found in Azure DevOps Portal
-    - **Release Branch:** This will be the branch you would like to clone. Typically `main`.
-  </TabItem>
+![Repo User Password Prompt](../assets/projects_https_data.png)
 
-  <TabItem value="azure-cert" label="Azure DevOps Certificate">
-    When Azure DevOps Certificate is selected, a certificate is needed for secure communication.
+</TabItem>
 
-    See this [how-to guide on configuring Azure DevOps](how_to_configure_azure_DevOps) for detailed instructions.
+<TabItem value="azure-secret" label="Azure DevOps Secret">
 
-    - **Certificate PEM file:** Copy the PEM file to your desktop and [upload in Azure](how_to_configure_azure_DevOps)
-    - **Git SSH url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal
-    - **Azure HTTPS Clone url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal
-    - **Tenant ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)
-    - **Application ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)
-    - **Release Branch:** Defines the default branch in your repository. Typically `main` or `master`.
-  </TabItem>
+When Azure DevOps Secret is selected, a secret key is required for authentication. This assumes you have already created your EntraID application and added it as a user.
+
+See this [how-to guide on configuring Azure DevOps](how_to_configure_azure_DevOps) for detailed configuration information.
+
+- **Git SSH url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal
+- **Azure HTTPS Clone url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal
+- **Tenant ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)
+- **Application ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)
+- **Client Secret:** [Secret value](how_to_configure_azure_DevOps) found in Azure DevOps Portal
+- **Release Branch:** This will be the branch you would like to clone. Typically `main`.
+
+</TabItem>
+
+<TabItem value="azure-cert" label="Azure DevOps Certificate">
+
+When Azure DevOps Certificate is selected, a certificate is needed for secure communication.
+
+See this [how-to guide on configuring Azure DevOps](how_to_configure_azure_DevOps) for detailed instructions.
+
+- **Certificate PEM file:** Copy the PEM file to your desktop and [upload in Azure](how_to_configure_azure_DevOps)
+- **Git SSH url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal
+- **Azure HTTPS Clone url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal
+- **Tenant ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)
+- **Application ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)
+- **Release Branch:** Defines the default branch in your repository. Typically `main` or `master`.
+
+</TabItem>
 </Tabs>
 
 - **CI/CD Provider:** When provided, this will display a link to your CI/CD jobs on the Observe tab of a Datacoves environment. Once you choose your provider, you will be able to specify your `CI jobs home URL`.

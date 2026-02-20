@@ -44,6 +44,10 @@ const config = {
     locales: ['en'],
   },
 
+  clientModules: [
+    './src/clientModules/tabAnchorHandler.js',
+  ],
+
   presets: [
     [
       'classic',

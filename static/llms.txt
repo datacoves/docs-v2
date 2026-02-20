@@ -121,7 +121,7 @@ The `.vscode/settings.json` folder is used for customized settings in order to o
 
 // File: best-practices/dbt/README
 
-# Overview <!-- {docsify-ignore-all} -->
+# Overview
 
 As any data environment grows, it can become difficult for new team members to unravel complex pieces of logic within the project.
 
@@ -1137,9 +1137,11 @@ Edit the desired environment and click on the `Stack Services` tab. Ensure that 
 
 ## Airflow Configurations
 
-:::info You will need to add folders to your project repository in order to match the folder defaults for Airflow; These folders are `orchestrate/dags` and `orchestrate/dags_yml_definitions`. Please see the recommended [folder structure](best-practices/datacoves/folder-structure.md) for all folder structure recommendations.
-Once you enabled Airflow, click on the `Services configuration > Airflow Settings` tab and configure each of the following fields accordingly:
+:::info
+You will need to add folders to your project repository in order to match the folder defaults for Airflow; These folders are `orchestrate/dags` and `orchestrate/dags_yml_definitions`. Please see the recommended [folder structure](best-practices/datacoves/folder-structure.md) for all folder structure recommendations.
 :::
+
+Once you enabled Airflow, click on the `Services configuration > Airflow Settings` tab and configure each of the following fields accordingly:
 
 ### Fields Reference: 
 
@@ -1179,8 +1181,8 @@ Once configured, you will need to configure your CI/CD process to clone your pro
 
 ### Logs Configuration - Private Deployment ONLY. Not applicable in SaaS.
 
-:::info  
-Log Storage limit: 15 days. Airflow logs are not stored indefinitely and will be deleted after 15 days. 
+:::info
+Log Storage limit: 15 days. Airflow logs are not stored indefinitely and will be deleted after 15 days.
 :::
 
 There are **2 options** for logs - **EFS** and **S3**. Below you will see the fields required for each:
@@ -1354,15 +1356,22 @@ To synchronize the Airflow database, we can use an Airflow DAG with the Datacove
 @task.datacoves_airflow_db_sync
 ``` 
 
-:::note
-To avoid synchronizing unnecessary Airflow tables, the following Airflow tables are synced by default: `ab_permission`, `ab_role`, `ab_user`, `dag`, `dag_run`, `dag_tag`, `import_error`, `job`, `task_fail`, `task_instance`
-:::
-These decorator can receive:
+To avoid synchronizing unnecessary data, the following Airflow tables are always loaded.  Where possible, these are loaded incrementally for higher performance:
+- `ab_permission`
+- `ab_role`
+- `ab_user`
+- `dag` (incrementally loaded by last_pickled)
+- `dag_run` (incrementally loaded by execution_date)
+- `dag_tag`
+- `import_error` (incrementally loaded by timestamp)
+- `job` (incrementally loaded by start_date)
+- `task_fail` (incrementally loaded by start_date)
+- `task_instance` (incrementally loaded by updated_at)
 
+The decorator can receive:
 - `db_type`: the destination warehouse type, "snowflake" or "redshift"
-- `connection_id`: the name of the Airflow Service Connection in Datacoves that will be used by the operator. 
-- `tables`: a list of tables to override the default ones. _Warning:_ An empty list `[]` will perform a full-database sync.
-- `additional_tables`: a list of additional tables you would want to add to the default set.
+- `connection_id`: the name of the Airflow Service Connection in Datacoves that will be used by the operator
+- `tables`: list of additional tables to load
 - `destination_schema`: the destination schema where the Airflow tables will end-up. By default, the schema will be named as follows: `airflow-\{datacoves environment slug\}` for example `airflow-qwe123`
 
 ![airflow_load](assets/service_connection_airflow_raw.png)
@@ -1375,7 +1384,7 @@ from airflow.decorators import dag, task
 
 @dag(
     default_args={
-        "start_date": datetime(2022, 10, 10),
+        "start_date": datetime(2026, 1, 1),
         "owner": "Bruno",
         "email": "bruno@example.com",
         "email_on_failure": False,
@@ -1391,7 +1400,7 @@ def airflow_data_sync():
         db_type="snowflake",
         destination_schema="airflow_dev",
         connection_id="main",
-        # additional_tables=["additional_table_1", "additional_table_2"],
+        # tables=["additional_table_1", "additional_table_2"],
     )
     def sync_airflow_db():
         pass
@@ -1713,7 +1722,8 @@ In Datacoves 3.3 and up, the `SMTP` will be automatically added to your environm
 
 Viola!🎉 The Airflow service will be restarted shortly and will now include the SMTP configuration required to send emails.
 
-:::note **Getting Started Guide:** If you are making your way through our [getting started guide](/docs/category/administrator), please continue on to [developing DAGs](getting-started/Admin/creating-airflow-dags.md).
+:::note
+**Getting Started Guide:** If you are making your way through our [getting started guide](/docs/category/administrator), please continue on to [developing DAGs](getting-started/Admin/creating-airflow-dags.md).
 :::
 ## Set up a custom SMTP (Optional)
 
@@ -1829,7 +1839,8 @@ nodes:
 
 ## DRY default_args 
 
-:::tip We recommend placing your default_args in its own file and importing it for reusability. In the example below we created a file inside of orchestrate/utils/
+:::tip
+We recommend placing your default_args in its own file and importing it for reusability. In the example below we created a file inside of orchestrate/utils/.
 :::
 ```python
 # orchestrate/utils/default_args.py
@@ -1890,7 +1901,8 @@ Click `Configure`, give it a name, and optionally select an image to use as the 
 
 ![Create Incoming Webhook](./assets/create-incoming-webhook.png)
 
-:::info Store this URL in a safe place as you will need it in a subsequent step and anyone with this link can send notification to that MS Teams channel
+:::info
+Store this URL in a safe place as you will need it in a subsequent step and anyone with this link can send notification to that MS Teams channel.
 :::
 ## Prepare Airflow
 ### Create a new Integration
@@ -1953,9 +1965,11 @@ To send MS Teams notifications, in the Airflow DAG we need to import the appropr
 - `message`: the body of the message
 - `theme_color`: theme color of the MS Teams card
 
-:::info  `on_failure_callback` will throw an error if using lists causing your task to fail.
-### Python version
+:::info
+`on_failure_callback` will throw an error if using lists causing your task to fail.
 :::
+
+### Python version
 
 ```python
 from pendulum import datetime
@@ -2130,15 +2144,16 @@ Slack will receive a message with a 'Logs' link that users can click on and go d
 
 In the examples below, we will send a notification on failing tasks or when the full DAG completes successfully using our custom callbacks: `inform_failure` and `inform_success`.
 
-:::noteIn addition to `inform_failure` and `inform_success`, we support these callbacks `inform_failure`, `inform_success`, `inform_retry`, `inform_sla_miss`
-
+:::note
+In addition to `inform_failure` and `inform_success`, we support these callbacks `inform_failure`, `inform_success`, `inform_retry`, `inform_sla_miss`.
 :::
 To send Slack notifications, in the Airflow DAG we need to import the appropriate callbacks and call them with:
 
 - `slack_webhook_conn_id`: the name of the Datacoves Integration created above
 - `text`: to customize the message sent to Slack.
 
-:::warning `on_failure_callback` will throw an error if using lists causing your task to fail.
+:::warning
+`on_failure_callback` will throw an error if using lists causing your task to fail.
 :::
 ### Python version
 
@@ -4779,6 +4794,9 @@ On the User listings page, clicking on the trash can will delete the user from y
 
 // File: how-tos/datacoves/how_to_projects/README
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # How to Create/Edit a Project
 
 Navigate to the Projects page:
@@ -4793,43 +4811,53 @@ A Project configuration consists of the following fields:
 - **Git Repo:** This is the git repository associated with this project.
   - **Clone strategy:** Determines how Datacoves will communicate with your git repository (SSH, HTTPS, or Azure DevOps Secret/Certificate). Select your desired cloning strategy to see configuration instructions:
 
-    <!-- tabs:start -->
+<Tabs>
+<TabItem value="ssh" label="SSH" default>
 
-    #### **SSH**
-    When SSH is selected, an SSH public key will be automatically generated for you to configure in your git provider as a deployment key.
+When SSH is selected, an SSH public key will be automatically generated for you to configure in your git provider as a deployment key.
 
-    ![Repo SSH Key](../assets/projects_ssh_key.png)
+![Repo SSH Key](../assets/projects_ssh_key.png)
 
-    #### **HTTPS**
-    When HTTPS is selected, the following fields must be filled in: `Git HTTPS url`, `Username`, and `Password`.
+</TabItem>
 
-    ![Repo User Password Prompt](../assets/projects_https_data.png)
+<TabItem value="https" label="HTTPS">
 
-    #### **Azure DevOps Secret**
-    When Azure DevOps Secret is selected, a secret key is required for authentication. This assumes you have already created your EntraID application and added it as a user.
+When HTTPS is selected, the following fields must be filled in: `Git HTTPS url`, `Username`, and `Password`.
 
-    See this [how-to guide on configuring Azure DevOps](how_to_configure_azure_DevOps) for detailed configuration information.  
+![Repo User Password Prompt](../assets/projects_https_data.png)
 
-    - **Git SSH url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal  
-    - **Azure HTTPS Clone url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal  
-    - **Tenant ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)  
-    - **Application ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)  
-    - **Client Secret:** [Secret value](how_to_configure_azure_DevOps) found in Azure DevOps Portal  
-    - **Release Branch:** This will be the branch you would like to clone. Typically `main`.
+</TabItem>
 
-    #### **Azure DevOps Certificate**
-    When Azure DevOps Certificate is selected, a certificate is needed for secure communication.
+<TabItem value="azure-secret" label="Azure DevOps Secret">
 
-    See this [how-to guide on configuring Azure DevOps](how_to_configure_azure_DevOps) for detailed instructions.  
+When Azure DevOps Secret is selected, a secret key is required for authentication. This assumes you have already created your EntraID application and added it as a user.
 
-    - **Certificate PEM file:** Copy the PEM file to your desktop and [upload in Azure](how_to_configure_azure_DevOps)  
-    - **Git SSH url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal  
-    - **Azure HTTPS Clone url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal  
-    - **Tenant ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)  
-    - **Application ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)  
-    - **Release Branch:** Defines the default branch in your repository. Typically `main` or `master`.
+See this [how-to guide on configuring Azure DevOps](how_to_configure_azure_DevOps) for detailed configuration information.
 
-    <!-- tabs:end -->
+- **Git SSH url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal
+- **Azure HTTPS Clone url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal
+- **Tenant ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)
+- **Application ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)
+- **Client Secret:** [Secret value](how_to_configure_azure_DevOps) found in Azure DevOps Portal
+- **Release Branch:** This will be the branch you would like to clone. Typically `main`.
+
+</TabItem>
+
+<TabItem value="azure-cert" label="Azure DevOps Certificate">
+
+When Azure DevOps Certificate is selected, a certificate is needed for secure communication.
+
+See this [how-to guide on configuring Azure DevOps](how_to_configure_azure_DevOps) for detailed instructions.
+
+- **Certificate PEM file:** Copy the PEM file to your desktop and [upload in Azure](how_to_configure_azure_DevOps)
+- **Git SSH url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal
+- **Azure HTTPS Clone url:** [Cloning URL](how_to_configure_azure_DevOps) found in Azure DevOps Portal
+- **Tenant ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)
+- **Application ID:** [ID found in Azure Portal](how_to_configure_azure_DevOps)
+- **Release Branch:** Defines the default branch in your repository. Typically `main` or `master`.
+
+</TabItem>
+</Tabs>
 
 - **CI/CD Provider:** When provided, this will display a link to your CI/CD jobs on the Observe tab of a Datacoves environment. Once you choose your provider, you will be able to specify your `CI jobs home URL`.
 - **Secrets Backend:** Datacoves provides a Secrets Backend out of the box; you can also configure additional Secrets Backends for your projects such as [AWS Secrets Manager](how_to_configure_aws_secrets_manager).
@@ -4942,166 +4970,169 @@ import TabItem from '@theme/TabItem';
 To enable Datacoves cloning from Azure DevOps, you must complete a series of steps outlined in this guide.
 
 <Tabs>
-  <TabItem value="create-app" label="1. Create your Application" default>
-    ## Step 1: Create your Application
+<TabItem value="create-app" label="1. Create your Application" default>
 
-    If you do not have an Entra ID application created, follow these steps:
+### Step 1: Create your Application
 
-    **Step 1**  
-    - From your [Azure Portal](https://portal.azure.com), search for EntraID.
+If you do not have an Entra ID application created, follow these steps:
 
-    **Step 2**  
-    - Select `App Registrations` from the left navigation menu.
+**Step 1**
+- From your [Azure Portal](https://portal.azure.com), search for EntraID.
 
-    <div style={{ maxWidth: "700px", margin: "0 auto" }}>
-    ![App Registration](../assets/azure_devops_overview.png)
-    </div>
+**Step 2**
+- Select `App Registrations` from the left navigation menu.
 
-    **Step 3**  
-    - Select `+ New registration` and fill out the fields:
-      - **Name:** Give your application a meaningful name
-      - **Supported account types:** Select `Accounts in this organizational directory only`
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
+![App Registration](../assets/azure_devops_overview.png)
+</div>
 
-    **Step 4**  
-    <div style={{ maxWidth: "700px", margin: "0 auto" }}>
-    ![Register Application](../assets/azure_devops_register_application.png)
-    </div>
-  </TabItem>
+**Step 3**
+- Select `+ New registration` and fill out the fields:
+  - **Name:** Give your application a meaningful name
+  - **Supported account types:** Select `Accounts in this organizational directory only`
 
-  <TabItem value="add-user" label="2. Add your Application as a User in the DevOps Portal">
-    ## Step 2: Add your Application as a User in DevOps Portal
+**Step 4**
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
+![Register Application](../assets/azure_devops_register_application.png)
+</div>
 
-    **Step 1**  
-    <div style={{ maxWidth: "200px"}}>
-    ![Organization Settings](../assets/azure_devops_organization_settings.png)
-    </div>
+</TabItem>
 
-    **Step 2**  
-    <div style={{ maxWidth: "200px"}}>
-    ![Organization Navbar](../assets/azure_devops_user_nav.png)
-    </div>
+<TabItem value="add-user" label="2. Add your Application as a User in the DevOps Portal">
 
-    **Step 3**  
-  
-    ![Add User button](../assets/azure_devops_add_user_button.png)
-   
+### Step 2: Add your Application as a User in DevOps Portal
 
-    **Step 4**  
-  
-    ![Add User menu](../assets/azure_devops_add_user_menu.png)
-   
+**Step 1**
+<div style={{ maxWidth: "200px"}}>
+![Organization Settings](../assets/azure_devops_organization_settings.png)
+</div>
 
-    **Step 5**  
-    <div style={{ maxWidth: "500px", margin: "0 auto" }}>
-    ![Add to project](../assets/azure_devops_assign_to_project.png)
-    </div>
+**Step 2**
+<div style={{ maxWidth: "200px"}}>
+![Organization Navbar](../assets/azure_devops_user_nav.png)
+</div>
 
-    ✅ Now that you have created your EntraID application and added it as a user in the DevOps Portal, proceed to the next tab to configure **Azure DevOps authentication**.
-  </TabItem>
+**Step 3**
 
-  <TabItem value="auth-details" label="3. Gather DevOps Authentication details">
-    ## Step 3: Gather DevOps Authentication Details
+![Add User button](../assets/azure_devops_add_user_button.png)
 
-    ### Application (Client) ID and Directory (Tenant) ID
+**Step 4**
 
-    **Step 1**  
-    - From your [Azure Portal](https://portal.azure.com), search for EntraID.
+![Add User menu](../assets/azure_devops_add_user_menu.png)
 
-    **Step 2**  
-    - Select `App Registrations` from the left navigation menu.
+**Step 5**
+<div style={{ maxWidth: "500px", margin: "0 auto" }}>
+![Add to project](../assets/azure_devops_assign_to_project.png)
+</div>
 
+Now that you have created your EntraID application and added it as a user in the DevOps Portal, proceed to the next tab to configure **Azure DevOps authentication**.
 
-    ![App Registration](../assets/azure_devops_overview.png)
-    
+</TabItem>
 
-    **Step 3**  
-    - Select `All Applications` and select your newly created app.
+<TabItem value="auth-details" label="3. Gather DevOps Authentication details">
 
-    **Step 4**  
-  
-    ![Azure DevOps Details](../assets/azure_devops_app_details.jpg)
-    
+### Step 3: Gather DevOps Authentication Details
 
-    ### Repo SSH and HTTP URLs
+#### Application (Client) ID and Directory (Tenant) ID
 
-    **Step 1**  
-    - Log in to your [Azure DevOps Portal](https://dev.azure.com).
+**Step 1**
+- From your [Azure Portal](https://portal.azure.com), search for EntraID.
 
-    **Step 2**  
-    - Navigate to your project.
+**Step 2**
+- Select `App Registrations` from the left navigation menu.
 
-    **Step 3**  
-    - Navigate to your repo and select the `Clone` button.
+![App Registration](../assets/azure_devops_overview.png)
 
-    **Step 4**  
-    <div style={{ maxWidth: "500px", margin: "0 auto" }}>
-    ![SSH and HTTP](../assets/azure_devops_https.png)
-    </div>
+**Step 3**
+- Select `All Applications` and select your newly created app.
 
-    ✅ Be sure to save all of these details in a safe notepad. Proceed to the next tab to configure **Azure DevOps authentication**.
-  </TabItem>
+**Step 4**
 
-  <TabItem value="authenticate" label="4. Authenticate Azure DevOps">
-    ## Step 4: Authenticate Azure DevOps
+![Azure DevOps Details](../assets/azure_devops_app_details.jpg)
 
-    **Step 1**  
-    - Navigate back to the tab where you created your application in the Azure Portal. You should be inside your newly created application.  
-    - Select the `Certificates & Secrets` option in the left navigation menu.
+#### Repo SSH and HTTP URLs
 
-    <div style={{ maxWidth: "700px", margin: "0 auto" }}>
-    ![Navigation](../assets/azure_devops_secret_nav.jpg)
-    </div>
+**Step 1**
+- Log in to your [Azure DevOps Portal](https://dev.azure.com).
 
-    ### Secret or Certificate Authentication Method
+**Step 2**
+- Navigate to your project.
 
-    ### Secret-Based Authentication
+**Step 3**
+- Navigate to your repo and select the `Clone` button.
 
-    **Step 2**  
-    - Select `Client Secrets` in the top navigation menu and `+ New Secret`.
+**Step 4**
+<div style={{ maxWidth: "500px", margin: "0 auto" }}>
+![SSH and HTTP](../assets/azure_devops_https.png)
+</div>
 
-    **Step 3**  
-    - Give it a meaningful description and set your desired expiration date.
+Be sure to save all of these details in a safe notepad. Proceed to the next tab to configure **Azure DevOps authentication**.
 
-    **Step 4**  
-    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-    ![Azure Secret](../assets/azure_devops_secret.jpg)
-    </div>
+</TabItem>
 
-    ### Certificate-Based Authentication
+<TabItem value="authenticate" label="4. Authenticate Azure DevOps">
 
-    **Step 2**  
-    - Select `Certificates` from the top navigation menu.
-    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-    ![Upload Certificate](../assets/azure_devops_upload_certificate.png)
-    </div>
+### Step 4: Authenticate Azure DevOps
 
-    **Step 3**  
-    - To generate a certificate PEM file, begin project configuration.
+**Step 1**
+- Navigate back to the tab where you created your application in the Azure Portal. You should be inside your newly created application.
+- Select the `Certificates & Secrets` option in the left navigation menu.
 
-    **Step 4**  
-    - Select `Azure DevOps Certificate` as your Cloning Strategy. 
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
+![Navigation](../assets/azure_devops_secret_nav.jpg)
+</div>
 
-    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-    ![Certificates](../assets/azure_devops_certificate.jpg)
-    </div>
+#### Secret or Certificate Authentication Method
 
-    **Step 5**  
-    - Copy the certificate and save it as a plain text file on your desktop with a `.pem` extension `datacoves_cert.pem`.
+#### Secret-Based Authentication
 
-    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-    ![Certificate PEM file](../assets/azure_devops_certificate_copy.jpg)
-    </div>
+**Step 2**
+- Select `Client Secrets` in the top navigation menu and `+ New Secret`.
 
-    **Step 6**  
-    - Navigate back to your Azure Portal tab and select `Upload certificate`. Upload the PEM file you saved in the previous step.
+**Step 3**
+- Give it a meaningful description and set your desired expiration date.
 
-    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-    ![Upload Certificate](../assets/azure_devops_upload_certificate.png)
-    </div>
+**Step 4**
+<div style={{ maxWidth: "800px", margin: "0 auto" }}>
+![Azure Secret](../assets/azure_devops_secret.jpg)
+</div>
 
-    **Step 7**  
-    - Give it a description and select `Add`.
-  </TabItem>
+#### Certificate-Based Authentication
+
+**Step 2**
+- Select `Certificates` from the top navigation menu.
+<div style={{ maxWidth: "800px", margin: "0 auto" }}>
+![Upload Certificate](../assets/azure_devops_upload_certificate.png)
+</div>
+
+**Step 3**
+- To generate a certificate PEM file, begin project configuration.
+
+**Step 4**
+- Select `Azure DevOps Certificate` as your Cloning Strategy.
+
+<div style={{ maxWidth: "800px", margin: "0 auto" }}>
+![Certificates](../assets/azure_devops_certificate.jpg)
+</div>
+
+**Step 5**
+- Copy the certificate and save it as a plain text file on your desktop with a `.pem` extension `datacoves_cert.pem`.
+
+<div style={{ maxWidth: "800px", margin: "0 auto" }}>
+![Certificate PEM file](../assets/azure_devops_certificate_copy.jpg)
+</div>
+
+**Step 6**
+- Navigate back to your Azure Portal tab and select `Upload certificate`. Upload the PEM file you saved in the previous step.
+
+<div style={{ maxWidth: "800px", margin: "0 auto" }}>
+![Upload Certificate](../assets/azure_devops_upload_certificate.png)
+</div>
+
+**Step 7**
+- Give it a description and select `Add`.
+
+</TabItem>
 </Tabs>
 
 ---
@@ -5509,6 +5540,63 @@ Before a story is added to development backlog:
 1. Check sources are available in Snowflake for story or add story to ingest new data
 2. Initial discovery of data is performed to understand the data and determine what steps may be required to deliver the requested output. Any data model design is agreed and work is broken up into sprint tasks
 3. Assure any other requirements are well defined in story e.g. column descriptions, model layout, required tests, etc.
+
+---
+
+// File: how-tos/dataops/trigger-cicd-workflow
+
+# How to trigger a CI/CD run without code changes
+
+Sometimes you need to re-run your CI/CD pipeline without making any actual code changes. Common scenarios include:
+
+- A previous CI/CD run failed due to a transient error (network timeout, service unavailability)
+- You need to rebuild/redeploy after an infrastructure change
+- You want to verify the pipeline is working correctly
+- External dependencies have been updated and you need to refresh the build
+
+## Using an empty commit
+
+Git allows you to create a commit with no file changes using the `--allow-empty` flag. This commit will trigger your CI/CD pipeline just like any other commit.
+
+```bash
+git commit --allow-empty -m "trigger workflow"
+git push
+```
+
+:::warning
+
+This technique will **not work** if your workflow is configured with path filters. Workflows that use `paths:` only trigger when files matching those paths are changed. Since an empty commit has no file changes, it won't match any paths.
+
+For example, this workflow will not be triggered by an empty commit:
+
+```yaml
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/**
+      - automate/**
+      - transform/**
+```
+
+If your workflow uses path filters, you'll need to either make an actual file change or modify the workflow to support manual triggers using `workflow_dispatch`.
+
+:::
+
+## Best practices
+
+**Use a descriptive commit message** - Instead of a generic message, describe why you're triggering the workflow:
+
+```bash
+git commit --allow-empty -m "Re-trigger CI after fixing Snowflake connection"
+git commit --allow-empty -m "Rebuild to pick up updated dbt packages"
+git commit --allow-empty -m "Re-run tests after transient failure"
+```
+
+**Consider your branch** - The empty commit will trigger CI/CD for whatever branch you're on. Make sure you're on the correct branch before running the command.
+
+**Check the pipeline first** - Before creating an empty commit, verify that the issue causing the previous failure has been resolved.
 
 ---
 
@@ -7158,6 +7246,9 @@ Unlike the rest of VS Code in the browser experience which makes use of Autosave
 
 // File: how-tos/vs-code/datacoves-copilot/v1
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Datacoves Copilot v1
 
 This section describes how to configure and use Datacoves Copilot v1.
@@ -7166,21 +7257,16 @@ Datacoves Copilot v1 supports ChatGPT and Azure Open AI LLMs. Datacoves v4+ incl
 
 ## How Tos
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+<Tabs>
+<TabItem value="config" label="Config" default>
 
-<Tabs defaultValue="config" values={[
-  {label: 'Config', value: 'config'},
-  {label: 'Usage', value: 'usage'},
-]}>
+### Configure your LLM for Datacoves Copilot v1
 
-  <TabItem value="config">
-
-## Configure your LLM for Datacoves Copilot v1
-
-:::note Datacoves Copilot v1 only support the 4o model gpt model.
+:::note
+Datacoves Copilot v1 only support the 4o model gpt model.
 :::
-### Step 1: Create a Datacoves Secret
+
+#### Step 1: Create a Datacoves Secret
 
 Creating a [Datacoves Secret](/docs/how-tos/datacoves/how_to_secrets.md) requires some key fields to be filled out:
 
@@ -7196,20 +7282,19 @@ Creating a [Datacoves Secret](/docs/how-tos/datacoves/how_to_secrets.md) require
 Lastly, be sure to toggle on the `Share with developers` option so that users with developer access will be able to use the LLM.
 ![Share with Devs](assets/llm_share_with_devs.png)
 
-### Example Secret
+#### Example Secret
 
 ![Example ](assets/llm_example.png)
 
+</TabItem>
 
-  </TabItem>
+<TabItem value="usage" label="Usage">
 
-  <TabItem value="usage">
-
-## Working with an LLM in Datacoves Copilot v1
+### Working with an LLM in Datacoves Copilot v1
 
 Once you have configured your LLM, working with the AI chat is a breeze!
 
-## Pre-configured presets
+### Pre-configured presets
 
 While there are many use cases for AI in the development workflow there are a couple of tasks that come up regularly. To improve the user experience, we have created some presets that provide the LLM with specific instructions to get the best result. Use these or configure your own custom presets.
 
@@ -7220,9 +7305,9 @@ Current out of the box presents include:
 - **Explain dbt macro:** Will explain a dbt macro file you have open and provided as context.
 - **Add descriptions to CSV:** Will provide descriptions for CSV files you have open and provided as context.
 
-## How to use the Chat/Presets
+### How to use the Chat/Presets
 
-### Extension UI/UX
+#### Extension UI/UX
 
 To use your LLM head to the Datacoves Power User extension and open up `Copilot`.
 
@@ -7230,55 +7315,56 @@ To use your LLM head to the Datacoves Power User extension and open up `Copilot`
   ![LLM Menu](./assets/llm_menu.png)
 </div>
 
-### Provide files for context
+#### Provide files for context
 
 The most important thing to remember is providing context to the LLM. In order to do this simply open up the file you wish to work with.
 
 ![llm file open](assets/llm_file_open.png)
 
-### Send specific lines of code for context
+#### Send specific lines of code for context
 
 Highlight the lines of code you wish to send.
 
 ![context lines](assets/llm_line_context.png)
 
-### Don't provide context
+#### Don't provide context
 
 In the case that you don't want to send an open file for context you can select the icon below.
 
 ![llm context](assets/llm_context.gif)
 
-## Using LLM code
+### Using LLM code
 
 Datacoves Copilot makes copying AI generated code simple with 3 options.
 
 ![Code Options](assets/llm_code_options.png)
 
-### Replace
+#### Replace
 
 Replace the entire code file with the LLM code.
 
 ![llm Replace](assets/llm_replace.gif)
 
-### Insert
+#### Insert
 
 Insert LLM code into your file.
 
 ![llm Insert](assets/llm_insert.gif)
 
-### Copy
+#### Copy
 
 Traditional copy and paste.
 
 ![llm Copy](assets/llm_copy.gif)
 
-### New Chat
+#### New Chat
 
 To start a new chat click on the `New Chat` button.
 
 ![New Chat](assets/llm_new_chat.png)
 
-## Prefer a Video?
+### Prefer a Video?
+
 <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
   <iframe
     src="https://www.loom.com/embed/b6e987152c114c3c8d44dc7712aa3e22?sid=d8847855-38cc-4a84-90b3-6be7e660f8b5"
@@ -7288,54 +7374,39 @@ To start a new chat click on the `New Chat` button.
   />
 </div>
 
-  </TabItem>
-
+</TabItem>
 </Tabs>
 
 ---
 
 // File: how-tos/vs-code/datacoves-copilot/v2
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Datacoves Copilot v2
 
 This section describes how to configure and use Datacoves Copilot v2, which comes installed on Datacoves v4+, enhancing the experience and supporting the following LLM providers:
 
 - Anthropic
+- Azure OpenAI
 - DeepSeek
 - Google Gemini
 - OpenAI
-- Azure OpenAI
 - OpenAI Compatible
 - Open Router
 - xAI (Grok)
 
-## How Tos
+## Configure your LLM
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
-<Tabs defaultValue="config" values={[
-{label: 'Config', value: 'config'},
-{label: 'Anthropic', value: 'anthropic'},
-{label: 'OpenAI', value: 'openai'},
-{label: 'Azure OpenAI', value: 'azure'},
-{label: 'OpenAI Compatible', value: 'openaicompatible'},
-{label: 'Google Gemini', value: 'gemini'},
-{label: 'More Providers', value: 'additional'},
-]}>
-
-  <TabItem value="config">
-
-## Configure your LLM in Datacoves Copilot v2
-
-## Create a Datacoves Secret
+### Create a Datacoves Secret
 
 Creating a [Datacoves Secret](/how-tos/datacoves/how_to_secrets.md) requires some key fields to be filled out:
 
 - **Name:** The secret must be named `datacoves-copilot-api-configs`
 - **Description:** Provide a simple description such as: `Datacoves Copilot config`
 - **Format:** Select `Raw JSON`
-- **Value**: The value will vary depending on the LLM you are utilizing, click on the corresponding tab or on `More Providers` to see more.
+- **Value**: The value will vary depending on the LLM you are utilizing, see the provider tabs below.
 - **Scope:** Select the desired scope, either `Project` or `Environment`.
 - **Project/Environment:** Select the `Project` or `Environment` that will access this LLM.
 
@@ -7346,7 +7417,7 @@ Lastly, be sure to toggle on the `Share with developers` option so that users wi
 
 ![Example ](assets/v2_llm_example.png)
 
-### Learn more about Generative AI Use Cases with Datacoves Copilot
+### Generative AI Use Cases with Datacoves Copilot
 
 #### Expand SELECT \* into columns
 
@@ -7370,17 +7441,20 @@ Lastly, be sure to toggle on the `Share with developers` option so that users wi
   allowfullscreen
 ></iframe>
 
-  </TabItem>
+## LLM Providers
 
-  <TabItem value="anthropic">
+Select your provider to see the secret value format and supported models:
 
-## Anthropic LLM Provider
+<Tabs>
+<TabItem value="anthropic" label="Anthropic" default>
+
+### Anthropic
 
 Anthropic is an AI safety and research company that builds reliable, interpretable, and steerable AI systems. Their Claude models are known for their strong reasoning abilities, helpfulness, and honesty.
 
 Website: https://www.anthropic.com/
 
-### Secret value format
+#### Secret value format
 
 ```json
 {
@@ -7395,14 +7469,14 @@ Website: https://www.anthropic.com/
 }
 ```
 
-### Getting an API Key
+#### Getting an API Key
 
 1. Sign Up/Sign In: Go to the Anthropic Console. Create an account or sign in.
 2. Navigate to API Keys: Go to the API keys section.
 3. Create a Key: Click "Create Key". Give your key a descriptive name (e.g., "Datacoves").
 4. Copy the Key: Important: Copy the API key immediately. You will not be able to see it again. Store it securely.
 
-### Supported Models (`apiModelId`)
+#### Supported Models (`apiModelId`)
 
 Datacoves Copilot supports the following Anthropic Claude models:
 
@@ -7422,15 +7496,16 @@ Datacoves Copilot supports the following Anthropic Claude models:
 See [Anthropic's Model Documentation](https://docs.claude.com/en/docs/about-claude/models/overview) for more details on each model's capabilities.
 
 </TabItem>
-<TabItem value="openai">
 
-## OpenAI LLM Provider
+<TabItem value="openai" label="OpenAI">
+
+### OpenAI
 
 Datacoves Copilot supports accessing models directly through the official OpenAI API, including the latest GPT-5 family with advanced features like reasoning effort control and verbosity settings.
 
 Website: https://openai.com/
 
-### Secret value format
+#### Secret value format
 
 ```json
 {
@@ -7444,16 +7519,16 @@ Website: https://openai.com/
 }
 ```
 
-### Getting an API Key
+#### Getting an API Key
 
 1. Sign Up/Sign In: Go to the OpenAI Platform. Create an account or sign in.
 2. Navigate to API Keys: Go to the API keys page.
 3. Create a Key: Click "Create new secret key". Give your key a descriptive name (e.g., "Datacoves").
 4. Copy the Key: Important: Copy the API key immediately. You will not be able to see it again. Store it securely.
 
-### Supported Models (`apiModelId`)
+#### Supported Models (`apiModelId`)
 
-#### GPT-5.x Family (Latest)
+##### GPT-5.x Family (Latest)
 
 The GPT-5.x models are OpenAI's most advanced, offering superior coding capabilities and agentic task performance:
 
@@ -7464,14 +7539,14 @@ The GPT-5.x models are OpenAI's most advanced, offering superior coding capabili
 - gpt-5.1-codex - Optimized for agentic coding in Codex (400K context)
 - gpt-5.1-codex-mini - Cost-efficient version optimized for agentic coding (400K context)
 
-#### GPT-5 Family
+##### GPT-5 Family
 
 - gpt-5 - Best model for coding and agentic tasks across domains (400K context)
 - gpt-5-mini - Faster, cost-efficient for well-defined tasks
 - gpt-5-nano - Fastest, most cost-efficient option
 - gpt-5-codex - Specialized coding model
 
-#### GPT-4.1 Family
+##### GPT-4.1 Family
 
 Advanced multimodal models with balanced capabilities:
 
@@ -7479,7 +7554,7 @@ Advanced multimodal models with balanced capabilities:
 - gpt-4.1-mini - Balanced performance
 - gpt-4.1-nano - Lightweight option
 
-#### o3 Reasoning Models
+##### o3 Reasoning Models
 
 Models with configurable reasoning effort for complex problem-solving:
 
@@ -7488,7 +7563,7 @@ Models with configurable reasoning effort for complex problem-solving:
 - o3-mini-high (high reasoning effort)
 - o3-mini-low (low reasoning effort)
 
-#### o4 Models
+##### o4 Models
 
 Latest mini reasoning models:
 
@@ -7496,7 +7571,7 @@ Latest mini reasoning models:
 - o4-mini-high
 - o4-mini-low
 
-#### o1 Family
+##### o1 Family
 
 Original reasoning models:
 
@@ -7504,7 +7579,7 @@ Original reasoning models:
 - o1-preview - Preview version
 - o1-mini - Smaller variant
 
-#### GPT-4o Family
+##### GPT-4o Family
 
 Optimized GPT-4 models:
 
@@ -7515,15 +7590,16 @@ Optimized GPT-4 models:
 Refer to the [OpenAI Models documentation](https://platform.openai.com/docs/models) for the most up-to-date list of models and capabilities.
 
 </TabItem>
-<TabItem value="azure">
 
-## Azure OpenAI LLM Provider
+<TabItem value="azure" label="Azure OpenAI">
+
+### Azure OpenAI
 
 Datacoves Copilot supports Azure OpenAI models through the OpenAI API compatible interface.
 
 Website: https://azure.microsoft.com/en-us/products/ai-services/openai-service
 
-### Secret value format
+#### Secret value format
 
 ```json
 {
@@ -7538,7 +7614,7 @@ Website: https://azure.microsoft.com/en-us/products/ai-services/openai-service
 }
 ```
 
-### Getting Azure OpenAI Credentials
+#### Getting Azure OpenAI Credentials
 
 1. **Create Azure OpenAI Resource**: Go to Azure Portal and create an Azure OpenAI service resource
 2. **Deploy a Model**: In Azure AI Foundry, deploy a model (e.g., gpt-4o, gpt-4.1, gpt-5)
@@ -7546,7 +7622,7 @@ Website: https://azure.microsoft.com/en-us/products/ai-services/openai-service
 4. **Get API Key**: Navigate to "Keys and Endpoint" section and copy one of the API keys
 5. **Get Deployment Name**: Use the deployment name you created (not the model name)
 
-### Endpoint URL Format
+#### Endpoint URL Format
 
 Datacoves Copilot uses the **Chat Completions API**, so your `openAiBaseUrl` must use the chat completions path, including the deployment name and `api-version` parameter:
 
@@ -7556,11 +7632,11 @@ https://<your-resource>.cognitiveservices.azure.com/openai/deployments/<deployme
 
 For models that support **both** the Responses API and the Chat Completions API (for example GPT-4.1, GPT-5.x, o3, o4-mini), **always** use the Chat Completions URL above in Datacoves Copilot and **do not** use the default `/openai/v1/responses` URL shown in some Azure examples.
 
-### Supported Azure OpenAI Models (`openAiModelId`)
+#### Supported Azure OpenAI Models (`openAiModelId`)
 
 Use your **deployment name** from Azure AI Foundry as the `openAiModelId`. This must match the deployment name exactly (for example `gpt-5.1` if your deployment is named `gpt-5.1`), not just the base model family name.
 
-#### GPT-5 Series (Latest)
+##### GPT-5 Series (Latest)
 
 **Models with Chat Completions API support:**
 - gpt-5.2 (2025-12-11) - Flagship model, 400K context
@@ -7577,24 +7653,24 @@ Use your **deployment name** from Azure AI Foundry as the `openAiModelId`. This 
 **Note:** The following GPT-5 models use Responses API only and are **not supported** by Datacoves Copilot:
 - gpt-5-codex, gpt-5-pro, gpt-5.1-codex, gpt-5.1-codex-mini, gpt-5.1-codex-max
 
-#### GPT-4.1 Series
+##### GPT-4.1 Series
 
 - gpt-4.1 (2025-04-14) - Advanced multimodal, 1M context
 - gpt-4.1-mini (2025-04-14) - Balanced performance, 1M context
 - gpt-4.1-nano (2025-04-14) - Lightweight, 1M context
 
-#### GPT-4o Series
+##### GPT-4o Series
 
 - gpt-4o (2024-11-20) - Optimized GPT-4, 128K context
 - gpt-4o (2024-08-06) - Optimized GPT-4, 128K context
 - gpt-4o (2024-05-13) - Original GPT-4o, 128K context
 - gpt-4o-mini (2024-07-18) - Fast, cost-efficient, 128K context
 
-#### GPT-4 Series
+##### GPT-4 Series
 
 - gpt-4 (turbo-2024-04-09) - GPT-4 Turbo with Vision, 128K context
 
-#### o-Series Reasoning Models
+##### o-Series Reasoning Models
 
 - o3 (2025-04-16) - Reasoning model, 200K context
 - o4-mini (2025-04-16) - Mini reasoning, 200K context
@@ -7603,7 +7679,7 @@ Use your **deployment name** from Azure AI Foundry as the `openAiModelId`. This 
 - o1-mini (2024-09-12) - Smaller reasoning, 128K context
 - codex-mini (2025-05-16) - Coding specialized, 200K context
 
-#### GPT-3.5 Series
+##### GPT-3.5 Series
 
 - gpt-35-turbo (0125) - Chat optimized, 16K context
 - gpt-35-turbo (1106) - Chat optimized, 16K context
@@ -7618,11 +7694,10 @@ Use your **deployment name** from Azure AI Foundry as the `openAiModelId`. This 
 Refer to [Azure OpenAI documentation](https://learn.microsoft.com/en-us/azure/ai-foundry/openai/concepts/models) for the most current model availability and regional deployment options.
 
 </TabItem>
-<TabItem value="openaicompatible">
 
-#### OpenAI Compatible
+<TabItem value="openaicompatible" label="OpenAI Compatible">
 
-## OpenAI Compatible LLM Providers
+### OpenAI Compatible
 
 Datacoves Copilot supports a wide range of AI model providers that offer APIs compatible with the OpenAI API standard. This means you can use models from providers other than OpenAI, while still using a familiar API interface. This includes providers like:
 
@@ -7630,9 +7705,9 @@ Datacoves Copilot supports a wide range of AI model providers that offer APIs co
 - Cloud providers like Perplexity, Together AI, Anyscale, and others.
 - Any other provider offering an OpenAI-compatible API endpoint.
 
-**Note:** For Azure OpenAI, see the dedicated [Azure OpenAI tab](#azure-openai) for specific setup instructions.
+**Note:** For Azure OpenAI, see the dedicated Azure OpenAI tab for specific setup instructions.
 
-### Secret value format
+#### Secret value format
 
 ```json
 {
@@ -7656,9 +7731,7 @@ Where:
 2. `openAiApiKey`: This is the secret key you obtain from the provider.
 3. `openAiModelId`: This is the model name of the specific model, each provider will expose a different set of models, please check provider's documentation.
 
-
-
-#### Fine tune model usage
+##### Fine tune model usage
 
 Fine tune model usage using this additional configuration under the `openAiCustomModelInfo` key.
 
@@ -7675,15 +7748,16 @@ Fine tune model usage using this additional configuration under the `openAiCusto
 ```
 
 </TabItem>
-<TabItem value="gemini">
 
-## Google Gemini LLM Provider
+<TabItem value="gemini" label="Google Gemini">
+
+### Google Gemini
 
 Datacoves Copilot supports Google's Gemini family of models through the Google AI Gemini API.
 
 Website: https://ai.google.dev/
 
-### Secret value format
+#### Secret value format
 
 ```json
 {
@@ -7696,30 +7770,30 @@ Website: https://ai.google.dev/
 }
 ```
 
-### Getting an API Key
+#### Getting an API Key
 
 1. Go to Google AI Studio: Navigate to https://ai.google.dev/.
 2. Sign In: Sign in with your Google account.
 3. Create API Key: Click on "Create API key" in the left-hand menu.
 4. Copy API Key: Copy the generated API key.
 
-### Supported Models (`apiModelId`)
+#### Supported Models (`apiModelId`)
 
 Datacoves Copilot supports the following Gemini models:
 
-#### Gemini 3 (Latest)
+##### Gemini 3 (Latest)
 
 - gemini-3-pro-preview (Recommended - default) - 1M token context window with reasoning support
 - gemini-3-flash-preview - Fast, cost-efficient with 1M token context window
 
-#### Gemini 2.5 Pro Models
+##### Gemini 2.5 Pro Models
 
 - gemini-2.5-pro - 1M token context with thinking support
 - gemini-2.5-pro-preview-06-05
 - gemini-2.5-pro-preview-05-06
 - gemini-2.5-pro-preview-03-25
 
-#### Gemini 2.5 Flash Models
+##### Gemini 2.5 Flash Models
 
 - gemini-flash-latest - Always uses the newest stable Flash model
 - gemini-2.5-flash - 1M token context with thinking support
@@ -7730,11 +7804,8 @@ Datacoves Copilot supports the following Gemini models:
 Refer to the [Gemini documentation](https://ai.google.dev/gemini-api/docs/models) for more details on each model.
 
 </TabItem>
-<TabItem value="additional">
 
-## Additional LLM Providers
-
-Datacoves Copilot supports additional LLM providers, you can find the secret value format for each one of them and additional documentation.
+<TabItem value="deepseek" label="DeepSeek">
 
 ### DeepSeek
 
@@ -7768,6 +7839,10 @@ Website: https://platform.deepseek.com/
 - deepseek-reasoner (Recommended for reasoning tasks)
 - deepseek-r1
 
+</TabItem>
+
+<TabItem value="openrouter" label="Open Router">
+
 ### Open Router
 
 OpenRouter is an AI platform that provides access to a wide variety of language models from different providers, all through a single API. This can simplify setup and allow you to easily experiment with different models.
@@ -7799,7 +7874,11 @@ Website: https://openrouter.ai/
 OpenRouter supports a large and growing number of models.
 Refer to the [OpenRouter Models page](https://openrouter.ai/models) for the complete and up-to-date list.
 
-### xAI Grok
+</TabItem>
+
+<TabItem value="xai" label="xAI (Grok)">
+
+### xAI (Grok)
 
 xAI is the company behind Grok, a large language model known for its conversational abilities and large context window.
 Grok models are designed to provide helpful, informative, and contextually relevant responses.
@@ -7840,8 +7919,7 @@ Website: https://x.ai/
 
 Learn more about available models at [xAI Docs](https://docs.x.ai/docs/models).
 
-  </TabItem>
-
+</TabItem>
 </Tabs>
 
 ---
@@ -8558,8 +8636,8 @@ nodes:
 
 With the introduction of the task flow API in Airflow we have released the Datacoves decorators to make writing DAGs simple! 
 
-:::note 
-While the Datacoves decorators are recommended, the [Datacoves Operators](/reference/airflow/datacoves-operator.md), are still supported. 
+:::note
+While the Datacoves decorators are recommended, the [Datacoves Operators](/reference/airflow/datacoves-operator.md) are still supported.
 :::
 
 ## Decorators 
@@ -8807,8 +8885,8 @@ The name of the service connection will be used to dynamically create the follow
 
 # Datacoves Operators & Generators
 
-:::note All operators use Datacoves Service connections with `Delivery Mode` set to `Environment Variables`
-When utilizing dbt-coves to generate DAGs, it's crucial to grasp the functionality of the two frequently used operators and their behind-the-scenes operations, enhancing your Airflow experience.
+:::note
+All operators use Datacoves Service connections with `Delivery Mode` set to `Environment Variables`. When utilizing dbt-coves to generate DAGs, it's crucial to grasp the functionality of the two frequently used operators and their behind-the-scenes operations, enhancing your Airflow experience.
 :::
 
 ## Datacoves Bash Operator

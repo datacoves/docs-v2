@@ -11,164 +11,167 @@ import TabItem from '@theme/TabItem';
 To enable Datacoves cloning from Azure DevOps, you must complete a series of steps outlined in this guide.
 
 <Tabs>
-  <TabItem value="create-app" label="1. Create your Application" default>
-    ## Step 1: Create your Application
+<TabItem value="create-app" label="1. Create your Application" default>
 
-    If you do not have an Entra ID application created, follow these steps:
+### Step 1: Create your Application
 
-    **Step 1**  
-    - From your [Azure Portal](https://portal.azure.com), search for EntraID.
+If you do not have an Entra ID application created, follow these steps:
 
-    **Step 2**  
-    - Select `App Registrations` from the left navigation menu.
+**Step 1**
+- From your [Azure Portal](https://portal.azure.com), search for EntraID.
 
-    <div style={{ maxWidth: "700px", margin: "0 auto" }}>
-    ![App Registration](../assets/azure_devops_overview.png)
-    </div>
+**Step 2**
+- Select `App Registrations` from the left navigation menu.
 
-    **Step 3**  
-    - Select `+ New registration` and fill out the fields:
-      - **Name:** Give your application a meaningful name
-      - **Supported account types:** Select `Accounts in this organizational directory only`
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
+![App Registration](../assets/azure_devops_overview.png)
+</div>
 
-    **Step 4**  
-    <div style={{ maxWidth: "700px", margin: "0 auto" }}>
-    ![Register Application](../assets/azure_devops_register_application.png)
-    </div>
-  </TabItem>
+**Step 3**
+- Select `+ New registration` and fill out the fields:
+  - **Name:** Give your application a meaningful name
+  - **Supported account types:** Select `Accounts in this organizational directory only`
 
-  <TabItem value="add-user" label="2. Add your Application as a User in the DevOps Portal">
-    ## Step 2: Add your Application as a User in DevOps Portal
+**Step 4**
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
+![Register Application](../assets/azure_devops_register_application.png)
+</div>
 
-    **Step 1**  
-    <div style={{ maxWidth: "200px"}}>
-    ![Organization Settings](../assets/azure_devops_organization_settings.png)
-    </div>
+</TabItem>
 
-    **Step 2**  
-    <div style={{ maxWidth: "200px"}}>
-    ![Organization Navbar](../assets/azure_devops_user_nav.png)
-    </div>
+<TabItem value="add-user" label="2. Add your Application as a User in the DevOps Portal">
 
-    **Step 3**  
-  
-    ![Add User button](../assets/azure_devops_add_user_button.png)
-   
+### Step 2: Add your Application as a User in DevOps Portal
 
-    **Step 4**  
-  
-    ![Add User menu](../assets/azure_devops_add_user_menu.png)
-   
+**Step 1**
+<div style={{ maxWidth: "200px"}}>
+![Organization Settings](../assets/azure_devops_organization_settings.png)
+</div>
 
-    **Step 5**  
-    <div style={{ maxWidth: "500px", margin: "0 auto" }}>
-    ![Add to project](../assets/azure_devops_assign_to_project.png)
-    </div>
+**Step 2**
+<div style={{ maxWidth: "200px"}}>
+![Organization Navbar](../assets/azure_devops_user_nav.png)
+</div>
 
-    ✅ Now that you have created your EntraID application and added it as a user in the DevOps Portal, proceed to the next tab to configure **Azure DevOps authentication**.
-  </TabItem>
+**Step 3**
 
-  <TabItem value="auth-details" label="3. Gather DevOps Authentication details">
-    ## Step 3: Gather DevOps Authentication Details
+![Add User button](../assets/azure_devops_add_user_button.png)
 
-    ### Application (Client) ID and Directory (Tenant) ID
+**Step 4**
 
-    **Step 1**  
-    - From your [Azure Portal](https://portal.azure.com), search for EntraID.
+![Add User menu](../assets/azure_devops_add_user_menu.png)
 
-    **Step 2**  
-    - Select `App Registrations` from the left navigation menu.
+**Step 5**
+<div style={{ maxWidth: "500px", margin: "0 auto" }}>
+![Add to project](../assets/azure_devops_assign_to_project.png)
+</div>
 
+Now that you have created your EntraID application and added it as a user in the DevOps Portal, proceed to the next tab to configure **Azure DevOps authentication**.
 
-    ![App Registration](../assets/azure_devops_overview.png)
-    
+</TabItem>
 
-    **Step 3**  
-    - Select `All Applications` and select your newly created app.
+<TabItem value="auth-details" label="3. Gather DevOps Authentication details">
 
-    **Step 4**  
-  
-    ![Azure DevOps Details](../assets/azure_devops_app_details.jpg)
-    
+### Step 3: Gather DevOps Authentication Details
 
-    ### Repo SSH and HTTP URLs
+#### Application (Client) ID and Directory (Tenant) ID
 
-    **Step 1**  
-    - Log in to your [Azure DevOps Portal](https://dev.azure.com).
+**Step 1**
+- From your [Azure Portal](https://portal.azure.com), search for EntraID.
 
-    **Step 2**  
-    - Navigate to your project.
+**Step 2**
+- Select `App Registrations` from the left navigation menu.
 
-    **Step 3**  
-    - Navigate to your repo and select the `Clone` button.
+![App Registration](../assets/azure_devops_overview.png)
 
-    **Step 4**  
-    <div style={{ maxWidth: "500px", margin: "0 auto" }}>
-    ![SSH and HTTP](../assets/azure_devops_https.png)
-    </div>
+**Step 3**
+- Select `All Applications` and select your newly created app.
 
-    ✅ Be sure to save all of these details in a safe notepad. Proceed to the next tab to configure **Azure DevOps authentication**.
-  </TabItem>
+**Step 4**
 
-  <TabItem value="authenticate" label="4. Authenticate Azure DevOps">
-    ## Step 4: Authenticate Azure DevOps
+![Azure DevOps Details](../assets/azure_devops_app_details.jpg)
 
-    **Step 1**  
-    - Navigate back to the tab where you created your application in the Azure Portal. You should be inside your newly created application.  
-    - Select the `Certificates & Secrets` option in the left navigation menu.
+#### Repo SSH and HTTP URLs
 
-    <div style={{ maxWidth: "700px", margin: "0 auto" }}>
-    ![Navigation](../assets/azure_devops_secret_nav.jpg)
-    </div>
+**Step 1**
+- Log in to your [Azure DevOps Portal](https://dev.azure.com).
 
-    ### Secret or Certificate Authentication Method
+**Step 2**
+- Navigate to your project.
 
-    ### Secret-Based Authentication
+**Step 3**
+- Navigate to your repo and select the `Clone` button.
 
-    **Step 2**  
-    - Select `Client Secrets` in the top navigation menu and `+ New Secret`.
+**Step 4**
+<div style={{ maxWidth: "500px", margin: "0 auto" }}>
+![SSH and HTTP](../assets/azure_devops_https.png)
+</div>
 
-    **Step 3**  
-    - Give it a meaningful description and set your desired expiration date.
+Be sure to save all of these details in a safe notepad. Proceed to the next tab to configure **Azure DevOps authentication**.
 
-    **Step 4**  
-    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-    ![Azure Secret](../assets/azure_devops_secret.jpg)
-    </div>
+</TabItem>
 
-    ### Certificate-Based Authentication
+<TabItem value="authenticate" label="4. Authenticate Azure DevOps">
 
-    **Step 2**  
-    - Select `Certificates` from the top navigation menu.
-    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-    ![Upload Certificate](../assets/azure_devops_upload_certificate.png)
-    </div>
+### Step 4: Authenticate Azure DevOps
 
-    **Step 3**  
-    - To generate a certificate PEM file, begin project configuration.
+**Step 1**
+- Navigate back to the tab where you created your application in the Azure Portal. You should be inside your newly created application.
+- Select the `Certificates & Secrets` option in the left navigation menu.
 
-    **Step 4**  
-    - Select `Azure DevOps Certificate` as your Cloning Strategy. 
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
+![Navigation](../assets/azure_devops_secret_nav.jpg)
+</div>
 
-    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-    ![Certificates](../assets/azure_devops_certificate.jpg)
-    </div>
+#### Secret or Certificate Authentication Method
 
-    **Step 5**  
-    - Copy the certificate and save it as a plain text file on your desktop with a `.pem` extension `datacoves_cert.pem`.
+#### Secret-Based Authentication
 
-    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-    ![Certificate PEM file](../assets/azure_devops_certificate_copy.jpg)
-    </div>
+**Step 2**
+- Select `Client Secrets` in the top navigation menu and `+ New Secret`.
 
-    **Step 6**  
-    - Navigate back to your Azure Portal tab and select `Upload certificate`. Upload the PEM file you saved in the previous step.
+**Step 3**
+- Give it a meaningful description and set your desired expiration date.
 
-    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-    ![Upload Certificate](../assets/azure_devops_upload_certificate.png)
-    </div>
+**Step 4**
+<div style={{ maxWidth: "800px", margin: "0 auto" }}>
+![Azure Secret](../assets/azure_devops_secret.jpg)
+</div>
 
-    **Step 7**  
-    - Give it a description and select `Add`.
-  </TabItem>
+#### Certificate-Based Authentication
+
+**Step 2**
+- Select `Certificates` from the top navigation menu.
+<div style={{ maxWidth: "800px", margin: "0 auto" }}>
+![Upload Certificate](../assets/azure_devops_upload_certificate.png)
+</div>
+
+**Step 3**
+- To generate a certificate PEM file, begin project configuration.
+
+**Step 4**
+- Select `Azure DevOps Certificate` as your Cloning Strategy.
+
+<div style={{ maxWidth: "800px", margin: "0 auto" }}>
+![Certificates](../assets/azure_devops_certificate.jpg)
+</div>
+
+**Step 5**
+- Copy the certificate and save it as a plain text file on your desktop with a `.pem` extension `datacoves_cert.pem`.
+
+<div style={{ maxWidth: "800px", margin: "0 auto" }}>
+![Certificate PEM file](../assets/azure_devops_certificate_copy.jpg)
+</div>
+
+**Step 6**
+- Navigate back to your Azure Portal tab and select `Upload certificate`. Upload the PEM file you saved in the previous step.
+
+<div style={{ maxWidth: "800px", margin: "0 auto" }}>
+![Upload Certificate](../assets/azure_devops_upload_certificate.png)
+</div>
+
+**Step 7**
+- Give it a description and select `Add`.
+
+</TabItem>
 </Tabs>

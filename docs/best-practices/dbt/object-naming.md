@@ -61,7 +61,7 @@ These databases are used for UAT as needed and act as "pre-release" for any manu
 The general flow of data is from Raw schemas to Inlets then Bays, and finally Coves. These will be described in more detail below.
 
 :::note
- See [this page](./inlets-bays-coves) to learn more about Inlets, Bays, and Coves
+ See [this page](/docs/best-practices/dbt/inlets-bays-coves) to learn more about Inlets, Bays, and Coves
 :::
 
 ![inlets-bays-coves](./assets/inlets-bays-coves.png)

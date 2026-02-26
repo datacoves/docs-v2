@@ -14,7 +14,7 @@ The best way to store and retrieve information within Airflow is to use `Variabl
 The main difference between them is that [Variables](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/variable.html) is a generic multi-purpose store, while [Connections](https://airflow.apache.org/docs/apache-airflow/2.3.1/howto/connection.html) are aimed at third-party providers.
 
 :::tip
-Rather than using connections or variables stored in Airflow’s database, we recommend using a Secrets Manager. These secrets are encrypted and can be stored either in [Datacoves Secrets manager](../use-datacoves-secrets-manager.mdx) or a third-party secrets manager like [AWS Secrets Manager](../use-aws-secrets-manager.mdx)
+Rather than using connections or variables stored in Airflow's database, we recommend using a Secrets Manager. These secrets are encrypted and can be stored either in [Datacoves Secrets manager](/docs/how-tos/airflow/use-datacoves-secrets-manager) or a third-party secrets manager like [AWS Secrets Manager](/docs/how-tos/airflow/use-aws-secrets-manager)
 :::
 
 ## Usage

@@ -50,7 +50,7 @@ This custom decorator is an extension of the @task decorator and simplifies runn
 
 **Params:**
 
-Datacoves dbt decorator supports all the [Datacoves dbt Operator params](./datacoves-operator#datacoves-dbt-operator) plus:
+Datacoves dbt decorator supports all the [Datacoves dbt Operator params](/docs/reference/airflow/datacoves-operator#datacoves-dbt-operator) plus:
 
 - `connection_id`: This is the [service connection](/docs/how-tos/datacoves/how_to_service_connections) which is automatically added to airflow if you select `Airflow Connection` as the `Delivery Mode`.
 

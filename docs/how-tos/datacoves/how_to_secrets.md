@@ -28,7 +28,7 @@ Datacoves Secret Manager will ONLY look for variables that are prefixed with `da
 
 ![Toggle secret access](assets/datacoves_secrets_sharing_toggle.jpg)
 
-To learn how to read a variable from the Datacoves secrets manager check out our [How To](../airflow/use-datacoves-secrets-manager.mdx)
+To learn how to read a variable from the Datacoves secrets manager check out our [How To](/docs/how-tos/airflow/use-datacoves-secrets-manager)
 
 :::note
 If the secret isn’t shared with the developers or services, only the author can use it.

@@ -5,7 +5,7 @@ sidebar_position: 10
 # Using Key-Pair Authentication in Airflow
 
 :::note
-This documentation will presume you have knowledge of Datacoves' [Service Connections](/how-tos/datacoves/how_to_service_connections.md) and how to configure them.
+This documentation will presume you have knowledge of Datacoves' [Service Connections](/docs/how-tos/datacoves/how_to_service_connections) and how to configure them.
 :::
 
 Using RSA Keys is only supported through Airflow Connections, not Environment Variables. Make sure your Datacoves Service Connection is using this `delivery mode`.
@@ -24,7 +24,7 @@ To confirm the above worked correctly, you can access your Airflow `Admin -> Con
 
 ## Usage
 
-Thanks to our new [`dbt` Airflow Decorator](/reference/airflow/datacoves-decorators.md), you can run dbt against your warehouse using the Airflow Connection you just created, by simply passing the Service Connection name to our decorator's `connection_id` parameter.
+Thanks to our new [`dbt` Airflow Decorator](/docs/reference/airflow/datacoves-decorators), you can run dbt against your warehouse using the Airflow Connection you just created, by simply passing the Service Connection name to our decorator's `connection_id` parameter.
 
 
 

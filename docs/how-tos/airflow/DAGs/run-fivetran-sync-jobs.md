@@ -38,7 +38,7 @@ Below are the configurations in for dbt-coves airflow-dags. You will need to con
 - **dags_path**: Relative path to dbt project where generated python DAGs will be stored
 
 :::tip
-We make use of environment variables that we have configured for you upon set up. For more information on these variables please see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
+We make use of environment variables that we have configured for you upon set up. For more information on these variables please see [Datacoves Environment Variables](/docs/reference/vscode/datacoves-env-vars)
 :::
 
 ```yaml

@@ -46,7 +46,7 @@ In Datacoves 3.3 and up, the `SMTP` will be automatically added to your environm
 Viola!🎉 The Airflow service will be restarted shortly and will now include the SMTP configuration required to send emails.
 
 :::note
-**Getting Started Guide:** If you are making your way through our [getting started guide](/docs/category/administrator), please continue on to [developing DAGs](getting-started/Admin/creating-airflow-dags.md).
+**Getting Started Guide:** If you are making your way through our [getting started guide](/docs/category/administrator), please continue on to [developing DAGs](/docs/getting-started/Admin/creating-airflow-dags).
 :::
 ## Set up a custom SMTP (Optional)
 

@@ -12,5 +12,5 @@ Datacoves can integrate seamlessly with your existing ChatGPT or Azure OpenAI LL
 
 ## How to's
 
-- [Datacoves Copilot v2](./v2.md)
-- [Datacoves Copilot v1 (Deprecated)](./v1.md)
+- [Datacoves Copilot v2](./v2)
+- [Datacoves Copilot v1 (Deprecated)](./v1)

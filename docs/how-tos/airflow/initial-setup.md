@@ -17,7 +17,7 @@ Edit the desired environment and click on the `Stack Services` tab. Ensure that 
 ## Airflow Configurations
 
 :::info
-You will need to add folders to your project repository in order to match the folder defaults for Airflow; These folders are `orchestrate/dags` and `orchestrate/dags_yml_definitions`. Please see the recommended [folder structure](best-practices/datacoves/folder-structure.md) for all folder structure recommendations.
+You will need to add folders to your project repository in order to match the folder defaults for Airflow; These folders are `orchestrate/dags` and `orchestrate/dags_yml_definitions`. Please see the recommended [folder structure](/docs/best-practices/datacoves/folder-structure) for all folder structure recommendations.
 :::
 
 Once you enabled Airflow, click on the `Services configuration > Airflow Settings` tab and configure each of the following fields accordingly:
@@ -73,5 +73,5 @@ There are **2 options** for logs - **EFS** and **S3**. Below you will see the fi
   - **Access Key**
   - **Secret Key**
 
-## Getting Started Next Steps 
-[Setup Service Connection](how-tos/datacoves/how_to_service_connections.md)
+## Getting Started Next Steps
+[Setup Service Connection](/docs/how-tos/datacoves/how_to_service_connections)

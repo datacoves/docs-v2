@@ -6,7 +6,7 @@ sidebar_position: 20
 
 1. To get your users up and running, you need to invite them to the platform and grant them access to projects or specific environments. 
 
-   [Invite Users](/docs/how-tos/datacoves/how_to_invitations.md)
+   [Invite Users](/docs/how-tos/datacoves/how_to_invitations)
 
 2. You can change the permissions for users via the Users admin screen.
 

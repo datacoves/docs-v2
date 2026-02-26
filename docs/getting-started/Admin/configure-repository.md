@@ -12,11 +12,11 @@ Now that you have configured your Airflow settings you must ensure that your rep
 
 **Step 3:** **This step is optional** if you would like to make use of the [dbt-coves](https://github.com/datacoves/dbt-coves?tab=readme-ov-file#airflow-dags-generation-arguments) `dbt-coves generate airflow-dags` command. Create the `dags_yml_definitions` folder inside of your newly created `orchestrate` folder. This will leave you with two folders inside `orchestrate`- `orchestrate/dags` and `orchestrate/dags_yml_definitions`.
 
-**Step 4:** **This step is optional** if you would like to make use of the dbt-coves' extension `dbt-coves generate airflow-dags` command. You must create a config file for dbt-coves. Please follow the [generate DAGs from yml](how-tos/airflow/DAGs/generate-dags-from-yml.md) docs.
+**Step 4:** **This step is optional** if you would like to make use of the dbt-coves' extension `dbt-coves generate airflow-dags` command. You must create a config file for dbt-coves. Please follow the [generate DAGs from yml](/docs/how-tos/airflow/DAGs/generate-dags-from-yml) docs.
 
 ## Create a profiles.yml
 
-If the `delivery mode` of your service connection is [`Environment Variables`](/how-tos/datacoves/how_to_service_connections.md) then Airflow will need a `profiles.yml`. The available environment variables will vary based on your data warehouse. We have made it simple to set this up by completing the following steps. This profiles.yml will also be used in the CI/CD process. 
+If the `delivery mode` of your service connection is [`Environment Variables`](/docs/how-tos/datacoves/how_to_service_connections) then Airflow will need a `profiles.yml`. The available environment variables will vary based on your data warehouse. We have made it simple to set this up by completing the following steps. This profiles.yml will also be used in the CI/CD process. 
 
 To create your and your `profiles.yml`:
 
@@ -91,7 +91,7 @@ your_profile_name:
 
 You will want to set up notifications. Selet the option that works best for your organization.
 
-- **Email:** [Setup Email Integration](/docs/how-tos/airflow/send-emails.md)
+- **Email:** [Setup Email Integration](/docs/how-tos/airflow/send-emails)
 
 - **MS Teams:** [Setup MS Teams Integration](/docs/how-tos/airflow/send-ms-teams-notifications)
 

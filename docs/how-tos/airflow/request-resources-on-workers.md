@@ -6,7 +6,7 @@ sidebar_position: 40
 
 Sometimes you need to run tasks that require more memory or compute power. Airflow task's definition that use a kubernetes execution environment allow for this type of configuration.
 
-Similarly to how you [overrode a worker's running environment](/how-tos/airflow/customize-worker-environment.md), you need to specify the `resources` argument on the container spec.
+Similarly to how you [overrode a worker's running environment](/docs/how-tos/airflow/customize-worker-environment), you need to specify the `resources` argument on the container spec.
 
 ## Example DAG
 

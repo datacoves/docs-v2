@@ -7,7 +7,7 @@ sidebar_position: 125
 With the introduction of the task flow API in Airflow we have released the Datacoves decorators to make writing DAGs simple! 
 
 :::note
-While the Datacoves decorators are recommended, the [Datacoves Operators](/reference/airflow/datacoves-operator.md) are still supported.
+While the Datacoves decorators are recommended, the [Datacoves Operators](/docs/reference/airflow/datacoves-operator) are still supported.
 :::
 
 ## Decorators 
@@ -52,7 +52,7 @@ This custom decorator is an extension of the @task decorator and simplifies runn
 
 Datacoves dbt decorator supports all the [Datacoves dbt Operator params](./datacoves-operator#datacoves-dbt-operator) plus:
 
-- `connection_id`: This is the [service connection](/how-tos/datacoves/how_to_service_connections.md) which is automatically added to airflow if you select `Airflow Connection` as the `Delivery Mode`.
+- `connection_id`: This is the [service connection](/docs/how-tos/datacoves/how_to_service_connections) which is automatically added to airflow if you select `Airflow Connection` as the `Delivery Mode`.
 
 **dbt profile generation:**
 
@@ -105,7 +105,7 @@ From Datacoves 3.4 onwards, the `datacoves_dbt` decorator allows users to upload
 :::note
 dbt-API is a feature that is not enabled by default. Please contact support for further assistance.
 :::
-This is particularly useful for performing [dbt retries](/how-tos/airflow/DAGs/retry-dbt-tasks.md).
+This is particularly useful for performing [dbt retries](/docs/how-tos/airflow/DAGs/retry-dbt-tasks).
 
 The new datacoves_dbt parameters are:
 
@@ -142,7 +142,7 @@ The following Airflow tables are synced by default: `ab_permission`, `ab_role`, 
 
 - `db_type`: The data warehouse you are using. Currently supports `redshift` or `snowflake`.
 - `destination_schema`: The destination schema where the Airflow tables will end up. By default, the schema will be named as follows: `airflow-{datacoves environment slug}`, for example `airflow-qwe123`.
-- `connection_id`: The name of your Airflow [service connection](/how-tos/datacoves/how_to_service_connections.md) which is automatically added to airflow if you select `Airflow Connection` as the `Delivery Mode`.
+- `connection_id`: The name of your Airflow [service connection](/docs/how-tos/datacoves/how_to_service_connections) which is automatically added to airflow if you select `Airflow Connection` as the `Delivery Mode`.
 - `additional_tables`: A list of additional tables you would want to add to the default set.
 - `tables`: A list of tables to override the default ones from above. Warning: An empty list `[]` will perform a full-database sync.
 

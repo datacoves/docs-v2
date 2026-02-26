@@ -9,7 +9,7 @@ sidebar_position: 90
 Service Connections are used by automated processes like Airflow jobs. Before Datacoves 3.3 details entered here could only be injected as **environment variables** that would then be used within a dbt profiles.yml file to establish a connection with your data warehouse. However, it is now recommended to select **Airflow Connection** as the delivery mode so that the credentials are used to create an Airflow connection to establish a connection with your data warehouse.
 
 :::tip
-See our How To - [Service Connections](how-tos/datacoves/how_to_service_connections.md)
+See our How To - [Service Connections](/docs/how-tos/datacoves/how_to_service_connections)
 :::
 
 ## Service Connection Listing

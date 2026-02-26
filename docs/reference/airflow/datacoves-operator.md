@@ -123,7 +123,7 @@ These operators can receive:
 - `tables`: a list of tables to override the default ones. _Warning:_ An empty list `[]` will perform a full-database sync.
 - `additional_tables`: a list of additional tables you would want to add to the default set.
 - `destination_schema`: the destination schema where the Airflow tables will end-up. By default, the schema will be named as follows: `airflow-{datacoves environment slug}` for example `airflow-qwe123`
-- `service_connection_name` The name of your environment variables from your [service connection](/how-tos/datacoves/how_to_service_connections.md) which are automatically injected to airflow if you select `Environment Variables` as the `Delivery Mode`.
+- `service_connection_name` The name of your environment variables from your [service connection](/docs/how-tos/datacoves/how_to_service_connections) which are automatically injected to airflow if you select `Environment Variables` as the `Delivery Mode`.
 
 ```python
 """## Datacoves Airflow db Sync Sample DAG

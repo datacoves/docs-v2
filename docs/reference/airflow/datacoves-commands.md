@@ -30,7 +30,7 @@ datacoves my import
 ### datacoves my pytest
 
 :::note
-My Airflow [must be instantiated](/how-tos/my_airflow/start-my-airflow.md) for this command to work.
+My Airflow [must be instantiated](/docs/how-tos/my_airflow/start-my-airflow) for this command to work.
 :::
 
 This command allows you to run pytest validations straight from the command line. Simply create your python file with your desired tests inside the `orchestrate` directory. Then pass the file path as an argument as seen below. 

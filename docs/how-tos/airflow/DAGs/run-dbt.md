@@ -21,7 +21,7 @@ If your dbt command like `dbt run` works in your development environment(**Try d
 :::tip 
 Keep in mind that in an Airflow context `dbt` is installed in an isolated Python Virtual Environment to avoid clashing with Airflow python dependencies. Datacoves default Python's virtualenv is located in `/opt/datacoves/virtualenvs/main`. No need to worry about the complexity when using the `@task.datacoves_dbt` decorator because it will automatically activate that environment amongst other actions.
 
-See [Datacoves Decorators](reference/airflow/datacoves-decorators.md) for more information.
+See [Datacoves Decorators](/docs/reference/airflow/datacoves-decorators) for more information.
 :::
 ### Lets create a DAG!
 

@@ -14,7 +14,7 @@ Some uses could be:
 - Storing Airflow connections or variables used by Airflow DAGs
 
 :::tip
-See our How To - [Secrets](how-tos/datacoves/how_to_secrets.md) 
+See our How To - [Secrets](/docs/how-tos/datacoves/how_to_secrets)
 :::
 
 ## Secrets Listing

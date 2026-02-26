@@ -7,15 +7,15 @@ You don't need Airflow to begin using Datacoves, but at some point you will want
 
 1. To complete the initial configuration of Airflow, you will need to make changes to your project. This includes creating the dbt profile  for Airflow to use as well as the Airflow DAG files that will schedule your dbt runs.
 
-   [Initial Airflow Setup](/docs/how-tos/airflow/initial-setup.md)
+   [Initial Airflow Setup](/docs/how-tos/airflow/initial-setup)
 
 2. Airflow will authenticate to your data warehouse using a service connection. The credentials defined here will be used by dbt when your jobs run.
 
-   [Setup Service Connection](/docs/how-tos/datacoves/how_to_service_connections.md)
+   [Setup Service Connection](/docs/how-tos/datacoves/how_to_service_connections)
 
-3. Datacoves uses a specific [folder structure](/best-practices/datacoves/folder-structure.md) for Airflow. You will need to add some folders and files to your repository for Airflow to function as expected. 
+3. Datacoves uses a specific [folder structure](/docs/best-practices/datacoves/folder-structure) for Airflow. You will need to add some folders and files to your repository for Airflow to function as expected.
 
-   [Update Repository](/docs/getting-started/Admin/configure-repository.md)
+   [Update Repository](/docs/getting-started/Admin/configure-repository)
 
 4. When Airflow jobs run you may want to receive notifications. We have a few ways to send notifications in Datacoves. Choose the option that makes sense for your use case.
 
@@ -26,4 +26,4 @@ You don't need Airflow to begin using Datacoves, but at some point you will want
   - **Slack:** [Setup Slack Integration](/docs/how-tos/airflow/send-slack-notifications)
 
 ## Getting Started Next Steps
-Once Airflow is configured, you can begin scheduling your dbt jobs by [creating Airflow DAGs](getting-started/Admin/creating-airflow-dags.md)!
+Once Airflow is configured, you can begin scheduling your dbt jobs by [creating Airflow DAGs](/docs/getting-started/Admin/creating-airflow-dags)!

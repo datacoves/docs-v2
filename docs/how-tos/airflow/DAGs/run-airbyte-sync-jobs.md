@@ -48,7 +48,7 @@ To connect Extract & Load with Transform in your DAG, you must configure your db
 
 
 :::tip
-We make use of environment variables that we have configured for you upon set up. For more information on these variables please see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
+We make use of environment variables that we have configured for you upon set up. For more information on these variables please see [Datacoves Environment Variables](/docs/reference/vscode/datacoves-env-vars)
 :::
 ```yml
 generate:
@@ -82,7 +82,7 @@ generate:
 Now you are ready to write out your DAG using yml. In the following example DAG, you can notice a special task `load` that uses a `generator` instead of an `operator`. This will allow for the information to be pulled dynamically from airbyte such as connection_id. 
 
 :::tip
-We make use of special generators from the dbt-coves extension. For more information please see [DAG Generators](reference/airflow/dag-generators.md)
+We make use of special generators from the dbt-coves extension. For more information please see [DAG Generators](/docs/reference/airflow/dag-generators)
 :::
 
 ### Field reference:

@@ -14,7 +14,7 @@ sidebar_position: 93
 
 ## Overview of Environment Variables in VS Code
 
-Datacoves injects several[ environment variables](/reference/vscode/datacoves-env-vars.md) on your behalf. However, you may need to add additional variables to run scripts, test code etc.  This doc will walk you through adding your own environment variables at the user, environment and project level. These variables are only available in your VS Code, not Airflow. For Airflow we recommend you use Airflow Variables or [Datacoves Secrets](/reference/admin-menu/secrets.md)
+Datacoves injects several[ environment variables](/docs/reference/vscode/datacoves-env-vars) on your behalf. However, you may need to add additional variables to run scripts, test code etc.  This doc will walk you through adding your own environment variables at the user, environment and project level. These variables are only available in your VS Code, not Airflow. For Airflow we recommend you use Airflow Variables or [Datacoves Secrets](/docs/reference/admin-menu/secrets)
 
 ## User Level 
 

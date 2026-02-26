@@ -38,7 +38,7 @@ Create a DAG in the `dags` folder.
 To run the custom script from an Airflow DAG, you will use the `@task.datacoves_bash` decorator as seen in the `python_task` below.
 
 :::tip 
-See [Datacoves Decorators](reference/airflow/datacoves-decorators.md) documentation for more information on the Datacoves Airflow Decorators.
+See [Datacoves Decorators](/docs/reference/airflow/datacoves-decorators) documentation for more information on the Datacoves Airflow Decorators.
 :::
 ```python
 from airflow.decorators import dag, task

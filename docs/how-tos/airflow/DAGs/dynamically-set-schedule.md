@@ -13,7 +13,7 @@ Here is how to achieve this:
 **Step 1:** Create a `get_schedule.py` file inside of `orchestrate/utils`
 
 **Step 2:** Paste the following code:
-Note: Find your environment slug [here](reference/admin-menu/environments.md)
+Note: Find your environment slug [here](/docs/reference/admin-menu/environments)
 ```python
 # get_schedule.py
 import os

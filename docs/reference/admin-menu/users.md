@@ -9,7 +9,7 @@ sidebar_position: 100
 In this page you can manage the users that belong to your account. Here you can grant or change the permission groups associated with each user.
 
 :::tip
-See our How To - [Manage Users](how-tos/datacoves/how_to_manage_users.md)
+See our How To - [Manage Users](/docs/how-tos/datacoves/how_to_manage_users)
 :::
 
 ## Users Listing

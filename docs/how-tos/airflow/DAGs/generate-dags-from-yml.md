@@ -16,7 +16,7 @@ dbt-coves will read settings from `<dbt_project_path>/.dbt_coves/config.yml`. We
 :::note 
 Datacoves' recommended dbt project location is `transform/` eg) `transform/.dbt-coves/config.yml`. This will require some minor refactoring and ensuring that the  `dbt project path ` in your environment settings reflects accordingly. 
 :::
-**Step 2:** We use environment variables such as `DATACOVES__AIRFLOW_DAGS_YML_PATH` that are pre-configured for you. For more information on these variables see [Datacoves Environment Variables](reference/vscode/datacoves-env-vars.md)
+**Step 2:** We use environment variables such as `DATACOVES__AIRFLOW_DAGS_YML_PATH` that are pre-configured for you. For more information on these variables see [Datacoves Environment Variables](/docs/reference/vscode/datacoves-env-vars)
 - `yml_path`: This is where dbt-coves will look for the yml files to generate your Python DAGs.
 - `dags_path`: This is where dbt-coves will place your generated python DAGs.
 
@@ -68,7 +68,7 @@ nodes:
     bash_command: "dbt run -s personal_loans" 
 ```
 :::tip
-In the examples we make use of the Datacoves Operators which handle things like copying and running dbt deps. For more information on what these operators handle, see [Datacoves Operators](reference/airflow/datacoves-operator.md)
+In the examples we make use of the Datacoves Operators which handle things like copying and running dbt deps. For more information on what these operators handle, see [Datacoves Operators](/docs/reference/airflow/datacoves-operator)
 :::
 ### How to create your own task group with YAML
 

@@ -4,7 +4,7 @@ sidebar_position: 35
 ---
 # How to send Microsoft Teams notifications on DAG's status
 
-As stated in [how to send email notifications](/how-tos/airflow/send-emails.md), Airflow allows multiple ways to inform users about DAGs and tasks status.
+As stated in [how to send email notifications](/docs/how-tos/airflow/send-emails), Airflow allows multiple ways to inform users about DAGs and tasks status.
 
 Furthermore, it's important to understand Airflow handles these 4 status (`failure`, `retry`, `success` and `missed SLA`) via callbacks. You can learn more about them [here](https://airflow.apache.org/docs/apache-airflow/2.2.1/logging-monitoring/callbacks.html)
 
@@ -171,4 +171,4 @@ nodes:
 
 ## Getting Started Next Steps
 
-Start [developing DAGs](getting-started/Admin/creating-airflow-dags.md)
+Start [developing DAGs](/docs/getting-started/Admin/creating-airflow-dags)

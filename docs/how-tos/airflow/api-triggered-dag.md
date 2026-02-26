@@ -53,7 +53,7 @@ Thats it, now you are ready to create your [Consumer DAG](#setting-up-the-airflo
 
 ## Lambda Function
 
-Alternatively, you can trigger a DAG externally using the [Airflow API](how-tos/airflow/use-airflow-api.md). In this example we will be using an AWS Lambda Function to trigger your DAG once data lands in an S3 Bucket.
+Alternatively, you can trigger a DAG externally using the [Airflow API](/docs/how-tos/airflow/use-airflow-api). In this example we will be using an AWS Lambda Function to trigger your DAG once data lands in an S3 Bucket.
 
 ### Creating your zip files
 

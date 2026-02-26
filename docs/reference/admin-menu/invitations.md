@@ -9,7 +9,7 @@ sidebar_position: 60
 This page is used to invite users into your account.
 
 :::tip
-See our How To - [Invitations](how-tos/datacoves/how_to_invitations.md)
+See our How To - [Invitations](/docs/how-tos/datacoves/how_to_invitations)
 :::
 
 ## Invitation Listing

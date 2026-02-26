@@ -86,7 +86,7 @@ Please, follow the [AWS Secrets Manager documentation](https://docs.aws.amazon.c
 
 ![Secrets Backend](../assets/aws_secrets_connection.jpg)
 
-To learn how to read a variable from the AWS Secrets Manager check out our [How To](/docs/category/how-tos/)
+To learn how to read a variable from the AWS Secrets Manager check out our [How To](/docs/category/how-tos)
 
 :::tip
 For security purposes, once this has been saved you will not be able to view the values. To modify the Secrets backend you will need to set the Secrets backend to `None` and save the changes. Then start the setup again.

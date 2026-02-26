@@ -27,6 +27,9 @@ const config = {
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
+  // Ensure canonical URLs match served URLs (no trailing slashes)
+  trailingSlash: false,
+
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'datacoves', // Usually your GitHub org/user name.

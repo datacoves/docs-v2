@@ -34,7 +34,7 @@ generate:
 ```
 
 :::tip 
-If using an Extract and Load tool in your DAG you can dynamically generate your sources; however, additional configuration will be needed inside the config.yml file. See [Airbyte](./run-airbyte-sync-jobs#generate-dags-from-yml-with-dbt-coves). For [Fivetran](./run-fivetran-sync-jobs#configure-your-transform-dbt-coves-config-yml-file) contact us to complete the setup.
+If using an Extract and Load tool in your DAG you can dynamically generate your sources; however, additional configuration will be needed inside the config.yml file. See [Airbyte](/docs/how-tos/airflow/DAGs/run-airbyte-sync-jobs#generate-dags-from-yml-with-dbt-coves). For [Fivetran](/docs/how-tos/airflow/DAGs/run-fivetran-sync-jobs#configure-your-transform-dbt-coves-config-yml-file) contact us to complete the setup.
 :::
 ## Create the yml file for your Airflow DAG
 

@@ -9,7 +9,7 @@ In our quest to simplify the way tools integrate in the Modern Data Stack, we de
 The main idea behind this concept is to use tags defined on dbt sources and determine which data to load via different tools (e.g. Airbyte or Fivetran). Using this information, we can dynamically create _Extract and Load_ tasks in an Airflow DAG before running dbt.
 
 :::note
-Support for Fivetran Tasks coming soon. More Information in [run Fivetran sync jobs](./run-fivetran-sync-jobs).
+Support for Fivetran Tasks coming soon. More Information in [run Fivetran sync jobs](/docs/how-tos/airflow/DAGs/run-fivetran-sync-jobs).
 :::
 ## Before you start
 

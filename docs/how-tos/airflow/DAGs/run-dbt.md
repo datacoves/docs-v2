@@ -4,7 +4,7 @@ sidebar_position: 28
 ---
 # How to run dbt from an Airflow worker
 
-Airflow synchronizes a git repository's [configured git branch](/docs/how-tos/datacoves/how_to_environments.md#services-configuration) every minute. (The branch specified in  the `Git branch name` field in the environment's DAGs sync configuration)
+Airflow synchronizes a git repository's [configured git branch](/docs/how-tos/datacoves/how_to_environments#services-configuration) every minute. (The branch specified in  the `Git branch name` field in the environment's DAGs sync configuration)
 
 To run `dbt` commands easily, we provide a pre-configured virtual environment with the necessary python dependencies such as dbt. Our Airflow Operator also does the following automatically:
 

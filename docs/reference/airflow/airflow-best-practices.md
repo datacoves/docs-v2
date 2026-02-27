@@ -7,7 +7,7 @@ sidebar_position: 121
 This page should serve as a reference for tips and tricks that we recommend for the best Airflow experience. Please read the official [Airflow Best Practices doc](https://airflow.apache.org/docs/apache-airflow/stable/best-practices.html) first.
 
 ## Table of Contents
-- [Start Date](/reference/airflow/airflow-best-practices.md#start-date)
+- [Start Date](/docs/reference/airflow/airflow-best-practices#start-date)
 
 This page aims to be a reference for airflow recommendations.
 

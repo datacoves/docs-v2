@@ -1,6 +1,6 @@
 ---
 title: Custom Environment Variables
-sidebar_position: 93
+sidebar_position: 20
 ---
 # How to add Environment variables to VS Code
 

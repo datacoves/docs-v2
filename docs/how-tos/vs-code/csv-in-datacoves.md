@@ -1,6 +1,6 @@
 ---
 title: CSVs
-sidebar_position: 136
+sidebar_position: 10
 ---
 # CSVs in VS Code
 

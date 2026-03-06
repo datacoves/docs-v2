@@ -1,6 +1,6 @@
 ---
 title: Reset User Env
-sidebar_position: 95
+sidebar_position: 80
 ---
 # Reset the User's Env if the git Repository is Changed in the Project. 
 

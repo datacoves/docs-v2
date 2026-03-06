@@ -1,6 +1,6 @@
 ---
 title: Override VS Code settings
-sidebar_position: 94
+sidebar_position: 60
 ---
 # How to override default VS Code settings
 

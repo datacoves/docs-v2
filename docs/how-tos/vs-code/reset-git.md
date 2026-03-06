@@ -1,6 +1,6 @@
 ---
 title: Reset Git
-sidebar_position: 96
+sidebar_position: 70
 ---
 # Reset git 
 

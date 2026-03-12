@@ -10,6 +10,7 @@ sidebar_position: 20
 - [Environment Level Environment Variables](#environment-level)
 - [Project Level Environment Variables](#project-level)
 - [Creating Environment Variables](#creating-variables)
+- [Sensitive Variable Masking](#sensitive-variable-masking)
 - [Deleting Environment Variables](#deleting-variables)
 
 ## Overview of Environment Variables in VS Code
@@ -71,6 +72,26 @@ Project level variables will be available across all environments in a project.
 Creating variables is simple. Add the key following the correct format and add the desired value.
 
 ![Create variables](assets/env_var_environment_create.png)
+
+## Sensitive Variable Masking
+
+Datacoves automatically masks the values of environment variables whose names contain certain keywords. This helps prevent accidental exposure of secrets in the UI.
+
+When a variable is masked:
+- The value is displayed as `***` in the table
+- The value field is cleared when editing the variable
+
+Masking is triggered when the variable name contains any of the following keywords (case-insensitive):
+
+`access_token`, `api_key`, `apikey`, `authorization`, `passphrase`, `passwd`, `password`, `private_key`, `secret`, `token`
+
+For example, `MY_API_TOKEN` is masked because it contains `token`, and `DB_PASSWORD_DEV` is masked because it contains `password`.
+
+![Masked variables](assets/env_var_masked_variables.jpg)
+
+:::tip
+When creating variables that hold sensitive values, include one of the keywords above in the name to ensure the value is masked in the UI.
+:::
 
 ## Deleting variables
 

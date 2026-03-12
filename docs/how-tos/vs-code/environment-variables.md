@@ -95,13 +95,12 @@ When creating variables that hold sensitive values, include one of the keywords 
 
 ## Deleting variables
 
-Deleting variables is also simple. Simply navigate to the Project or Environment settings. 
+Deleting variables is also simple. Simply navigate to the User, Project or Environment settings. 
 
-### Step 1: Toggle the delete option or the red trashcan
-
-### Step 2: Save Changes
-
-If you do not save changes, the variable will not be deleted.
+### Step 1: Click the delete option (red trashcan)
 
 ![Delete variables](assets/env_var_project_delete.png)
 
+### Step 2: Confirm the deletion in the popup
+
+![Confirm deletion of variables](assets/env_var_delete_confirm.png)

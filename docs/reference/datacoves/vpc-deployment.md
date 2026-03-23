@@ -26,12 +26,15 @@ Here is the list of services required, each cloud provider offers the service wi
 | Blob storage |  Grafana logs   |  Lifetime policy with 30 days retention                     | 1 bucket         |
 | Blob storage |  Airflow DAGs   |  N/A  | 1 bucket per Airflow instance         |
 | Blob storage |  Airbyte logs   |  N/A  | 1 bucket per Airbyte instance         |
-| File storage |  Airflow logs   |  Sub-millisecond first byte read latency  | 1 file system per Airflow instance         |
-| OIDC provider | Datacoves SSO | Oauth 2.0 OIDC compliant provider | 1 provider |
-| Git server | DBT development version control | > v2.33 | 1 server |
-| CI/CD server |  DBT development |  N/A                     | 1 server         |
+| Blob Storage |  Airflow logs   |  N/A  | 1 bucket per Airflow instance         |
+| OIDC provider | Datacoves SSO | Oauth 2.0 OIDC compliant provider | 1 provider (optional) |
+| Managed Kubernetes | Runs the platform | > v1.34 | Clusters are a minimum of 4 servers, sizing varies |
+| Git server | DBT development version control | > v2.33 | 1 server, or github/gitlab/etc. |
+| CI/CD server |  DBT development |  N/A                     | 1 server, or github/gitlab/etc.         |
+| HTTPS Certificate | Security | N/A | Two certificates are needed; datacoves.yourdomain.com and *.datacoves.yourdomain.com. Certbot is supported. |
+| DNS Entries | Host Resolution | N/A | Exact configuration varies per cloud provider |
 
-__(*)__ min. requirements may vary depending on the number of environments
+__(*)__ min. requirements may vary depending on the number of environments. For smaller installations, only one database server is needed.
 
 ### Optional dependencies
 

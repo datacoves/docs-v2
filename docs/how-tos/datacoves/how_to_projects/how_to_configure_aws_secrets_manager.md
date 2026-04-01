@@ -65,7 +65,7 @@ Please, follow the [AWS Secrets Manager documentation](https://docs.aws.amazon.c
 
 ## Configure your Secrets Backend
 
-Datacoves allows you to configure the AWS Secrets Manager backend at the project level, which applies to all environments under that project. You can also override this configuration for a specific environment when needed.
+AWS Secrets Manager can be configured at the project level, at the environment level, or both. When configured at the project level, all environments under that project will use it by default. Individual environments can have their own configuration that takes precedence, or they can be set to inherit the project-level settings.
 
 ### Project-level configuration
  
@@ -100,15 +100,15 @@ To learn how to read a variable from the AWS Secrets Manager check out our [How 
 For security purposes, once this has been saved you will not be able to view the values. To modify the Secrets backend you will need to set the Secrets backend to `None` and save the changes. Then start the setup again.
 :::
 
-### Environment-level override
+### Environment-level configuration
  
-You can override the project-level secrets backend for a specific environment. This is useful when, for example, you need to use a different connections prefix in your development environment versus production, or when only one environment should use AWS Secrets Manager.
+AWS Secrets Manager can also be configured directly at the environment level, independently of the project settings. This is useful when only specific environments should use AWS Secrets Manager, or when different environments need different configurations (for example, different connection prefixes for development versus production).
  
 **Step 1:** Navigate to the Environments Admin page and click on the edit icon for the desired environment.
  
 **Step 2:** Go to **Services Configuration**, then select **Airflow settings**.
  
-**Step 3:** Scroll down to the **Additional Secrets Backend** section. Select `AWS Secrets Manager` to apply a separate configuration for this environment only. To inherit the project-level configuration, leave it set to `Use Project Settings`.
+**Step 3:** Scroll down to the **Additional Secrets Backend** section. Select `AWS Secrets Manager` to configure it for this environment. If a project-level configuration exists and you want this environment to use it, leave the field set to `Use Project Settings`.
  
 ![Environment Secrets Backend Override](../assets/edit_environment_secrets_backend.png) 
  

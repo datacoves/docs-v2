@@ -110,7 +110,7 @@ You can override the project-level secrets backend for a specific environment. T
  
 **Step 3:** Scroll down to the **Additional Secrets Backend** section. Select `AWS Secrets Manager` to apply a separate configuration for this environment only. To inherit the project-level configuration, leave it set to `Use Project Settings`.
  
-![Environment Secrets Backend Override](../assets/edit_environment_secrets_backend.png)
+![Environment Secrets Backend Override](../assets/edit_environment_secrets_backend.png) 
  
 :::note
 The configuration fields available at the environment level are the same as those at the project level. Any values entered here will take precedence over the project settings for this environment only.

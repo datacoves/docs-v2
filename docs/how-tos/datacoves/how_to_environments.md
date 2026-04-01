@@ -49,6 +49,7 @@ The services enabled for the environment may require additional configurations. 
   - **dbt profiles path:** The location where Airflow will find dbt profiles.yml file to use during a dbt run. This should be `automate/dbt`. Please be aware that you will need to create the `automate` and`dbt` folders as well as the `profiles.yml` in your repository. 
   - **YAML DAGs path:** When using yml based Airflow DAGs Airflow will look for the yml files in this location. We recommend this be set to `orchestrate/dags`. Please be aware that you will need to create the `orchestrate` and `dags` folders in your repository.
   - **Python DAGs path:** This is the location Airflow will look for the DAG definition files.  We recommend this be set to `orchestrate/dag_yml_definitions`. Please be aware that you will need to create the `orchestrate` and `dag_yml_definitions` folders in your repository.
+  - **Additional Secrets Backend:** Allows you to override the project-level secrets backend for this specific environment. Select `AWS Secrets Manager` to use a different configuration for this environment only, or leave it as `Use Project Settings` to inherit the project-level configuration. See [Configure AWS Secrets Manager](/docs/how-tos/datacoves/how_to_projects/how_to_configure_aws_secrets_manager) for details.
 - OBSERVE (Docs) requires:
   -  **branch:** Here we specify the branch that will be synchronized for production dbt docs. This branch must exist in your git repository.
 

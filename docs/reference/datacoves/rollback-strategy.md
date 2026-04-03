@@ -6,29 +6,29 @@ sidebar_position: 132
 
 # Rollback Strategy
 
-Datacoves manages change across three distinct platform layers: infrastructure, application, and custom customer images. Each layer has different rollback considerations, summarized below.
+Datacoves manages change across three distinct platform layers: infrastructure, platform services, and customer image. Each layer has different rollback considerations, summarized below.
 
 | Layer | Rollback Capability | Responsibility |
 |-------|-------------------|----------------|
-| Infrastructure | Not managed by Datacoves | Cloud provider / Customer infrastructure team |
-| Datacoves Application | Forward-fix model (hotfix) | Datacoves Engineering |
-| Custom Customer Image | Technically feasible but strongly discouraged | Customer-initiated, Datacoves-executed |
+| Infrastructure | Cannot be undone once applied | Datacoves + Customer (collaborative upgrade, no rollback) |
+| Platform Services (Airflow, Python, etc.) | Cannot be rolled back | Datacoves Engineering |
+| Customer Image (dbt, packages, libraries) | Technically feasible but strongly discouraged | Customer-initiated, Datacoves-executed |
 
 ## Infrastructure Layer
 
-The infrastructure layer includes cloud provider services and container orchestration systems (such as Kubernetes) that host the Datacoves platform. Changes at this layer, including version upgrades, configuration modifications, and scaling adjustments, are managed by the customer's infrastructure team or cloud provider.
+The infrastructure layer includes cloud provider services and container orchestration systems (such as Kubernetes) that host the Datacoves platform. Datacoves works collaboratively with the customer's team to plan and execute infrastructure upgrades. Both parties participate in testing prior to applying changes.
 
-:::info
+:::warning
 
-Datacoves does not have control over infrastructure-level changes and cannot provide a rollback plan for this layer. For example, if the underlying Kubernetes cluster is upgraded from one version to another, that operation falls outside the scope of Datacoves platform management. Customers should consult their cloud provider's documentation for rollback procedures at this layer.
+Once an infrastructure upgrade is applied, it cannot be undone. Customers and Datacoves should ensure thorough testing before proceeding with any infrastructure-level change.
 
 :::
 
-## Datacoves Application Layer
+## Platform Services Layer
 
-The Datacoves application follows a forward-coding development model. All changes, including new features, enhancements, and bug fixes, are implemented as forward-moving code changes. The platform does not support reverting to a prior application version.
+Platform-level services, such as Airflow versions, Python versions, and other core components managed by Datacoves, follow a forward-fix model. These versions cannot be rolled back once upgraded.
 
-If a defect or regression is identified following a release, the Datacoves engineering team will produce and deploy a **hotfix** as a new forward release that corrects the identified problem, ensuring the codebase remains in a consistent, forward-progressing state.
+If a defect or regression is identified following a platform release, the Datacoves engineering team will produce and deploy a **hotfix** as a new forward release that corrects the identified problem, ensuring the platform remains in a consistent, forward-progressing state.
 
 ### Defect Resolution Process
 
@@ -37,9 +37,9 @@ If a defect or regression is identified following a release, the Datacoves engin
 3. A hotfix is developed, tested, and deployed as a new forward release.
 4. The customer is notified upon successful deployment and resolution.
 
-## Custom Customer Image Layer
+## Customer Image Layer
 
-Custom customer images allow customers to specify particular versions of third-party packages and tools that are not included in the standard Datacoves distribution. For example, a customer may request a specific version of the `elementary` package to be included in their environment.
+The customer image defines the specific versions of packages and libraries used in the customer's environment, including both standard components (such as dbt) and any additional tools. For example, if dbt is upgraded from version 1.10 to 1.11 and an issue is discovered, the image can be reverted to use dbt 1.10.
 
 ### Cascading Impact Risk
 
@@ -49,7 +49,7 @@ While version rollback is technically feasible at this layer, **it is strongly d
 
 :::
 
-In enterprise environments where many users share the same Datacoves instance, rolling back a third-party package version can produce unintended effects across the organization. Consider the following scenario:
+In enterprise environments where many users share the same Datacoves instance, rolling back a package version can produce unintended effects across the organization. Consider the following scenario:
 
 1. A customer requests an upgrade to Package X (a third-party dependency).
 2. After deployment, the new version introduces a breaking change that affects certain pipelines.
@@ -57,37 +57,40 @@ In enterprise environments where many users share the same Datacoves instance, r
 4. **User B**, also affected, requests a rollback of Package X to the prior version.
 5. If the rollback is executed, **User A's code**, which was adapted to the newer version, now breaks under the restored older version.
 
+Additionally, rolling back a single package may introduce dependency conflicts. For example, if both a Snowflake connector library and dbt were upgraded together because they share a common dependency, rolling back only dbt could create an incompatibility between the two libraries.
+
 In an organization with dozens or hundreds of users on the platform concurrently, this type of cascading disruption can propagate rapidly and unpredictably.
 
 ### Recommended Approach
 
-Rather than reverting a shared package version, the recommended course of action is for affected users to apply targeted fixes to their own code to accommodate the updated package. This preserves environmental consistency and avoids introducing new failures for users who have already adapted. A version rollback should be considered only as a **last resort**, after a thorough impact assessment has confirmed that no other users have made accommodations for the current version.
+Rather than reverting a shared package version, the recommended course of action is:
 
-### Rollback Process (Last Resort)
+1. **Test before promoting to production.** Customers who maintain a separate testing cluster or environment can identify issues before they reach production users.
+2. **Apply targeted fixes.** Affected users should update their own code to accommodate the new package version, preserving environmental consistency and avoiding new failures for users who have already adapted.
 
-If a rollback is determined to be necessary after impact assessment:
+A version rollback should be considered only as a **last resort**.
+
+### Rollback Process (Last Resort) {#pis-rollback-process}
+
+If a rollback is determined to be necessary:
 
 1. The customer identifies the package and the target version to revert to.
 2. The customer submits a rollback request through the support channel.
-3. Datacoves validates the request and confirms target version availability.
-4. Datacoves performs an impact assessment across the customer's user base.
-5. The image configuration is updated and deployed to the customer's environment.
-6. The customer validates the rollback and confirms resolution.
+3. Datacoves validates the request and confirms target version availability, including a review of potential dependency conflicts with other libraries in the image.
+4. The image configuration is updated and deployed to the customer's environment.
+5. The customer validates the rollback and confirms resolution.
+
+:::info
+
+If a rollback introduces new issues (for example, breaking other users' workflows or creating dependency conflicts), the customer assumes responsibility for resolving those downstream effects.
+
+:::
 
 ## Summary of Responsibilities
 
 | Scenario | Datacoves | Customer |
 |----------|-----------|----------|
-| Infrastructure change requires rollback | Outside Datacoves scope | Coordinate with cloud provider or internal infrastructure team |
-| Application defect after release | Develop and deploy a hotfix as a forward release | Report the issue through the support channel |
-| Custom image package version issue | Advise forward-fix approach; execute rollback only as a last resort after impact assessment | Identify the target version and submit the request |
-
-## Additional Considerations
-
-- Custom image rollbacks are limited to packages and versions that were previously configured and validated. Rolling back to an untested version may require additional validation.
-
-:::tip
-
-Customers are encouraged to maintain their own change logs and version records for custom image configurations to facilitate efficient communication with Datacoves support.
-
-:::
+| Infrastructure upgrade | Collaborate on planning and execution | Participate in testing before applying changes |
+| Infrastructure rollback | Cannot be undone | Cannot be undone |
+| Platform service defect after release | Develop and deploy a hotfix as a forward release | Report the issue through the support channel |
+| Customer image package version issue | Advise forward-fix approach; execute rollback only as a last resort with dependency review | Identify the target version, submit the request, and accept responsibility for downstream effects |

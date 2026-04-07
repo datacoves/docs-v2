@@ -109,6 +109,18 @@ Now that you have created your EntraID application and added it as a user in the
 
 Be sure to save all of these details in a safe notepad. Proceed to the next tab to configure **Azure DevOps authentication**.
 
+:::warning
+When copying the HTTPS URL, ensure it does **not** include an organization prefix before `dev.azure.com`. For example, use:
+
+`https://dev.azure.com/your-org/your-project/_git/your-repo`
+
+**Not:**
+
+`https://your-org@dev.azure.com/your-org/your-project/_git/your-repo`
+
+The `your-org@` prefix interferes with Datacoves Azure authentication and will cause URL validation to fail.
+:::
+
 </TabItem>
 
 <TabItem value="authenticate" label="4. Authenticate Azure DevOps">

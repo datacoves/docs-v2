@@ -15,12 +15,22 @@ A layered approach works best, progressing from cheap/fast checks to expensive/t
 
 ### Layer 1: Row Count
 
-The simplest sanity check. Compare the number of rows for the latest pipeline run on each side.
+The simplest sanity check. Compare the number of rows for the latest pipeline run on each side. Run these two queries and compare the results:
 
 ```sql
-SELECT COUNT(*)
-FROM schema.table
-WHERE pipeline_start_utc = (SELECT MAX(pipeline_start_utc) FROM schema.table)
+-- Count rows for the latest pipeline run in PRD
+SELECT 'PRD' AS source, COUNT(*) AS row_count
+FROM PRD_RAW.MY_SCHEMA.MY_TABLE
+WHERE pipeline_start_utc = (
+    SELECT MAX(pipeline_start_utc) FROM PRD_RAW.MY_SCHEMA.MY_TABLE
+);
+
+-- Count rows for the latest pipeline run in SBX
+SELECT 'SBX' AS source, COUNT(*) AS row_count
+FROM SBX_RAW.MY_SCHEMA.MY_TABLE
+WHERE pipeline_start_utc = (
+    SELECT MAX(pipeline_start_utc) FROM SBX_RAW.MY_SCHEMA.MY_TABLE
+);
 ```
 
 If both tables have zero rows, skip all remaining checks. If row counts differ, investigate before proceeding — deeper checks will be misleading if the data volume is fundamentally different.
@@ -31,34 +41,46 @@ Row count equality does not guarantee data equality. Two tables can have the sam
 
 ### Layer 2: JSON Structure (Key Count, Case Sensitivity, Types)
 
-Fetch a representative row from each side and compare the `object_data` JSON structure:
+Fetch a representative row from each side and compare the JSON structure of the data column (e.g., `object_data`):
 
 - **Key count**: Do both rows have the same number of top-level keys?
 - **Case sensitivity**: Are there keys that differ only in casing (e.g., `firstName` vs `FirstName`)?
-- **Only in PRD / Only in SBX**: Keys that exist on one side but not the other.
+- **Missing keys**: Keys that exist on one side but not the other.
 - **Value types**: For shared keys, do the value types match?
 
 :::warning
-When comparing JSON structures, ensure you are comparing the **same record** on both sides. Fetching the "latest row" independently from each table may return completely different records, leading to false structural differences. Use a scored matching approach to find the corresponding row.
+When comparing JSON structures, ensure you are comparing the **same record** on both sides. Fetching the "latest row" independently from each table may return completely different records, leading to false structural differences. Use a scored matching approach (described below in "Finding the Matching Row") to find the corresponding row.
 :::
 
 ### Layer 3: Sample Hash Verification
 
-Take a sample of rows from PRD (e.g., 1000), compute their hash, and check if those hashes exist in SBX. This is a fast check that catches most mismatches without scanning the full table.
+Take a sample of rows from one table, compute their content hash, and check if those hashes exist in the other table. This catches most mismatches without scanning the full table.
 
 ```sql
--- PRD: Get sample hashes
-SELECT DISTINCT md5(object_data), object_data
-FROM prd_table
-WHERE pipeline_start_utc = :latest
-LIMIT 1000
-
--- SBX: Check if hashes exist
-SELECT object_data_hash
-FROM sbx_table
-WHERE pipeline_start_utc = :latest
-AND object_data_hash IN (:hash_list)
+-- Step 1: Get 1000 distinct hashes from PRD
+WITH prd_sample AS (
+    SELECT DISTINCT MD5(object_data) AS row_hash
+    FROM PRD_RAW.MY_SCHEMA.MY_TABLE
+    WHERE pipeline_start_utc = (
+        SELECT MAX(pipeline_start_utc) FROM PRD_RAW.MY_SCHEMA.MY_TABLE
+    )
+    LIMIT 1000
+)
+-- Step 2: Check how many of those hashes exist in SBX
+SELECT
+    (SELECT COUNT(*) FROM prd_sample) AS prd_sample_count,
+    COUNT(s.row_hash) AS found_in_sbx
+FROM prd_sample p
+LEFT JOIN (
+    SELECT DISTINCT MD5(object_data) AS row_hash
+    FROM SBX_RAW.MY_SCHEMA.MY_TABLE
+    WHERE pipeline_start_utc = (
+        SELECT MAX(pipeline_start_utc) FROM SBX_RAW.MY_SCHEMA.MY_TABLE
+    )
+) s ON p.row_hash = s.row_hash;
 ```
+
+If `found_in_sbx` equals `prd_sample_count`, all sampled rows match. Otherwise, investigate the missing hashes.
 
 :::note
 Use `DISTINCT` on the hash to avoid counting duplicate rows as mismatches. Tables may contain legitimate duplicate rows that inflate the sample count.
@@ -66,57 +88,73 @@ Use `DISTINCT` on the hash to avoid counting duplicate rows as mismatches. Table
 
 ### Layer 4: Full Hash Comparison (MINUS)
 
-Only run this after the sample check passes (to fast-fail on obvious mismatches). Use Snowflake's `MINUS` operator to find rows that exist on one side but not the other.
+Only run this after the sample check passes (to fast-fail on obvious mismatches). Use Snowflake's `MINUS` operator to find rows that exist on one side but not the other:
 
 ```sql
--- Rows in PRD but not in SBX
-SELECT md5(object_data) AS hash
-FROM prd_db.schema.table
-WHERE pipeline_start_utc = :prd_latest
+-- Rows in PRD that are not in SBX
+SELECT MD5(object_data) AS row_hash
+FROM PRD_RAW.MY_SCHEMA.MY_TABLE
+WHERE pipeline_start_utc = (
+    SELECT MAX(pipeline_start_utc) FROM PRD_RAW.MY_SCHEMA.MY_TABLE
+)
 MINUS
-SELECT object_data_hash AS hash
-FROM sbx_db.schema.table
-WHERE pipeline_start_utc = :sbx_latest
+SELECT MD5(object_data) AS row_hash
+FROM SBX_RAW.MY_SCHEMA.MY_TABLE
+WHERE pipeline_start_utc = (
+    SELECT MAX(pipeline_start_utc) FROM SBX_RAW.MY_SCHEMA.MY_TABLE
+);
 ```
 
-For cross-database comparisons, always use fully qualified table names (`database.schema.table`) since the query runs through a single connection.
+Run the reverse direction as well (SBX MINUS PRD) to catch rows only in SBX. For cross-database comparisons, always use fully qualified table names (`database.schema.table`).
 
 ## Common Pitfalls
 
 ### JSON Serialization Differences
 
-Different loaders serialize JSON differently. Two records with identical data can produce different `md5(object_data)` hashes due to:
+Different loaders serialize JSON differently. Two records with identical data can produce different `MD5(object_data)` hashes due to:
 
 - **Key ordering**: `{"a":1,"b":2}` vs `{"b":2,"a":1}`
 - **Number formatting**: `0.0` vs `0`, or `33.99831` vs `33.998310000000004`
 - **Nested object stringification**: `{"key": {"sub": 1}}` vs `{"key": "{\"sub\": 1}"}`
 - **Null representation**: A key with `null` value vs the key being absent entirely
 
-When hash mismatches occur but parsed values are identical, the difference is purely in serialization. Use `HASH(PARSE_JSON(object_data))` for a normalized, order-independent comparison — but note this is slower since it parses every row's JSON.
+When hash mismatches occur but parsed values are identical, the difference is purely in serialization. Use Snowflake's `HASH` function on the parsed JSON for a normalized, order-independent comparison:
 
 ```sql
--- Normalized comparison (slower, ignores formatting)
-SELECT TO_VARCHAR(HASH(PARSE_JSON(object_data))) AS hash
-FROM table
+-- Normalized comparison (slower, ignores JSON formatting differences)
+SELECT TO_VARCHAR(HASH(PARSE_JSON(object_data))) AS normalized_hash
+FROM MY_SCHEMA.MY_TABLE
+WHERE pipeline_start_utc = (
+    SELECT MAX(pipeline_start_utc) FROM MY_SCHEMA.MY_TABLE
+);
 ```
+
+This is slower than `MD5` because it parses every row's JSON, but it eliminates false positives from serialization differences.
 
 ### Finding the Matching Row
 
-When a hash mismatch is found, you need to locate the corresponding row on the other side to understand what changed. A score-based approach works well — score every column and return the row with the highest match:
+When a hash mismatch is found, you need to locate the corresponding row on the other side to understand what changed. A score-based approach works well — build a `CASE` expression for every column and return the row with the highest number of matching columns:
 
 ```sql
-SELECT object_data,
-  (CASE WHEN object_data:"col1"::STRING = 'val1' THEN 1 ELSE 0 END +
-   CASE WHEN object_data:"col2"::STRING = 'val2' THEN 1 ELSE 0 END +
-   ...) AS match_score
-FROM sbx_table
-WHERE pipeline_start_utc = :latest
+-- Given a PRD row with values col1='ABC', col2='123', col3='XYZ'
+-- find the best matching row in SBX
+SELECT
+    object_data,
+    (
+        CASE WHEN object_data:"col1"::STRING = 'ABC' THEN 1 ELSE 0 END +
+        CASE WHEN object_data:"col2"::STRING = '123' THEN 1 ELSE 0 END +
+        CASE WHEN object_data:"col3"::STRING = 'XYZ' THEN 1 ELSE 0 END
+    ) AS match_score
+FROM SBX_RAW.MY_SCHEMA.MY_TABLE
+WHERE pipeline_start_utc = (
+    SELECT MAX(pipeline_start_utc) FROM SBX_RAW.MY_SCHEMA.MY_TABLE
+)
 ORDER BY match_score DESC
-LIMIT 1
+LIMIT 1;
 ```
 
 :::tip
-Compare all columns as `STRING` to avoid type cast errors (e.g., a date string failing a `::NUMBER` cast).
+Compare all columns as `STRING` to avoid type cast errors. For example, a date stored as `'2026-03-12'` on one side and as an epoch integer on the other will fail a `::NUMBER` cast.
 :::
 
 ### Floating Point Precision
@@ -127,10 +165,18 @@ When extracting `DECIMAL`/`NUMERIC` columns through connectors that use `float64
 |-------------|----------------------|
 | `33.99831` | `33.998310000000004` |
 
-**Fix**: Cast the column to `FLOAT` with `ROUND` to the original scale in the extraction SQL query. The scale can be detected from `INFORMATION_SCHEMA.COLUMNS`:
+**Fix**: In the extraction query, cast the column to `FLOAT` with `ROUND` to the original scale. The scale can be detected from `INFORMATION_SCHEMA.COLUMNS`:
 
 ```sql
-ROUND(CAST([column] AS FLOAT), 5) AS [column]  -- 5 = original NUMERIC_SCALE
+-- Detect the scale for DECIMAL/NUMERIC columns
+SELECT COLUMN_NAME, NUMERIC_SCALE
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'my_table'
+  AND DATA_TYPE IN ('decimal', 'numeric');
+
+-- Then apply ROUND in the extraction query
+SELECT ROUND(CAST(my_column AS FLOAT), 5) AS my_column  -- 5 = NUMERIC_SCALE
+FROM dbo.my_table;
 ```
 
 ### Timestamp and Timezone Handling
@@ -141,14 +187,18 @@ Timestamp conversion is the most common source of data mismatches between differ
 
 ```sql
 -- Correct: only trigger on fall-back (offset decreases)
-CASE WHEN DATEPART(TZOFFSET, value AT TIME ZONE 'tz')
-        > DATEPART(TZOFFSET, DATEADD(HOUR, 1, value) AT TIME ZONE 'tz')
-     THEN 3600000 ELSE 0 END
+CASE WHEN DATEPART(TZOFFSET, CAST(my_col AS DATETIME2) AT TIME ZONE 'W. Europe Standard Time')
+        > DATEPART(TZOFFSET, CAST(DATEADD(HOUR, 1, my_col) AS DATETIME2) AT TIME ZONE 'W. Europe Standard Time')
+     THEN 3600000
+     ELSE 0
+END
 
 -- Wrong: triggers on both spring-forward AND fall-back
-CASE WHEN DATEPART(TZOFFSET, value AT TIME ZONE 'tz')
-       != DATEPART(TZOFFSET, DATEADD(HOUR, 1, value) AT TIME ZONE 'tz')
-     THEN 3600000 ELSE 0 END
+CASE WHEN DATEPART(TZOFFSET, CAST(my_col AS DATETIME2) AT TIME ZONE 'W. Europe Standard Time')
+       != DATEPART(TZOFFSET, CAST(DATEADD(HOUR, 1, my_col) AS DATETIME2) AT TIME ZONE 'W. Europe Standard Time')
+     THEN 3600000
+     ELSE 0
+END
 ```
 
 **DATE vs DATETIME**: Columns stored as `DATE` (no time component) should be converted to epoch milliseconds at midnight in the target timezone. JDBC-based tools like Streamsets do this automatically; custom pipelines must handle it explicitly.

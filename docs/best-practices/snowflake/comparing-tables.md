@@ -7,7 +7,38 @@ sidebar_position: 5
 
 ## Overview
 
-When migrating data pipelines (e.g., from Streamsets to dlt), it is critical to verify that the new pipeline produces identical data to the original. This guide documents best practices and common pitfalls for comparing JSON-based tables across Snowflake databases, based on real-world experience comparing production (PRD) and sandbox (SBX) environments.
+When migrating data pipelines (e.g., from Streamsets to dlt), it is critical to verify that the new pipeline produces identical data to the original. This guide documents best practices and common pitfalls for comparing tables across Snowflake databases, based on real-world experience comparing production (PRD) and sandbox (SBX) environments.
+
+### How Data is Stored
+
+In our setup, each pipeline extracts data from a source system and writes it as JSONL files to S3. These files are then loaded into Snowflake using the `COPY INTO` command. Each row in the target table contains an `object_data` column of type `VARIANT` that holds the full JSON payload for that record. The comparison techniques in this guide operate on this `object_data` column — hashing it, parsing it, and comparing its keys and values across environments.
+
+### Why a Single JSON Column
+
+Storing the entire record as a single `VARIANT` column rather than mapping each field to its own Snowflake column has several advantages for the raw/landing layer:
+
+- **Schema flexibility**: Source schemas change frequently — new columns appear, old ones are renamed or removed. A single JSON column absorbs these changes without requiring `ALTER TABLE` statements or pipeline redeployment. The raw layer never breaks due to upstream schema drift.
+- **Simplified loading**: `COPY INTO` with a single VARIANT column is a straightforward, universal pattern that works for any source system. There is no need to maintain column mappings or type casts at the loading stage.
+- **Full-record hashing**: Comparing entire rows across environments becomes a single `MD5(object_data)` call. With separate columns, you would need to concatenate or hash each column individually, handle NULLs, and deal with column ordering — all of which introduce edge cases.
+- **Auditability**: The raw JSON is preserved exactly as it was extracted. Downstream transformations (in dbt or similar tools) parse the JSON into typed columns, but the original payload remains available for debugging and reprocessing.
+- **Decoupled extract and transform**: The extraction layer only needs to get data into Snowflake reliably. All type casting, column naming, and business logic happens in the transformation layer, keeping each stage simple and independently testable.
+
+### Table Structure Assumptions
+
+The queries in this guide assume each raw table has the following columns:
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `object_data` | `VARIANT` | The full JSON payload for a single record, loaded from a JSONL file via `COPY INTO`. |
+| `pipeline_start_utc` | `TIMESTAMP` | The UTC timestamp of when the pipeline run started. Every row loaded in the same pipeline execution shares the same value. This acts as a batch identifier — it allows you to isolate the latest load and compare it against the corresponding load on the other side. |
+
+These columns are added automatically by the loading framework. The `pipeline_start_utc` column is essential for comparison because tables accumulate data from multiple pipeline runs, and you typically want to compare only the most recent run on each side.
+
+### Prerequisites
+
+To run cross-database comparison queries (e.g., `MINUS` between PRD and SBX), both databases must be accessible from the same Snowflake connection. This requires setting up a database link or share from the production account to the sandbox account. For example, if your production data lives in `PRD_RAW` and sandbox data in `SBX_RAW`, both databases must be queryable from a single session so you can use fully qualified names like `PRD_RAW.MY_SCHEMA.MY_TABLE` and `SBX_RAW.MY_SCHEMA.MY_TABLE` in the same query.
+
+If PRD and SBX are on separate Snowflake accounts, you can create a database in the PRD account that points to the SBX data (e.g., via Snowflake data sharing or a replicated database), allowing cross-database queries without switching connections.
 
 ## Comparison Strategy
 
@@ -123,9 +154,9 @@ When hash mismatches occur but parsed values are identical, the difference is pu
 ```sql
 -- Normalized comparison (slower, ignores JSON formatting differences)
 SELECT TO_VARCHAR(HASH(PARSE_JSON(object_data))) AS normalized_hash
-FROM MY_SCHEMA.MY_TABLE
+FROM PRD_RAW.MY_SCHEMA.MY_TABLE
 WHERE pipeline_start_utc = (
-    SELECT MAX(pipeline_start_utc) FROM MY_SCHEMA.MY_TABLE
+    SELECT MAX(pipeline_start_utc) FROM PRD_RAW.MY_SCHEMA.MY_TABLE
 );
 ```
 
@@ -165,16 +196,16 @@ When extracting `DECIMAL`/`NUMERIC` columns through connectors that use `float64
 |-------------|----------------------|
 | `33.99831` | `33.998310000000004` |
 
-**Fix**: In the extraction query, cast the column to `FLOAT` with `ROUND` to the original scale. The scale can be detected from `INFORMATION_SCHEMA.COLUMNS`:
+**Fix**: In the extraction query (run against the **source database**, not Snowflake), cast the column to `FLOAT` with `ROUND` to the original scale. The scale can be detected from the source's metadata. For example, in MSSQL:
 
 ```sql
--- Detect the scale for DECIMAL/NUMERIC columns
+-- Run on the source MSSQL database: detect the scale for DECIMAL/NUMERIC columns
 SELECT COLUMN_NAME, NUMERIC_SCALE
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_SCHEMA = 'dbo' AND TABLE_NAME = 'my_table'
   AND DATA_TYPE IN ('decimal', 'numeric');
 
--- Then apply ROUND in the extraction query
+-- Then apply ROUND in the extraction query (also on the source database)
 SELECT ROUND(CAST(my_column AS FLOAT), 5) AS my_column  -- 5 = NUMERIC_SCALE
 FROM dbo.my_table;
 ```
@@ -183,17 +214,23 @@ FROM dbo.my_table;
 
 Timestamp conversion is the most common source of data mismatches between different extraction tools.
 
-**DST Spring-Forward**: When converting naive timestamps to UTC using `AT TIME ZONE`, the DST transition can cause 1-hour differences. For example, on March 31 at 01:00 CET, adding 1 hour crosses into CEST (offset changes from +1 to +2). When implementing DST ambiguity correction, only trigger on **fall-back** (offset decreases), not spring-forward (offset increases):
+**Understanding the problem**: Many source databases store timestamps without timezone information (naive timestamps). When converting these to epoch milliseconds (UTC), the extraction tool must assume a timezone. Different tools may apply this conversion differently, especially around Daylight Saving Time (DST) transitions.
+
+**DST Spring-Forward**: During the spring-forward transition (e.g., last Sunday of March in Europe), clocks jump from 02:00 to 03:00. A timestamp at 01:00 CET is unambiguous, but checking its timezone offset against the offset one hour later (which is now CEST) reveals a change. Some implementations incorrectly add a 1-hour correction here.
+
+The fix: only apply the correction during **fall-back** (last Sunday of October), when the timezone offset decreases (e.g., from CEST +02:00 back to CET +01:00). During fall-back, the hour between 02:00 and 03:00 repeats, creating genuine ambiguity. During spring-forward, there is no ambiguity — the offset increases but no correction is needed.
+
+In MSSQL (run against the **source database** as part of the extraction query), you can detect this by comparing the timezone offset of the value against the offset of the value plus one hour:
 
 ```sql
--- Correct: only trigger on fall-back (offset decreases)
+-- MSSQL source query: correct — only trigger when timezone offset decreases (fall-back)
 CASE WHEN DATEPART(TZOFFSET, CAST(my_col AS DATETIME2) AT TIME ZONE 'W. Europe Standard Time')
         > DATEPART(TZOFFSET, CAST(DATEADD(HOUR, 1, my_col) AS DATETIME2) AT TIME ZONE 'W. Europe Standard Time')
      THEN 3600000
      ELSE 0
 END
 
--- Wrong: triggers on both spring-forward AND fall-back
+-- MSSQL source query: wrong — triggers on any timezone offset change (including spring-forward)
 CASE WHEN DATEPART(TZOFFSET, CAST(my_col AS DATETIME2) AT TIME ZONE 'W. Europe Standard Time')
        != DATEPART(TZOFFSET, CAST(DATEADD(HOUR, 1, my_col) AS DATETIME2) AT TIME ZONE 'W. Europe Standard Time')
      THEN 3600000
@@ -201,7 +238,29 @@ CASE WHEN DATEPART(TZOFFSET, CAST(my_col AS DATETIME2) AT TIME ZONE 'W. Europe S
 END
 ```
 
-**DATE vs DATETIME**: Columns stored as `DATE` (no time component) should be converted to epoch milliseconds at midnight in the target timezone. JDBC-based tools like Streamsets do this automatically; custom pipelines must handle it explicitly.
+Here, `DATEPART(TZOFFSET, ...)` returns the UTC offset in minutes for a timezone-aware value. During fall-back the offset goes from 120 (CEST) to 60 (CET), so `120 > 60` is true and the correction applies. During spring-forward the offset goes from 60 to 120, so `60 > 120` is false and no correction is applied.
+
+**Oracle-specific pitfalls**: Oracle's `FROM_TZ` function, which assigns a timezone to a naive timestamp, has additional edge cases:
+
+- **Pre-1900 dates** (sentinel values like year 1111): Oracle uses historical Local Mean Time (LMT) for named timezones. For `Europe/Brussels`, LMT is `+0:17:30`, not `+01:00`. But JDBC/Java uses CET (`+01:00`) for all historical dates. This 43-minute difference causes mismatches. Fix: use a fixed offset `'+01:00'` instead of the named timezone for dates before 1900.
+- **Far-future dates** (sentinel values like year 9621): Oracle's timezone data has a limited range. Beyond ~2100, `FROM_TZ` falls back to standard time regardless of the month. But Java extrapolates DST rules forever. Fix: apply the offset manually — use `'+02:00'` (CEST) for April–September and `'+01:00'` (CET) for October–March.
+- **Normal dates (1900–2100)**: Use the named timezone (e.g., `'Europe/Brussels'`) and let Oracle handle DST transitions, which matches Java behavior.
+
+```sql
+-- Oracle source query: timezone selection with sentinel value handling
+FROM_TZ(
+    CAST(my_col AS TIMESTAMP),
+    CASE
+        WHEN my_col < DATE '1900-01-01' THEN '+01:00'
+        WHEN my_col > DATE '2100-01-01' THEN
+            CASE WHEN EXTRACT(MONTH FROM my_col) BETWEEN 4 AND 9
+                 THEN '+02:00' ELSE '+01:00' END
+        ELSE 'Europe/Brussels'
+    END
+) AT TIME ZONE 'UTC'
+```
+
+**DATE vs DATETIME**: Columns stored as `DATE` (no time component) should be converted to epoch milliseconds at midnight in the target timezone. JDBC-based tools like Streamsets do this automatically; custom pipelines must handle it explicitly. In Oracle specifically, `DATE` columns store both date and time, but some connectors (like ConnectorX) may read them as date-only, losing the time component. Detect these from `ALL_TAB_COLUMNS` metadata and force a `TIMESTAMP` cast.
 
 ### Null Column Handling
 

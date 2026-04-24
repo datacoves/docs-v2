@@ -233,6 +233,7 @@ const config = {
       position: 'left',
     
       items: [
+        { type: 'html', value: '<span class="dropdown-label">Platform Reference</span>' },
         {
           label: 'Administration Menu',
           to: '/docs/reference/admin-menu/',
@@ -249,11 +250,7 @@ const config = {
           to: '/docs/category/datacoves-1/',
 
         },
-        {
-         label: 'dbt docs',
-          to: 'https://docs.getdbt.com/',
-
-        },
+        
       
          {
           label: 'Security',
@@ -264,6 +261,40 @@ const config = {
           label: 'VS Code',
           to: '/docs/reference/vscode/',
 
+        },
+
+        { type: 'html', value: '<hr class="dropdown-separator" />' },
+        { type: 'html', value: '<span class="dropdown-label">Official Docs (External)</span>' },
+
+        // external items using href:
+        
+        { 
+          label: 'Airbyte Docs', 
+          href: 'https://docs.airbyte.com' 
+        },
+        { 
+          label: 'Airflow Docs', 
+          href: 'https://airflow.apache.org/docs/apache-airflow/2.10.5/' 
+        },
+        { 
+          label: 'dbt Docs', 
+          href: 'https://docs.getdbt.com/' 
+        },
+        { 
+          label: 'dlt Docs', 
+          href: 'https://dlthub.com/docs/intro' 
+        },
+        { 
+          label: 'Git Docs', 
+          href: 'https://git-scm.com/doc' 
+        },
+        { 
+          label: 'Permifrost Docs', 
+          href: 'https://gitlab.com/gitlab-data/permifrost' 
+        },
+        { 
+          label: 'Snowcap Docs', 
+          href: 'https://snowcap.datacoves.com' 
         },
      
         ],

@@ -70,15 +70,18 @@ The actual billed figure falls inside that range.
 
 Example query:
 
-```sql
-SELECT
-    dag_id,
-    task_id,
-    SUM(EXTRACT(EPOCH FROM (end_date - queued_dttm)) / 60) AS upper_bound_minutes,
-    SUM(EXTRACT(EPOCH FROM (end_date - start_date))  / 60) AS lower_bound_minutes
-FROM task_instance
-WHERE end_date >= date_trunc('month', CURRENT_DATE)
-  AND state = 'success'
-GROUP BY dag_id, task_id
-ORDER BY upper_bound_minutes DESC;
+```SELECT
+    date_trunc('day', ti.start_date) AS day,
+    count(*) AS tasks,
+    round(sum(EXTRACT(EPOCH FROM (ti.end_date   - ti.queued_dttm))  / 60)::numeric, 1) AS queued_plus_execution_time,
+    round(sum(EXTRACT(EPOCH FROM (ti.end_date   - ti.start_date))   / 60)::numeric, 1) AS execution_time,
+    round(sum(EXTRACT(EPOCH FROM (ti.start_date - ti.queued_dttm))  / 60)::numeric, 1) AS queue_time_min
+FROM task_instance ti
+WHERE ti.state = 'success'
+  AND ti.start_date >= '2026-03-01 00:00:00+00'
+  AND ti.start_date <  '2026-04-01 00:00:00+00'
+  AND ti.queued_dttm IS NOT NULL
+  AND ti.end_date    IS NOT NULL
+GROUP BY 1
+ORDER BY 1;
 ```

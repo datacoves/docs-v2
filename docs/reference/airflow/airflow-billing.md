@@ -70,7 +70,8 @@ The actual billed figure falls inside that range.
 
 Example query:
 
-```SELECT
+```sql
+SELECT
     date_trunc('day', ti.start_date) AS day,
     count(*) AS tasks,
     round(sum(EXTRACT(EPOCH FROM (ti.end_date   - ti.queued_dttm))  / 60)::numeric, 1) AS queued_plus_execution_time,

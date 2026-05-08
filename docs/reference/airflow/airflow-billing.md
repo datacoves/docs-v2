@@ -8,7 +8,7 @@ This page explains how Datacoves measures and bills Airflow worker usage, what i
 
 ## Overview
 
-Datacoves bills Airflow usage based on **worker pod running time**. Each Airflow task runs inside a dedicated Kubernetes pod, and billing is based on how long that pod is alive in the cluster. This is different from the task durations shown in the Airflow UI, which only reflect when task code itself was running.
+Datacoves bills Airflow usage based on **worker pod running time**. Each Airflow task runs inside a dedicated Kubernetes pod, and billing is based on how long that pod is alive in the cluster. This is different from the task durations shown in the Airflow UI, which only reflects when task code itself was running.
 
 Billing is derived from the Prometheus metric:
 

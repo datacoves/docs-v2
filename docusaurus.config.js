@@ -135,7 +135,7 @@ const config = {
         },
          {
           label: 'Developer', 
-          to: '/docs/category/developer/',
+          to: '/docs/category/developer',
         },
         // Add more internal docs here if needed
       ],
@@ -148,19 +148,19 @@ const config = {
       items: [
         {
           label: 'Airflow',
-          to: '/docs/category/airflow/',
+          to: '/docs/category/airflow',
         },
         {
           label: 'Datacoves',
-          to: '/docs/category/datacoves/',
+          to: '/docs/category/datacoves',
         },
         {
           label: 'Datahub',
-          to: '/docs/category/datahub/',
+          to: '/docs/category/datahub',
         },
          {
           label: 'DataOps',
-          to: '/docs/how-tos/dataops/',
+          to: '/docs/how-tos/dataops',
         },
          {
           label: 'dbt',
@@ -196,12 +196,12 @@ const config = {
 
      {
       label: 'Best Practices',
-      to: '/docs/category/best-practices/',
+      to: '/docs/category/best-practices',
       position: 'left',
       items: [
         {
           label: 'Datacoves',
-          to: '/docs/best-practices/datacoves/',
+          to: '/docs/best-practices/datacoves',
 
         },
         {
@@ -211,17 +211,17 @@ const config = {
         },
         {
           label: 'Git',
-          to: '/docs/best-practices/git/',
+          to: '/docs/best-practices/git',
      
         },
          {
           label: 'Snowflake',
-          to: '/docs/category/snowflake-1/',
+          to: '/docs/category/snowflake-1',
   
         },
         {
           label: 'VS Code',
-          to: '/docs/best-practices/vscode/',
+          to: '/docs/best-practices/vscode',
 
         },
          
@@ -229,37 +229,37 @@ const config = {
       },
       {
       label: 'Reference',
-      to: '/docs/category/reference/',
+      to: '/docs/category/reference',
       position: 'left',
     
       items: [
         { type: 'html', value: '<span class="dropdown-label">Platform Reference</span>' },
         {
           label: 'Administration Menu',
-          to: '/docs/reference/admin-menu/',
+          to: '/docs/reference/admin-menu',
       
         },
         {
           label: 'Airflow',
-          to: '/docs/category/airflow-1/',
+          to: '/docs/category/airflow-1',
 
   
         },
         {
           label: 'Datacoves',
-          to: '/docs/category/datacoves-1/',
+          to: '/docs/category/datacoves-1',
 
         },
         
       
          {
           label: 'Security',
-          to: '/docs/reference/security/',
+          to: '/docs/reference/security',
 
         },
          {
           label: 'VS Code',
-          to: '/docs/reference/vscode/',
+          to: '/docs/reference/vscode',
 
         },
 
@@ -300,7 +300,7 @@ const config = {
         ],
       },
     { label: 'Tutorials', 
-      to: '/docs/category/tutorials/',
+      to: '/docs/category/tutorials',
       position: 'left',
       items:[
         {
@@ -400,7 +400,7 @@ const config = {
             items: [
               {
                 label: 'Status Tracker',
-                to: 'https://datacoves.statuspage.io/',
+                to: 'https://datacoves.statuspage.io',
               },
               {
                 label: 'SLA',

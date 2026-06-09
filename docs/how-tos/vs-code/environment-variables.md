@@ -73,6 +73,12 @@ Creating variables is simple. Add the key following the correct format and add t
 
 ![Create variables](assets/env_var_environment_create.png)
 
+:::tip
+Some features read a value from an environment variable you set here. For example, the [GitHub MCP
+server](/docs/how-tos/vs-code/mcp/github) reads a personal access token from a user-level variable named
+`GITHUB_PERSONAL_ACCESS_TOKEN`. Its value is automatically masked because the name contains `token`.
+:::
+
 ## Sensitive Variable Masking
 
 Datacoves automatically masks the values of environment variables whose names contain certain keywords. This helps prevent accidental exposure of secrets in the UI.

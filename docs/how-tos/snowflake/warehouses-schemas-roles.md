@@ -1,5 +1,7 @@
 ---
-title: Warehouses, Schemas and Roles
+title: "Add Snowflake Warehouses, Schemas, and Roles"
+sidebar_label: "Warehouses, Schemas & Roles"
+description: "How to create and configure Snowflake warehouses, schemas, and roles for Datacoves environments, including sizing recommendations and access control setup."
 sidebar_position: 80
 ---
 # How to add Warehouses, Schemas, and Roles to Snowflake

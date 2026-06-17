@@ -1,5 +1,7 @@
 ---
-title: Access the My Airflow API
+title: "Access and Use the My Airflow REST API"
+sidebar_label: "My Airflow API"
+description: "Generate API keys and make REST API calls to your personal My Airflow instance in Datacoves using the datacoves my api-key command."
 sidebar_position: 78
 ---
 # How to use the My Airflow API

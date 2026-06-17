@@ -33,8 +33,8 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title="Datacoves Docs: dbt, Airflow & Data Engineering"
+      description="Official documentation for Datacoves — the enterprise dbt platform with Airflow orchestration, VS Code, and Superset. Get started in minutes.">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

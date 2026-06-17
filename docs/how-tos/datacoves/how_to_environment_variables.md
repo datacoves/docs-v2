@@ -1,5 +1,7 @@
 ---
-title: Configure VSCode Environment Variables
+title: Add Custom Environment Variables to VS Code
+sidebar_label: Configure VS Code Env Vars
+description: "Configure custom environment variables for the VS Code IDE in Datacoves environments to pass secrets, settings, or tool configuration to developers."
 sidebar_position: 52
 ---
 # How to use custom VSCode Environment Variables

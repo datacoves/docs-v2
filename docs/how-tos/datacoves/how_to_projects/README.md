@@ -1,5 +1,7 @@
 ---
-title: Configure Projects
+title: Create and Configure Datacoves Projects
+sidebar_label: Configure Projects
+description: "How to set up a Datacoves project: configure git repository access via SSH or HTTPS, link CI/CD pipelines, and configure the secrets backend."
 sidebar_position: 48
 ---
 

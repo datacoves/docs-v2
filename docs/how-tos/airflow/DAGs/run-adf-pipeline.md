@@ -1,5 +1,7 @@
 ---
-title: DAGs - Run ADF Pipelines
+title: Trigger ADF Pipelines from Airflow in Datacoves
+sidebar_label: Run ADF Pipeline
+description: "Use Azure Data Factory operators in Airflow DAGs within Datacoves to trigger and monitor ADF pipelines as part of your data orchestration workflow."
 sidebar_position: 26
 ---
 # Use Microsoft Azure Data Factory Operators 

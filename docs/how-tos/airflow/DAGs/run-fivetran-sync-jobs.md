@@ -1,5 +1,7 @@
 ---
-title: DAGs - Run Fivetran sync jobs
+title: Trigger Fivetran Syncs from Airflow in Datacoves
+sidebar_label: Run Fivetran Syncs
+description: "Orchestrate Fivetran connector syncs from Airflow DAGs in Datacoves using the Fivetran provider, with connection ID configuration and monitoring."
 sidebar_position: 31
 ---
 # Run Fivetran sync jobs

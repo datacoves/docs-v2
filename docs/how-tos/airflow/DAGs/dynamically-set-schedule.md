@@ -1,5 +1,7 @@
 ---
-title: DAGs - Dynamically Set Schedule
+title: Dynamically Set Airflow Schedule Intervals
+sidebar_label: Dynamic Schedule
+description: "Use environment variables or Airflow Variables to dynamically configure DAG schedule intervals in Datacoves for flexible pipeline orchestration."
 sidebar_position: 22
 ---
 # How to Dynamically set the schedule Interval

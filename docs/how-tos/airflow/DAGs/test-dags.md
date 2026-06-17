@@ -1,5 +1,7 @@
 ---
-title: DAGs - Test DAGs
+title: Test Airflow DAGs in Your CI/CD Pipeline
+sidebar_label: Test DAGs
+description: "How to run automated Airflow DAG tests in your CI/CD pipeline using pytest and the Datacoves CLI to catch import errors before deploying to production."
 sidebar_position: 32
 ---
 # Run DAG tests in your CI/CD 

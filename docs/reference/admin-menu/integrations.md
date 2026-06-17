@@ -1,5 +1,7 @@
 ---
-title: Integrations
+title: "Integrations Reference: Datacoves Admin Panel"
+sidebar_label: Integrations
+description: "Reference for the Datacoves Integrations admin screen: configure notification services like Slack and Microsoft Teams for Airflow pipeline alerts."
 sidebar_position: 60
 ---
 # Integrations Admin

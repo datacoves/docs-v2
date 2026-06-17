@@ -1,5 +1,7 @@
 ---
-title: Groups
+title: "Groups Reference: Datacoves Admin Panel"
+sidebar_label: Groups
+description: "Reference for the Datacoves Groups admin screen: create and configure role-based user groups with access to specific projects and environments."
 sidebar_position: 50
 ---
 # Groups Admin

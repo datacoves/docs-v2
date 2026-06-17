@@ -1,5 +1,7 @@
 ---
-title: Airflow - What to know
+title: "Airflow in Datacoves: Key Things to Know First"
+sidebar_label: Overview
+description: "Important notes before writing Airflow DAGs in Datacoves: Ruff linting, Datacoves decorators, and My Airflow for faster personal DAG development."
 sidebar_position: 1
 id: airflow-index
 ---

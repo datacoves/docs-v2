@@ -1,5 +1,7 @@
 ---
-title: Configure Snowflake metadata ingestion
+title: "Connect Snowflake to DataHub via Datacoves"
+sidebar_label: "Snowflake Metadata Ingestion"
+description: "Configure Snowflake metadata ingestion into DataHub in Datacoves: set up the Snowflake DataHub connector, configure credentials, and run the recipe."
 sidebar_position: 60
 ---
 # How to ingest Snowflake metadata into DataHub

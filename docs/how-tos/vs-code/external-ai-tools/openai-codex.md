@@ -1,5 +1,7 @@
 ---
-title: OpenAI Codex
+title: Use OpenAI Codex in the Datacoves VS Code IDE
+sidebar_label: OpenAI Codex
+description: "Set up and use OpenAI Codex in the Datacoves VS Code environment to get AI-powered code suggestions and autocompletion for SQL and Python files."
 sidebar_position: 1
 ---
 

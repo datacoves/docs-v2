@@ -1,5 +1,7 @@
 ---
-title: Reset User Env
+title: Reset Your User Environment in Datacoves VS Code
+sidebar_label: Reset User Env
+description: "How to reset your personal VS Code user environment in Datacoves when the project's git repository changes or your workspace becomes inconsistent."
 sidebar_position: 80
 ---
 # Reset the User's Env if the git Repository is Changed in the Project. 

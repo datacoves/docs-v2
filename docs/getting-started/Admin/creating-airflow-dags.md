@@ -1,5 +1,6 @@
 ---
 title: Creating Your First Airflow DAGs in Datacoves
+sidebar_label: Create Airflow DAGs
 description: "Learn to write Airflow DAGs in Datacoves: run dbt with Python DAGs or auto-generate them from YAML definitions using dbt-coves generate airflow-dags."
 sidebar_position: 3
 ---

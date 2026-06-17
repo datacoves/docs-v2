@@ -1,5 +1,6 @@
 ---
 title: Account Prerequisites for Setting Up Datacoves
+sidebar_label: Create Account
 description: "What you need before your Datacoves setup call: data warehouse credentials, git repository access, dbt version, and authentication method for SSO."
 sidebar_position: 1
 ---

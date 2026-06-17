@@ -1,5 +1,6 @@
 ---
 title: "Datacoves User Management: Invite, Edit & Remove"
+sidebar_label: User Management
 description: "Invite new users to Datacoves, manage their project and environment permissions, and remove accounts when access is no longer needed."
 sidebar_position: 20
 ---

@@ -1,5 +1,6 @@
 ---
 title: Airflow Setup Guide for Datacoves Administrators
+sidebar_label: Configure Airflow
 description: "Step-by-step guide to configure Airflow in Datacoves: set up service connections, repository structure, and notification integrations for scheduling dbt jobs."
 sidebar_position: 2
 ---

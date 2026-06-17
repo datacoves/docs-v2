@@ -1,5 +1,7 @@
 ---
-title: Datacoves Environment Service Connection Variables
+title: Datacoves Service Connection Variables Reference
+sidebar_label: Service Connection Vars
+description: "Environment variables injected by Datacoves service connections for Snowflake, Redshift, BigQuery, and Databricks warehouse authentication in Airflow."
 sidebar_position: 127
 ---
 # Warehouse Environment Variables

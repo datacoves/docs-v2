@@ -1,5 +1,7 @@
 ---
-title: Datacoves CLI Commands
+title: "Datacoves CLI Commands Reference: datacoves my"
+sidebar_label: CLI Commands
+description: "Reference for Datacoves CLI commands: datacoves my import, my pytest, and my api-key for managing My Airflow instances from the VS Code terminal."
 sidebar_position: 126
 ---
 # Datacoves CLI Commands

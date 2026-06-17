@@ -1,5 +1,7 @@
 ---
-title: Airflow Config Defaults
+title: Airflow Default Configuration in Datacoves
+sidebar_label: Config Defaults
+description: "Reference for Datacoves Airflow default configuration: executor, parallelism, scheduler, Kubernetes worker timeout, and database retry settings."
 sidebar_position: 122
 ---
 # Airflow Config Defaults

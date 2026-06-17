@@ -1,5 +1,7 @@
 ---
-title: dbt guidelines
+title: dbt Project Guidelines for Enterprise Data Teams
+sidebar_label: Guidelines
+description: "Coding standards and decision-making guidelines for dbt projects in Datacoves: model structure, source definitions, testing, and documentation best practices."
 sidebar_position: 1
 ---
 

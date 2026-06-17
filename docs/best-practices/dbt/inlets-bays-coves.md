@@ -1,5 +1,7 @@
 ---
-title: What are Inlets, Bays, and Coves
+title: "Inlets, Bays & Coves: Datacoves dbt Layer Model"
+sidebar_label: "Inlets, Bays & Coves"
+description: "Understand Datacoves' three-tier dbt architecture: Inlets for raw source data, Bays for intermediate transformations, and Coves for analytics-ready output."
 sidebar_position: 3
 ---
 

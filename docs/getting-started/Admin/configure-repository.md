@@ -1,5 +1,6 @@
 ---
-title: Configure Git Repository
+title: Configure Your Git Repository for Airflow DAGs
+description: "Set up the required folder structure in your git repository for Airflow: create orchestrate/dags, the airflow_development branch, and a profiles.yml file."
 sidebar_position: 8
 ---
 # Update Repository for Airflow

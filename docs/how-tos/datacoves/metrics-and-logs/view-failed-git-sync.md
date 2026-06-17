@@ -1,5 +1,7 @@
 ---
-title: Git Sync/S3 Failures
+title: "Monitor Git Sync and S3 Failures in Datacoves"
+sidebar_label: "Git Sync/S3 Failures"
+description: "View and diagnose git repository sync failures and S3 artifact upload errors in Datacoves using the Grafana monitoring dashboards."
 sidebar_position: 73
 ---
 # Monitor git sync or s3 sync failure

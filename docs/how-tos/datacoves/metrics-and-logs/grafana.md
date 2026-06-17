@@ -1,5 +1,7 @@
 ---
-title: Grafana
+title: "Navigate and Use Grafana Dashboards in Datacoves"
+sidebar_label: "Grafana"
+description: "Access and navigate prebuilt Grafana dashboards in Datacoves to monitor Airflow tasks, Kubernetes resources, and platform service health."
 sidebar_position: 133
 ---
 # Grafana Dashboards

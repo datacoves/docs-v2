@@ -1,6 +1,6 @@
 ---
 title: Datacoves Security Features and Compliance Info
-sidebar_label: Overview
+sidebar_label: Security
 description: "Datacoves security overview: SSO via Google or Microsoft, role-based access control, HTTPS enforcement, AES-128 encryption at rest, and cloud protocols."
 sidebar_position: 134
 ---

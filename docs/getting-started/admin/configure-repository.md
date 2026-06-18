@@ -14,7 +14,7 @@ Now that you have configured your Airflow settings you must ensure that your rep
 
 **Step 3:** **This step is optional** if you would like to make use of the [dbt-coves](https://github.com/datacoves/dbt-coves?tab=readme-ov-file#airflow-dags-generation-arguments) `dbt-coves generate airflow-dags` command. Create the `dags_yml_definitions` folder inside of your newly created `orchestrate` folder. This will leave you with two folders inside `orchestrate`- `orchestrate/dags` and `orchestrate/dags_yml_definitions`.
 
-**Step 4:** **This step is optional** if you would like to make use of the dbt-coves' extension `dbt-coves generate airflow-dags` command. You must create a config file for dbt-coves. Please follow the [generate DAGs from yml](/docs/how-tos/airflow/DAGs/generate-dags-from-yml) docs.
+**Step 4:** **This step is optional** if you would like to make use of the dbt-coves' extension `dbt-coves generate airflow-dags` command. You must create a config file for dbt-coves. Please follow the [generate DAGs from yml](/docs/how-tos/airflow/dags/generate-dags-from-yml) docs.
 
 ## Create a profiles.yml
 

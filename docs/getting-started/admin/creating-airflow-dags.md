@@ -9,8 +9,8 @@ sidebar_position: 3
 ## Pre-Requisites
 By now you should have:
 
-- [Configured Airflow](/docs/getting-started/Admin/configure-airflow) in Datacoves
-- [Updated your repo](/docs/getting-started/Admin/configure-repository) to include `automate/dbt/profiles.yml` and `orchestrate/dags` folders
+- [Configured Airflow](/docs/getting-started/admin/configure-airflow) in Datacoves
+- [Updated your repo](/docs/getting-started/admin/configure-repository) to include `automate/dbt/profiles.yml` and `orchestrate/dags` folders
 - [Set up notifications](/docs/how-tos/airflow/send-emails) for Airflow
 
 ## Where to create your DAGs

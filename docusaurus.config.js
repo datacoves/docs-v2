@@ -12,7 +12,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Welcome to the Datacoves Documentation',
+  title: 'Datacoves',
   tagline: 'Our Mission is to be the best dbt platform for enterprises by offering a simple solution with robust orchestration that reduces time to market while handling the complexities of a large enterprise.',
   favicon: 'img/favicon.ico',
 

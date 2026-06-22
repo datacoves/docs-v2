@@ -1,5 +1,7 @@
 ---
-title: Configure Connection Templates
+title: Create and Edit Datacoves Connection Templates
+sidebar_label: Configure Connection Templates
+description: "How to create and manage connection templates in Datacoves to standardize data warehouse credentials across projects and environments."
 sidebar_position: 42
 ---
 # How to Create/Edit Connection Template

@@ -1,5 +1,7 @@
 ---
-title: Metrics & Logs
+title: "Monitor Services with Datacoves Metrics and Logs"
+sidebar_label: "Metrics & Logs"
+description: "How to use Grafana dashboards in Datacoves to monitor Airflow jobs, Docker image builds, and other platform metrics. Requires Admin or Project Admin role."
 sidebar_position: 70
 ---
 # Metrics and Logs How Tos

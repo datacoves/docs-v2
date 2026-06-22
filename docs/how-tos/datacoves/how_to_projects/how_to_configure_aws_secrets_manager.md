@@ -1,5 +1,7 @@
 ---
-title: Configure AWS Secrets Manager
+title: "Add AWS Secrets Manager as a Datacoves Backend"
+sidebar_label: "Configure AWS Secrets Manager"
+description: "Connect AWS Secrets Manager to Datacoves as a project-level secrets backend to securely inject credentials into Airflow and VS Code environments."
 sidebar_position: 50
 ---
 # Configuring AWS Secrets Manager

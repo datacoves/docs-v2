@@ -1,5 +1,5 @@
 ---
-title: Contact Datacoves Support via Slack or Email
+title: Contact Datacoves Support
 description: "Reach the Datacoves support team via Slack, email, or our Service Desk portal. Enterprise customers get priority response through a dedicated Slack channel."
 ---
 

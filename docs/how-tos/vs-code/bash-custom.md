@@ -1,5 +1,7 @@
 ---
-title: Customize Your Shell with .bash_custom
+title: Customize Your Shell Environment in Datacoves
+sidebar_label: Customize Shell
+description: "Add aliases, environment variables, and custom functions to your VS Code shell in Datacoves using the .bash_custom file for persistent terminal customization."
 sidebar_position: 30
 ---
 # How to Customize Your Shell Environment

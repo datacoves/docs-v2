@@ -1,5 +1,7 @@
 ---
-title: Reset Git
+title: Reset Git in the Datacoves VS Code Environment
+sidebar_label: Reset Git
+description: "How to reset your git repository state in the Datacoves VS Code IDE when you encounter conflicts, detached HEAD, or corrupted workspace states."
 sidebar_position: 70
 ---
 # Reset git 

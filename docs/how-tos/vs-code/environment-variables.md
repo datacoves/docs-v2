@@ -1,5 +1,7 @@
 ---
-title: Custom Environment Variables
+title: Set Environment Variables in Datacoves VS Code
+sidebar_label: Environment Variables
+description: "How to add custom environment variables to the Datacoves VS Code IDE for use in dbt profiles, scripts, or custom tooling across your team's environments."
 sidebar_position: 20
 ---
 # How to add Environment variables to VS Code

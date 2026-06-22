@@ -1,6 +1,6 @@
 ---
 title: Datacoves Service Level Agreement (SLA)
-description: "Datacoves SLA: 99.9% uptime commitment, support severity levels with defined response times, credit schedule for outages, and availability exceptions."
+description: "Datacoves SLA: 99.9% uptime commitment, support severity levels with defined response times, and availability exceptions."
 ---
 
 # Service Level Agreement (SLA)

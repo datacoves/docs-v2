@@ -1,5 +1,7 @@
 ---
-title: Notifications - Send Emails
+title: Send Email Notifications on Airflow DAG Failure
+sidebar_label: Notifications - Email
+description: "Configure email alerts for Airflow DAG failures in Datacoves: set up SMTP integration, define recipient lists, and handle task-level notifications."
 sidebar_position: 34
 ---
 # How to send email notifications on DAG's failure

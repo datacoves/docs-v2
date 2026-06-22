@@ -1,5 +1,7 @@
 ---
-title: DAGs - Generate DAGs from yml
+title: Generate Airflow DAGs from YAML with dbt-coves
+sidebar_label: Generate from YAML
+description: "Use dbt-coves to auto-generate Airflow Python DAG files from simple YAML definitions, reducing boilerplate and standardizing pipeline creation."
 sidebar_position: 23
 ---
 # Generate DAGs from yml

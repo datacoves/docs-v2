@@ -1,5 +1,7 @@
 ---
-title: DAGs - Run Airbyte sync jobs
+title: Trigger Airbyte Syncs from Airflow in Datacoves
+sidebar_label: Run Airbyte Syncs
+description: "Orchestrate Airbyte data syncs from Airflow DAGs in Datacoves using the Airbyte provider, with examples for triggering connections and monitoring status."
 sidebar_position: 27
 ---
 # Run Airbyte sync jobs

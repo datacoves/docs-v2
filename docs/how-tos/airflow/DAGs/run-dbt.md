@@ -1,5 +1,7 @@
 ---
-title: DAGs - Run dbt
+title: "Run dbt from Airflow in Datacoves: DAG Examples"
+sidebar_label: Run dbt
+description: "Use the Datacoves dbt decorator or operator to run dbt commands from Airflow tasks, with full examples for dbt run, dbt test, and dbt build."
 sidebar_position: 28
 ---
 # How to run dbt from an Airflow worker

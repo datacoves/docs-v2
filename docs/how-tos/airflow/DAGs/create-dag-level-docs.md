@@ -1,5 +1,7 @@
 ---
-title: DAGs - Add Dag Documentation
+title: Add Documentation to Airflow DAGs in Datacoves
+sidebar_label: Add Documentation
+description: "How to add Markdown documentation directly to Airflow DAGs in Datacoves so operators can read context in the Airflow UI and Grid view."
 sidebar_position: 20
 ---
 # How to Add Docs at the DAG Level in Airflow

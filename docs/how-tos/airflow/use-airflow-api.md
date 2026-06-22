@@ -1,5 +1,7 @@
 ---
-title: Airflow - Accessing the Airflow API
+title: Access the Airflow REST API in Datacoves
+sidebar_label: Airflow REST API
+description: "Authenticate with and call the Airflow REST API in Datacoves: generate API tokens, trigger DAGs, check run status, and query task instances programmatically."
 sidebar_position: 2
 ---
 # How to use the Airflow API

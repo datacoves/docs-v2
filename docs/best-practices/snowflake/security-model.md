@@ -1,5 +1,7 @@
 ---
-title: Security Model
+title: Snowflake Security Model for Datacoves Projects
+sidebar_label: Security Model
+description: "Best practices for Snowflake role-based access control, user management, and security configuration for data engineering teams using Datacoves."
 sidebar_position: 2
 ---
 

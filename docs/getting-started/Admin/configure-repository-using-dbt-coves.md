@@ -1,5 +1,5 @@
 ---
-title: Initialize a Datacoves Repository with dbt-coves
+title: Initialize a Git Repository with dbt-coves
 sidebar_label: Configure Git Repository Using dbt-coves
 description: "Use dbt-coves setup to scaffold a fully configured Datacoves project with dbt, Airflow, CI/CD pipelines, SQLFluff, and data warehouse adapters in one command."
 sidebar_position: 12

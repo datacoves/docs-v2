@@ -1,6 +1,6 @@
 ---
 title: "DataOps How-To Guides for Datacoves Teams"
-sidebar_label: "Overview"
+sidebar_label: "DataOps"
 description: "How-to guides for DataOps practices in Datacoves: define workflows, develop and release features, and trigger CI/CD pipelines without code changes."
 sidebar_position: 4
 ---

@@ -1,5 +1,7 @@
 ---
-title: My Import
+title: "Import Variables and Connections into My Airflow"
+sidebar_label: "My Import"
+description: "Use the datacoves my import command to sync Airflow connections and variables from Team Airflow to your personal My Airflow instance in Datacoves."
 sidebar_position: 76
 ---
 # Importing connections and variables from Team Airflow

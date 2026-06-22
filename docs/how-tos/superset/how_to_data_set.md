@@ -1,5 +1,7 @@
 ---
-title: Add a Dataset
+title: "Add a Dataset to Apache Superset in Datacoves"
+sidebar_label: "Add a Dataset"
+description: "Connect a database table or view as a dataset in Apache Superset within Datacoves to make it available for charts, dashboards, and analysis."
 sidebar_position: 83
 ---
 # How to Add a Dataset in Superset

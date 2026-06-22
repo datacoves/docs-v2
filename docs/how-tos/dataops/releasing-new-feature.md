@@ -1,5 +1,7 @@
 ---
-title: Releasing a new feature
+title: "Develop and Release dbt Features in Datacoves"
+sidebar_label: "Release a Feature"
+description: "Step-by-step workflow for developing a new dbt feature in Datacoves: branch, build, test, open a PR, and promote changes through environments to production."
 sidebar_position: 63
 ---
 # How to develop and release a feature

@@ -1,5 +1,7 @@
 ---
-title: SSH Keys configuration
+title: "Configure SSH Keys for Git Repos in Datacoves"
+sidebar_label: "SSH Keys"
+description: "Generate and configure SSH keys in Datacoves to clone git repositories, including adding your public key as a deployment key in GitHub or GitLab."
 sidebar_position: 71
 ---
 # How to configure a SSH Key to clone a git repository

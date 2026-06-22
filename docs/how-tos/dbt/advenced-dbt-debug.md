@@ -1,5 +1,7 @@
 ---
-title: Advanced Debugging
+title: "Debug dbt Models and Macros in Datacoves"
+sidebar_label: "Advanced Debugging"
+description: "Advanced techniques for debugging dbt models and macros in Datacoves: use VS Code breakpoints, dbt compile previews, and SQLFluff to diagnose errors."
 sidebar_position: 65
 ---
 # How to Debug dbt Models and Macros

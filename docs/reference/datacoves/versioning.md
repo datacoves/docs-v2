@@ -1,5 +1,7 @@
 ---
-title: Versioning
+title: "Datacoves Versioning: Semantic Version Reference"
+sidebar_label: Versioning
+description: "How Datacoves uses semantic versioning (MAJOR.MINOR.PATCH) for Docker images and platform releases, including version bump criteria and image tag formats."
 sidebar_position: 130
 ---
 # Datacoves versioning

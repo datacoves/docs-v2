@@ -1,5 +1,7 @@
 ---
-title: Airflow Best Practices
+title: Airflow DAG Best Practices for Datacoves Users
+sidebar_label: Best Practices
+description: "Recommended Airflow best practices for Datacoves: set static start dates, use catchup=False, avoid dynamic scheduled dates, and follow official Airflow docs."
 sidebar_position: 121
 ---
 # Airflow Best Practices

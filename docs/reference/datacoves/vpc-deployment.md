@@ -1,5 +1,7 @@
 ---
-title: VPC Deployment
+title: Datacoves VPC Deployment Architecture Reference
+sidebar_label: VPC Deployment
+description: "Infrastructure requirements for deploying Datacoves on a private VPC: database, blob storage, Kubernetes, git server, CI/CD, DNS, and HTTPS certificates."
 sidebar_position: 131
 ---
 # VPC Deployment

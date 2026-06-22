@@ -1,5 +1,7 @@
 ---
-title: Datacoves Operators
+title: Datacoves Airflow Operators and Generators
+sidebar_label: Operators
+description: "Reference for Datacoves Airflow operators: DatacovesBashOperator and DatacovesDbtOperator, their parameters, behavior, and usage examples in DAG files."
 sidebar_position: 128
 ---
 # Datacoves Operators & Generators

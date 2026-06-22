@@ -1,5 +1,7 @@
 ---
-title: DAG Generators
+title: "DAG Generators Reference: Airbyte and Fivetran"
+sidebar_label: DAG Generators
+description: "Reference for dbt-coves DAG generators in Datacoves: AirbyteGenerator, AirbyteDbtGenerator, FivetranGenerator, and FivetranDbtGenerator with all params."
 sidebar_position: 124
 ---
 # DAG Generators

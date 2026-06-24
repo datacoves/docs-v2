@@ -1,5 +1,7 @@
 ---
-title: Git
+title: Git Best Practices for Datacoves Data Projects
+sidebar_label: Git
+description: "Best practices for using Git in Datacoves: branching strategies, commit conventions, and workflow recommendations for data engineering teams."
 sidebar_position: 3
 ---
 # Git Overview

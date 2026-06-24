@@ -1,5 +1,7 @@
 ---
-title: dbt 
+title: "dbt Best Practices: Tools, Packages & Guidelines"
+sidebar_label: dbt
+description: "An overview of dbt best practices in Datacoves: macro naming standards, open-source packages, coding tools like dbt-coves and SQLFluff, and governance checks."
 sidebar_position: 2
 ---
 # Overview

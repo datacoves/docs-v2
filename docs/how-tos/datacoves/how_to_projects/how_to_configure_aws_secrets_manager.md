@@ -7,9 +7,9 @@ sidebar_position: 50
 ## Table of Contents
 - [Prereqs](#prereqs)
 - [Create your Secret in AWS Secrets Manager](#create-your-secret-in-aws-secrets-manager)
-- [Configure your Secrets Backend in Project settings](#configure-your-secrets-backend-in-project-settings)
+- [Configure your Secrets Backend](#configure-your-secrets-backend)
   - [Project-level configuration](#project-level-configuration)
-  - [Environment-level override](#environment-level-override)
+  - [Environment-level configuration](#environment-level-configuration)
 
 ## Prereqs
 

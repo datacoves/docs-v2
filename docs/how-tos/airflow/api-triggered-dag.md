@@ -1,5 +1,7 @@
 ---
-title: Airflow - Trigger a DAG using Datasets
+title: How to Trigger an Airflow DAG Using Datasets
+sidebar_label: Trigger DAG via Datasets
+description: "Step-by-step guide to triggering Airflow DAGs via dataset events in Datacoves, enabling data-driven pipeline orchestration without time-based schedules."
 sidebar_position: 6
 ---
 # How to Trigger a DAG using Datasets

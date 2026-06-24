@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 
 # Datacoves Copilot
 
-Datacoves Copilot comes installed on Datacoves v4+, enhancing the development experience and supporting the following LLM providers:
+This section describes how to configure and use Datacoves Copilot, which comes installed on Datacoves v4+, enhancing the experience and supporting the following LLM providers:
 
 - Anthropic
 - Azure OpenAI

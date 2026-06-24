@@ -1,16 +1,16 @@
 ---
-title: "Datacoves Copilot v2: Multi-LLM AI in VS Code"
-sidebar_label: v2 (Multi-LLM)
-description: "Configure Datacoves Copilot v2 (Datacoves v4+) with Anthropic, OpenAI, Azure OpenAI, DeepSeek, Google Gemini, Grok, and other LLM providers in VS Code."
+title: "Datacoves Copilot: Multi-LLM AI in VS Code"
+sidebar_label: Datacoves Copilot
+description: "Configure Datacoves Copilot with Anthropic, OpenAI, Azure OpenAI, DeepSeek, Google Gemini, Grok, and other LLM providers in VS Code."
 sidebar_position: 6
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Datacoves Copilot v2
+# Datacoves Copilot
 
-This section describes how to configure and use Datacoves Copilot v2, which comes installed on Datacoves v4+, enhancing the experience and supporting the following LLM providers:
+Datacoves Copilot comes installed on Datacoves v4+, enhancing the development experience and supporting the following LLM providers:
 
 - Anthropic
 - Azure OpenAI

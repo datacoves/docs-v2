@@ -1,5 +1,7 @@
 ---
-title: Configure Datacoves Secret
+title: "Create and Manage Secrets in Datacoves"
+sidebar_label: "Configure Secrets"
+description: "How to create, edit, and share secrets in Datacoves, including raw JSON and key-value formats for injecting credentials into developer environments."
 sidebar_position: 43
 ---
 # How to Create/Edit a Secret

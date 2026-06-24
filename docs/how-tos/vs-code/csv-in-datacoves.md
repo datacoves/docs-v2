@@ -1,5 +1,7 @@
 ---
-title: CSVs
+title: Work with CSV Files in the Datacoves VS Code IDE
+sidebar_label: CSV Files
+description: "How to upload, view, edit, and use CSV seed files in the Datacoves VS Code environment for dbt seeds and reference data management."
 sidebar_position: 10
 ---
 # CSVs in VS Code

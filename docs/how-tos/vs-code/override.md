@@ -1,5 +1,7 @@
 ---
-title: Override VS Code settings
+title: Override Default VS Code Settings in Datacoves
+sidebar_label: Override Settings
+description: "How to override Datacoves VS Code default settings per workspace using a settings.json file in .vscode/ for custom extensions and editor preferences."
 sidebar_position: 60
 ---
 # How to override default VS Code settings

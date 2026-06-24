@@ -1,5 +1,7 @@
 ---
-title: Dependency Errors
+title: "Fix dbt Package Dependency Errors in Datacoves"
+sidebar_label: "Dependency Errors"
+description: "Resolve dbt dependency and package errors in Datacoves, including dbt deps failures, version conflicts, and missing package configurations in packages.yml."
 sidebar_position: 68
 ---
 # How to Fix dbt Dependency Errors

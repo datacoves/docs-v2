@@ -1,5 +1,7 @@
 ---
-title: Runtime Errors
+title: "Troubleshoot and Fix dbt Runtime Errors"
+sidebar_label: "Runtime Errors"
+description: "Diagnose and fix dbt runtime errors in Datacoves including model execution failures, test failures, missing variables, and Jinja rendering errors."
 sidebar_position: 69
 ---
 # How to Fix dbt Runtime Errors

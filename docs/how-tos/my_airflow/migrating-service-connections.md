@@ -1,5 +1,7 @@
 ---
-title: Migrating from Environment Service Connections
+title: "Migrate to Airflow-Level Service Connections"
+sidebar_label: "Migrate Service Connections"
+description: "How to migrate Datacoves service connections from environment-level delivery to Airflow-level connections for better secret management in My Airflow."
 sidebar_position: 75
 ---
 # Migrating from Environment Service Connections to Airflow Service Connections

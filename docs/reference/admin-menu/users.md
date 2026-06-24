@@ -1,5 +1,7 @@
 ---
-title: Users
+title: "Users Reference: Datacoves Admin Panel"
+sidebar_label: Users
+description: "Reference for the Datacoves Users admin screen: view all platform users, modify roles and permissions, deactivate or delete user accounts."
 sidebar_position: 100
 ---
 # Users Admin

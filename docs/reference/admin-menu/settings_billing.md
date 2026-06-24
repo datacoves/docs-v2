@@ -1,5 +1,7 @@
 ---
-title: Account Settings & Billing
+title: "Account Settings & Billing Reference: Datacoves"
+sidebar_label: Account Settings & Billing
+description: "Reference for Datacoves account settings and billing: view subscription details, manage API keys, access the Billing API URL, and monitor usage."
 sidebar_position: 10
 ---
 # Account Settings & Billing

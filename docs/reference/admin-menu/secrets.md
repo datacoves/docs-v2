@@ -1,5 +1,7 @@
 ---
-title: Secrets
+title: "Secrets Reference: Datacoves Admin Panel"
+sidebar_label: Secrets
+description: "Reference for the Datacoves Secrets admin screen: create and manage encrypted secrets for injecting credentials into developer environments."
 sidebar_position: 80
 ---
 # Secrets Admin

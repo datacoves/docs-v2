@@ -1,5 +1,7 @@
 ---
-title: Datacoves Airflow Decorators
+title: Datacoves Airflow Decorators Reference
+sidebar_label: Decorators
+description: "Reference for Datacoves Airflow decorators: @task.datacoves_bash and @task.datacoves_dbt — parameters, usage examples, and service connection integration."
 sidebar_position: 125
 ---
 # Datacoves Airflow Decorators

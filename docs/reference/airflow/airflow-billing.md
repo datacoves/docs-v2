@@ -1,5 +1,7 @@
 ---
-title: Airflow Billing
+title: Airflow Billing and Worker Usage in Datacoves
+sidebar_label: Billing
+description: "Understand how Datacoves bills Airflow usage based on Kubernetes worker pod running time, what is and isn't billed, and how to query task instance tables."
 ---
 
 # How Datacoves Billing Works

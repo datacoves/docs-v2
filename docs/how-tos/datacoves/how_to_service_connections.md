@@ -33,4 +33,4 @@ A Service Connection consists of the following fields:
 ## Getting Started Next Steps 
 In the following step, you will update your repository by incorporating the necessary folders and files for Airflow. Specifically, you will add the `orchestrate/dags` directories along with `automate/dbt/profiles.yml`. 
 
-[Update repository](/docs/getting-started/Admin/configure-repository)
+[Update repository](/docs/getting-started/admin/configure-repository)

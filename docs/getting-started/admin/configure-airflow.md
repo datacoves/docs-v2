@@ -17,7 +17,7 @@ You don't need Airflow to begin using Datacoves, but at some point you will want
 
 3. Datacoves uses a specific [folder structure](/docs/best-practices/datacoves/folder-structure) for Airflow. You will need to add some folders and files to your repository for Airflow to function as expected.
 
-   [Update Repository](/docs/getting-started/Admin/configure-repository)
+   [Update Repository](/docs/getting-started/admin/configure-repository)
 
 4. When Airflow jobs run you may want to receive notifications. We have a few ways to send notifications in Datacoves. Choose the option that makes sense for your use case.
 
@@ -28,4 +28,4 @@ You don't need Airflow to begin using Datacoves, but at some point you will want
   - **Slack:** [Setup Slack Integration](/docs/how-tos/airflow/send-slack-notifications)
 
 ## Getting Started Next Steps
-Once Airflow is configured, you can begin scheduling your dbt jobs by [creating Airflow DAGs](/docs/getting-started/Admin/creating-airflow-dags)!
+Once Airflow is configured, you can begin scheduling your dbt jobs by [creating Airflow DAGs](/docs/getting-started/admin/creating-airflow-dags)!

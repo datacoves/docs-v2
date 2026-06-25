@@ -43,13 +43,13 @@ When HTTPS is selected, the following fields must be filled in: `Git HTTPS url`,
 
 When Azure DevOps Secret is selected, a secret key is required for authentication. This assumes you have already created your EntraID application and added it as a user.
 
-See this [how-to guide on configuring Azure DevOps](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_DevOps) for detailed configuration information.
+See this [how-to guide on configuring Azure DevOps](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_devops) for detailed configuration information.
 
-- **Git SSH url:** [Cloning URL](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_DevOps) found in Azure DevOps Portal
-- **Azure HTTPS Clone url:** [Cloning URL](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_DevOps) found in Azure DevOps Portal
-- **Tenant ID:** [ID found in Azure Portal](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_DevOps)
-- **Application ID:** [ID found in Azure Portal](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_DevOps)
-- **Client Secret:** [Secret value](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_DevOps) found in Azure DevOps Portal
+- **Git SSH url:** [Cloning URL](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_devops) found in Azure DevOps Portal
+- **Azure HTTPS Clone url:** [Cloning URL](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_devops) found in Azure DevOps Portal
+- **Tenant ID:** [ID found in Azure Portal](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_devops)
+- **Application ID:** [ID found in Azure Portal](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_devops)
+- **Client Secret:** [Secret value](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_devops) found in Azure DevOps Portal
 - **Release Branch:** This will be the branch you would like to clone. Typically `main`.
 
 </TabItem>
@@ -58,13 +58,13 @@ See this [how-to guide on configuring Azure DevOps](/docs/how-tos/datacoves/how_
 
 When Azure DevOps Certificate is selected, a certificate is needed for secure communication.
 
-See this [how-to guide on configuring Azure DevOps](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_DevOps) for detailed instructions.
+See this [how-to guide on configuring Azure DevOps](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_devops) for detailed instructions.
 
-- **Certificate PEM file:** Copy the PEM file to your desktop and [upload in Azure](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_DevOps)
-- **Git SSH url:** [Cloning URL](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_DevOps) found in Azure DevOps Portal
-- **Azure HTTPS Clone url:** [Cloning URL](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_DevOps) found in Azure DevOps Portal
-- **Tenant ID:** [ID found in Azure Portal](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_DevOps)
-- **Application ID:** [ID found in Azure Portal](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_DevOps)
+- **Certificate PEM file:** Copy the PEM file to your desktop and [upload in Azure](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_devops)
+- **Git SSH url:** [Cloning URL](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_devops) found in Azure DevOps Portal
+- **Azure HTTPS Clone url:** [Cloning URL](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_devops) found in Azure DevOps Portal
+- **Tenant ID:** [ID found in Azure Portal](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_devops)
+- **Application ID:** [ID found in Azure Portal](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_devops)
 - **Release Branch:** Defines the default branch in your repository. Typically `main` or `master`.
 
 </TabItem>

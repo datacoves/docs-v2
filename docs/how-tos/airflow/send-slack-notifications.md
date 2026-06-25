@@ -186,4 +186,4 @@ nodes:
 
 ## Getting Started Next Steps
 
-Start [developing DAGs](/docs/getting-started/Admin/creating-airflow-dags)
+Start [developing DAGs](/docs/getting-started/admin/creating-airflow-dags)

@@ -6,7 +6,7 @@ sidebar_position: 31
 ---
 # Run Fivetran sync jobs
 
-In Addition to triggering Airbyte loads jobs [run Airbyte sync jobs](/docs/how-tos/airflow/DAGs/run-airbyte-sync-jobs) you can also trigger Fivetran jobs from your Airflow DAG.
+In Addition to triggering Airbyte loads jobs [run Airbyte sync jobs](/docs/how-tos/airflow/dags/run-airbyte-sync-jobs) you can also trigger Fivetran jobs from your Airflow DAG.
 
 ## Before you start
 

@@ -10,7 +10,7 @@ In Datacoves you can easily test your Airflow DAGs using [pytest](/docs/referenc
 
 To do this follow these steps:
 
-### Step 1: Create your pytest validations file in the `orchestrate/test_dags` directory. 
+## Step 1: Create your pytest validations file in the `orchestrate/test_dags` directory. 
 
 Here is an example script:
 
@@ -162,7 +162,7 @@ This file defines a set of pytest-based validation tests for Airflow DAGs. It en
 - Operator Validation – Restricts DAGs to use only a predefined set of allowed operators.
 - Retry Configuration – Validates that DAGs have a retry setting of at least 1 and warns if it is less than 3.
 
-### Step 2 Add the `conftest.py` file to your `orchestrate/test_dags` directory.
+## Step 2 Add the `conftest.py` file to your `orchestrate/test_dags` directory.
 
 This file will import custom tests that the Datacoves team has created such as validating [variable calls are not made at the highest level](/docs/how-tos/datacoves/how_to_projects/how_to_configure_aws_secrets_manager) of a DAG. 
 
@@ -171,7 +171,7 @@ This file will import custom tests that the Datacoves team has created such as v
 from datacoves_airflow_provider.testing.custom_reporter import *
 ```
 
-### Step 3: Add the following file to your github actions.
+## Step 3: Add the following file to your github actions.
 
 ```yaml
 # 10_integrate_airflow_changes.yml

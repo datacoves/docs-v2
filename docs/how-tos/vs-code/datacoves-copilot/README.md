@@ -7,7 +7,7 @@ sidebar_position: 40
 # AI LLMs for Datacoves Copilot
 Datacoves can integrate seamlessly with your existing ChatGPT or Azure OpenAI LLMs. These how tos will go over configuration and usage of AI within Datacoves.
 
-### Prereqs
+## Prereqs
 - Have an existing LLM such as ChatGPT or [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/assistants-quickstart?tabs=command-line%2Ckeyless%2Ctypescript-keyless&pivots=ai-foundry-portal)
 - Have access to API and Endpoint url credentials.
 - Have `Admin` access to configure credentials in Datacoves

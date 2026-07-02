@@ -15,7 +15,7 @@ To enable Datacoves cloning from Azure DevOps, you must complete a series of ste
 <Tabs>
 <TabItem value="create-app" label="1. Create your Application" default>
 
-### Step 1: Create your Application
+## Step 1: Create your Application
 
 If you do not have an Entra ID application created, follow these steps:
 
@@ -43,7 +43,7 @@ If you do not have an Entra ID application created, follow these steps:
 
 <TabItem value="add-user" label="2. Add your Application as a User in the DevOps Portal">
 
-### Step 2: Add your Application as a User in DevOps Portal
+## Step 2: Add your Application as a User in DevOps Portal
 
 **Step 1**
 <div style={{ maxWidth: "200px"}}>
@@ -74,9 +74,9 @@ Now that you have created your EntraID application and added it as a user in the
 
 <TabItem value="auth-details" label="3. Gather DevOps Authentication details">
 
-### Step 3: Gather DevOps Authentication Details
+## Step 3: Gather DevOps Authentication Details
 
-#### Application (Client) ID and Directory (Tenant) ID
+### Application (Client) ID and Directory (Tenant) ID
 
 **Step 1**
 - From your [Azure Portal](https://portal.azure.com), search for EntraID.
@@ -93,7 +93,7 @@ Now that you have created your EntraID application and added it as a user in the
 
 ![Azure DevOps Details](../assets/azure_devops_app_details.jpg)
 
-#### Repo SSH and HTTP URLs
+### Repo SSH and HTTP URLs
 
 **Step 1**
 - Log in to your [Azure DevOps Portal](https://dev.azure.com).
@@ -127,7 +127,7 @@ The `your-org@` prefix interferes with Datacoves Azure authentication and will c
 
 <TabItem value="authenticate" label="4. Authenticate Azure DevOps">
 
-### Step 4: Authenticate Azure DevOps
+## Step 4: Authenticate Azure DevOps
 
 **Step 1**
 - Navigate back to the tab where you created your application in the Azure Portal. You should be inside your newly created application.
@@ -137,9 +137,9 @@ The `your-org@` prefix interferes with Datacoves Azure authentication and will c
 ![Navigation](../assets/azure_devops_secret_nav.jpg)
 </div>
 
-#### Secret or Certificate Authentication Method
+### Secret or Certificate Authentication Method
 
-#### Secret-Based Authentication
+### Secret-Based Authentication
 
 **Step 2**
 - Select `Client Secrets` in the top navigation menu and `+ New Secret`.
@@ -152,7 +152,7 @@ The `your-org@` prefix interferes with Datacoves Azure authentication and will c
 ![Azure Secret](../assets/azure_devops_secret.jpg)
 </div>
 
-#### Certificate-Based Authentication
+### Certificate-Based Authentication
 
 **Step 2**
 - Select `Certificates` from the top navigation menu.

@@ -16,13 +16,13 @@ Using Permifrost Configuration Files, we will manage the following:
 
 We will also need to configure dbt to use custom schemas by updating `dbt_project.yml`
 
-### create_snowflake_objects.py
+## create_snowflake_objects.py
 
 To create objects in Snowflake, we leverage a script we created `create_snowflake_objects.py`. This script uses the permifrost config files and dbt to apply the changes to Snowflake. Note: When you run these scripts your user will need to have the SYSADMIN or SECURITYADMIN to create specific objects in Snowflake.
 
 ![Creating Snowflake Objects](assets/create_snowflake_objects.png)
 
-### Warehouse Creation
+## Warehouse Creation
 
 In the `secure/` folder of your repo, find the `warehouses.yml` file. Configure each warehouse you want to create in Snowflake.
 
@@ -36,7 +36,7 @@ The script will also report objects that exist in Snowflake but which are missin
 
 ![Creating Snowflake Warehouses](assets/create_snowflake_objects_wareouses.png)
 
-### Schema Creation
+## Schema Creation
 
 Schema creation is similar to warehouse creation. Schemas are configured in `secure/databases.yml` and the `secure/create_snowflake_objects.py -s schemas -t prd` command is run to create them. Note this script should run with the same role that normally runs your dbt jobs like _TRANSFORMER_DBT_
 
@@ -46,11 +46,11 @@ These schemas should align with what is configured in `dbt_project.yml`
 
 ![dbt project yml](assets/dbt_project_yml.png)
 
-### Role Creation
+## Role Creation
 
 Before permifrost can be run, warehouses, schemas, and roles must already exist in Snowflake. Roles are defined in `secure/roles.yml` and created using `secure/create_snowflake_objects.py -s roles -t prd`. Note that roles will be created with the SECURITYADMIN role, so your user must have that role granted.
 
-### Roles.yml
+## Roles.yml
 
 The roles.yml file contains all the roles and their associated grants. To keep things [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) we define object roles and then assign those to higher level roles and eventually to functional roles.
 
@@ -135,7 +135,7 @@ A German analyst is pretty similar, but can only see the German(DE) rows vs all 
       - z_policy_unmask_pii
 ```
 
-### Running Permifrost
+## Running Permifrost
 
 To run the permifrost script, you must follow the configuration instructions at the top of the `secure/run_permifrost.sh` file and configure the predefined variables like PERMISSION_BOT_ACCOUNT.
 

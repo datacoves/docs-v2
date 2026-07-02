@@ -15,7 +15,7 @@ To retrieve the current branch name in a Git repository.
 cat /opt/airflow/dags/.git/HEAD | sed 's~ref: refs/heads/~~'
 ```
 
-### This command consists of two parts:
+## This command consists of two parts:
 
 `cat .git/HEAD`: This part of the command displays the content of the HEAD file, which contains a reference to the current branch in the Git repository.
 

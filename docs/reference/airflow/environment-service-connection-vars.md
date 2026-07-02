@@ -16,7 +16,7 @@ These variables will also need to be configured in your CI/CD provider. ie) gith
 
 The name of the service connection will be used to dynamically create the following variables. In the chart below the name of the service connection is `main`.
 
-### Snowflake Environment Variables
+## Snowflake Environment Variables
 | Variables                        |
 |----------------------------------|
 | `DATACOVES__MAIN__ACCOUNT`       |
@@ -27,7 +27,7 @@ The name of the service connection will be used to dynamically create the follow
 | `DATACOVES__MAIN__ROLE`          |
 | `DATACOVES__MAIN__WAREHOUSE`     |
 
-### Redshift Environment Variables
+## Redshift Environment Variables
 | Variables                        |
 |----------------------------------|
 | `DATACOVES__MAIN__HOST`          |
@@ -35,13 +35,13 @@ The name of the service connection will be used to dynamically create the follow
 | `DATACOVES__MAIN__PASSWORD`      |
 | `DATACOVES__MAIN__DATABASE`      |
 
-### Big Query Environment Variables
+## Big Query Environment Variables
 | Variables                        |
 |----------------------------------|
 | `DATACOVES__MAIN__DATASET`       |
 | `DATACOVES__MAIN__KEYFILE_JSON`  |
 
-### Databricks Environment Variables
+## Databricks Environment Variables
 | Variables                        |
 |----------------------------------|
 | `DATACOVES__MAIN__HOST`          |

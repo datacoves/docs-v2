@@ -100,7 +100,7 @@ log_auto_tailing_offset = 30
 default_dag_run_display_number = 25
 auto_refresh_interval = 3
 ```
-# Airflow Environment Variables
+## Airflow Environment Variables
 
 Datacoves injects environment variables into Airflow.
 

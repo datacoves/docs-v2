@@ -12,28 +12,28 @@ The API allows you to view secrets values in plain text. Always exercise the pri
 
 This guide walks you through configuring API access for your personal My Airflow instance.
 
-### Step 1: Navigate to User Settings
+## Step 1: Navigate to User Settings
 
 Click on your avatar in the top right corner and select `Settings`.
 
-### Step 2: Select the My Airflow API tab
+## Step 2: Select the My Airflow API tab
 
 In the left sidebar, click on `My Airflow API`. You will see a list of environments where you have My Airflow enabled.
 
 ![My Airflow API Keys](assets/my_airflow_api_keys.png)
 
-### Step 3: Copy the API URL
+## Step 3: Copy the API URL
 
 For your target environment, copy the `My Airflow API URL`.
 
-### Step 4: Generate an API Key
+## Step 4: Generate an API Key
 
 1. Click "Manage API Keys" to expand the key management section
 2. Optionally enter a name for your key (e.g., "My Script", "CI/CD Token")
 3. Click "Generate New API Key"
 4. Copy your API key immediately - it will not be shown again
 
-### Step 5: Add your credentials to a .env file
+## Step 5: Add your credentials to a .env file
 
 Create a `.env` file inside your `orchestrate/` directory and be sure to add the file to your `.gitignore`. Add your credentials there.
 
@@ -42,7 +42,7 @@ MY_AIRFLOW_API_URL = "https://your-slug-api-airflow-env.domain.com/api/v1/"
 MY_AIRFLOW_API_KEY = "your-api-key-here"
 ```
 
-### Step 6: Use it in a Python script
+## Step 6: Use it in a Python script
 
 Below is a sample script that makes use of the Airflow API.
 

@@ -11,7 +11,7 @@ sidebar_position: 2
 :::
 This how to will walk you through configuring the Airflow API and using it in a DAG.
 
-### Step 1: Navigate to your target environment
+## Step 1: Navigate to your target environment
 
 - A user with the appropriate access can navigate to the `Environments` in the navigation menu.
 
@@ -22,19 +22,19 @@ This how to will walk you through configuring the Airflow API and using it in a 
 ![Pad lock](assets/environments_api_edit.jpg)
 
 
-### Step 2: Copy the API URL
+## Step 2: Copy the API URL
 
 Copy the `Airflow API URL`
 
 ![API URL](assets/environment_api_url.jpg)
 
-### Step 3:Generate the API KEY
+## Step 3:Generate the API KEY
 
 Generate your API key and copy it somewhere secure. Once you click away it will not be shown again.
 
 ![Generate API](assets/environment_api_key.jpg)
 
-### Step 4: Add your credentials to a .env file
+## Step 4: Add your credentials to a .env file
 
 Create a `.env` file inside your `orchestrate/` directory and be sure to add the file to your `.gitignore`. Add your credentials there.
 
@@ -43,7 +43,7 @@ AIRFLOW_API_URL = "https://..."
 DATACOVES_API_KEY = "...."
 ```
 
-### Step 5: Use it in a python script
+## Step 5: Use it in a python script
 
 Below is a sample script that makes use of the Airflow API.
 

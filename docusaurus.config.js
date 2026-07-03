@@ -101,7 +101,7 @@ const config = {
         "softwareVersion": "1.0.0",
         "datePublished": "2025-01-15",
         "dateModified": "2025-11-20",
-        "keywords": "Datacoves, Managed dbt",
+        "keywords": "Datacoves, Managed dbt, dbt Cloud alternative",
         "publisher": { "@id": "https://datacoves.com/#organization" }
       }),
     },

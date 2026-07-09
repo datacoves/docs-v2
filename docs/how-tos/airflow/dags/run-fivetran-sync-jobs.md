@@ -20,11 +20,11 @@ Airflow needs to be connected to your Fivetran account to both read and trigger 
 
 A user with Airflow admin privileges must go to the Airflow `Admin -> Connections` menu.
 
-![Admin Connections](./assets/admin-connections.png)
+![Airflow Admin dropdown menu showing the Connections option](./assets/admin-connections.png)
 
 Create a new connection using the following details:
 
-![Admin Connections](./assets/fivetran-connection-details.png)
+![Airflow Add Connection form for Fivetran with Connection Id, Connection Type, and API Key and Secret fields](./assets/fivetran-connection-details.png)
 
 :::tip
 Once your Fivetran API key and secret have been generated, for security reasons, the secret cannot be viewed again through the Fivetran interface. If you lose or forget your API secret, you will need to generate a new API key and secret pair so be sure to store them somewhere secure for reference later. See <a href="https://fivetran.com/docs/rest-api/getting-started" target="_blank" rel="noopener">Fivetran Documentation</a> on how to generate your Fivetran `API Key` and `API Secret`. 

@@ -39,7 +39,7 @@ Lastly, be sure to toggle on the `Share with developers` option so that users wi
 
 ### Example Secret
 
-![Example ](assets/v2_llm_example.png)
+![Datacoves Secret creation form for datacoves-copilot-api-configs with Raw JSON format, project scope, and Share with developers enabled](assets/v2_llm_example.png)
 
 ### Generative AI Use Cases with Datacoves Copilot
 

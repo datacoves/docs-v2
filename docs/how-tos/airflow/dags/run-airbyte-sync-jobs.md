@@ -25,12 +25,12 @@ As Airflow will trigger connections in the Airbyte's server, Datacoves automatic
 
 To view this connection, a user with the Datacoves sysadmin group can go to the Airflow `Admin -> Connections` menu.
 
-![Admin Connections](./assets/admin-connections.png)
+![Airflow Admin dropdown menu showing the Connections option](./assets/admin-connections.png)
 
 :::note
  `host` is created using your environment (3 letters + 3 digits like xyz123) `<environment slug> + "-airbyte-airbyte-server-svc"`.
 :::
-![Admin Connections](./assets/airbyte-connection-details.png)
+![Airflow Airbyte connection detail form with host set to the environment slug pattern](./assets/airbyte-connection-details.png)
 
 ### Turn off Airbyte's scheduler
 

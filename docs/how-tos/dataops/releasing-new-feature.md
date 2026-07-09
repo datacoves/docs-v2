@@ -10,7 +10,7 @@ Releasing a feature into production involves following a development process uti
 
 The high-level process is shown below.
 
-![db-auth-std-e1](./assets/feature-development.png)
+![High-level feature development and release lifecycle diagram spanning Development, Continuous Integration, and Continuous Deployment phases](./assets/feature-development.png)
 
 ## Development and Release cycle
 
@@ -50,7 +50,7 @@ The high-level process is shown below.
 
 ## Delivery Journey - New Source
 
-![db-auth-std-e1](./assets/source-development.png)
+![Delivery journey diagram for a new data source from credentials and development through code review to production](./assets/source-development.png)
 
 1. **Source Credentials**
 

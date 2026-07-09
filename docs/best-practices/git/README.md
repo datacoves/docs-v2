@@ -46,7 +46,7 @@ The speed of releases has gotten faster, but without proper care the environment
 
 To strike a balance between trust and efficiency, we follow a Release plan as illustrated in the diagrammed below.
 
-![db-auth-std-e1](./assets/git-st3.png)
+![Git branching strategy diagram showing feature branches merging to a release branch before reaching main, with a two-phase development cycle](./assets/git-st3.png)
 
 The Main branch stores the current version of the truth in our Production database and will always describe exactly what has been run to update the production database.
 

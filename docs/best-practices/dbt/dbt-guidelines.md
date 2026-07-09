@@ -39,4 +39,4 @@ sidebar_position: 1
 
 - All other fields in the model should be listed alphabetically, as contents may change over time.
 
-![db-auth-std-e1](./assets/dbt-std1.png)
+![dbt column ordering: IDs first, attributes alphabetically, dates next, metadata fields last](./assets/dbt-std1.png)

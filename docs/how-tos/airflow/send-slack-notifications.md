@@ -16,31 +16,31 @@ Below we explain how to use those callbacks to send Slack notifications.
 
 To send messages in Slack, you must first create a Slack App, which will act as a "bot" that sends messages. Visit [https://api.slack.com/apps](https://api.slack.com/apps) to start.
 
-![Slack Apps](./assets/slack_apps.png)
+![Slack API Your Apps page with a Create an App button](./assets/slack_apps.png)
 
 As it's the most basic type of application, you have to create it `from scratch`
 
 After that, give it a `name` and assign it to your desired `workspace`
 
-![Slack Apps](./assets/slack_from_scratch.png)
+![Slack Create an App dialog with the From scratch option highlighted](./assets/slack_from_scratch.png)
 
-![Slack Apps](./assets/slack_name_workspace.png)
+![Slack app creation form with fields for app name and workspace selection](./assets/slack_name_workspace.png)
 
 Once created, you must specify which features it will use. In order to send messages to your workspace channels, `Incoming Webhooks` is the only mandatory one.
 
-![Slack Apps](./assets/slack_features_incoming_webhook.png)
+![Slack Add features and functionality page with Incoming Webhooks highlighted](./assets/slack_features_incoming_webhook.png)
 
 In the `Incoming Webhooks` configuration screen, you must `toggle` the On/Off slider for the settings to appear. Once that's done, you can `Add New Webhook to Workspace`, where you will create `one webhook for each channel` you want to send messages to.
 
-![Slack Apps](./assets/slack_incoming_webhook_setup.png)
+![Slack Incoming Webhooks configuration screen with the activation toggle](./assets/slack_incoming_webhook_setup.png)
 
-![Slack Apps](./assets/slack_webhook_channel.png)
+![Slack channel picker dialog for assigning a webhook to a Slack channel](./assets/slack_webhook_channel.png)
 
 Once assigned a channel, your Incoming Webhook configuration screen will change to show your webhook `URL` and `Key`
 
 The standard syntax of these are `url/key`, in our example: `https://hooks.slack.com/services` followed by `T05XXXXXX/XXXXXXXXX/XXXXXXXXX`
 
-![Slack Apps](./assets/slack_webhook_url_token.png)
+![Slack Incoming Webhooks screen showing the generated webhook URL and token for a channel](./assets/slack_webhook_url_token.png)
 
 Now your Slack App is ready to send messages to `#airflow-notifications-dev` via webhooks.
 

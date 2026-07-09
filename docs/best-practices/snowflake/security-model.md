@@ -27,11 +27,11 @@ While better than Option 1, this gives administrators access to data which they 
 
 This is our recommended approach because this allows us to create granular permissions such as a role that unmasks masked data, or a role that gives access to a specific schema. We then combine those "Object" roles into "Functional" roles which are then granted to users. This allows us to have roles like _Analyst_ and _Analyst\_PII_ with the only difference being that the latter gets an additional role that unmasks data. More importantly, the role to unmask data is defined once and used many times.
 
-![db-auth-std-e1](./assets/db-auth-std1.png)
+![Diagram comparing three Snowflake role-based access control models: Option 1 Combined Role, Option 2 Nested Roles, and Option 3 Composite Role](./assets/db-auth-std1.png)
 
 As shown below we create granular object roles each allowing access to a single database, schema, warehouse (compute cluster), Data classification, and region/country. We then grant the full set of required object roles to a given functional role which are in turn granted to users to allow them to query the database.
 
-![db-auth-std-e1](./assets/db-auth-std2.png)
+![Table comparing Snowflake composite role components across three functional roles: Data Engineer, PII Data Engineer, and PII Power User Germany](./assets/db-auth-std2.png)
 
 This approach allows clear visibility of what a given user has access to: Production or Development environments, Raw or Processed schema, PII / Non-PII, etc. Any newly required permissions can be added for a team via its user role easily, by simply granting an additional object role.
 
@@ -39,7 +39,7 @@ These permissions are all defined in source files which are then leveraged by a 
 
 ## PII Access
 
-![db-auth-std-e1](./assets/db-auth-std3.png)
+![Four-step flow describing how Snowflake dynamic masking policies protect PII data across raw databases, derived tables, dev schemas, and newly developed features](./assets/db-auth-std3.png)
 
 In order to analyze our most secure data, we must first protect it - allowing access to those who have been appropriately trained to meet our compliance and quality standards.
 
@@ -47,7 +47,7 @@ While Snowflake allows many complex access policies, we take care to apply what 
 
 PII data is protected within marked columns by using Dynamic Masking policies: predetermined methods for protecting all or part of the data unless a certain access role is granted, which can be applied to any column in the database. This protection may be complete masking ('\*\*\*\*') or partial masking ('\*\*\*\*\*@gmail.com', 'Martin \*\*\*\*\*\*'), and can use any SQL methods to determine the content of masked data to a given role.
 
-![db-auth-std-e1](./assets/db-auth-std4.png)
+![Table showing masked PII data with fully masked Info VIP column and partially masked email_address column](./assets/db-auth-std4.png)
 
 In this implementation, we can mask PII data and have the ability to expand this to other sensitive data over time as required. PII and other sensitive data are then only accessible by users with a role that can unmask this data.
 

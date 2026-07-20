@@ -8,25 +8,45 @@ sidebar_position: 35
 
 As stated in [how to send email notifications](/docs/how-tos/airflow/send-emails), Airflow allows multiple ways to inform users about DAGs and tasks status.
 
-Furthermore, it's important to understand Airflow handles these 4 status (`failure`, `retry`, `success` and `missed SLA`) via callbacks. You can learn more about them [here](https://airflow.apache.org/docs/apache-airflow/2.2.1/logging-monitoring/callbacks.html)
+Furthermore, it's important to understand Airflow handles these 4 status (`failure`, `retry`, `success` and `missed SLA`) via callbacks. You can learn more about them [here](https://airflow.apache.org/docs/apache-airflow/2.2.1/logging-monitoring/callbacks.html).
 
-Below we explain how to use those callbacks to send Microsoft Teams notifications.
+## Prepare the Microsoft side
 
-## Prepare Microsoft Teams
+Sending messages through Teams is done using Power Automate webhooks. These connections can be assigned to Teams channels, chats, or individuals.  It is a simple two step automation: a webhook receives the DAG notification, and an action posts it to your Teams.
 
-Sending messages through Teams is done using Webhooks. These connections can be assigned to MS Teams channels.
+Everything on the Microsoft side is managed through their [Power Automate](https://make.powerautomate.com/) application.  Choose `My flows` from the sidebar:
 
-In the channel you want to send Airflow notifications to, click the `...` -> `Connectors` and search for `Incoming Webhook`.
+![Choose My flows](./assets/teams/my-flows.png)
 
-![Create channel Connector](./assets/create-channel-connector.png)
+Choose `Instant cloud flow` from the `New flow` dropdown:
 
-Click `Configure`, give it a name, and optionally select an image to use as the sender's avatar, then click `Create` and you will be given a webhook URL.
+![Instant cloud flow](./assets/teams/new-flow.png)
 
-![Create Incoming Webhook](./assets/create-incoming-webhook.png)
+Now pick the type of trigger to use.  `When a Teams webhook request is received`:
+
+![Webhook request](./assets/teams/choose-trigger.png)
+
+This will create a flowchart with just the webhook on it.  Click on it to bring up a sidebar with its settings.  Make sure it is set to allow anyone to trigger the flow.  Also note the empty URL field here; we will have to come back for it after the flow is saved.  You can name this flow at any time by clicking on the title text (shown here as `Untitled flow`).
+
+![Webhook setup](./assets/teams/webhook-setup.png)
+
+Then, click the (+) on the flowchart to add an action.  Type `card` into the search box to narrow the results, then choose `Post card in a chat or channel`:
+
+![Post card](./assets/teams/choose-post-action.png)
+
+The settings for this action determine where your notification will go.  First, paste the following into the `Adaptive Card` field; this tells the workflow how to read the notifications:
+- `@triggerBody()?['attachments'][0]?['content']` 
+
+Then set `Post In` to `Chat with Flow bot` to message only yourself, or for group messages, `Group chat` or `Channel`.  For the latter two, there are more fields to set the exact destination.
+
+![Action setup](./assets/teams/post-action-setup.png)
+
+Now click Save in the upper right corner of the screen, and when it finishes, you can return to the webhook's sidebar and copy the URL it's generated.  Make sure to copy all of it.
 
 :::info
-Store this URL in a safe place as you will need it in a subsequent step and anyone with this link can send notification to that MS Teams channel.
+Store this URL in a safe place as you will need it in a subsequent step and anyone with this link can send notifications to that Teams channel.
 :::
+
 ## Prepare Airflow
 ### Create a new Integration
 
@@ -86,7 +106,13 @@ To send MS Teams notifications, in the Airflow DAG we need to import the appropr
 - `connection_id`: the name of the Datacoves Integration created above
   - if no connection_id is specified, MSTeams Notifier will use `ms_teams`
 - `message`: the body of the message
-- `theme_color`: theme color of the MS Teams card
+- `theme_color`: theme color of the MS Teams card.  This may be one of:
+  - `default`
+  - `emphasis`
+  - `good`
+  - `attention`
+  - `warning`
+  - `accent`
 
 :::info
 `on_failure_callback` will throw an error if using lists causing your task to fail.
@@ -154,13 +180,12 @@ notifications:
     args:
       connection_id: MS_TEAMS
       message: "DAG {{ dag.dag_id }} Succeeded"
-      color: 0000FF
   on_failure_callback:
     notifier: notifiers.datacoves.ms_teams.MSTeamsNotifier
     args:
       connection_id: MS_TEAMS
       message: "DAG {{ dag.dag_id }} Failed"
-      color: 9900FF
+      color: "warning"
 
 # DAG Tasks
 nodes:

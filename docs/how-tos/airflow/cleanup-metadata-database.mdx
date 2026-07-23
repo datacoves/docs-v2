@@ -1,7 +1,7 @@
 ---
 title: Clean up the Airflow metadata database in Datacoves
 sidebar_label: Cleanup Metadata Database
-description: "How to schedule cleanup of the Airflow metadata database in Datacoves with the datacoves_airflow_db_cleanup decorator to keep task_instance, log and other tables from growing unbounded."
+description: "How to schedule cleanup of the Airflow metadata database in Datacoves to keep task_instance, log and other tables from growing unbounded, using the datacoves_airflow_db_cleanup decorator on Airflow 3 or an airflow db clean DAG on Airflow 2."
 sidebar_position: 4
 ---
 
@@ -9,9 +9,10 @@ sidebar_position: 4
 
 Over time the Airflow metadata database accumulates rows in tables such as `task_instance`, `log`, `job`, `xcom`, `dag_run` and `rendered_task_instance_fields`. Left unchecked it grows to several GB and queries on these tables slow down, which can eventually affect scheduler performance. Datacoves monitors the size of your metadata database and notifies account admins when it crosses recommended thresholds, but the cleanup itself is scheduled by you, in your own DAG, so you stay in control of the retention window.
 
-:::note
-This is available for Airflow 3 environments only.
-:::
+The way you run the cleanup depends on your Airflow version:
+
+- **[Airflow 3](#airflow-3-cleanup-decorator)**: use the `@task.datacoves_airflow_db_cleanup` decorator. Airflow 3 tasks no longer have direct access to the metadata database, so the decorator performs the cleanup through the Datacoves api-server for you.
+- **[Airflow 2](#airflow-2-cleanup-dag-with-airflow-db-clean)**: use a DAG that runs the built-in `airflow db clean` command. Airflow 2 workers connect directly to the metadata database, so no extra setup is needed.
 
 ## Which tables are cleaned
 
@@ -24,11 +25,11 @@ By default the cleanup targets the metadata tables that grow with every DAG run:
 - `xcom`
 - `dag_run`
 
-These are the same tables Datacoves monitors for size. `dag` and `dag_version` are never touched, so your DAG history relationships are preserved. You only need to pass `table_names` if you want to restrict a run to a subset of these tables; leaving it unset cleans all of them, which is the recommended setup.
+These are the same tables Datacoves monitors for size. On Airflow 3, `dag` and `dag_version` are never touched, so your DAG history relationships are preserved. You only need to restrict the tables if you want a run to touch a subset of these; leaving the table selection unset cleans all of them, which is the recommended setup.
 
-Not sure how much each table holds or how far back your data goes? Run the decorator with `dry_run=True` first (see [Recommended first run](#recommended-first-run)): the task logs report, per table, how many rows would be removed, without deleting anything.
+Not sure how much each table holds or how far back your data goes? Do a dry run first (see [Recommended first run](#recommended-first-run)): the task logs report what would be removed, without deleting anything.
 
-## Cleanup decorator
+## Airflow 3: cleanup decorator
 
 To clean up the metadata database, use an Airflow DAG with the Datacoves cleanup decorator:
 
@@ -47,7 +48,7 @@ The decorator can receive:
 - `batch_size`: delete in batches of this many rows instead of all at once. Useful the first time you clean a very large table.
 - `connection_id`: the Airflow connection pointing at the api-server. Defaults to `datacoves_airflow_api`, which Datacoves creates and maintains for you.
 
-## Example DAG
+### Example DAG (Airflow 3)
 
 ```python
 from pendulum import datetime
@@ -80,6 +81,67 @@ def airflow_db_cleanup():
 airflow_db_cleanup()
 ```
 
+## Airflow 2: cleanup DAG with airflow db clean
+
+On Airflow 2 the cleanup runs the built-in [`airflow db clean`](https://airflow.apache.org/docs/apache-airflow/stable/cli-and-env-variables-ref.html#clean) command from a regular task. Datacoves Airflow 2 workers already have the metadata database connection configured, so the DAG below works as is.
+
+The command accepts:
+
+- `--clean-before-timestamp`: delete records older than this timestamp. The example computes it from the run date minus 90 days.
+- `--tables`: comma-separated list to restrict the cleanup to specific tables (any subset of the list above). Defaults to all cleanable tables.
+- `--dry-run`: report what would be deleted without deleting anything. Use this first.
+- `--skip-archive`: delete records directly instead of copying them into `_airflow_deleted__*` archive tables. Without it, archived copies keep using disk space, so the example also runs `airflow db drop-archived` afterwards to remove any archive tables left behind by previous runs.
+
+### Example DAG (Airflow 2)
+
+```python
+from datetime import datetime
+
+from airflow.decorators import dag
+from airflow.operators.bash import BashOperator
+
+
+@dag(
+    default_args={
+        "start_date": datetime(2026, 1, 1),
+        "owner": "Noel",
+        "retries": 1,
+    },
+    description="Clean up the Airflow metadata database",
+    schedule="@weekly",
+    tags=["maintenance"],
+    catchup=False,
+    max_active_runs=1,
+)
+def airflow_db_cleanup():
+    db_cleanup = BashOperator(
+        task_id="db_cleanup",
+        bash_command=(
+            "airflow db clean "
+            "--clean-before-timestamp '{{ macros.ds_add(ds, -90) }}' "
+            # "--dry-run "  # uncomment for a first, non-destructive run
+            "--skip-archive "
+            "--verbose "
+            "--yes"
+        ),
+    )
+
+    drop_archived = BashOperator(
+        task_id="drop_archived_tables",
+        bash_command="airflow db drop-archived --yes",
+        trigger_rule="all_done",
+    )
+
+    db_cleanup >> drop_archived
+
+
+airflow_db_cleanup()
+```
+
+:::tip
+If your database has years of history, deleting everything in one pass can produce a very long transaction. Astronomer maintains a [more elaborate version of this DAG](https://www.astronomer.io/docs/learn/2.x/cleanup-dag-tutorial) that splits the cleanup into date-range batches; consider it for the first cleanup of a very large database, then switch to the simpler DAG above for the recurring run.
+:::
+
 ## Recommended first run
 
-Cleanup is destructive. Run once with `dry_run=True` and check the task logs to confirm the volume of rows that would be removed, then switch to a real run. Start with a conservative `retention_days` (for example 90) and lower it gradually if the database is still large.
+Cleanup is destructive. Do a dry run first (`dry_run=True` on the Airflow 3 decorator, `--dry-run` on `airflow db clean` in Airflow 2) and check the task logs to confirm the volume of rows that would be removed, then switch to a real run. Start with a conservative retention window (for example 90 days) and lower it gradually if the database is still large.

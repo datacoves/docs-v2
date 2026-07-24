@@ -1,7 +1,7 @@
 ---
 title: "Datacoves CLI Commands Reference: datacoves my"
 sidebar_label: CLI Commands
-description: "Reference for Datacoves CLI commands: datacoves my import, my pytest, my api-key, and my parse-logs for managing My Airflow instances from the VS Code terminal."
+description: "Reference for Datacoves CLI commands: datacoves my import, my pytest, my db-clean, my api-key, and my parse-logs for managing My Airflow instances from the VS Code terminal."
 sidebar_position: 126
 ---
 # Datacoves CLI Commands
@@ -16,6 +16,7 @@ The `my` subcommand executes commands for My Airflow.
 Currently, the `datacoves my` subcommand has the following subcommands:
 - `my import`
 - `my pytest`
+- `my db-clean`
 - `my api-key`
 - `my parse-logs`
 
@@ -41,6 +42,24 @@ This command allows you to run pytest validations straight from the command line
 
 ```bash
 datacoves my pytest -- orchestrate/test_dags/validate_dags.py
+```
+
+### datacoves my db-clean
+
+:::note
+My Airflow [must be instantiated](/docs/how-tos/my_airflow/start-my-airflow) for this command to work.
+:::
+
+My Airflow runs on a SQLite database that grows as DAG runs, task instances, and logs accumulate. This command prunes entries older than a given number of days (5 by default) to keep it small.
+
+```bash
+datacoves my db-clean
+```
+
+Use `--days` to change how many days of history to keep:
+
+```bash
+datacoves my db-clean --days 10
 ```
 
 ### datacoves my api-key

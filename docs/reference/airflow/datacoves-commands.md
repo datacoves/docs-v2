@@ -1,7 +1,7 @@
 ---
 title: "Datacoves CLI Commands Reference: datacoves my"
 sidebar_label: CLI Commands
-description: "Reference for Datacoves CLI commands: datacoves my import, my pytest, and my api-key for managing My Airflow instances from the VS Code terminal."
+description: "Reference for Datacoves CLI commands: datacoves my import, my pytest, my api-key, and my parse-logs for managing My Airflow instances from the VS Code terminal."
 sidebar_position: 126
 ---
 # Datacoves CLI Commands
@@ -17,6 +17,7 @@ Currently, the `datacoves my` subcommand has the following subcommands:
 - `my import`
 - `my pytest`
 - `my api-key`
+- `my parse-logs`
 
 ### datacoves my import
 
@@ -78,4 +79,38 @@ Use the first 8 characters of the token (shown in the list command) to identify 
 
 ```bash
 datacoves my api-key delete abc12345
+```
+
+### datacoves my parse-logs
+
+:::note
+My Airflow [must be instantiated](/docs/how-tos/my_airflow/start-my-airflow) for this command to work.
+:::
+
+This command helps you inspect and optimize how your DAGs are parsed by My Airflow's dag-processor. With no arguments it shows a report of how long each DAG file takes to parse, sorted slowest first, so you can quickly see which files are worth optimizing.
+
+```bash
+datacoves my parse-logs
+```
+
+#### Show the native Airflow report
+
+Add `--raw` to print the report exactly as `airflow dags report` produces it:
+
+```bash
+datacoves my parse-logs --raw
+```
+
+#### Inspect a single DAG's parse log
+
+Pass `--file` with a DAG file name (a partial name is fine) to see the detailed parse log for that file. This is useful for diagnosing import errors or slow imports on a specific DAG.
+
+```bash
+datacoves my parse-logs --file my_dag.py
+```
+
+Add `--follow` (`-f`) to stream the log live as you edit and save your DAG, and `--lines` (`-n`) to control how many lines are shown:
+
+```bash
+datacoves my parse-logs --file my_dag.py --follow
 ```

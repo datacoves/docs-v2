@@ -1,5 +1,6 @@
 ---
 title: Troubleshooting
+description: "Troubleshoot common Datacoves HTTP error codes like 403, 500, and 503, with first steps and a full reference of what each status code means."
 sidebar_position: 200
 ---
 

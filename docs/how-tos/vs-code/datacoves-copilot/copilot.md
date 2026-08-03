@@ -49,7 +49,7 @@ Lastly, be sure to toggle on the `Share with developers` option so that users wi
   width="800"
   height="500"
   src="https://www.youtube.com/embed/7TYHnlaH-T8"
-  title="Video demo of expanding SELECT * into columns with Datacoves Copilot"
+  title="Datacoves Copilot: Expand SELECT * into Columns with GenAI"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
   allowfullscreen

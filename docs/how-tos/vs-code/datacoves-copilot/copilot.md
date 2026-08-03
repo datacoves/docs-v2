@@ -49,7 +49,7 @@ Lastly, be sure to toggle on the `Share with developers` option so that users wi
   width="800"
   height="500"
   src="https://www.youtube.com/embed/7TYHnlaH-T8"
-  title="Datacoves Copilot: Expand SELECT * into Columns with GenAI"
+  title="Expand SELECT * into Columns with GenAI"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
   allowfullscreen
@@ -61,7 +61,7 @@ Lastly, be sure to toggle on the `Share with developers` option so that users wi
   width="800"
   height="500"
   src="https://www.youtube.com/embed/Q0QEzQkdFpg"
-  title="Datacoves Copilot: Generate an Airflow DAG for dbt with GenAI"
+  title="Generate an Airflow DAG for dbt with GenAI"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
   allowfullscreen

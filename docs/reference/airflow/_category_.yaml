@@ -3,4 +3,4 @@ position: 3
 link:
   type: generated-index
   title: Airflow Reference
-  description: This is Datacoves Airflow References.
+  description: Reference documentation for Airflow in Datacoves, covering configuration defaults, variables, DAG generators, decorators, CLI commands, operators, and billing.

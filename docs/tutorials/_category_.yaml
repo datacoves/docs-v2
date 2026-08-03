@@ -2,4 +2,4 @@ label: Tutorials
 position: 5
 link:
   type: generated-index
-  description: Explore tutorials and external resources for learning.
+  description: Explore hands-on tutorials and curated external resources covering dbt, Airflow, and data engineering fundamentals to get the most from Datacoves.

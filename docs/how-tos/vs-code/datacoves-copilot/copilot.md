@@ -61,7 +61,7 @@ Lastly, be sure to toggle on the `Share with developers` option so that users wi
   width="800"
   height="500"
   src="https://www.youtube.com/embed/Q0QEzQkdFpg"
-  title="Video demo of generating an Airflow DAG to run dbt with Datacoves Copilot"
+  title="Datacoves Copilot: Generate an Airflow DAG for dbt with GenAI"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
   allowfullscreen

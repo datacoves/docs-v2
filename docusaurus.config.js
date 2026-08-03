@@ -114,6 +114,33 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
+          // Some docs (e.g. docs/tutorials) are just client-side redirect
+          // stubs to pages on the marketing site. Point their sidebar/
+          // category-index entries straight at the final URL instead of
+          // routing through the redirect stub, so crawlers and users don't
+          // hit an internal redirect chain.
+          sidebarItemsGenerator: async function ({defaultSidebarItemsGenerator, ...args}) {
+            const externalLinks = {
+              'tutorials/learning-resources':
+                'https://datacoves.com/learning-resources?_gl=1*18cmhau*_ga*MjYwMzYwODE1LjE3NTIyNTAwNDk.*_ga_WFBP8GG4YV*czE3NTYyNDYzMzAkbzUwJGcxJHQxNzU2MjQ2NDg4JGo2MCRsMCRoMA..',
+              'tutorials/educational-data-resources':
+                'https://datacoves.com/data-resources#Educational',
+            };
+
+            const replaceRedirectStubs = (items) =>
+              items.map((item) => {
+                if (item.type === 'doc' && externalLinks[item.id]) {
+                  return {type: 'link', label: item.label, href: externalLinks[item.id]};
+                }
+                if (item.type === 'category') {
+                  return {...item, items: replaceRedirectStubs(item.items)};
+                }
+                return item;
+              });
+
+            const items = await defaultSidebarItemsGenerator(args);
+            return replaceRedirectStubs(items);
+          },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           /*

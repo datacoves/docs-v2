@@ -13,6 +13,7 @@ VS Code keeps a local history of your files, allowing you to recover deleted fil
   width="800"
   height="500"
   src="https://www.youtube.com/embed/BW-TnzVSJXM"
+  title="Video walkthrough of restoring deleted files using VS Code Local History"
   frameborder="0"
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
   allowfullscreen

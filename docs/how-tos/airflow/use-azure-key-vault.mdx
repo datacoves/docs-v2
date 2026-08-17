@@ -80,6 +80,83 @@ dag = azure_key_vault_example()
 To auto mask your secret you can use `secret` or `password` in the variable name since this will honor `hide_sensitive_var_conn_fields`. eg `datacoves-my-password`. Please see [this documentation](https://www.astronomer.io/docs/learn/airflow-variables#hide-sensitive-information-in-airflow-variables) for a full list of masking words.
 :::
 
+## Using Azure Key Vault directly from Airflow
+
+While not recommended, you can bypass the Datacoves secrets manager integration by configuring an Airflow connection and reading secrets with the Azure Key Vault SDK. The SDK (`azure-identity` and `azure-keyvault-secrets`) is already installed in Datacoves Airflow images as part of the Microsoft Azure provider.
+
+When reading secrets this way, the [secret naming](#secret-naming) rules above do not apply: you fetch any Key Vault secret by its exact name, with no `airflow-variables-` or `datacoves-` prefix required.
+
+### Configure an Airflow Connection
+
+Create a new Airflow Connection with the service principal credentials:
+
+Connection Id: `azure_key_vault`  
+Connection Type: Generic  
+Login: `<client id>`  
+Password: `<client secret>`  
+
+Extra:
+
+```json
+{
+  "tenant_id": "<tenant id>",
+  "vault_url": "https://<your-vault>.vault.azure.net/"
+}
+```
+
+### Example DAG reading Key Vault directly
+
+```python
+try:
+    # Airflow 3
+    from airflow.sdk import dag, task
+except ImportError:
+    # Airflow 2
+    from airflow.decorators import dag, task
+
+from airflow.hooks.base import BaseHook
+from pendulum import datetime
+
+@dag(
+    catchup=False,
+    default_args={
+        "start_date": datetime(2024, 1, 1),
+        "owner": "Noel Gomez",
+        "email": "noel@example.com",
+        "email_on_failure": True,
+    },
+    tags=["sample"],
+    description="Read a secret directly from Azure Key Vault",
+    schedule="0 0 1 */12 *",
+)
+def key_vault_direct_usage():
+
+    @task
+    def azure_secret():
+        from azure.identity import ClientSecretCredential
+        from azure.keyvault.secrets import SecretClient
+
+        conn = BaseHook.get_connection("azure_key_vault")
+        credential = ClientSecretCredential(
+            tenant_id=conn.extra_dejson["tenant_id"],
+            client_id=conn.login,
+            client_secret=conn.password,
+        )
+        client = SecretClient(
+            vault_url=conn.extra_dejson["vault_url"], credential=credential
+        )
+        secret = client.get_secret("my-secret-name")
+        print(f"Fetched a {len(secret.value)} character value from Azure Key Vault")
+
+    azure_secret()
+
+dag = key_vault_direct_usage()
+```
+
+:::tip
+When Datacoves runs in your Azure subscription with Managed Identity, no connection or credentials are needed at all: replace `ClientSecretCredential` with `DefaultAzureCredential()` from `azure.identity` and pass your vault URL to `SecretClient` directly.
+:::
+
 ## Check when a secret is being fetched from Azure
 
 It is a good idea to verify that secrets are only being fetched when expected. To do this, enable diagnostic logging on your Key Vault:

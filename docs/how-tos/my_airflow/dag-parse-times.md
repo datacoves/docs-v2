@@ -11,24 +11,27 @@ Every DAG file is re-parsed continuously by the dag-processor. A DAG that is slo
 On Airflow 3 environments, the dag-processor records each DAG's most recent parse duration and the REST API exposes it, so you can get the real parsing-time report with a simple API call: no access to the dag-processor pod is needed.
 
 :::info
-This works on Airflow 3 environments, for both **Team Airflow** and **My Airflow** (it is the same REST API). On My Airflow you can also use the [`datacoves my parse-logs`](/docs/reference/airflow/datacoves-commands#datacoves-my-parse-logs) command, which additionally shows the parse log of individual DAG files.
+This guide targets **Team Airflow** on Airflow 3 environments. For **My Airflow**, use the [`datacoves my parse-logs`](/docs/reference/airflow/datacoves-commands#datacoves-my-parse-logs) command instead, which shows the same report plus the parse log of individual DAG files.
 
 Airflow 2 does not expose parse durations through its API; see [the note below](#airflow-2-environments).
 :::
 
 ## What you need
 
-1. An API key and the API URL for your target instance: follow [How to use the My Airflow API](/docs/how-tos/my_airflow/use-my-airflow-api). The same key works against Team Airflow if you have access; for Team Airflow, the API base is your Airflow URL (the one in your browser) plus `/api/v2`.
-2. Store both in a `.env` file (and add it to `.gitignore`):
+1. A Datacoves API key: generate one following [How to use the My Airflow API](/docs/how-tos/my_airflow/use-my-airflow-api). The same key authenticates you against the Team Airflow of **any environment you have access to**, with your own permissions.
+2. The Airflow URL of the target environment: the same one you open in your browser (`https://airflow-<env>.<your-domain>`).
+3. Store both in a `.env` file (and add it to `.gitignore`):
 
 ```env
-AIRFLOW_API_URL = "https://your-airflow-url/api/v2"
-AIRFLOW_API_KEY = "your-api-key-here"
+AIRFLOW_URL = "https://airflow-your-env.your-domain.com"
+DATACOVES_API_KEY = "your-api-key-here"
 ```
+
+The script works the same from your laptop, from CI, or from a Datacoves workbench terminal -- the Airflow API endpoints are reachable from all of them.
 
 ## Get the parsing-time report
 
-The `GET /dags` endpoint returns `last_parse_duration` (seconds) and `last_parsed_time` for every DAG. The script below fetches all DAGs (paginated) and prints them slowest-first, the same shape as the `datacoves my parse-logs` report:
+Airflow 3's API uses short-lived JWTs: you first exchange your Datacoves API key for a JWT at `POST /auth/token` (using the special `__datacoves_token__` username), then call the API with it. The `GET /api/v2/dags` endpoint returns `last_parse_duration` (seconds) and `last_parsed_time` for every DAG. The script below fetches all DAGs (paginated) and prints them slowest-first, the same shape as the `datacoves my parse-logs` report:
 
 ```python
 # dag_parse_times.py
@@ -38,17 +41,26 @@ import requests
 from dotenv import load_dotenv
 
 load_dotenv()
-API_URL = os.getenv("AIRFLOW_API_URL").rstrip("/")
-API_KEY = os.getenv("AIRFLOW_API_KEY")
-HEADERS = {"Authorization": f"Token {API_KEY}"}
+BASE_URL = os.getenv("AIRFLOW_URL").rstrip("/")
+API_KEY = os.getenv("DATACOVES_API_KEY")
 
 
-def fetch_all_dags():
+def get_jwt():
+    """Exchange the Datacoves API key for a short-lived Airflow JWT."""
+    response = requests.post(
+        f"{BASE_URL}/auth/token",
+        json={"username": "__datacoves_token__", "password": API_KEY},
+    )
+    response.raise_for_status()
+    return response.json()["access_token"]
+
+
+def fetch_all_dags(headers):
     dags, offset = [], 0
     while True:
         response = requests.get(
-            f"{API_URL}/dags",
-            headers=HEADERS,
+            f"{BASE_URL}/api/v2/dags",
+            headers=headers,
             params={"limit": 100, "offset": offset},
         )
         response.raise_for_status()
@@ -70,7 +82,8 @@ def print_parse_report(dags):
 
 
 if __name__ == "__main__":
-    print_parse_report(fetch_all_dags())
+    headers = {"Authorization": f"Bearer {get_jwt()}"}
+    print_parse_report(fetch_all_dags(headers))
 ```
 
 Example output:

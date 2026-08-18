@@ -6,6 +6,10 @@ sidebar_position: 39
 ---
 # Check your DAGs for Airflow 3 migration issues
 
+:::info
+The `datacoves airflow3-check` command is available in Datacoves 6.1 and later. It works regardless of the Airflow version your environment runs, so you can (and should) use it while still on Airflow 2.
+:::
+
 When an environment is upgraded from Airflow 2 to Airflow 3, DAG code written for Airflow 2 may rely on imports, arguments, or behaviors that were removed or deprecated in Airflow 3, for example:
 
 | Airflow 2 pattern | Airflow 3 replacement |

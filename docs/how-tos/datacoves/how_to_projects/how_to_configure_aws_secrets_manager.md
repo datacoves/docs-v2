@@ -12,6 +12,7 @@ sidebar_position: 50
 - [Configure your Secrets Backend in Project settings](#configure-your-secrets-backend-in-project-settings)
   - [Project-level configuration](#project-level-configuration)
   - [Environment-level override](#environment-level-override)
+- [Use an IAM role instead of access keys (IRSA)](#use-an-iam-role-instead-of-access-keys-irsa)
 
 ## Prereqs
 
@@ -19,6 +20,10 @@ sidebar_position: 50
 2. Configure access to AWS Secrets Manager on the project settings page
 
 Please follow the how-to below to achieve these requirements.
+
+:::tip
+When Datacoves runs on AWS (EKS), you can skip the IAM user and access keys entirely and authenticate with an IAM role instead. See [Use an IAM role instead of access keys (IRSA)](#use-an-iam-role-instead-of-access-keys-irsa).
+:::
 
 ### Create an IAM user with permissions to manage secrets
 
@@ -117,3 +122,50 @@ AWS Secrets Manager can also be configured directly at the environment level, in
 :::note
 The configuration fields available at the environment level are the same as those at the project level. Any values entered here will take precedence over the project settings for this environment only.
 :::
+
+## Use an IAM role instead of access keys (IRSA)
+
+When Datacoves runs in your AWS account (EKS), Airflow can authenticate to AWS Secrets Manager with an IAM role through [IRSA (IAM Roles for Service Accounts)](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) instead of an IAM user with access keys. No credentials are stored anywhere: the Airflow pods receive short-lived role credentials from EKS, and the role is scoped to a single Datacoves environment, so each environment can be limited to its own set of secrets. Pods that do not belong to Airflow (for example VS Code / code-server workspaces) run under a different service account and cannot use the role.
+
+:::note
+IRSA requires the Datacoves platform team to enable workload identity for your environment, so reach out to us to coordinate the setup below. On Airflow 3 environments this requires Datacoves 6.1 or later.
+:::
+
+**Step 1:** Create an IAM role with the same secrets permissions as the policy shown in the [Prereqs](#prereqs) section (instead of attaching it to an IAM user), and a trust policy that allows the environment's Airflow service account to assume it:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::<account>:oidc-provider/<cluster-oidc-issuer>"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringEquals": {
+                    "<cluster-oidc-issuer>:aud": "sts.amazonaws.com",
+                    "<cluster-oidc-issuer>:sub": "system:serviceaccount:dcw-<environment-slug>:datacoves-airflow"
+                }
+            }
+        }
+    ]
+}
+```
+
+The Datacoves team can provide your cluster's OIDC issuer and confirm the environment slug.
+
+**Step 2:** Once the Datacoves team confirms workload identity is enabled with your role, configure the `Additional Secrets Backend` exactly as described above but **omit** `aws_access_key_id` and `aws_secret_access_key`:
+
+```json
+{
+  "connections_prefix": "airflow/connections",
+  "connections_lookup_pattern": "^aws_",
+  "variables_prefix": "airflow/variables",
+  "variables_lookup_pattern": "^aws_",
+  "region_name": "us-east-1"
+}
+```
+
+With no keys in the configuration, Airflow automatically uses the IAM role attached to its pods.

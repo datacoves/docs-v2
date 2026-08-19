@@ -2,7 +2,7 @@
 title: "Find Slow-Parsing DAGs with the REST API"
 sidebar_label: "DAG parsing times"
 description: "Use the Airflow REST API to list DAG parse durations and find slow-parsing DAGs in Team Airflow and My Airflow on Datacoves."
-sidebar_position: 79
+sidebar_position: 40
 ---
 # Find slow-parsing DAGs with the REST API
 

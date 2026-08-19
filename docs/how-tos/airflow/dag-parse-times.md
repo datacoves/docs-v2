@@ -18,20 +18,20 @@ Airflow 2 does not expose parse durations through its API; see [the note below](
 
 ## What you need
 
-1. A Datacoves API key: generate one following [How to use the My Airflow API](/docs/how-tos/my_airflow/use-my-airflow-api). The same key authenticates you against the Team Airflow of **any environment you have access to**, with your own permissions.
-2. The Airflow URL of the target environment: the same one you open in your browser (`https://airflow-<env>.<your-domain>`).
+1. An Airflow API token for the target environment: in the launchpad, go to **Environments**, open your environment's **Keys**, and click **Generate New Airflow Token**. Copy the token immediately -- it is only shown once.
+2. The **Airflow API URL** shown on that same page (`https://airflow-<env>.<your-domain>/api/v2/`).
 3. Store both in a `.env` file (and add it to `.gitignore`):
 
 ```env
-AIRFLOW_URL = "https://airflow-your-env.your-domain.com"
-DATACOVES_API_KEY = "your-api-key-here"
+AIRFLOW_API_URL = "https://airflow-your-env.your-domain.com/api/v2/"
+AIRFLOW_API_TOKEN = "your-token-here"
 ```
 
 The script works the same from your laptop, from CI, or from a Datacoves workbench terminal -- the Airflow API endpoints are reachable from all of them.
 
 ## Get the parsing-time report
 
-Airflow 3's API uses short-lived JWTs: you first exchange your Datacoves API key for a JWT at `POST /auth/token` (using the special `__datacoves_token__` username), then call the API with it. The `GET /api/v2/dags` endpoint returns `last_parse_duration` (seconds) and `last_parsed_time` for every DAG. The script below fetches all DAGs (paginated) and prints them slowest-first, the same shape as the `datacoves my parse-logs` report:
+The `GET /dags` endpoint returns `last_parse_duration` (seconds) and `last_parsed_time` for every DAG. The script below fetches all DAGs (paginated) and prints them slowest-first, the same shape as the `datacoves my parse-logs` report:
 
 ```python
 # dag_parse_times.py
@@ -41,26 +41,16 @@ import requests
 from dotenv import load_dotenv
 
 load_dotenv()
-BASE_URL = os.getenv("AIRFLOW_URL").rstrip("/")
-API_KEY = os.getenv("DATACOVES_API_KEY")
+API_URL = os.getenv("AIRFLOW_API_URL").rstrip("/")
+HEADERS = {"Authorization": f"Bearer {os.getenv('AIRFLOW_API_TOKEN')}"}
 
 
-def get_jwt():
-    """Exchange the Datacoves API key for a short-lived Airflow JWT."""
-    response = requests.post(
-        f"{BASE_URL}/auth/token",
-        json={"username": "__datacoves_token__", "password": API_KEY},
-    )
-    response.raise_for_status()
-    return response.json()["access_token"]
-
-
-def fetch_all_dags(headers):
+def fetch_all_dags():
     dags, offset = [], 0
     while True:
         response = requests.get(
-            f"{BASE_URL}/api/v2/dags",
-            headers=headers,
+            f"{API_URL}/dags",
+            headers=HEADERS,
             params={"limit": 100, "offset": offset},
         )
         response.raise_for_status()
@@ -82,8 +72,7 @@ def print_parse_report(dags):
 
 
 if __name__ == "__main__":
-    headers = {"Authorization": f"Bearer {get_jwt()}"}
-    print_parse_report(fetch_all_dags(headers))
+    print_parse_report(fetch_all_dags())
 ```
 
 Example output:
@@ -100,6 +89,23 @@ A parse time consistently above ~1 second is worth investigating: the usual caus
 :::tip
 `last_parse_duration` reflects the most recent parse by the environment's dag-processor -- the number that actually matters for scheduling latency. Running `airflow dags report` inside a DAG task measures a worker's copy of the files under different conditions and can be misleading.
 :::
+
+## Alternative: authenticate as your own user
+
+The Airflow API token above belongs to the environment's service account and is a JWT with an expiration date, so long-lived automation would need re-generating it. As an alternative, you can authenticate with your personal Datacoves API key (generated under [User Settings > My Airflow API](/docs/how-tos/my_airflow/use-my-airflow-api) -- despite the name, it is a general Datacoves key): exchange it for a short-lived Airflow JWT at `POST /auth/token` using the special `__datacoves_token__` username. This authenticates you as **your own user** with your permissions, the key does not expire, and the same key works against **any environment you have access to**:
+
+```python
+def get_jwt(base_url, datacoves_api_key):
+    """Exchange a Datacoves API key for a short-lived Airflow JWT."""
+    response = requests.post(
+        f"{base_url}/auth/token",
+        json={"username": "__datacoves_token__", "password": datacoves_api_key},
+    )
+    response.raise_for_status()
+    return response.json()["access_token"]
+```
+
+Use the returned token in the same `Authorization: Bearer` header as above (`base_url` is the Airflow URL without `/api/v2`).
 
 ## Airflow 2 environments
 

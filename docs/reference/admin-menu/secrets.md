@@ -10,6 +10,10 @@ sidebar_position: 80
 
 Secrets are used to manage confidential information that are used by tools running in VSCode, or services like Airflow.
 
+:::note
+The `Secrets` menu item is only shown when at least one project in the account uses the Datacoves Secrets Manager as its Airflow secrets backend. When every project uses an external backend (such as AWS Secrets Manager or Azure Key Vault), Datacoves secrets are not served to Airflow and the menu is hidden.
+:::
+
 Some uses could be:
 
 - Storing Airbyte connections credentials using `dbt-coves extract` and `dbt-coves load` commands.

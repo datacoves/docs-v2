@@ -58,14 +58,31 @@ Datacoves dbt decorator supports all the [Datacoves dbt Operator params](/docs/r
 
 **dbt profile generation:**
 
-With the `connection_id` mentioned above, we create a temporary dbt profile (it only exists at runtime inside the Airflow DAG's worker). By default, this dbt profile contains the selected Service Credential connection details.
+With the `connection_id` mentioned above, we create a temporary dbt profile (it only exists at runtime inside the Airflow DAG's worker).
 
-The dbt profile `name` is defined either in Project or Environment settings, in their `Profile name` field. This can be overwritten by passing a custom `DATACOVES__DBT_PROFILE` environment variable to the decorator.
+By default:
 
-Users can also customize this dbt profile's connection details and/or target with the following params:
+- **Connection details** (user, password, warehouse, database, schema, role, etc.) come from the selected service connection (`connection_id`).
+- **Profile name** comes from the **Profile name** field in Project or Environment settings.
+- **Target name** is `default`.
 
-- `overrides`: a dictionary with override parameters such as warehouse, role, database, etc.
-- `target`: the target name this temporary dbt profile will receive. Defaults to `default`.
+:::warning
+The service connection's **Schema** field must be populated when the connection will be used with `@task.datacoves_dbt`. Leaving it empty causes an error like:
+
+```
+Credentials in profile "my_dw_profile", target "dev" invalid: None is not of type 'string'
+```
+
+The Airflow Snowflake provider docs list `schema` as optional. That applies to the Airflow connection, not to the dbt profile generated from it, which requires `schema`.
+:::
+
+These can be overridden with the following params:
+
+| What | How |
+|---|---|
+| Profile name | Pass a custom `DATACOVES__DBT_PROFILE` environment variable, e.g. `env={"DATACOVES__DBT_PROFILE": "prod"}` |
+| Target name | `target`: the target name this temporary dbt profile will receive |
+| Connection details | `overrides`: a dictionary with override parameters such as warehouse, role, database, etc. |
 
 Basic example:
 

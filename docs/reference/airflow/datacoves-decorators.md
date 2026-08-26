@@ -60,6 +60,16 @@ Datacoves dbt decorator supports all the [Datacoves dbt Operator params](/docs/r
 
 With the `connection_id` mentioned above, we create a temporary dbt profile (it only exists at runtime inside the Airflow DAG's worker). By default, this dbt profile contains the selected Service Credential connection details.
 
+:::warning
+The service connection's **Schema** field must be populated when the connection will be used with `@task.datacoves_dbt`. Leaving it empty causes an error like:
+
+```
+Credentials in profile "my_dw_profile", target "dev" invalid: None is not of type 'string'
+```
+
+The Airflow Snowflake provider docs list `schema` as optional. That applies to the Airflow connection, not to the dbt profile generated from it, which requires `schema`.
+:::
+
 The dbt profile `name` is defined either in Project or Environment settings, in their `Profile name` field. This can be overwritten by passing a custom `DATACOVES__DBT_PROFILE` environment variable to the decorator.
 
 Users can also customize this dbt profile's connection details and/or target with the following params:

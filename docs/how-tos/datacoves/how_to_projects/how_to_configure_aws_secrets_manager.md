@@ -1,7 +1,7 @@
 ---
 title: "Use AWS Secrets Manager as the Airflow Secrets Backend"
 sidebar_label: "Configure AWS Secrets Manager"
-description: "Select AWS Secrets Manager as the Airflow secrets backend in Datacoves so Airflow reads variables and connections directly from AWS, with access keys or an IAM role."
+description: "Select AWS Secrets Manager as the Airflow secrets backend in Datacoves, using access keys or an IAM role, so Airflow reads variables from AWS."
 sidebar_position: 50
 ---
 # Configuring AWS Secrets Manager

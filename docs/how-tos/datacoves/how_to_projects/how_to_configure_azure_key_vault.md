@@ -1,7 +1,7 @@
 ---
 title: "Use Azure Key Vault as the Airflow Secrets Backend"
 sidebar_label: "Configure Azure Key Vault"
-description: "Select Azure Key Vault as the Airflow secrets backend in Datacoves so Airflow reads variables and connections directly from your vault, using Managed Identity or a service principal."
+description: "Select Azure Key Vault as the Airflow secrets backend in Datacoves, using Managed Identity or a service principal to read secrets."
 sidebar_position: 52
 ---
 # Configuring Azure Key Vault

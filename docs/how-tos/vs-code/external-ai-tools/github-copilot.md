@@ -1,5 +1,6 @@
 ---
 title: GitHub Copilot
+description: Enable and log in to GitHub Copilot in your Datacoves VS Code workspace, and use it with the Datacoves MCP servers.
 sidebar_position: 3
 ---
 

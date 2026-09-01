@@ -1,5 +1,7 @@
 ---
-title: Airflow
+title: Airflow MCP Server
+sidebar_label: Airflow
+description: Connect the Airflow MCP server so AI tools in VS Code can read your DAGs, runs, and task logs to investigate failures and recommend fixes.
 sidebar_position: 2
 ---
 

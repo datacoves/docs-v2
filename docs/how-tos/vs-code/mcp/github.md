@@ -1,5 +1,7 @@
 ---
-title: GitHub
+title: GitHub MCP Server
+sidebar_label: GitHub
+description: Connect the GitHub MCP server so AI tools in VS Code can read your repositories, pull requests, issues, and CI checks using a personal access token.
 sidebar_position: 1
 ---
 

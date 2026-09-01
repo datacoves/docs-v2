@@ -1,5 +1,6 @@
 ---
 title: MCP Servers
+description: Connect GitHub, Airflow, and Grafana MCP servers to give AI tools in your Datacoves VS Code workspace read access to real repositories, DAGs, metrics, and logs.
 sidebar_position: 46
 ---
 

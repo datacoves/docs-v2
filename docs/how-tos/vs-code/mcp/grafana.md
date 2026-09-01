@@ -1,5 +1,7 @@
 ---
-title: Grafana (Prometheus & Loki)
+title: Grafana MCP Server (Prometheus & Loki)
+sidebar_label: Grafana (Prometheus & Loki)
+description: Connect the Grafana MCP server so AI tools in VS Code can query Prometheus metrics and Loki logs for your Datacoves environment.
 sidebar_position: 3
 ---
 

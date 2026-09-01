@@ -27,7 +27,7 @@ AIRFLOW_API_URL = "https://airflow-your-env.your-domain.com/api/v2/"
 AIRFLOW_API_TOKEN = "your-token-here"
 ```
 
-The script works the same from your laptop, from CI, or from a Datacoves workbench terminal -- the Airflow API endpoints are reachable from all of them.
+The script works the same from CI, from Datacoves VSCode, or from any environment you use to reach Datacoves -- the Airflow API endpoints are reachable from all of them.
 
 ## Get the parsing-time report
 

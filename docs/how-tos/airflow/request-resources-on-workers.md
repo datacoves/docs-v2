@@ -1,5 +1,7 @@
 ---
-title: Worker - Request Memory and CPU
+title: Request Custom CPU & Memory for Airflow Workers
+sidebar_label: Worker - Request CPU & Memory
+description: "Configure Kubernetes resource requests for individual Airflow tasks in Datacoves to allocate specific CPU and memory limits per DAG task."
 sidebar_position: 40
 ---
 # How to request more memory or cpu resources on a particular DAG task

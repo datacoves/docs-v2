@@ -1,5 +1,7 @@
 ---
-title: Database Errors
+title: "How to Fix dbt Database and SQL Errors"
+sidebar_label: "Database Errors"
+description: "Troubleshoot and resolve dbt database errors in Datacoves, including permission issues, schema mismatches, and warehouse connection failures."
 sidebar_position: 67
 ---
 # How to Fix dbt Database Errors

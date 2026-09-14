@@ -4,4 +4,4 @@ position: 5
 link:
   type: generated-index
   title: dbt
-  description: These how to guides cover how to resolve common dbt issues.
+  description: How-to guides for resolving common dbt issues in Datacoves, including compilation errors, database errors, dependency errors, and runtime errors.

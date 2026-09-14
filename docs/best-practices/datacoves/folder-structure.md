@@ -1,5 +1,7 @@
 ---
-title: Folder structure
+title: Datacoves Project Folder Structure Guide
+sidebar_label: Folder Structure
+description: "Learn the recommended repository layout for Datacoves: required folders like automate/dbt and orchestrate/dags, plus optional dbt-coves configuration paths."
 sidebar_position: 1
 ---
 

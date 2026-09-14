@@ -1,6 +1,7 @@
 ---
-title: Lineage View
-
+title: Explore dbt Lineage Graphs in Datacoves VS Code
+sidebar_label: Lineage View
+description: "Use the Datacoves Lineage View panel to visualize dbt model dependencies, run or test models directly from the graph, and adjust node expansion depth."
 ---
 # Lineage View 
 

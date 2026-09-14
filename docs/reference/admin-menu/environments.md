@@ -1,5 +1,7 @@
 ---
-title: Environments
+title: "Environments Reference: Datacoves Admin Panel"
+sidebar_label: Environments
+description: "Reference for the Datacoves Environments admin screen: configure VS Code, Airflow, Superset, integrations, and service connections per environment."
 sidebar_position: 30
 ---
 # Environments Admin

@@ -1,5 +1,7 @@
 ---
-title: Connection Templates
+title: "Connection Templates Reference: Datacoves Admin"
+sidebar_label: Connection Templates
+description: "Reference documentation for Datacoves connection templates: configure reusable data warehouse credential templates for use across projects and environments."
 sidebar_position: 20
 ---
 # Connection Templates Admin

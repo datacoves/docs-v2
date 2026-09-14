@@ -1,5 +1,7 @@
 ---
-title: Configure Groups
+title: Create and Manage User Groups in Datacoves
+sidebar_label: Configure Groups
+description: "How to create and configure user groups in Datacoves to assign roles and control access to projects and environments at scale."
 sidebar_position: 45
 ---
 # How to Create/Edit a Group

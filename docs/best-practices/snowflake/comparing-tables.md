@@ -1,5 +1,7 @@
 ---
-title: Comparing Tables Across Environments
+title: Compare Snowflake Tables Across dbt Environments
+sidebar_label: Comparing Tables
+description: "How to compare row counts, column values, and data distributions across dev, staging, and production Snowflake environments in your dbt workflow."
 sidebar_position: 5
 ---
 

@@ -1,5 +1,7 @@
 ---
-title: Object Naming Standards
+title: dbt Object Naming Standards in Datacoves
+sidebar_label: Object Naming Standards
+description: "Naming conventions for dbt models, sources, tests, and macros in Datacoves to ensure consistency and maintainability across large data engineering teams."
 sidebar_position: 2
 ---
 

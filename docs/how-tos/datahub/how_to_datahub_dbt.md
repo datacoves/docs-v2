@@ -1,5 +1,7 @@
 ---
-title: Configure dbt metadata ingestion
+title: "Ingest dbt Metadata into DataHub from Datacoves"
+sidebar_label: "dbt Metadata Ingestion"
+description: "Set up and run dbt metadata ingestion into DataHub from Datacoves: configure the ingestion recipe, run the connector, and browse lineage in DataHub."
 sidebar_position: 59
 ---
 # Ingesting dbt Metadata into DataHub

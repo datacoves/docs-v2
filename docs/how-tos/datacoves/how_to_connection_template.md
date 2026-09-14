@@ -1,5 +1,7 @@
 ---
-title: Configure Connection Templates
+title: Create and Edit Datacoves Connection Templates
+sidebar_label: Configure Connection Templates
+description: "How to create and manage connection templates in Datacoves to standardize data warehouse credentials across projects and environments."
 sidebar_position: 42
 ---
 # How to Create/Edit Connection Template
@@ -12,7 +14,7 @@ To create a new connection template click the `Create Connection Template` in th
 
 ![Connections Create or Edit Page](./assets/connections_editnew_page.png)
 
-### Each Connection Template consist of the following fields:
+## Each Connection Template consist of the following fields:
 
 - **Name** This is the name users will see when selecting the base connection template when entering credentials for themselves or service accounts.
 - **Project** This defines the Datacoves project that should be associated with this connection template.
@@ -37,7 +39,7 @@ To create a new connection template click the `Create Connection Template` in th
 
 - **Default values** Based on the Provider Type selected, available default parameters will be displayed. ie) Snowflake, Redshift etc.
 
-### For Snowflake, the available fields are: 
+## For Snowflake, the available fields are: 
 
 - `Account`: To locate this, visit your Snowflake account > Click on the menu in the bottom left corner > Select the account > select the `Copy account identifier`. 
   
@@ -50,7 +52,7 @@ To create a new connection template click the `Create Connection Template` in th
 - `Role`- The default connection template role
   ![Snowflake Connection Type](./assets/connections_editnew_snowflake.png)
 
-### For Redshift, the available fields are: 
+## For Redshift, the available fields are: 
 
 - `Host`
 - `Database`

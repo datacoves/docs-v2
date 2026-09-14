@@ -1,5 +1,7 @@
 ---
-title: Override VS Code settings
+title: Override Default VS Code Settings in Datacoves
+sidebar_label: Override Settings
+description: "How to override Datacoves VS Code default settings per workspace using a settings.json file in .vscode/ for custom extensions and editor preferences."
 sidebar_position: 60
 ---
 # How to override default VS Code settings
@@ -10,7 +12,7 @@ Once you have [set up your Visual Studio Code](/docs/how-tos/vs-code/initial) en
 
 Create a VS Code `settings.json` file under `.vscode/` in your repository root (make sure to add it to your `.gitignore` to keep it out of version control)
 
-![](./assets/create_workspace_settings.png)
+![VS Code Explorer showing .vscode/settings.json created in the repository root, open with an empty JSON object](./assets/create_workspace_settings.png)
 
 ## Override settings
 

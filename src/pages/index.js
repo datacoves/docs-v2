@@ -14,7 +14,7 @@ function HomepageHeader() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
         <Heading as="h1" className="hero__title">
-          {siteConfig.title}
+          Welcome to the Datacoves Documentation
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
@@ -33,8 +33,8 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title="Docs: dbt, Airflow & Data Engineering"
+      description="Official documentation for Datacoves — the enterprise dbt platform with Airflow orchestration, VS Code, and Superset. Get started in minutes.">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

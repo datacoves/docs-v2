@@ -1,5 +1,7 @@
 ---
-title: Use My Airflow
+title: "How to Start and Use My Airflow in Datacoves"
+sidebar_label: "Start My Airflow"
+description: "How to start, stop, and use your personal My Airflow instance in Datacoves for rapid DAG development and testing before pushing to Team Airflow."
 sidebar_position: 77
 ---
 # How to use My Airflow

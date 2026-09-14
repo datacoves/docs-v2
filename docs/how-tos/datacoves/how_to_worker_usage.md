@@ -1,5 +1,7 @@
 ---
-title: Worker Usage Minutes API
+title: "Use the Datacoves Billing API for Worker Minutes"
+sidebar_label: "Worker Usage Minutes API"
+description: "Call the Datacoves Billing API to retrieve Airflow and Airbyte worker usage minutes per environment, with date filtering and authentication setup."
 sidebar_position: 55
 ---
 

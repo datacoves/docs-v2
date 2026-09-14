@@ -1,5 +1,7 @@
 ---
-title: dbt guidelines
+title: dbt Project Guidelines for Enterprise Data Teams
+sidebar_label: Guidelines
+description: "Coding standards and decision-making guidelines for dbt projects in Datacoves: model structure, source definitions, testing, and documentation best practices."
 sidebar_position: 1
 ---
 
@@ -37,4 +39,4 @@ sidebar_position: 1
 
 - All other fields in the model should be listed alphabetically, as contents may change over time.
 
-![db-auth-std-e1](./assets/dbt-std1.png)
+![dbt column ordering: IDs first, attributes alphabetically, dates next, metadata fields last](./assets/dbt-std1.png)

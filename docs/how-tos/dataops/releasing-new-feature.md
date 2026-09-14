@@ -1,5 +1,7 @@
 ---
-title: Releasing a new feature
+title: "Develop and Release dbt Features in Datacoves"
+sidebar_label: "Release a Feature"
+description: "Step-by-step workflow for developing a new dbt feature in Datacoves: branch, build, test, open a PR, and promote changes through environments to production."
 sidebar_position: 63
 ---
 # How to develop and release a feature
@@ -8,7 +10,7 @@ Releasing a feature into production involves following a development process uti
 
 The high-level process is shown below.
 
-![db-auth-std-e1](./assets/feature-development.png)
+![High-level feature development and release lifecycle diagram spanning Development, Continuous Integration, and Continuous Deployment phases](./assets/feature-development.png)
 
 ## Development and Release cycle
 
@@ -48,7 +50,7 @@ The high-level process is shown below.
 
 ## Delivery Journey - New Source
 
-![db-auth-std-e1](./assets/source-development.png)
+![Delivery journey diagram for a new data source from credentials and development through code review to production](./assets/source-development.png)
 
 1. **Source Credentials**
 

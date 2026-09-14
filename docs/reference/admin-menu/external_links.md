@@ -1,5 +1,7 @@
 ---
-title: External Links
+title: "External Links Reference: Datacoves Admin Panel"
+sidebar_label: External Links
+description: "Configure external links in the Datacoves admin panel to add custom URLs to the navigation menu for quick access to tools, dashboards, or documentation."
 sidebar_position: 40
 ---
 # External Links

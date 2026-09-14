@@ -1,6 +1,7 @@
 ---
-title: Rollback Strategy
+title: Datacoves Platform Rollback Strategy Reference
 sidebar_label: Rollback Strategy
+description: "How Datacoves handles rollbacks across infrastructure, platform services, and customer image layers, including hotfix processes and rollback limitations."
 sidebar_position: 132
 ---
 

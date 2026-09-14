@@ -1,5 +1,7 @@
 ---
-title: Configure Integrations
+title: Set Up Integrations in the Datacoves Admin Panel
+sidebar_label: Configure Integrations
+description: "How to create and configure integrations in Datacoves, including notification services like Slack and Teams for Airflow DAG alerts."
 sidebar_position: 46
 ---
 # How to Create/Edit an Integration

@@ -1,5 +1,7 @@
 ---
-title: Service Connections
+title: "Service Connections Reference: Datacoves Admin"
+sidebar_label: Service Connections
+description: "Reference for the Datacoves Service Connections admin screen: configure warehouse credential delivery to Airflow and VS Code environments."
 sidebar_position: 90
 ---
 # Service Connections Admin

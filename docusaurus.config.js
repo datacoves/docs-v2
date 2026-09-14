@@ -12,7 +12,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Welcome to the Datacoves Documentation',
+  title: 'Datacoves',
   tagline: 'Our Mission is to be the best dbt platform for enterprises by offering a simple solution with robust orchestration that reduces time to market while handling the complexities of a large enterprise.',
   favicon: 'img/favicon.ico',
 
@@ -51,6 +51,62 @@ const config = {
     './src/clientModules/tabAnchorHandler.js',
   ],
 
+  headTags: [
+    {
+      tagName: 'script',
+      attributes: { type: 'application/ld+json' },
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://datacoves.com/#organization",
+        "name": "Datacoves, Inc",
+        "alternateName": "Datacoves",
+        "url": "https://datacoves.com/",
+        "logo": "https://cdn.prod.website-files.com/644a94aaaeec247c2e15a0ce/644a94aaaeec241cdd15a192_datacoves-logo.svg",
+        "image": "https://cdn.prod.website-files.com/644a94aaaeec247c2e15a0ce/644a94aaaeec2481bd15a114_dc-256.png",
+        "description": "Datacoves is an enterprise DataOps platform with managed dbt Core and Airflow for data transformation and orchestration, as well as VS Code in the browser for development.",
+        "foundingDate": "2021",
+        "founder": { "@type": "Person", "name": "Noel Gomez" },
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "612 Lynwood St.",
+          "addressLocality": "Thousand Oaks",
+          "addressRegion": "CA",
+          "postalCode": "91360",
+          "addressCountry": "US"
+        },
+        "contactPoint": [
+          { "@type": "ContactPoint", "contactType": "customer support", "email": "support@datacoves.com", "url": "https://datacoves.com/contact-us" },
+          { "@type": "ContactPoint", "contactType": "sales", "email": "support@datacoves.com", "url": "https://datacoves.com/contact-us" }
+        ],
+        "sameAs": [
+          "https://linkedin.com/company/datacoves",
+          "https://x.com/datacoves",
+          "https://www.youtube.com/@datacoves"
+        ]
+      }),
+    },
+    {
+      tagName: 'script',
+      attributes: { type: 'application/ld+json' },
+      innerHTML: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Datacoves",
+        "url": "https://datacoves.com/",
+        "image": "https://cdn.prod.website-files.com/644a94aaaeec247c2e15a0ce/6899b101ce63e81f2952ca14_og-homepage.jpg",
+        "description": "Datacoves is an enterprise dbt DataOps platform with hosted VS Code and Airflow. Implement data management best practices without compromising data security.",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Windows, macOS, Linux, iOS, Android",
+        "softwareVersion": "1.0.0",
+        "datePublished": "2025-01-15",
+        "dateModified": "2025-11-20",
+        "keywords": "Datacoves, Managed dbt, dbt Cloud alternative",
+        "publisher": { "@id": "https://datacoves.com/#organization" }
+      }),
+    },
+  ],
+
   presets: [
     [
       'classic',
@@ -58,6 +114,33 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
+          // Some docs (e.g. docs/tutorials) are just client-side redirect
+          // stubs to pages on the marketing site. Point their sidebar/
+          // category-index entries straight at the final URL instead of
+          // routing through the redirect stub, so crawlers and users don't
+          // hit an internal redirect chain.
+          sidebarItemsGenerator: async function ({defaultSidebarItemsGenerator, ...args}) {
+            const externalLinks = {
+              'tutorials/learning-resources':
+                'https://datacoves.com/learning-resources?_gl=1*18cmhau*_ga*MjYwMzYwODE1LjE3NTIyNTAwNDk.*_ga_WFBP8GG4YV*czE3NTYyNDYzMzAkbzUwJGcxJHQxNzU2MjQ2NDg4JGo2MCRsMCRoMA..',
+              'tutorials/educational-data-resources':
+                'https://datacoves.com/data-resources#Educational',
+            };
+
+            const replaceRedirectStubs = (items) =>
+              items.map((item) => {
+                if (item.type === 'doc' && externalLinks[item.id]) {
+                  return {type: 'link', label: item.label, href: externalLinks[item.id]};
+                }
+                if (item.type === 'category') {
+                  return {...item, items: replaceRedirectStubs(item.items)};
+                }
+                return item;
+              });
+
+            const items = await defaultSidebarItemsGenerator(args);
+            return replaceRedirectStubs(items);
+          },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           /*

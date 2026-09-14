@@ -1,5 +1,7 @@
 ---
-title: GDPR and Time-Travel
+title: Snowflake Time Travel & GDPR Best Practices
+sidebar_label: Time Travel & GDPR
+description: "How to use Snowflake Time Travel for data recovery while managing GDPR compliance, including data retention policies and personal data handling guidance."
 sidebar_position: 3
 ---
 

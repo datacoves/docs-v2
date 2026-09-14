@@ -1,5 +1,7 @@
 ---
-title: Airflow - Use Key-Pair Authentication
+title: Use Key-Pair Authentication in Airflow
+sidebar_label: Key-Pair Authentication
+description: "Configure Snowflake key-pair authentication for Airflow connections in Datacoves instead of password-based credentials for improved security."
 sidebar_position: 10
 ---
 # Using Key-Pair Authentication in Airflow
@@ -10,7 +12,7 @@ This documentation will presume you have knowledge of Datacoves' [Service Connec
 
 Using RSA Keys is only supported through Airflow Connections, not Environment Variables. Make sure your Datacoves Service Connection is using this `delivery mode`.
 
-![alt text](./assets/delivery_mode_airflow_connection.png)
+![Datacoves Service Connection form with Delivery Mode dropdown open and Airflow Connection option selected](./assets/delivery_mode_airflow_connection.png)
 
 Also, make sure to select `Authentication mechanism: RSA Key-pair` and [assign the generated key to your Snowflake user](https://docs.snowflake.com/en/user-guide/key-pair-auth#assign-the-public-key-to-a-snowflake-user).
 

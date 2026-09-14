@@ -1,0 +1,6 @@
+label: DAGs
+position: 11
+link:
+  type: generated-index
+  title: DAGs
+  description: How-to guides for building Airflow DAGs in Datacoves, covering scheduling, variables and connections, generating DAGs from YAML, and running dbt tasks.

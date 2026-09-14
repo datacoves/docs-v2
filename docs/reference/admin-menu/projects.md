@@ -1,5 +1,7 @@
 ---
-title: Projects
+title: "Projects Reference: Datacoves Admin Panel"
+sidebar_label: Projects
+description: "Reference for the Datacoves Projects admin screen: manage git repository settings, CI/CD integration, and secrets backend per project."
 sidebar_position: 70
 ---
 # Projects Admin

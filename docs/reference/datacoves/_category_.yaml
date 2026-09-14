@@ -3,4 +3,4 @@ position: 3
 link:
   type: generated-index
   title: Datacoves Reference
-  description: This is Datacoves References. 
+  description: Reference documentation for core Datacoves concepts, including semantic versioning, VPC deployment requirements, and the rollback strategy for upgrades.

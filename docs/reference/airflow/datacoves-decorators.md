@@ -1,5 +1,7 @@
 ---
-title: Datacoves Airflow Decorators
+title: Datacoves Airflow Decorators Reference
+sidebar_label: Decorators
+description: "Reference for Datacoves Airflow decorators: @task.datacoves_bash and @task.datacoves_dbt — parameters, usage examples, and service connection integration."
 sidebar_position: 125
 ---
 # Datacoves Airflow Decorators
@@ -105,7 +107,7 @@ From Datacoves 3.4 onwards, the `datacoves_dbt` decorator allows users to upload
 :::note
 dbt-API is a feature that is not enabled by default. Please contact support for further assistance.
 :::
-This is particularly useful for performing [dbt retries](/docs/how-tos/airflow/DAGs/retry-dbt-tasks).
+This is particularly useful for performing [dbt retries](/docs/how-tos/airflow/dags/retry-dbt-tasks).
 
 The new datacoves_dbt parameters are:
 

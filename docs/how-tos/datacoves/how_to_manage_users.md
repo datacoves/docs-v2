@@ -1,5 +1,7 @@
 ---
-title: Manage Users
+title: "Manage Datacoves Users: Edit and Remove Access"
+sidebar_label: Manage Users
+description: "Edit user roles, change project and environment access, deactivate accounts, and permanently delete users from your Datacoves organization."
 sidebar_position: 56
 ---
 # How to Manage Users

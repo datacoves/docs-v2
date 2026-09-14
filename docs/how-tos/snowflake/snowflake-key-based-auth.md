@@ -1,5 +1,7 @@
 ---
-title: Setting up Snowflake Key-Based Auth
+title: "Set Up Snowflake Key-Based Auth for CI Pipelines"
+sidebar_label: "Key-Based Auth"
+description: "Configure Snowflake key-pair authentication for CI/CD service accounts in Datacoves to securely authenticate dbt runs in GitHub Actions or GitLab CI."
 sidebar_position: 79
 ---
 # How to set up Snowflake Key-Based Auth for CI Service Accounts

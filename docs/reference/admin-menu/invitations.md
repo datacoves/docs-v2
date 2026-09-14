@@ -1,5 +1,7 @@
 ---
-title: Invitations
+title: "Invitations Reference: Datacoves Admin Panel"
+sidebar_label: Invitations
+description: "Reference for the Datacoves Invitations admin screen: view pending invitations, resend invitation emails, and manage user access requests."
 sidebar_position: 60
 ---
 # Invitations Admin

@@ -1,5 +1,7 @@
 ---
-title: Configure Environments
+title: Create and Configure Datacoves Environments
+sidebar_label: Configure Environments
+description: "Step-by-step guide to creating and editing Datacoves environments: configure VS Code, Airflow, Superset, and service connection settings per environment."
 sidebar_position: 44
 ---
 # How to Create/Edit an Environment

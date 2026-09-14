@@ -1,5 +1,7 @@
 ---
-title: Custom Environment Variables
+title: Set Environment Variables in Datacoves VS Code
+sidebar_label: Environment Variables
+description: "How to add custom environment variables to the Datacoves VS Code IDE for use in dbt profiles, scripts, or custom tooling across your team's environments."
 sidebar_position: 20
 ---
 # How to add Environment variables to VS Code
@@ -49,7 +51,7 @@ Environment level variables will be available to everyone with access to the env
 
 ### Step 3: Select `Add`
 
-![alt text](assets/env_var_environment_add.png)
+![Datacoves Edit Environment admin page with VS Code Environment Variables tab selected and Add button highlighted](assets/env_var_environment_add.png)
 
 ## Project Level
 
@@ -65,7 +67,7 @@ Project level variables will be available across all environments in a project.
 
 ### Step 3: Select `Add`
 
-![alt text](assets/env_var_project_add.png)
+![Datacoves Edit Project admin page with VS Code Environment Variables section and Add button highlighted](assets/env_var_project_add.png)
 
 ## Creating variables
 

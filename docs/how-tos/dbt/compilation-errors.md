@@ -1,5 +1,7 @@
 ---
-title: Compilation Errors
+title: "Fix dbt Compilation Errors in Datacoves"
+sidebar_label: "Compilation Errors"
+description: "Identify and resolve common dbt compilation errors in Datacoves, including undefined refs, missing sources, invalid Jinja syntax, and YAML parsing issues."
 sidebar_position: 66
 ---
 # How to Fix dbt Compilation Errors

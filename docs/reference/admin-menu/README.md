@@ -1,5 +1,7 @@
 ---
-title: Administration Menu
+title: Datacoves Administration Menu Reference
+sidebar_label: Administration Menu
+description: "Reference guide to the Datacoves Administration Menu, covering projects, environments, users, groups, service connections, secrets, and billing settings."
 sidebar_position: 1
 ---
 # Admininstration Menu

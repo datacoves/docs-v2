@@ -1,5 +1,7 @@
 ---
-title: Trigger CI/CD without code changes
+title: "Trigger CI/CD Pipelines Without Code Changes"
+sidebar_label: "Trigger CI/CD"
+description: "How to manually trigger a CI/CD workflow in Datacoves without committing code changes, using an empty commit or repository dispatch event."
 sidebar_position: 72
 ---
 # How to trigger a CI/CD run without code changes

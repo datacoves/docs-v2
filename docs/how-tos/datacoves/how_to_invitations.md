@@ -1,5 +1,7 @@
 ---
-title: Configure Invitations
+title: Invite Users to Your Datacoves Account
+sidebar_label: Configure Invitations
+description: "Send email invitations to new Datacoves users, assign them to projects or environments, and configure their initial access permissions."
 sidebar_position: 47
 ---
 # How to Invite a User to your Account 

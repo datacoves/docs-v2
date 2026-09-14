@@ -1,5 +1,7 @@
 ---
-title: Configure Service Connections
+title: "Configure Data Warehouse Service Connections"
+sidebar_label: "Configure Service Connections"
+description: "Set up Datacoves service connections to securely deliver warehouse credentials to Airflow and VS Code as environment variables or Airflow connections."
 sidebar_position: 49
 ---
 # How to Create/Edit a Service Connection
@@ -31,4 +33,4 @@ A Service Connection consists of the following fields:
 ## Getting Started Next Steps 
 In the following step, you will update your repository by incorporating the necessary folders and files for Airflow. Specifically, you will add the `orchestrate/dags` directories along with `automate/dbt/profiles.yml`. 
 
-[Update repository](/docs/getting-started/Admin/configure-repository)
+[Update repository](/docs/getting-started/admin/configure-repository)

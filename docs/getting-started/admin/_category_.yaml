@@ -1,0 +1,8 @@
+label: Administrator
+position: 3
+link:
+  type: generated-index
+  title: Administrator
+  description: Getting started guides for Datacoves Administrators, covering repository setup with dbt-coves, configuring Airflow, creating DAGs, and managing users.  
+
+

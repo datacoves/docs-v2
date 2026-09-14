@@ -1,5 +1,7 @@
 ---
-title: Datacoves Environment Variables
+title: Datacoves VS Code Environment Variables
+sidebar_label: Environment Variables
+description: "Reference for all Datacoves-injected environment variables in VS Code: workspace paths, dbt settings, version info, and warehouse connection details."
 sidebar_position: 137
 ---
 # Datacoves Environment Variables

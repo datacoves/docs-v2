@@ -1,5 +1,7 @@
 ---
-title: Add a Database
+title: "Add a Database Connection in Apache Superset"
+sidebar_label: "Add a Database"
+description: "How to add a Snowflake database connection in Apache Superset within Datacoves: select the connector type, enter credentials, and save the configuration."
 sidebar_position: 82
 ---
 ## How to Add a Database Connection in Superset

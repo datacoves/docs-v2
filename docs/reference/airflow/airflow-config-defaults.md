@@ -1,5 +1,7 @@
 ---
-title: Airflow Config Defaults
+title: Airflow Default Configuration in Datacoves
+sidebar_label: Config Defaults
+description: "Reference for Datacoves Airflow default configuration: executor, parallelism, scheduler, Kubernetes worker timeout, and database retry settings."
 sidebar_position: 122
 ---
 # Airflow Config Defaults
@@ -98,7 +100,7 @@ log_auto_tailing_offset = 30
 default_dag_run_display_number = 25
 auto_refresh_interval = 3
 ```
-# Airflow Environment Variables
+## Airflow Environment Variables
 
 Datacoves injects environment variables into Airflow.
 

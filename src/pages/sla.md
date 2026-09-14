@@ -1,3 +1,8 @@
+---
+title: Datacoves Service Level Agreement (SLA)
+description: "Datacoves SLA: 99.9% uptime commitment, support severity levels with defined response times, and availability exceptions."
+---
+
 # Service Level Agreement (SLA)
 
 This document outlines Datacoves' responsibility with regards to outages and other issues with the Datacoves platform.

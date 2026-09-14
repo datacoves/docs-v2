@@ -1,5 +1,7 @@
 ---
-title: Manage datahub using CLI
+title: "Use the DataHub CLI from Datacoves VS Code"
+sidebar_label: "DataHub CLI"
+description: "How to install and use the DataHub CLI from the Datacoves VS Code terminal to manage metadata, run ingestion recipes, and interact with your DataHub instance."
 sidebar_position: 61
 ---
 # How to use DataHub's CLI from your VS Code terminal

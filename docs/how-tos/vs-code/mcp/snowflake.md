@@ -23,11 +23,8 @@ which runs inside your own Snowflake account. Your data never leaves it.
   server.
 - An MCP server object named `DATACOVES` in your Snowflake account, created by an account
   administrator as shown below.
-
-:::note
-This server has no toggle in **Admin > Environments > AI Tools**. It appears on its own once the
-server object exists in your account.
-:::
+- The **Snowflake** toggle turned on for your environment by an administrator, under
+  **Admin > Environments > AI Tools > MCP Servers**.
 
 ## Create the server in your Snowflake account
 
@@ -66,18 +63,21 @@ change anything.
 
 ## How it works
 
-**No setup in Datacoves.** Your workspace signs a token with the private key of your Snowflake
-connection, asks your account which MCP servers it holds, and points Datacoves Copilot at the one
-named `DATACOVES`. The token is short-lived and refreshed for you.
+**One toggle, and nothing else to configure.** Your workspace signs a token with the private key of
+your Snowflake connection, asks your account which MCP servers it holds, and points your AI tools at
+the one named `DATACOVES`. The token is short-lived and refreshed for you.
 
-In a standard environment this entry is delivered to Datacoves Copilot; the other tools' MCP
-configs do not receive it. Snowflake Cortex reaches your account directly and needs no MCP server.
+The entry is delivered to every AI tool in your workspace: Datacoves Copilot, GitHub Copilot, OpenAI
+Codex and Snowflake Cortex. Snowflake Cortex reaches your account directly and needs no MCP server
+for SQL.
 
 The server acts as **you**, through your connection's own Snowflake role, so it sees only what that
 role is allowed to see.
 
-Until the server object exists, the `snowflake` entry sits switched off in Datacoves Copilot. Once
-an administrator creates it, your workspace picks it up within five minutes, with no restart.
+Until the server object exists, the entry holds a placeholder address and no token, so it cannot
+reach your account: in Datacoves Copilot it sits switched off, and in GitHub Copilot, Codex and
+Cortex it is listed but does not connect. Once an administrator creates it, your workspace picks it
+up within five minutes, with no restart.
 
 ## Use it
 

@@ -20,16 +20,15 @@ Datacoves ships four MCP servers:
 | [Grafana (Prometheus & Loki)](/docs/how-tos/vs-code/mcp/grafana) | Metrics and logs from your environment | None |
 | [Snowflake](/docs/how-tos/vs-code/mcp/snowflake) | Your Snowflake data and metadata, through read-only SQL | An MCP server created in your Snowflake account |
 
-Once enabled, the GitHub, Airflow, and Grafana servers are available to every AI tool in your
-workspace:
+Once enabled, the GitHub, Airflow, Grafana, and Snowflake servers are available to every AI tool in
+your workspace:
 
 - Datacoves Copilot
 - GitHub Copilot
 - [OpenAI Codex](/docs/how-tos/vs-code/external-ai-tools/openai-codex)
 - [Snowflake Cortex](/docs/how-tos/vs-code/external-ai-tools/snowflake-cortex)
 
-The Snowflake server is delivered to Datacoves Copilot; the other tools' MCP configs do not carry
-it. Snowflake Cortex reaches your account directly and needs no MCP server.
+Snowflake Cortex reaches your account directly and needs no MCP server for SQL.
 
 ## Enabling MCP servers
 
@@ -50,9 +49,6 @@ The **Grafana (Prometheus & Loki)** toggle only appears when the **observability
 enabled for your cluster. Contact [Datacoves support](mailto:support@datacoves.com) if you do not
 see it.
 :::
-
-[Snowflake](/docs/how-tos/vs-code/mcp/snowflake) has no toggle. It appears on its own once an
-account administrator creates the MCP server object in your Snowflake account.
 
 ## What you can ask
 

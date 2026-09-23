@@ -21,8 +21,8 @@ which runs inside your own Snowflake account. Your data never leaves it.
 - [Key pair authentication](/docs/how-tos/vs-code/initial) on that connection. Snowflake accepts a
   key pair token and nothing else for MCP, so a password-authenticated connection cannot reach the
   server.
-- An MCP server object named `DATACOVES` in your Snowflake account, created by an account
-  administrator as shown below.
+- An MCP server object in your Snowflake account, created by an account administrator as shown
+  below.
 - The **Snowflake** toggle turned on for your environment by an administrator, under
   **Admin > Environments > AI Tools > MCP Servers**.
 
@@ -61,23 +61,26 @@ grant usage on mcp server <database>.<schema>.DATACOVES to role <your connection
 `read_only` keeps the tool to `SELECT` queries, so the AI can read your data and metadata but cannot
 change anything.
 
+Your account may hold other MCP servers. Datacoves picks the one named `DATACOVES`, and when the
+account holds exactly one MCP server it picks that one whatever it is called.
+
 ## How it works
 
 **One toggle, and nothing else to configure.** Your workspace signs a token with the private key of
 your Snowflake connection, asks your account which MCP servers it holds, and points your AI tools at
-the one named `DATACOVES`. The token is short-lived and refreshed for you.
+it. The token is short-lived and refreshed for you.
 
-The entry is delivered to every AI tool in your workspace: Datacoves Copilot, GitHub Copilot, OpenAI
-Codex and Snowflake Cortex. Snowflake Cortex reaches your account directly and needs no MCP server
-for SQL.
+The entry is delivered to every AI tool in your workspace: Datacoves Copilot, GitHub Copilot in VS
+Code, the GitHub Copilot CLI, Snowflake Cortex and OpenAI Codex. A tool you do not have installed is
+skipped, so there is nothing to turn off.
 
 The server acts as **you**, through your connection's own Snowflake role, so it sees only what that
 role is allowed to see.
 
 Until the server object exists, the entry holds a placeholder address and no token, so it cannot
-reach your account: in Datacoves Copilot it sits switched off, and in GitHub Copilot, Codex and
-Cortex it is listed but does not connect. Once an administrator creates it, your workspace picks it
-up within five minutes, with no restart.
+reach your account: in Datacoves Copilot it sits switched off, and in the other tools it is listed
+but does not connect. Once an administrator creates it, your workspace picks it up within five
+minutes, with no restart.
 
 ## Use it
 

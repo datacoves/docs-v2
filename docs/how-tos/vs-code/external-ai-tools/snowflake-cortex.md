@@ -26,8 +26,8 @@ for the authentication and usage steps.
 
 ## MCP servers
 
-Cortex can use the Datacoves [MCP servers](/docs/how-tos/vs-code/mcp) (GitHub, Airflow, Grafana)
-when they are enabled for your environment.
+Cortex can use the Datacoves [MCP servers](/docs/how-tos/vs-code/mcp) (GitHub, Airflow, Grafana,
+Snowflake) when they are enabled for your environment.
 
 ## Learn more
 

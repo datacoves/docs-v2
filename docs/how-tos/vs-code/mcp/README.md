@@ -28,7 +28,8 @@ your workspace:
 - [OpenAI Codex](/docs/how-tos/vs-code/external-ai-tools/openai-codex)
 - [Snowflake Cortex](/docs/how-tos/vs-code/external-ai-tools/snowflake-cortex)
 
-Snowflake Cortex reaches your account directly and needs no MCP server for SQL.
+The Snowflake server also reaches [Claude Code](/docs/how-tos/vs-code/external-ai-tools/claude-code),
+the extension and the CLI, and the GitHub Copilot CLI.
 
 ## Enabling MCP servers
 

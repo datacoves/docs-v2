@@ -25,7 +25,8 @@ workspace as the GitHub Copilot and Copilot Chat extensions.
 ## MCP servers
 
 GitHub Copilot can use the Datacoves [MCP servers](/docs/how-tos/vs-code/mcp) (GitHub, Airflow,
-Grafana) when they are enabled for your environment.
+Grafana, Snowflake) when they are enabled for your environment. The GitHub Copilot CLI gets the
+[Snowflake server](/docs/how-tos/vs-code/mcp/snowflake) too.
 
 ## Learn more
 

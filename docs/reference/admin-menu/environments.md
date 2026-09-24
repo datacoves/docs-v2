@@ -38,8 +38,8 @@ assistants and the data systems they can reach. It has three sections:
 - **AI Tools** - enable or disable the AI CLI tools, such as OpenAI Codex and Snowflake Cortex
   (Cortex is only shown on Snowflake environments).
 - **MCP Servers** - enable or disable the [MCP servers](/docs/how-tos/vs-code/mcp) (GitHub,
-  Airflow, and Grafana) that give the AI tools read access to your repositories, DAGs, and
-  metrics and logs.
+  Airflow, Grafana, and Snowflake) that give the AI tools read access to your repositories, DAGs,
+  metrics and logs, and Snowflake data.
 
 :::note
 The **Grafana (Prometheus & Loki)** MCP server only appears when the observability stack is

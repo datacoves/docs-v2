@@ -67,20 +67,19 @@ account holds exactly one MCP server it picks that one whatever it is called.
 ## How it works
 
 **One toggle, and nothing else to configure.** Your workspace signs a token with the private key of
-your Snowflake connection, asks your account which MCP servers it holds, and points your AI tools at
-it. The token is short-lived and refreshed for you.
+your Snowflake connection, asks your account which MCP servers it holds, and serves that server to
+your AI tools from inside the workspace. Every request goes to Snowflake with a current token, so a
+conversation left open for hours keeps working.
 
-The entry is delivered to every AI tool in your workspace: Datacoves Copilot, GitHub Copilot in VS
-Code, the GitHub Copilot CLI, Snowflake Cortex and OpenAI Codex. A tool you do not have installed is
-skipped, so there is nothing to turn off.
+The server is delivered to every AI tool in your workspace: Datacoves Copilot, GitHub Copilot in VS
+Code, the GitHub Copilot CLI, Claude Code (the extension and the CLI), OpenAI Codex and Snowflake
+Cortex. Adding it changes nothing else in your tools' MCP settings.
 
 The server acts as **you**, through your connection's own Snowflake role, so it sees only what that
 role is allowed to see.
 
-Until the server object exists, the entry holds a placeholder address and no token, so it cannot
-reach your account: in Datacoves Copilot it sits switched off, and in the other tools it is listed
-but does not connect. Once an administrator creates it, your workspace picks it up within five
-minutes, with no restart.
+Until the server object exists, your AI tools don't list it. Once an administrator creates it, your
+workspace picks it up within five minutes, with no restart.
 
 ## Use it
 

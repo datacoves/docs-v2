@@ -65,6 +65,10 @@ If you have problems copying text from Claude Code in the VS Code terminal, run 
 /tui default
 ```
 
+## MCP servers
+
+Claude Code, the extension and the CLI, can use the Datacoves [Snowflake MCP server](/docs/how-tos/vs-code/mcp/snowflake) when it is enabled for your environment.
+
 ## Learn more
 
 - [Claude Code VS Code extension documentation](https://code.claude.com/docs/en/vs-code)

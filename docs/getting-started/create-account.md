@@ -29,7 +29,7 @@ To set up your Datacoves account, you will need to know your data warehouse prov
 
 | Data Warehouse Provider | Information Needed |
 | --- | --- |
-| Snowflake | Account, Warehouse, Database, Role, User, Password, Schema |
+| Snowflake | Account, Warehouse, Database, Role, Schema, and a User and Password or a [Snowflake sign-in](/docs/how-tos/snowflake/snowflake-sign-in) |
 | Redshift | Host, Database, User, Schema, Password |
 | Databricks | Host, Schema, HTTP Path, Token |
 | BigQuery | Dataset, Keyfile JSON |

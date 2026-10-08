@@ -13,6 +13,8 @@ company's single sign-on, so it is the option for accounts where users have no p
 It is offered in the setup wizard, in **Settings > Database Connections** and, for Airflow, in **Service
 Connections** with the Airflow Connection delivery mode. Airflow runs as the Snowflake user who signed in.
 
+![Sign in with Snowflake in the Database Connections settings](assets/snowflake-sign-in-settings.png)
+
 ## Snowflake's built-in sign-in
 
 Needs no Snowflake admin setup. Datacoves signs in through Snowflake's `SNOWFLAKE$LOCAL_APPLICATION`
@@ -22,7 +24,19 @@ integration. Check that your account has it:
 SHOW SECURITY INTEGRATIONS LIKE 'SNOWFLAKE$LOCAL_APPLICATION';
 ```
 
-The sign-in opens in a dialog in Datacoves. Sign in the way you sign in to Snowflake.
+![The Snowflake built-in sign-in in the setup wizard](assets/snowflake-sign-in-wizard.png)
+
+The sign-in opens in a dialog in Datacoves. Sign in the way you sign in to Snowflake. Passkeys aren't available
+in the dialog; pick another method, such as an authenticator app.
+
+![The Snowflake sign-in page in the Datacoves dialog](assets/snowflake-sign-in-dialog.png)
+
+The dialog shows a browser that Datacoves runs for the sign-in only: Chromium 152.0.7977.82 from Alpine Linux. It
+can't reach addresses inside your Datacoves cluster, and it closes when the sign-in finishes or the dialog closes.
+When many people sign in at the same time, the dialog shows **Getting the Snowflake sign-in ready. This can take a
+minute.** and opens the sign-in page as soon as there is room.
+
+![The dialog while the sign-in gets ready](assets/snowflake-sign-in-waiting.png)
 
 ## Your own security integration
 
@@ -30,6 +44,8 @@ Use it when your admins want their own OAuth integration, with its own refresh t
 A Snowflake admin with `ACCOUNTADMIN`, or a role with the `CREATE INTEGRATION` privilege, runs this once.
 Datacoves shows the same statements, with your cluster's redirect URI filled in and a copy button, in the
 setup wizard and on the connection template form.
+
+![The setup SQL for your own security integration in the setup wizard](assets/snowflake-sign-in-custom-integration.png)
 
 ```sql
 CREATE SECURITY INTEGRATION DATACOVES_OAUTH

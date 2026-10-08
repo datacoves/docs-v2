@@ -86,7 +86,7 @@ shows the `ALTER SECURITY INTEGRATION` statement that turns them off when it fin
 ## Workload identity for Airflow
 
 An Airflow service connection can sign in with no secret at all: choose the Airflow Connection delivery mode
-and **Workload identity (Kubernetes)** as the authentication mechanism, and Snowflake trusts your environment's
+and **Workload identity** as the authentication mechanism, and Snowflake trusts your environment's
 Airflow as one service user. The form shows the statement to run, with the issuer and subject of your
 environment filled in:
 

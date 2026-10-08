@@ -31,11 +31,6 @@ in the dialog; pick another method, such as an authenticator app.
 
 ![The Snowflake sign-in page in the Datacoves dialog](assets/snowflake-sign-in-dialog.png)
 
-When many people sign in at the same time, the dialog shows **Getting the Snowflake sign-in ready. This can take a
-minute.** and opens the sign-in page as soon as it's ready.
-
-![The dialog while the sign-in gets ready](assets/snowflake-sign-in-waiting.png)
-
 ## Your own security integration
 
 Use it when your admins want their own OAuth integration, with its own refresh token validity and role rules.
@@ -80,21 +75,20 @@ default. Use another role for dbt and Airflow.
 
 ## When a sign-in expires
 
-A refresh token lasts as long as the integration's `OAUTH_REFRESH_TOKEN_VALIDITY`. Datacoves checks every
-stored sign-in once a day. When one expires, is about to expire, or Snowflake revokes it, the Launchpad shows
-a banner with **Sign in again**, and the connection lists show a badge. Signing in again restarts your
-workspace with the new sign-in. An Airflow service connection is signed in again from its edit page.
+A sign-in lasts as long as the integration's `OAUTH_REFRESH_TOKEN_VALIDITY`. When one expires, is about to
+expire, or Snowflake revokes it, the Launchpad shows a banner with **Sign in again**, and the connection lists
+show a badge. Signing in again restarts your workspace with the new sign-in. An Airflow service connection is
+signed in again from its edit page.
 
-Single-use refresh tokens (`OAUTH_SINGLE_USE_REFRESH_TOKENS_REQUIRED = TRUE`) are not supported, since dbt,
-Airflow and the workspace share one refresh token. Datacoves shows the `ALTER SECURITY INTEGRATION` statement
-that turns them off when it finds them.
+Single-use refresh tokens (`OAUTH_SINGLE_USE_REFRESH_TOKENS_REQUIRED = TRUE`) are not supported. Datacoves
+shows the `ALTER SECURITY INTEGRATION` statement that turns them off when it finds them.
 
 ## Workload identity for Airflow
 
 An Airflow service connection can sign in with no secret at all: choose the Airflow Connection delivery mode
-and **Workload identity (Kubernetes)** as the authentication mechanism. Airflow tasks get an ID token that
-Kubernetes issues for Airflow's service account, and Snowflake trusts that token for one service user. The
-form shows the statement to run, with the issuer and subject of your environment filled in:
+and **Workload identity (Kubernetes)** as the authentication mechanism, and Snowflake trusts your environment's
+Airflow as one service user. The form shows the statement to run, with the issuer and subject of your
+environment filled in:
 
 ```sql
 CREATE USER AIRFLOW_SERVICE
@@ -109,8 +103,8 @@ CREATE USER AIRFLOW_SERVICE
 GRANT ROLE TRANSFORMER TO USER AIRFLOW_SERVICE;
 ```
 
-Turn Airflow on in the environment before you create the connection; the issuer and subject come from
-Airflow's service account.
+Turn Airflow on in the environment before you create the connection, so the form can show the issuer and
+subject.
 
 ## Network policies
 

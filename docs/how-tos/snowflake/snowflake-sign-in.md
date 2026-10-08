@@ -31,10 +31,8 @@ in the dialog; pick another method, such as an authenticator app.
 
 ![The Snowflake sign-in page in the Datacoves dialog](assets/snowflake-sign-in-dialog.png)
 
-The dialog shows a browser that Datacoves runs for the sign-in only: Chromium 152.0.7977.82 from Alpine Linux. It
-can't reach addresses inside your Datacoves cluster, and it closes when the sign-in finishes or the dialog closes.
 When many people sign in at the same time, the dialog shows **Getting the Snowflake sign-in ready. This can take a
-minute.** and opens the sign-in page as soon as there is room.
+minute.** and opens the sign-in page as soon as it's ready.
 
 ![The dialog while the sign-in gets ready](assets/snowflake-sign-in-waiting.png)
 

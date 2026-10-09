@@ -2,7 +2,7 @@
 title: Get the Git Branch Name from an Airflow DAG Task
 sidebar_label: Get Git Branch Name
 description: "Retrieve the current git branch name from within an Airflow DAG task in Datacoves for branch-specific logic or conditional pipeline behavior."
-sidebar_position: 24
+sidebar_position: 60
 ---
 # Retrieving the Current Branch Name in a Git Repository
 

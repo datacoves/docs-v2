@@ -2,7 +2,7 @@
 title: Load S3 Files into Snowflake with Airflow
 sidebar_label: S3 to Snowflake
 description: "Use Airflow in Datacoves to load files from Amazon S3 into Snowflake using the S3ToSnowflakeOperator, with staging area and copy options."
-sidebar_position: 25
+sidebar_position: 70
 ---
 # Loading S3 Files into Snowflake 
 

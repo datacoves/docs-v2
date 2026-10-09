@@ -2,7 +2,7 @@
 title: Run Databricks Notebooks from Airflow DAGs
 sidebar_label: Run Databricks Notebook
 description: "Trigger and monitor Databricks Notebook runs from Airflow DAGs in Datacoves using the Databricks provider operator with cluster configuration."
-sidebar_position: 30
+sidebar_position: 90
 ---
 # Run Databricks Notebooks 
 

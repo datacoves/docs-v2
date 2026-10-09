@@ -26,7 +26,7 @@ A Service Connection consists of the following fields:
   - **Environment Variables** The legacy method Datacoves used which would inject the connection credentials as environment variables into Airflow. The name of the service connection will be used to dynamically create [environment variables](/docs/reference/airflow/environment-service-connection-vars) which we inject into Airflow. 
     ![Delivery Mode](assets/service_connection_delivery.jpg). 
 - **Connection Template** The connection template to base this service connection on(i.e. the defaults)
-  Depending on the template selected, additional fields will be displayed with the default values entered in the connection template. These default values can be overridden by toggling the indicator next to the given value. Enter the appropriate user, schema, and password. This is commonly a service account created specifically for Airflow and may differ between the development and production environment.
+  Depending on the template selected, additional fields will be displayed with the default values entered in the connection template. These default values can be overridden by toggling the indicator next to the given value. Enter the appropriate user, schema, and password. This is commonly a service account created specifically for Airflow and may differ between the development and production environment. **Schema is required** if the connection will be used with [`@task.datacoves_dbt`](/docs/reference/airflow/datacoves-decorators#taskdatacoves_dbt); leaving it empty causes a dbt profile validation error at runtime.
 
 ![Service Connection Connection Details](./assets/serviceconnection_editnew_details.png)
 

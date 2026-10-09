@@ -2,7 +2,7 @@
 title: Send MS Teams Alerts on Airflow DAG Failure
 sidebar_label: Notifications - MS Teams
 description: "Configure Microsoft Teams notifications for Airflow DAGs in Datacoves to receive alerts when pipeline tasks succeed, fail, or are retried."
-sidebar_position: 35
+sidebar_position: 80
 ---
 # How to send Microsoft Teams notifications on DAG's status
 

@@ -6,7 +6,7 @@ sidebar_position: 81
 ---
 # How to sign in to Snowflake with OAuth
 
-Datacoves connects dbt, the Snowflake extension, Datacoves Copilot and Airflow to Snowflake with a password, a
+Datacoves connects dbt, the Snowflake extension, Datacoves Copilot and Airflow to Snowflake with a username/password + MFA, a
 key pair, or **Sign in with Snowflake**. Sign in with Snowflake works with Snowflake users and with your
 company's single sign-on, so it is the option for accounts where users have no password.
 

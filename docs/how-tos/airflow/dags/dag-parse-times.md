@@ -6,7 +6,7 @@ sidebar_position: 40
 ---
 # Find slow-parsing DAGs with the REST API
 
-Every DAG file is re-parsed continuously by the dag-processor. A DAG that is slow to parse (top-level code doing imports, API calls, or file reads) delays scheduling for every DAG in the environment, so parse times are one of the first things to check when Airflow feels sluggish.
+Every DAG file is re-parsed regularly by the dag-processor. A DAG that is slow to parse (top-level code doing imports, API calls, or file reads) delays scheduling for every DAG in the environment, so parse times are one of the first things to check when DAGs randomly disappear from the UI.
 
 On Airflow 3 environments, the dag-processor records each DAG's most recent parse duration and the REST API exposes it, so you can get the real parsing-time report with a simple API call: no access to the dag-processor pod is needed.
 

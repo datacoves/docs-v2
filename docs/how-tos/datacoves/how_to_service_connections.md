@@ -27,6 +27,8 @@ A Service Connection consists of the following fields:
     ![Delivery Mode](assets/service_connection_delivery.jpg). 
 - **Connection Template** The connection template to base this service connection on(i.e. the defaults)
   Depending on the template selected, additional fields will be displayed with the default values entered in the connection template. These default values can be overridden by toggling the indicator next to the given value. Enter the appropriate user, schema, and password. This is commonly a service account created specifically for Airflow and may differ between the development and production environment.
+  For Snowflake with the Airflow Connection delivery mode, the authentication mechanism can also be a key pair,
+  Sign in with Snowflake, or Workload identity. See [Sign in with Snowflake](/docs/how-tos/snowflake/snowflake-sign-in).
 
 ![Service Connection Connection Details](./assets/serviceconnection_editnew_details.png)
 

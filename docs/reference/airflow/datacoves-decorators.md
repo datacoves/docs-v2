@@ -67,7 +67,7 @@ By default:
 - **Target name** is `default`.
 
 :::warning
-The service connection's **Schema** field must be populated when the connection will be used with `@task.datacoves_dbt`. Leaving it empty causes an error like:
+The **Schema** field must be populated when the connection will be used with `@task.datacoves_dbt`. Leaving it empty causes an error like:
 
 ```
 Credentials in profile "my_dw_profile", target "dev" invalid: None is not of type 'string'

@@ -56,7 +56,7 @@ Datacoves dbt decorator supports all the [Datacoves dbt Operator params](/docs/r
 
 - `connection_id`: This is the [service connection](/docs/how-tos/datacoves/how_to_service_connections) which is automatically added to airflow if you select `Airflow Connection` as the `Delivery Mode`.
 
-**dbt profile generation:**
+#### dbt profile generation
 
 With the `connection_id` mentioned above, we create a temporary dbt profile (it only exists at runtime inside the Airflow DAG's worker).
 
@@ -66,22 +66,22 @@ By default:
 - **Profile name** comes from the **Profile name** field in Project or Environment settings. It must match the `profile:` value in your `dbt_project.yml`.
 - **Target name** is `default`.
 
-:::warning
-The **Schema** field must be populated when the connection will be used with `@task.datacoves_dbt`, either in the connection or via `overrides`. Leaving it empty causes an error like:
-
-```
-Credentials in profile "my_dw_profile", target "dev" invalid: None is not of type 'string'
-```
-
-The Airflow Snowflake provider docs list `schema` as optional. That applies to the Airflow connection, not to the dbt profile generated from it, which requires `schema`.
-:::
-
 These can be overridden with the following params:
 
 | What | How |
 |---|---|
 | Target name | `target`: the target name this temporary dbt profile will receive |
 | Connection details | `overrides`: a dictionary with override parameters such as warehouse, role, database, schema, etc. |
+
+:::warning
+A schema must be set, either in the connection's **Schema** field or via `overrides`. Leaving it empty causes an error like:
+
+```
+Credentials in profile "my_dw_profile", target "default" invalid: None is not of type 'string'
+```
+
+The Airflow Snowflake provider docs list `schema` as optional. That applies to the Airflow connection, not to the dbt profile generated from it, which requires `schema`.
+:::
 
 Basic example:
 
@@ -111,18 +111,22 @@ def my_dbt_dag():
 dag = my_dbt_dag()
 ```
 
-#### Overriding the schema
+The examples above use the Airflow connection `main` which is added automatically from the Datacoves Service Connection.
 
-`overrides` and `target` support Airflow templating, so the schema can be set in different ways:
+![Service Connection](assets/service_connection_main.jpg)
 
-| Option | `overrides` value |
+##### Setting values dynamically
+
+`target` and `overrides` support Airflow templating, so their values can be fixed or set dynamically. The examples below use `schema`, but the same works for any key in `overrides` and for `target`:
+
+| Option | Example `overrides` value |
 |---|---|
 | Fixed value | `{"schema": "my_schema"}` |
 | Chosen when triggering the DAG | `{"schema": "{{ params.schema }}"}` |
 | Per environment, from an Airflow Variable | `{"schema": "{{ var.value.dbt_schema }}"}` |
 | From an environment variable, resolved by dbt | `{"schema": "{% raw %}{{ env_var('DBT_SCHEMA') }}{% endraw %}"}` |
 
-**Chosen when triggering the DAG:** define a default in the DAG's `params`. When the DAG runs on its schedule, it uses the default. When you trigger it manually from the Airflow UI, Airflow asks for the schema, pre-filled with the default, and you can change it before starting the run.
+**Chosen when triggering the DAG:** define a default in the DAG's `params`. When the DAG runs on its schedule, it uses the default. When you trigger it manually from the Airflow UI, Airflow asks for the value, pre-filled with the default, and you can change it before starting the run.
 
 ```python
 @dag(
@@ -140,9 +144,9 @@ def my_dbt_dag():
 dag = my_dbt_dag()
 ```
 
-**Per environment, from an Airflow Variable:** create an Airflow Variable (e.g. `dbt_schema`) in each environment with the schema to use there.
+**Per environment, from an Airflow Variable:** create an Airflow Variable (e.g. `dbt_schema`) in each environment with the value to use there.
 
-**From an environment variable, resolved by dbt:** pass the variable with `env` and let dbt resolve it at runtime.
+**From an environment variable, resolved by dbt:** pass the variable with `env` and let dbt resolve it at runtime. This option only applies to `overrides`, since dbt resolves `env_var` inside the profile's connection details, not in the target name.
 
 ```python
 @task.datacoves_dbt(
@@ -159,10 +163,6 @@ def dbt_run() -> str:
 - `{% raw %}...{% endraw %}` is required. Without it, Airflow tries to render `env_var` itself and the task fails with `'env_var' is undefined`.
 - `append_env=True` keeps the rest of the worker's environment variables. Without it, only the variables in `env` are available to the task.
 :::
-
-The examples above use the Airflow connection `main` which is added automatically from the Datacoves Service Connection.
-
-![Service Connection](assets/service_connection_main.jpg)
 
 #### Uploading and downloading dbt results
 

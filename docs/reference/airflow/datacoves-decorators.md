@@ -71,10 +71,10 @@ These can be overridden with the following params:
 | What | How |
 |---|---|
 | Target name | `target`: the target name this temporary dbt profile will receive |
-| Connection details | `overrides`: a dictionary with override parameters such as warehouse, role, database, schema, etc. |
+| Connection details | `overrides`: a dictionary of dbt profile fields to override, such as warehouse, role, database, schema, etc. |
 
 :::warning
-A schema must be set, either in the connection's **Schema** field or via `overrides`. Leaving it empty causes an error like:
+For Snowflake and Databricks connections, a schema must be set, either in the connection's **Schema** field or via `overrides`. Leaving it empty causes an error like:
 
 ```
 Credentials in profile "my_dw_profile", target "default" invalid: None is not of type 'string'
@@ -117,7 +117,7 @@ The examples above use the Airflow connection `main` which is added automaticall
 
 ##### Setting values dynamically
 
-`target` and `overrides` support Airflow templating, so their values can be fixed or set dynamically. The examples below use `schema`, but the same works for any key in `overrides` and for `target`:
+`target` and `overrides` support Airflow templating, so their values can be fixed or set dynamically. The examples below use `schema`, but the same works for any key in `overrides` and for `target` (except the last option):
 
 | Option | Example `overrides` value |
 |---|---|
@@ -146,7 +146,7 @@ dag = my_dbt_dag()
 
 **Per environment, from an Airflow Variable:** create an Airflow Variable (e.g. `dbt_schema`) in each environment with the value to use there.
 
-**From an environment variable, resolved by dbt:** pass the variable with `env` and let dbt resolve it at runtime. This option only applies to `overrides`, since dbt resolves `env_var` inside the profile's connection details, not in the target name.
+**From an environment variable, resolved by dbt:** pass the environment variable with `env` and let dbt resolve it at runtime. This option only applies to `overrides`, since dbt resolves `env_var` inside the profile's connection details, not in the target name.
 
 ```python
 @task.datacoves_dbt(

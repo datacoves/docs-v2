@@ -12,9 +12,7 @@ Snowflake's AI coding assistant, available as a CLI tool in Datacoves.
 ## Prerequisites
 
 - A Snowflake-based (`dbt-snowflake`) environment. Cortex is only available on Snowflake
-  environments, and it is always on there: the Snowflake VS Code extension's CoCo runs the Cortex
-  Code CLI, so its switch under **Admin > Environments > _your environment_ > AI Tools** can't be
-  turned off.
+  environments, where it is always on.
 
 ## Login and usage
 

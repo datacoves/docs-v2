@@ -29,8 +29,6 @@ your workspace:
 - [OpenAI Codex](/docs/how-tos/vs-code/external-ai-tools/openai-codex)
 - [Snowflake Cortex](/docs/how-tos/vs-code/external-ai-tools/snowflake-cortex)
 
-The Snowflake server also reaches the GitHub Copilot CLI.
-
 ## Enabling MCP servers
 
 MCP servers are toggled per environment by an administrator.

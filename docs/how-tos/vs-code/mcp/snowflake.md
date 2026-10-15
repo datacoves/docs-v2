@@ -18,9 +18,9 @@ which runs inside your own Snowflake account. Your data never leaves it.
 
 - A Snowflake environment whose first Snowflake connection is a development connection, that is, one
   whose name contains `dev`.
-- [Key pair authentication](/docs/how-tos/vs-code/initial) on that connection. Snowflake accepts a
-  key pair token and nothing else for MCP, so a password-authenticated connection cannot reach the
-  server.
+- [Key pair authentication](/docs/how-tos/vs-code/initial) on that connection, using an RSA key. The
+  MCP server works with RSA key pairs only, not with passwords or elliptic curve keys. To create one,
+  pick **Auto-generate RSA key pairs (Compatibility)** or provide your own RSA private key.
 - An MCP server object in your Snowflake account, created by an account administrator as shown
   below.
 - The **Snowflake** toggle turned on for your environment by an administrator, under

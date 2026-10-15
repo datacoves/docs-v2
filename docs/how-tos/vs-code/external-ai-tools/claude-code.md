@@ -67,7 +67,9 @@ If you have problems copying text from Claude Code in the VS Code terminal, run 
 
 ## MCP servers
 
-Claude Code, the extension and the CLI, can use the Datacoves [Snowflake MCP server](/docs/how-tos/vs-code/mcp/snowflake) when it is enabled for your environment.
+Claude Code, the extension and the CLI, can use the Datacoves [MCP servers](/docs/how-tos/vs-code/mcp) (GitHub, Airflow, Grafana, Snowflake) when they are enabled for your environment. The `claude` command in a terminal loads them for you.
+
+To see them, run `/mcp` inside Claude Code. `claude mcp list` doesn't show the GitHub, Airflow and Grafana servers.
 
 ## Learn more
 

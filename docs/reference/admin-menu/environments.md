@@ -36,7 +36,8 @@ assistants and the data systems they can reach. It has three sections:
 - **AI Extensions** - enable or disable the built-in AI extensions, such as Datacoves Copilot and
   GitHub Copilot.
 - **AI Tools** - enable or disable the AI CLI tools, such as OpenAI Codex and Snowflake Cortex
-  (Cortex is only shown on Snowflake environments).
+  (Cortex is only shown on Snowflake environments, where it is always on because the Snowflake VS
+  Code extension's CoCo runs it).
 - **MCP Servers** - enable or disable the [MCP servers](/docs/how-tos/vs-code/mcp) (GitHub,
   Airflow, Grafana, and Snowflake) that give the AI tools read access to your repositories, DAGs,
   metrics and logs, and Snowflake data.

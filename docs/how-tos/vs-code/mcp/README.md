@@ -25,11 +25,11 @@ your workspace:
 
 - Datacoves Copilot
 - GitHub Copilot
+- [Claude Code](/docs/how-tos/vs-code/external-ai-tools/claude-code), the extension and the CLI
 - [OpenAI Codex](/docs/how-tos/vs-code/external-ai-tools/openai-codex)
 - [Snowflake Cortex](/docs/how-tos/vs-code/external-ai-tools/snowflake-cortex)
 
-The Snowflake server also reaches [Claude Code](/docs/how-tos/vs-code/external-ai-tools/claude-code),
-the extension and the CLI, and the GitHub Copilot CLI.
+The Snowflake server also reaches the GitHub Copilot CLI.
 
 ## Enabling MCP servers
 

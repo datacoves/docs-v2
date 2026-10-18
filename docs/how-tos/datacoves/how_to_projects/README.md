@@ -71,6 +71,6 @@ See this [how-to guide on configuring Azure DevOps](/docs/how-tos/datacoves/how_
 </Tabs>
 
 - **CI/CD Provider:** When provided, this will display a link to your CI/CD jobs on the Observe tab of a Datacoves environment. Once you choose your provider, you will be able to specify your `CI jobs home URL`.
-- **Secrets Backend:** Datacoves provides a Secrets Backend out of the box; you can also configure additional Secrets Backends at the project level, at the environment level, or both. See [AWS Secrets Manager](/docs/how-tos/datacoves/how_to_projects/how_to_configure_aws_secrets_manager) for details.
+- **Airflow Secrets Backend:** Datacoves provides a Secrets Backend out of the box (the Datacoves Secrets Manager); alternatively you can select AWS Secrets Manager, Azure Key Vault, GCP Secret Manager or HashiCorp Vault as the backend Airflow queries directly, at the project level, at the environment level, or both. See [AWS Secrets Manager](/docs/how-tos/datacoves/how_to_projects/how_to_configure_aws_secrets_manager) or [Azure Key Vault](/docs/how-tos/datacoves/how_to_projects/how_to_configure_azure_key_vault) for details.
 
 ![Project Secrets Backend](../assets/edit_project_secrets_backend.jpg)

@@ -96,6 +96,53 @@ Once you created the `SMTP` integration, it's time to add it to the Airflow serv
 
 - Click `Save Changes`. 
 
+## Test the integration with a simple DAG
+
+Datacoves turns the SMTP integration into the `smtp_default` Airflow connection (you can see it in Airflow under `Admin > Connections`), so no extra configuration is needed in your DAGs. Before wiring up failure notifications, you can verify the setup end to end with a DAG that just sends an email:
+
+```python
+from pendulum import datetime
+
+try:
+    # Airflow 3
+    from airflow.sdk import dag
+except ImportError:
+    # Airflow 2
+    from airflow.decorators import dag
+
+try:
+    # Airflow 3
+    from airflow.providers.smtp.operators.smtp import EmailOperator
+except ImportError:
+    # Airflow 2
+    from airflow.operators.email import EmailOperator
+
+
+@dag(
+    default_args={
+        "start_date": datetime(2024, 1, 1),
+        "owner": "Noel Gomez",  # Replace with your name
+    },
+    description="Send a test email through the SMTP integration",
+    schedule=None,
+    tags=["sample"],
+    catchup=False,
+)
+def smtp_test():
+
+    EmailOperator(
+        task_id="send_test_email",
+        to="gomezn@example.com",  # Replace with the recipient
+        subject="SMTP test from Airflow",
+        html_content="<b>It works!</b> Sent through the smtp_default connection.",
+    )
+
+
+dag = smtp_test()
+```
+
+Trigger it manually from the Airflow UI; the recipient should get the test email within a few seconds.
+
 ## Implement in a DAG
 
 If you have already created a DAG it's time to modify your DAG to make use of our newly set up SMTP integration on Airflow. 

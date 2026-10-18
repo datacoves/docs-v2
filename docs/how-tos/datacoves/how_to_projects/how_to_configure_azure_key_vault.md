@@ -1,12 +1,16 @@
 ---
-title: "Add Azure Key Vault as a Datacoves Backend"
+title: "Use Azure Key Vault as the Airflow Secrets Backend"
 sidebar_label: "Configure Azure Key Vault"
-description: "Connect Azure Key Vault to Datacoves as a project-level secrets backend so Airflow reads variables and connections directly from your vault, using Managed Identity or a service principal."
+description: "Select Azure Key Vault as the Airflow secrets backend in Datacoves, using Managed Identity or a service principal to read secrets."
 sidebar_position: 52
 ---
 # Configuring Azure Key Vault
 
-Datacoves can chain Azure Key Vault behind the Datacoves Secrets Backend so that Airflow fetches variables and connections directly from your vault at runtime. Secret values never pass through or get stored in Datacoves; Airflow talks to Azure Key Vault directly from within your environment.
+Datacoves can use Azure Key Vault as the Airflow secrets backend so that Airflow fetches variables and connections directly from your vault at runtime. Secret values never pass through or get stored in Datacoves; Airflow talks to Azure Key Vault directly from within your environment.
+
+:::note
+Selecting an external backend replaces the Datacoves Secrets Manager for Airflow: secrets created in the Datacoves Secrets admin are no longer served to Airflow, and if no project in your account uses the Datacoves Secrets Manager, the `Secrets` item is hidden from the admin menu.
+:::
 
 ## Table of Contents
 - [Prereqs](#prereqs)
@@ -80,8 +84,8 @@ Airflow maps variables and connections to Key Vault secret names using a prefix:
 
 ### Things to note:
 
-1. Variable keys and connection ids must start with `datacoves-`. The Datacoves Secrets Backend only forwards lookups with that prefix to the additional backend; anything else is resolved from Airflow's own variables and connections. For example, to use `Variable.get("datacoves-my-secret")` in a DAG, create a Key Vault secret named `airflow-variables-datacoves-my-secret`.
-2. Azure Key Vault secret names only allow letters, numbers and dashes. Underscores in a variable key or connection id are automatically translated to dashes when building the secret name, so `Variable.get("datacoves-my_secret")` also reads the secret `airflow-variables-datacoves-my-secret`.
+1. Any variable key or connection id is looked up in Key Vault first, and falls back to Airflow's own variables and connections when not found; no special prefix is required. For example, to use `Variable.get("my-secret")` in a DAG, create a Key Vault secret named `airflow-variables-my-secret`.
+2. Azure Key Vault secret names only allow letters, numbers and dashes. Underscores in a variable key or connection id are automatically translated to dashes when building the secret name, so `Variable.get("my_secret")` also reads the secret `airflow-variables-my-secret`.
 3. Store the value as plain text. For connections, store either an Airflow connection URI (for example `snowflake://user:password@account/`) or a JSON object with the connection fields.
 
 ## Configure your Secrets Backend
@@ -94,7 +98,7 @@ This configuration applies to all environments under the project unless overridd
 
 **Step 1:** Navigate to the Projects Admin page and click on the edit icon for the desired project.
 
-**Step 2:** Scroll down to the `Secrets` section and select `Azure Key Vault` from the `Additional Secrets Backend` dropdown.
+**Step 2:** Scroll down to the `Airflow Secrets Backend` section and select `Azure Key Vault` from the `Secrets Backend` dropdown (the default selection, `Datacoves Secrets Manager`, is the built-in backend).
 
 **Step 3:** Paste the JSON configuration for the authentication method you chose above.
 
@@ -103,7 +107,7 @@ See the [Azure Key Vault secrets backend documentation](https://airflow.apache.o
 :::
 
 :::tip
-For security purposes, once this has been saved you will not be able to view the values. To modify the Secrets backend you will need to set the Secrets backend to `None` and save the changes. Then start the setup again.
+For security purposes, once this has been saved you will not be able to view the values. To modify the configuration, switch the Secrets Backend back to `Datacoves Secrets Manager`, save the changes, and then start the setup again.
 :::
 
 ### Environment-level configuration
@@ -114,7 +118,7 @@ Azure Key Vault can also be configured directly at the environment level, indepe
 
 **Step 2:** Go to **Services Configuration**, then select **Airflow settings**.
 
-**Step 3:** Scroll down to the **Additional Secrets Backend** section. Select `Azure Key Vault` to configure it for this environment. If a project-level configuration exists and you want this environment to use it, leave the field set to `Use Project Settings`.
+**Step 3:** Scroll down to the **Airflow Secrets Backend** section. Select `Azure Key Vault` to configure it for this environment. Leave the field set to `Use Project Settings` to inherit the project-level selection, or pick `Datacoves Secrets Manager` to force the built-in backend on this environment regardless of the project setting.
 
 :::note
 The configuration fields available at the environment level are the same as those at the project level. Any values entered here will take precedence over the project settings for this environment only.

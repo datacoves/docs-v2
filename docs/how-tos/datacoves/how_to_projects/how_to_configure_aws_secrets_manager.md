@@ -1,10 +1,16 @@
 ---
-title: "Add AWS Secrets Manager as a Datacoves Backend"
+title: "Use AWS Secrets Manager as the Airflow Secrets Backend"
 sidebar_label: "Configure AWS Secrets Manager"
-description: "Connect AWS Secrets Manager to Datacoves as a project-level secrets backend to securely inject credentials into Airflow and VS Code environments."
+description: "Select AWS Secrets Manager as the Airflow secrets backend in Datacoves, using access keys or an IAM role, so Airflow reads variables from AWS."
 sidebar_position: 50
 ---
 # Configuring AWS Secrets Manager
+
+Datacoves can use AWS Secrets Manager as the Airflow secrets backend so that Airflow fetches variables and connections directly from AWS at runtime. Secret values never pass through or get stored in Datacoves.
+
+:::note
+Selecting an external backend replaces the Datacoves Secrets Manager for Airflow: secrets created in the Datacoves Secrets admin are no longer served to Airflow, and if no project in your account uses the Datacoves Secrets Manager, the `Secrets` item is hidden from the admin menu.
+:::
 
 ## Table of Contents
 - [Prereqs](#prereqs)
@@ -82,7 +88,7 @@ This configuration applies to all environments under the project unless overridd
 
 ![Project](../assets/menu_projects.gif)
 
-**Step 2:** Scroll down to the `Secrets` section and select `AWS Secrets Manager` from the `Additional Secrets Backend` dropdown.
+**Step 2:** Scroll down to the `Airflow Secrets Backend` section and select `AWS Secrets Manager` from the `Secrets Backend` dropdown (the default selection, `Datacoves Secrets Manager`, is the built-in backend).
 
 ![Project Secrets Backend](../assets/edit_project_secrets_backend.jpg)
 
@@ -104,7 +110,7 @@ This configuration applies to all environments under the project unless overridd
 To learn how to read a variable from the AWS Secrets Manager check out our [How To](/docs/category/how-tos)
 
 :::tip
-For security purposes, once this has been saved you will not be able to view the values. To modify the Secrets backend you will need to set the Secrets backend to `None` and save the changes. Then start the setup again.
+For security purposes, once this has been saved you will not be able to view the values. To modify the configuration, switch the Secrets Backend back to `Datacoves Secrets Manager`, save the changes, and then start the setup again.
 :::
 
 ### Environment-level configuration
@@ -115,7 +121,7 @@ AWS Secrets Manager can also be configured directly at the environment level, in
  
 **Step 2:** Go to **Services Configuration**, then select **Airflow settings**.
  
-**Step 3:** Scroll down to the **Additional Secrets Backend** section. Select `AWS Secrets Manager` to configure it for this environment. If a project-level configuration exists and you want this environment to use it, leave the field set to `Use Project Settings`.
+**Step 3:** Scroll down to the **Airflow Secrets Backend** section. Select `AWS Secrets Manager` to configure it for this environment. Leave the field set to `Use Project Settings` to inherit the project-level selection, or pick `Datacoves Secrets Manager` to force the built-in backend on this environment regardless of the project setting.
  
 ![Environment Secrets Backend Override](../assets/edit_environment_secrets_backend.png) 
  
@@ -156,7 +162,7 @@ IRSA requires the Datacoves platform team to enable workload identity for your e
 
 The Datacoves team can provide your cluster's OIDC issuer and confirm the environment slug.
 
-**Step 2:** Once the Datacoves team confirms workload identity is enabled with your role, configure the `Additional Secrets Backend` exactly as described above but **omit** `aws_access_key_id` and `aws_secret_access_key`:
+**Step 2:** Once the Datacoves team confirms workload identity is enabled with your role, configure the `Airflow Secrets Backend` exactly as described above but **omit** `aws_access_key_id` and `aws_secret_access_key`:
 
 ```json
 {

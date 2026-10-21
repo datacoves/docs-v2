@@ -42,9 +42,11 @@ For more details, see [OpenAI's authentication docs](https://developers.openai.c
 
 The CLI is now signed in. The CLI and the extension share the same Codex login.
 
-With **OpenAI Codex** enabled, the Codex view also offers **Sign in with ChatGPT**, which asks for
-confirmation, opens the OpenAI page in a Browse Lite tab, and returns you to the workbench signed in, and
-**Use device code**.
+With **OpenAI Codex** enabled, the Codex view offers **Sign in with ChatGPT**. It asks for confirmation and
+opens the OpenAI page, and you return to the workbench once you sign in.
+
+The view also offers **Use device code**, which shows a one-time code. Enter that code on the OpenAI device
+login page.
 
 :::note
 You may need to reload your browser tab after CLI login for the VS Code extension to pick up the credentials.

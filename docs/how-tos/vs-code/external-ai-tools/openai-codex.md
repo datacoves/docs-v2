@@ -42,8 +42,8 @@ For more details, see [OpenAI's authentication docs](https://developers.openai.c
 
 The CLI is now signed in. The CLI and the extension share the same Codex login.
 
-With **OpenAI Codex** enabled, the Codex view offers **Sign in with ChatGPT**. It asks for confirmation and
-opens the OpenAI page; the Codex view is signed in when the sign-in finishes.
+With **OpenAI Codex** enabled, you can also sign in from the Codex view with **Sign in with ChatGPT**. It asks
+for confirmation, opens the OpenAI page, and signs the extension in.
 
 The view also offers **Use device code**, which shows a one-time code. Enter that code on the OpenAI device
 login page.

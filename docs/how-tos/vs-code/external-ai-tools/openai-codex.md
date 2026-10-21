@@ -12,7 +12,9 @@ sidebar_position: 1
 ## Prerequisites
 
 - A [ChatGPT](https://chatgpt.com) account
-- Codex enabled in your Datacoves environment. Contact [Datacoves support](mailto:support@datacoves.com) to enable it.
+- OpenAI Codex enabled in your Datacoves environment. An administrator enables **OpenAI Codex** under
+  **Admin > Environments > _your environment_ > AI Tools > AI Extensions**, and **OpenAI Codex CLI** under
+  **AI Tools**.
 
 ## Enable device code login
 
@@ -26,7 +28,7 @@ For more details, see [OpenAI's authentication docs](https://developers.openai.c
 
 ## Login
 
-1. Open a terminal in your Datacoves VS Code workspace
+1. Open a terminal in your Datacoves VS Code workspace, with **OpenAI Codex CLI** enabled.
 
 2. Run:
 
@@ -38,7 +40,11 @@ For more details, see [OpenAI's authentication docs](https://developers.openai.c
 
 4. Open the URL in any browser, enter the code, and sign in with your ChatGPT account
 
-Both the CLI and the VS Code extension are now authenticated.
+The CLI is now signed in. The CLI and the extension share the same Codex login.
+
+With **OpenAI Codex** enabled, the Codex view also offers **Sign in with ChatGPT**, which asks for
+confirmation, opens the OpenAI page in a Browse Lite tab, and returns you to the workbench signed in, and
+**Use device code**.
 
 :::note
 You may need to reload your browser tab after CLI login for the VS Code extension to pick up the credentials.

@@ -30,8 +30,8 @@ Each row contains 2 action buttons, Edit and Delete.
 
 ## AI Tools
 
-When editing an environment that has VS Code enabled, the **AI Tools** tab controls the AI
-assistants and the data systems they can reach. It has three sections:
+When editing an environment that has VS Code enabled and runs release 6.0 or later, the **AI
+Tools** tab controls the AI assistants and the data systems they can reach. It has three sections:
 
 - **AI Extensions** - enable or disable the built-in AI extensions, such as Datacoves Copilot and
   GitHub Copilot.

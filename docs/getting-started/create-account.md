@@ -6,7 +6,7 @@ sidebar_position: 1
 ---
 # Configure your account with Datacoves
 
-Your Datacoves account is configured during a setup call with the Datacoves team, who will guide you through the account setup wizard step by step. The wizard tests your data warehouse and git connections live, and will not let you continue until they succeed, so having the access and permissions below in place **before** the call is what keeps it short.
+Your Datacoves account is configured during a setup call with the Datacoves team. We will guide you through the account setup wizard step by step. The wizard tests your data warehouse and git connections live, and will not let you continue until they succeed, so having the access and permissions below in place **before** the call is what keeps it short.
 
 :::caution
 A common blocker is git repository permissions. You need to be able to add a deploy key to the repository (see [Git](#git)). If you can't, make sure the person who can is available during the call.

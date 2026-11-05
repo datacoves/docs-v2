@@ -54,21 +54,21 @@ Prefixes are matched case-insensitively and longest-first, so a short prefix nev
 
 ## Required environment variables
 
-| Variable | GitHub Actions | Azure DevOps |
+| Variable | GitHub Actions (Balboa) | Azure DevOps adaptation |
 |---|---|---|
 | `SOURCE_BRANCH` | `${{ github.head_ref }}` | `$(System.PullRequest.SourceBranch)` |
 | `TARGET_BRANCH` | `${{ github.base_ref }}` | `$(System.PullRequest.TargetBranch)` |
-| Authentication | `GITHUB_TOKEN`, `GITHUB_REPOSITORY` (the up-to-date check uses the GitHub Compare API) | None (the up-to-date check uses `git rev-list` against `origin/main`, so the checkout needs `fetchDepth: 0`) |
+| Authentication | `GITHUB_TOKEN`, `GITHUB_REPOSITORY` (the up-to-date check uses the GitHub Compare API) | None: the up-to-date check uses `git rev-list` against `origin/main`, so the checkout needs `fetchDepth: 0` |
 
-The `refs/heads/` prefix that Azure DevOps adds to branch names is stripped by the script.
+In Azure DevOps, branch names come with a `refs/heads/` prefix, which the script must strip.
 
 :::caution
-For PR builds, Azure DevOps checks out a merge of the source branch into the target branch, not the source branch itself. If `git rev-list` counts from `HEAD`, it measures that merge commit, which already contains the target branch. For PRs into `main`, the check then always passes, and for PRs into a release branch it passes whenever the release branch is up to date. To check the source branch itself, count from the source commit instead: pass `$(System.PullRequest.SourceCommitId)` to the script and run `git rev-list --count <source commit>..origin/main`.
+For PR builds, Azure DevOps checks out a merge of the source branch into the target branch, not the source branch itself. If `git rev-list` counts from `HEAD`, it measures that merge commit, which already contains the target branch. For PRs into `main`, the check then always passes, and for PRs into a release branch it passes whenever the release branch is up to date. Count from the source commit instead: pass `$(System.PullRequest.SourceCommitId)` to the script and run `git rev-list --count <source commit>..origin/main`.
 :::
 
-## Variant: enforce a branch name format
+## Optional extension: enforce a branch name format
 
-The Azure DevOps implementation goes one step further and validates the **full branch name**, not just the prefix. Each prefix has a regular expression, a human-readable format and an example that is shown in the error message. For example:
+Balboa only checks prefixes. Some teams also want every branch name to carry a ticket, a date and an owner. To do that, validate the **full branch name** with one regular expression per prefix, plus a human-readable format and an example that the error message shows. For example, with short prefixes:
 
 ```python
 BRANCH_PATTERNS = {
@@ -88,4 +88,4 @@ BRANCH_PATTERNS = {
 }
 ```
 
-The format is checked on both the source and the target branch, and the `yyyymmdd` part must be a valid date. Use it when you want branch names to carry a ticket, date and owner. That implementation also uses shorter prefixes (`fb`, `rb`, `hf`, `infra`), which shows that the prefixes are fully configurable. See [Change branch prefixes](./customize.md#change-branch-prefixes).
+Check the format on both the source and the target branch, and also check that the `yyyymmdd` part is a valid date. To switch to short prefixes like these, see [Change branch prefixes](./customize.md#change-branch-prefixes).

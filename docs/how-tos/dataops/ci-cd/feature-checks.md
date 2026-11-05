@@ -8,7 +8,7 @@ sidebar_position: 2
 
 Stage 10 runs when a developer opens or updates a pull request (PR) from a feature branch into a release branch. It builds the change in an isolated database, enforces governance rules and validates Airflow DAGs, so reviewers only look at code that already works.
 
-In the GitHub Actions reference there are two workflows with the same number, one per area of the repository:
+In Balboa there are two workflows with the same number, one per area of the repository:
 
 | Workflow | Runs when the PR changes | What it checks |
 |---|---|---|
@@ -77,9 +77,29 @@ The `airflow` job runs in the `datacoves/ci-airflow-dbt-snowflake` image, with `
 
 See [Test Airflow DAGs in your CI/CD pipeline](/docs/how-tos/airflow/dags/test-dags) for how to write the custom tests.
 
-## In Azure DevOps
+## Optional extensions
 
-The Azure DevOps implementation (`.azure-pipelines/10_feature_dbt_checks.yml`) follows the same steps, with these differences:
+These extensions are not part of Balboa. They come from teams that needed them, and they work on any CI/CD tool.
+
+### Commit markers instead of labels
+
+Instead of the `full-refresh` PR label, developers write markers in their commit messages:
+
+| Marker | Effect |
+|---|---|
+| `[full-refresh]` | Full-refresh build of the whole project |
+| `[full-refresh: model_a, model_b]` | Full refresh of only the listed models. Skip the models that do not exist in production yet, because they are built from scratch anyway |
+| `[fresh-db]` | Drops and recreates the PR database before building. Read it only from the commits pushed since the previous run, so it fires once instead of on every push |
+
+The pipeline needs a script that parses the markers from the PR's commits and sets them as step outputs, so the `--full-refresh` steps can be gated on them. Also copy the markers into the PR description: that way they survive a squash merge and reach the [release checks](./release-checks.md#optional-extensions) and the [deployment](./deploy-to-production.md#optional-extensions).
+
+### `@state:modified` selector
+
+Select `@state:modified` instead of `state:modified+`. The `@` operator builds the changed models, their descendants, **and every parent of those descendants**. Relationship tests then compare tables that were built in the same run, instead of comparing a freshly built child against an older production parent. The cost is a larger build.
+
+## Adapting to Azure DevOps
+
+When this stage was adapted to Azure DevOps, the steps stayed the same and these platform pieces changed:
 
 | Topic | Azure DevOps |
 |---|---|
@@ -89,21 +109,6 @@ The Azure DevOps implementation (`.azure-pipelines/10_feature_dbt_checks.yml`) f
 | Database name | Set from `$(System.PullRequest.PullRequestId)` |
 | Outputs | `manifest_found` and `catalog_found` are set with `##vso[task.setvariable]` and used in step `condition:` expressions |
 | Drop on failure | The drop step uses `condition: failed()`, so the PR database is dropped when any previous step fails |
-| Airflow checks | Not included in that implementation. Add a second job using the Airflow CI image if you need them |
+| Airflow checks | The same job, in its own pipeline or as a second job, using the Airflow CI image and a path check for `orchestrate/` |
 | PR feedback | Results are shown as the PR's build validation status instead of PR comments |
 
-### Variant: commit markers instead of labels
-
-Instead of the `full-refresh` PR label, the Azure DevOps implementation reads markers from the PR's commit messages:
-
-| Marker | Effect |
-|---|---|
-| `[full-refresh]` | Full-refresh build of the whole project |
-| `[full-refresh: model_a, model_b]` | Full refresh of only the listed models. Models that do not exist in production yet are ignored, because they are built from scratch anyway (`automate/dbt/filter_full_refresh_models.py`) |
-| `[fresh-db]` | Drops and recreates the PR database before building. It is only read from commits pushed since the previous run, so it fires once instead of on every push |
-
-`automate/git/parse_commit_markers.py` parses the markers, and `automate/git/update_pr_full_refresh.py` copies them into the PR description. That way the markers survive a squash merge and reach the [release checks](./release-checks.md) and the [deployment](./deploy-to-production.md).
-
-### Variant: `@state:modified` selector
-
-The Azure DevOps implementation selects `@state:modified` instead of `state:modified+`. The `@` operator builds the changed models, their descendants, **and every parent of those descendants**. Relationship tests then compare tables that were built in the same run, instead of comparing a freshly built child against an older production parent, at the cost of a larger build.

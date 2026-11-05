@@ -1,12 +1,14 @@
 ---
 title: "CI/CD Pipelines for dbt and Airflow in Datacoves"
 sidebar_label: "CI/CD Pipelines"
-description: "How the Datacoves reference CI/CD pipelines work: numbered stages 10, 15, 20 and 30, branching model, database lifecycle, and setup for GitHub Actions and Azure DevOps."
+description: "How the Datacoves reference CI/CD pipelines work: numbered stages 10, 15, 20 and 30, branching model, database lifecycle, and how they adapt to other CI/CD tools such as Azure DevOps."
 sidebar_position: 65
 ---
 # CI/CD pipelines
 
-Datacoves provides a reference CI/CD implementation that validates every change before it reaches production and then deploys it with zero downtime. The reference implementation uses **GitHub Actions** and lives in the `.github/workflows` folder of the [Balboa demo repository](https://github.com/datacoves/balboa). The same logic has been adapted to **Azure DevOps Pipelines**: the stages and the decisions they make are the same, they use equivalent scripts and dbt macros, and the platform-specific pieces (triggers, variables, API calls) change. Some features exist in only one of the two implementations; they are marked as variants on each page.
+Datacoves provides a reference CI/CD implementation that validates every change before it reaches production and then deploys it with zero downtime. The reference uses **GitHub Actions** and lives in the `.github/workflows` folder of the [Balboa demo repository](https://github.com/datacoves/balboa). All the examples in this section come from Balboa.
+
+The pipelines are not tied to GitHub. The stages, the databases they use and the decisions they make are plain dbt commands, dbt macros and Python scripts, so the same design runs on the CI/CD tool your team already uses. For example, Datacoves has adapted these pipelines to **Azure DevOps** for a customer that uses Azure Repos. The logic stayed the same, and only the platform pieces changed: triggers, variables, API calls and PR feedback. Each stage page ends with an *Adapting to Azure DevOps* section that lists those changes, and the same approach applies to other tools.
 
 This section explains what each stage does, step by step, and how to adapt it to your team.
 
@@ -14,12 +16,14 @@ This section explains what each stage does, step by step, and how to adapt it to
 
 Pipeline files are prefixed with a number that tells you where in the delivery lifecycle they run. Gaps between numbers are intentional, so you can add your own stages without renaming existing files.
 
-| Stage | GitHub Actions file | Azure DevOps file | Runs when | Purpose |
-|---|---|---|---|---|
-| **10** | `10_feature_dbt_checks.yml`, `10_feature_airflow_checks.yml` | `10_feature_dbt_checks.yml` | A pull request (PR) from a feature branch targets a release branch | Build and test the change in an isolated PR database, run governance checks, validate Airflow DAGs |
-| **15** | `15_drop_feature_db.yml` | `15_cleanup_pr_database.yml` | A PR into a release branch is closed | Drop the PR database when the PR was abandoned |
-| **20** | `20_release_dbt_checks.yml` | `20_release_dbt_checks.yml` | A PR targets `main` (release, hotfix or infra branch) | Build the release in a QA database cloned from production |
-| **30** | `30_deploy_changes_to_production.yml` | `30_deploy_to_production.yml` | A commit lands on `main` | Blue/green deploy to production, clean up, publish docs and artifacts, tag the version |
+| Stage | Balboa workflow | Runs when | Purpose |
+|---|---|---|---|
+| **10** | `10_feature_dbt_checks.yml`, `10_feature_airflow_checks.yml` | A pull request (PR) from a feature branch targets a release branch | Build and test the change in an isolated PR database, run governance checks, validate Airflow DAGs |
+| **15** | `15_drop_feature_db.yml` | A PR into a release branch is closed | Drop the PR database when the PR was abandoned |
+| **20** | `20_release_dbt_checks.yml` | A PR targets `main` (release, hotfix or infra branch) | Build the release in a QA database cloned from production |
+| **30** | `30_deploy_changes_to_production.yml` | A commit lands on `main` | Blue/green deploy to production, clean up, publish docs and artifacts, tag the version |
+
+When you adapt the pipelines to another tool, keep the same numbers in the file names, so every team reads the folder the same way.
 
 Each stage has its own page:
 
@@ -43,7 +47,7 @@ The pipelines enforce the release-based branching strategy described in [Git bes
 | `hotfix/*` | `main` | 20 |
 | `infra/*` | `main` | 20 |
 
-In the GitHub Actions reference, stages 10 and 20 only run when the PR changes the folders in their `paths` filter (`transform/` for dbt, `orchestrate/` for Airflow). A PR that changes nothing in those folders, such as an infra PR that only edits a workflow, runs no checks.
+In Balboa, stages 10 and 20 only run when the PR changes the folders in their `paths` filter (`transform/` for dbt, `orchestrate/` for Airflow). A PR that changes nothing in those folders, such as an infra PR that only edits a workflow, runs no checks.
 
 The prefixes are defined in `automate/git/branch_validator.py`. See [Customize the pipelines](./customize.md#change-branch-prefixes) to change them.
 
@@ -77,7 +81,7 @@ All stages connect to Snowflake through `automate/dbt/profiles.yml`, which reads
 | `DATACOVES__DROP_DB_ON_FAIL` | Variable | When `true`, stage 10 drops the PR database if grants cannot be applied |
 
 - **GitHub Actions:** add them under **Settings › Secrets and variables › Actions**, as repository variables and secrets. The workflows read them with `${{ vars.NAME }}` and `${{ secrets.NAME }}`.
-- **Azure DevOps:** create a **Variable Group** (for example `ci-snowflake`) with the same names, mark the private key as secret, and reference the group from each pipeline. Secret variables are not exposed to scripts automatically, so every step that runs dbt passes the key explicitly with `env: DATACOVES__MAIN__PRIVATE_KEY: $(DATACOVES__MAIN__PRIVATE_KEY)`.
+- **Azure DevOps adaptation:** create a **Variable Group** (for example `ci-snowflake`) with the same names, mark the private key as secret, and reference the group from each pipeline. Secret variables are not exposed to scripts automatically, so every step that runs dbt passes the key explicitly with `env: DATACOVES__MAIN__PRIVATE_KEY: $(DATACOVES__MAIN__PRIVATE_KEY)`.
 
 The production manifest used for Slim CI is read from, and written to, a Snowflake internal stage by the `get_last_artifacts` and `upload_artifacts` macros (default `RAW.DBT_ARTIFACTS.ARTIFACTS`).
 
@@ -92,9 +96,11 @@ Jobs run inside Datacoves CI images, so the tools match what developers use in t
 
 Pin the image tag to the Datacoves release your environment uses. See [Datacoves versioning](/docs/reference/datacoves/versioning) for the available tag formats.
 
-## GitHub Actions and Azure DevOps at a glance
+## Adapting the pipelines to other CI/CD tools
 
-| Concept | GitHub Actions | Azure DevOps |
+To run the pipelines on another tool, keep the stages, scripts and dbt macros, and replace only the platform pieces. This is how each piece maps between the GitHub Actions reference and the Azure DevOps adaptation:
+
+| Concept | GitHub Actions (Balboa) | Azure DevOps adaptation |
 |---|---|---|
 | Pipeline location | `.github/workflows/` | `.azure-pipelines/` |
 | PR triggers (stages 10 and 20) | `on: pull_request` with `branches` and `paths` filters | `pr: none` in YAML; triggered by **Branch Policies › Build Validation** on the target branch. Path filtering is done in a script step |
@@ -104,6 +110,8 @@ Pin the image tag to the Datacoves release your environment uses. See [Datacoves
 | Passing values between steps | `$GITHUB_OUTPUT` / `$GITHUB_ENV` | `##vso[task.setvariable ...]` logging commands |
 | API access | `GITHUB_TOKEN` and the GitHub REST API | `System.AccessToken` and the Azure DevOps REST API |
 | PR feedback | Comments on the PR | PR status checks and the PR description |
+
+Teams also ask for rules that Balboa does not include, such as full-refresh markers in commit messages or a required branch name format. These are listed on each page as **optional extensions**, and they work on any platform.
 
 ## Related guides
 

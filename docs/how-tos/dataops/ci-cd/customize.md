@@ -10,7 +10,7 @@ The pipelines are plain YAML files and scripts in your repository, so every rule
 
 | Folder | Contents |
 |---|---|
-| `.github/workflows/` or `.azure-pipelines/` | Pipeline definitions, one file per stage |
+| `.github/workflows/` | Pipeline definitions, one file per stage. On another tool, its own pipeline folder, such as `.azure-pipelines/` |
 | `automate/git/` | Scripts that talk to git and the Git provider API: branch validation, PR database cleanup |
 | `automate/dbt/` | Scripts that run around dbt: artifacts, versioning, orphaned schemas, `profiles.yml` |
 | `transform/macros/tooling/` | dbt macros used by the pipelines: database creation, clone, swap, grants, artifacts |
@@ -34,7 +34,7 @@ To use different prefixes, for example `fb/`, `rb/` and `hf/` instead of `featur
 
 2. **Pipeline triggers** for the release branch:
    - GitHub Actions: the `branches:` filter of stages 10 and 15, for example `- 'rb/**/*'` instead of `- 'release/**/*'`.
-   - Azure DevOps: the **Branch Policies › Build Validation** of the release branches, which must point at the stage 10 pipeline, and the `startsWith(variables['System.PullRequest.SourceBranch'], 'refs/heads/...')` conditions in stage 20 (which branches build, and the infra `transform/` block).
+   - Azure DevOps adaptation: the **Branch Policies › Build Validation** of the release branches, which must point at the stage 10 pipeline, and the `startsWith(variables['System.PullRequest.SourceBranch'], 'refs/heads/...')` conditions in stage 20 (which branches build, and the infra `transform/` block).
 
 3. **PR database cleanup scripts** used by [stage 30](./deploy-to-production.md#pr-database-cleanup):
    - `automate/git/get_feature_pr_ids.py`: the `release/` check of the deployed branch and the `feature/` filter of the PRs merged into it.
@@ -48,7 +48,7 @@ Prefix matching in `branch_validator.py` does not include the `/`, so a branch n
 
 ## Enforce a branch name format
 
-To require more than a prefix, for example a ticket number, a date and the developer's initials, replace the prefix rules with one regular expression per prefix, as described in [Branch validation](./branch-validation.md#variant-enforce-a-branch-name-format). Include a readable format and an example for each prefix, so the error message tells developers exactly how to rename their branch.
+To require more than a prefix, for example a ticket number, a date and the developer's initials, replace the prefix rules with one regular expression per prefix, as described in [Branch validation](./branch-validation.md#optional-extension-enforce-a-branch-name-format). Include a readable format and an example for each prefix, so the error message tells developers exactly how to rename their branch.
 
 ## Change which merges are allowed
 
@@ -71,16 +71,16 @@ env:
   PR_HARD_MAX_AGE_DAYS: "45"  # drop past this age, even if in use
 ```
 
-See [stage 30](./deploy-to-production.md#2-sweep) for the full decision rules. If QA does not need the feature PR databases during the release, you can drop them as soon as the PR is closed, merged or not, by removing the `merged == false` condition from [stage 15](./drop-pr-database.md#in-github-actions).
+See [stage 30](./deploy-to-production.md#2-sweep) for the full decision rules. If QA does not need the feature PR databases during the release, you can drop them as soon as the PR is closed, merged or not, by removing the `merged == false` condition from [stage 15](./drop-pr-database.md#in-balboa-github-actions).
 
 ## Change the trigger paths
 
 Each pipeline only runs when certain folders change. If your repository uses a different layout, update the filters:
 
-| Stage | GitHub Actions | Azure DevOps |
+| Stage | GitHub Actions (Balboa) | Azure DevOps adaptation |
 |---|---|---|
 | 10 dbt | `paths: - transform/**/*` | The `git diff` path list of the `check_changes` step |
-| 10 Airflow | `paths: - orchestrate/**/*` | Not included by default |
+| 10 Airflow | `paths: - orchestrate/**/*` | A `git diff` check for `orchestrate/` |
 | 20 | `paths: - transform/**/*` | Path filter of the Build Validation policy, if any |
 | 30 | `paths:` under `on: push` | `trigger: paths: include:` |
 
@@ -98,7 +98,7 @@ All dbt jobs use `datacoves/ci-basic-dbt-snowflake`, and the Airflow job uses `d
 
 ## Use commit markers for full refresh
 
-The GitHub Actions reference uses the `full-refresh` PR label. If you prefer to control full refreshes from commit messages, or need to refresh only some models, port the [commit marker variant](./feature-checks.md#variant-commit-markers-instead-of-labels): add `parse_commit_markers.py`, `filter_full_refresh_models.py` and a script that copies the markers into the PR description, then gate the `--full-refresh` steps on their outputs.
+Balboa uses the `full-refresh` PR label. If you prefer to control full refreshes from commit messages, or need to refresh only some models, add the [commit markers extension](./feature-checks.md#commit-markers-instead-of-labels). You need a script that parses the markers and sets them as step outputs, and a step that copies them into the PR description. Then gate the `--full-refresh` steps in stages 10, 20 and 30 on those outputs.
 
 ## Add a new stage
 

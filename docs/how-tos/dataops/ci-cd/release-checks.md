@@ -8,7 +8,7 @@ sidebar_position: 4
 
 Stage 20 runs on every pull request (PR) that targets `main`: release branches, and also hotfix and infra branches, which skip the release branch. It builds all the changes in the release together, against a copy of production, so the release is validated as a whole before it is deployed.
 
-In the GitHub Actions reference, `20_release_dbt_checks.yml` triggers on `pull_request` into `main` for changes in `transform/**`, on the event types `opened`, `synchronize`, `labeled` and `unlabeled`. It can also be run manually. A PR into `main` that changes nothing under `transform/`, such as an infra PR that only edits a workflow, does not trigger it, so that PR gets no branch validation either.
+In Balboa, `20_release_dbt_checks.yml` triggers on `pull_request` into `main` for changes in `transform/**`, on the event types `opened`, `synchronize`, `labeled` and `unlabeled`. It can also be run manually. A PR into `main` that changes nothing under `transform/`, such as an infra PR that only edits a workflow, does not trigger it, so that PR gets no branch validation either.
 
 ## Jobs
 
@@ -53,22 +53,16 @@ There is a single `_QA` database for every PR into `main`. If a release PR and a
 | 7 | Swap and drop | `swap_database` swaps `_QA_TEMP` with `_QA` (creating `_QA` the first time), then drops the old database, now named `_QA_TEMP` | QA not created today |
 | 8 | Grant access | `grant_db_usage` restores the grants on `<DATABASE>_QA` so QA users can query it | QA not created today |
 
-## In Azure DevOps
+## Optional extensions
 
-The Azure DevOps implementation (`.azure-pipelines/20_release_dbt_checks.yml`) runs the same QA database logic, with these differences:
+These extensions are not part of Balboa. They work on any CI/CD tool.
 
-| Topic | Azure DevOps |
-|---|---|
-| Trigger | `pr: none`; attached to `main` through **Branch Policies › Build Validation** |
-| Database names | The production, QA and QA temp database names are defined as pipeline variables, so they do not need to follow the `_QA` / `_QA_TEMP` suffix convention |
-| Which branches build | The dbt job only runs for release and hotfix branches. Infra branch PRs pass after branch validation |
-| Full refresh | Uses [commit markers](./feature-checks.md#variant-commit-markers-instead-of-labels) instead of a PR label, including targeted refresh of specific models |
-| Selector | `@state:modified` instead of `state:modified+` |
-| "Created today" tracking | After the swap, a `set_database_cloned_today` macro records that QA was refreshed today |
+- **Commit markers.** If stage 10 uses [commit markers](./feature-checks.md#commit-markers-instead-of-labels) instead of the `full-refresh` label, stage 20 parses them from the commits of the release PR and applies the same full or targeted refresh to the QA build.
+- **`@state:modified` selector.** See [stage 10](./feature-checks.md#statemodified-selector).
 
-### Variant: block dbt changes from infra branches
+### Block dbt changes from infra branches
 
-Infra branches go straight to `main` and are meant for pipeline and tooling changes. To guarantee that no dbt model change skips the release process, the Azure DevOps implementation adds a step to the validation job that fails the PR when an infra branch changes anything under `transform/`:
+Infra branches go straight to `main` and are meant for pipeline and tooling changes. To make sure that no dbt model change skips the release process, add a step to the validation job that fails the PR when an infra branch changes anything under `transform/`:
 
 ```bash
 CHANGED=$(git diff --name-only origin/$TARGET_BRANCH HEAD -- transform/ ':(exclude)transform/macros/tooling/')
@@ -79,3 +73,16 @@ fi
 ```
 
 The check excludes `transform/macros/tooling/`, which holds the dbt macros that the pipelines themselves use, such as database creation, clone, swap and PR database cleanup. That way an infra PR can change a pipeline and the macro it calls together. Every other change under `transform/`, such as models, other macros or `dbt_project.yml`, still has to go through a feature branch and a release. If you exclude other folders, keep them limited to code that only the pipelines run.
+
+In GitHub Actions, run this step only when `github.head_ref` starts with `infra/`. Because stage 20 only triggers on changes under `transform/`, it runs on exactly the infra PRs this step has to check.
+
+## Adapting to Azure DevOps
+
+When this stage was adapted to Azure DevOps, the QA database logic stayed the same and these pieces changed:
+
+| Topic | Azure DevOps |
+|---|---|
+| Trigger | `pr: none`; attached to `main` through **Branch Policies › Build Validation**. With no path filter, the pipeline runs on every PR into `main` |
+| Database names | The production, QA and QA temp database names are pipeline variables, so they do not need to follow the `_QA` / `_QA_TEMP` suffix convention |
+| Which branches build | The dbt job only runs for release and hotfix branches. Infra branch PRs pass after branch validation and the infra check above |
+| "Created today" tracking | After the swap, a macro records that QA was refreshed today |

@@ -8,7 +8,7 @@ sidebar_position: 5
 
 Stage 30 runs when changes land on `main`, after a release, hotfix or infra pull request (PR) is merged. It deploys the dbt project to production with a blue/green deployment, so users never see a half-built database, and then cleans up and publishes everything the next runs need.
 
-In the GitHub Actions reference, `30_deploy_changes_to_production.yml` triggers on `push` to `main` when files change in `.github/workflows/**`, `automate/**` or `transform/**`. It can also be run manually.
+In Balboa, `30_deploy_changes_to_production.yml` triggers on `push` to `main` when files change in `.github/workflows/**`, `automate/**` or `transform/**`. It can also be run manually.
 
 ## Steps
 
@@ -114,16 +114,21 @@ Rule 1 is evaluated first because a release PR can be abandoned and reopened. Ru
 
 The settings are environment variables of the sweep step. An invalid value aborts the sweep without dropping anything.
 
-## In Azure DevOps
+## Optional extensions
 
-The Azure DevOps implementation (`.azure-pipelines/30_deploy_to_production.yml`) runs the same deployment, with these differences:
+These extensions are not part of Balboa. They work on any CI/CD tool.
+
+- **Commit markers.** If you use [commit markers](./feature-checks.md#commit-markers-instead-of-labels), stage 30 reads them from every commit since the last deployment tag. It refreshes the targeted models before the blue/green run and excludes them from it.
+- **`@state:modified` selector.** Pass it to the blue/green build with `dbt-coves blue-green --dbt-selector="--defer --state logs -s @state:modified"`. See [stage 10](./feature-checks.md#statemodified-selector).
+
+## Adapting to Azure DevOps
+
+When this stage was adapted to Azure DevOps, the deployment stayed the same and these pieces changed:
 
 | Topic | Azure DevOps |
 |---|---|
 | Trigger | `trigger: branches: include: [main]` with `paths` filters, and `pr: none` |
 | Permissions | The project's build service identity needs **Contribute** permission on the repository to push the version commit, the tag and the `dbt-docs` branch, and read access to pull requests for the cleanup |
 | Docs | Published by a script that commits `target/` to the `dbt-docs` branch, and also as a pipeline artifact (`PublishPipelineArtifact`) |
-| Full refresh | [Commit markers](./feature-checks.md#variant-commit-markers-instead-of-labels) are read from every commit since the last deployment tag. Targeted models are refreshed before the blue/green run and excluded from it |
-| Blue/green selector | `dbt-coves blue-green --staging-database <name> --dbt-selector="--defer --state logs -s @state:modified"`, so every parent of a rebuilt model is rebuilt in the same run |
 | Failed deployment | A step with `condition: failed()` drops the staging database |
-| PR database cleanup | Equivalent scripts with the same rules, using the Azure DevOps REST API with `System.AccessToken`. Each cleanup step uses `continueOnError: true`, so a cleanup failure shows the run as *Partially succeeded* instead of failing it. Azure DevOps uses its own PR status names (active, completed, abandoned) for the same states |
+| PR database cleanup | The same rules and thresholds, with the scripts using the Azure DevOps REST API with `System.AccessToken`. Each cleanup step uses `continueOnError: true`, so a cleanup failure shows the run as *Partially succeeded* instead of failing it. Azure DevOps uses its own PR status names (active, completed, abandoned) for the same states |

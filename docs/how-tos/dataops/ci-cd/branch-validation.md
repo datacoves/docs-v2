@@ -62,6 +62,10 @@ Prefixes are matched case-insensitively and longest-first, so a short prefix nev
 
 The `refs/heads/` prefix that Azure DevOps adds to branch names is stripped by the script.
 
+:::caution
+For PR builds, Azure DevOps checks out a merge of the source branch into the target branch, not the source branch itself. If `git rev-list` counts from `HEAD`, it measures that merge commit, which already contains the target branch. For PRs into `main`, the check then always passes, and for PRs into a release branch it passes whenever the release branch is up to date. To check the source branch itself, count from the source commit instead: pass `$(System.PullRequest.SourceCommitId)` to the script and run `git rev-list --count <source commit>..origin/main`.
+:::
+
 ## Variant: enforce a branch name format
 
 The Azure DevOps implementation goes one step further and validates the **full branch name**, not just the prefix. Each prefix has a regular expression, a human-readable format and an example that is shown in the error message. For example:

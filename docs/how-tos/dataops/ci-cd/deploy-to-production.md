@@ -79,7 +79,7 @@ Deployments from hotfix or infra branches are skipped here and handled by the sw
 
 The sweep catches everything the targeted cleanup misses: hotfix and infra deployments, abandoned releases, branches that do not follow the naming convention, and drops that failed on a previous run.
 
-1. The `show_pr_databases` macro lists every `<DATABASE>_PR_*` database with its creation date and the date it was last queried (from `SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY`, excluding queries by the CI user, so builds do not count as activity). The role that runs the deployment needs `IMPORTED PRIVILEGES` on the `SNOWFLAKE` database.
+1. The `show_pr_databases` macro lists every `<DATABASE>_PR_*` database with its creation date and the date it was last queried. The last query comes from `SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY` and only counts queries that ran with the PR database as the session's current database. Queries by the user that runs the deployment are excluded, so CI builds do not count as activity. The role that runs the deployment needs `IMPORTED PRIVILEGES` on the `SNOWFLAKE` database.
 2. `automate/git/sweep_stale_pr_databases.py` checks the PR behind each database and decides whether to drop it.
 3. The next step drops the selected databases.
 
@@ -126,4 +126,4 @@ The Azure DevOps implementation (`.azure-pipelines/30_deploy_to_production.yml`)
 | Full refresh | [Commit markers](./feature-checks.md#variant-commit-markers-instead-of-labels) are read from every commit since the last deployment tag. Targeted models are refreshed before the blue/green run and excluded from it |
 | Blue/green selector | `dbt-coves blue-green --staging-database <name> --dbt-selector="--defer --state logs -s @state:modified"`, so every parent of a rebuilt model is rebuilt in the same run |
 | Failed deployment | A step with `condition: failed()` drops the staging database |
-| PR database cleanup | Equivalent scripts with the same rules, using the Azure DevOps REST API with `System.AccessToken`. Each cleanup step uses `continueOnError: true`. Azure DevOps uses its own PR status names (active, completed, abandoned) for the same states |
+| PR database cleanup | Equivalent scripts with the same rules, using the Azure DevOps REST API with `System.AccessToken`. Each cleanup step uses `continueOnError: true`, so a cleanup failure shows the run as *Partially succeeded* instead of failing it. Azure DevOps uses its own PR status names (active, completed, abandoned) for the same states |

@@ -36,14 +36,14 @@ drop-pr-db-on-close:
   if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == false
 ```
 
-Manual runs (`workflow_dispatch`) always drop the database.
+Manual runs (`workflow_dispatch`) skip the `merged` check, but the workflow has no input for the PR number and builds the database name from `github.event.number`, which is empty in a manual run. To drop a specific PR database by hand, add a `pr_number` input to the workflow and use it in the database name, or run `dbt run-operation drop_recreate_db --args '{db_name: <DATABASE>_PR_<n>, recreate: False}'` from your Datacoves environment with a role that owns the database.
 
 ## In Azure DevOps
 
 Azure Repos cannot trigger a pipeline when a PR is closed, so `15_cleanup_pr_database.yml` is triggered through a webhook:
 
 1. In **Project Settings › Service connections**, create an **Incoming Webhook** service connection.
-2. In **Project Settings › Service hooks**, create a **Web Hooks** subscription for the event **Pull request updated**, pointing at the webhook URL of that service connection.
+2. In **Project Settings › Service hooks**, create a **Web Hooks** subscription for the event **Pull request updated**, pointing at the webhook URL of that service connection. Set **Resource details to send** to **All**, so the payload includes the PR ID and status.
 3. In the pipeline, declare the webhook as a resource and read the PR ID from its payload:
 
 ```yaml

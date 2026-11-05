@@ -77,3 +77,5 @@ if [ -n "$CHANGED" ]; then
   exit 1
 fi
 ```
+
+The check covers the whole `transform/` folder, including the dbt macros that the pipelines themselves use (`transform/macros/tooling/`). An infra change that adds or edits one of those macros fails this check, so ship the macro through a feature branch and a release first, or split the change into two PRs.

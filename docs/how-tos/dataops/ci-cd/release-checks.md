@@ -71,11 +71,11 @@ The Azure DevOps implementation (`.azure-pipelines/20_release_dbt_checks.yml`) r
 Infra branches go straight to `main` and are meant for pipeline and tooling changes. To guarantee that no dbt model change skips the release process, the Azure DevOps implementation adds a step to the validation job that fails the PR when an infra branch changes anything under `transform/`:
 
 ```bash
-CHANGED=$(git diff --name-only origin/$TARGET_BRANCH HEAD -- transform/)
+CHANGED=$(git diff --name-only origin/$TARGET_BRANCH HEAD -- transform/ ':(exclude)transform/macros/tooling/')
 if [ -n "$CHANGED" ]; then
-  echo "ERROR: infra branches must not modify the transform/ folder."
+  echo "ERROR: infra branches must not modify the transform/ folder (except transform/macros/tooling/)."
   exit 1
 fi
 ```
 
-The check covers the whole `transform/` folder, including the dbt macros that the pipelines themselves use (`transform/macros/tooling/`). An infra change that adds or edits one of those macros fails this check, so ship the macro through a feature branch and a release first, or split the change into two PRs.
+The check excludes `transform/macros/tooling/`, which holds the dbt macros that the pipelines themselves use, such as database creation, clone, swap and PR database cleanup. That way an infra PR can change a pipeline and the macro it calls together. Every other change under `transform/`, such as models, other macros or `dbt_project.yml`, still has to go through a feature branch and a release. If you exclude other folders, keep them limited to code that only the pipelines run.

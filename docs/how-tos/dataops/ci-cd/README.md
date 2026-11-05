@@ -34,14 +34,7 @@ Each stage has its own page:
 
 The pipelines enforce the release-based branching strategy described in [Git best practices](/docs/best-practices/git):
 
-```text
-feature/my-change ──PR──▶ release/2026-11 ──PR──▶ main ──▶ production
-      stage 10              stage 20         stage 30
-      stage 15 (on close)
-
-hotfix/urgent-fix ──PR──▶ main     (skips the release branch)
-infra/pipeline-change ──PR──▶ main (skips the release branch)
-```
+![Diagram of the CI/CD branch flow: a feature branch pull request into a release branch runs stage 10, an abandoned feature pull request runs stage 15, a release pull request into main runs stage 20, and a merge to main runs stage 30 to deploy to the production database. Hotfix and infra branches skip the release branch and open pull requests directly into main, which also run stage 20.](./assets/cicd-branch-flow.png)
 
 | Source branch | Can merge into | Pipelines that run on the PR |
 |---|---|---|
@@ -54,7 +47,9 @@ The prefixes are defined in `automate/git/branch_validator.py`. See [Customize t
 
 ## Database lifecycle
 
-Every stage works against a different Snowflake database, all derived from the base database name you configure (`DATACOVES__MAIN__DATABASE`). In the table, `<DATABASE>` is that base name.
+Every stage works against a different Snowflake database, all derived from the base database name you configure (`DATACOVES__MAIN__DATABASE`). In the diagram and the table, `<DATABASE>` is that base name.
+
+![Diagram of the database lifecycle across CI/CD stages: the PR database is created in stage 10, kept while the release is open and dropped after the stage 30 deploy, or in stage 15 if the PR is abandoned. The QA temp database is cloned and built in stage 20 and swapped into the stable QA database. The staging database is cloned and built in stage 30 and swapped with production.](./assets/cicd-database-lifecycle.png)
 
 | Database | Created by | Used for | Dropped by |
 |---|---|---|---|

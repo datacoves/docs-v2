@@ -8,7 +8,7 @@ sidebar_position: 4
 
 Stage 20 runs on every pull request (PR) that targets `main`: release branches, and also hotfix and infra branches, which skip the release branch. It builds all the changes in the release together, against a copy of production, so the release is validated as a whole before it is deployed.
 
-In the GitHub Actions reference, `20_release_dbt_checks.yml` triggers on `pull_request` into `main` for changes in `transform/**`, on the event types `opened`, `synchronize`, `labeled` and `unlabeled`. It can also be run manually.
+In the GitHub Actions reference, `20_release_dbt_checks.yml` triggers on `pull_request` into `main` for changes in `transform/**`, on the event types `opened`, `synchronize`, `labeled` and `unlabeled`. It can also be run manually. A PR into `main` that changes nothing under `transform/`, such as an infra PR that only edits a workflow, does not trigger it, so that PR gets no branch validation either.
 
 ## Jobs
 
@@ -22,7 +22,7 @@ In the GitHub Actions reference, `20_release_dbt_checks.yml` triggers on `pull_r
 
 ### Why a deploy marker in the PR title
 
-[Stage 30](./deploy-to-production.md) runs after the merge, when the PR and its labels are no longer available to the pipeline. It only sees the merge commit. Because GitHub includes the PR title in the merge commit message, writing `[deploy:full-refresh]` in the title is how the label's intent travels to the production deployment.
+[Stage 30](./deploy-to-production.md) runs after the merge, when the PR and its labels are no longer available to the pipeline. It only sees the merge commit. With GitHub's default merge settings, the PR title is part of the merge commit message (and is the whole message of a squash merge), so writing `[deploy:full-refresh]` in the title is how the label's intent travels to the production deployment. If your repository customizes the default merge or squash commit message, make sure it still includes the PR title.
 
 ## QA databases
 
@@ -35,6 +35,10 @@ The release is built in a QA database, not in production and not in the feature 
 | `<DATABASE>_QA` | Stable QA database that users query to validate the release |
 
 The first run of the day clones production into `_QA_TEMP`, builds the release there, and then swaps it into `_QA`. This keeps `_QA` usable while the build is running, and gives QA a database with fresh production data. Later runs on the same day (for example, after a fix is pushed to the release branch) build directly in `_QA`, which avoids cloning production again.
+
+:::note
+There is a single `_QA` database for every PR into `main`. If a release PR and a hotfix PR run stage 20 on the same day, both build into the same `_QA`, and it reflects the changes of both.
+:::
 
 ## dbt steps
 

@@ -19,7 +19,7 @@ Both workflows:
 
 - Trigger on `pull_request` into `release/**/*` and can also be run manually (`workflow_dispatch`).
 - Use a `concurrency` group per PR with `cancel-in-progress: true`, so a new push cancels the run that is still in progress for the same PR.
-- Start with the [branch validation](./branch-validation.md) job. If it fails, the other jobs are skipped.
+- Start with the [branch validation](./branch-validation.md) job. If it fails, the dbt or Airflow job is skipped.
 - End with a status job that posts (and updates) a comment on the PR summarizing each job's result.
 
 ## dbt checks
@@ -29,6 +29,8 @@ The `dbt` job runs in the `datacoves/ci-basic-dbt-snowflake` image, with `transf
 The key setting is the database name: the job sets `DATACOVES__MAIN__DATABASE` to `<DATABASE>_PR_<pr number>`, so every model in the PR is built in a database that belongs to that PR only.
 
 ### Steps
+
+Steps run in order and the job stops at the first failure. "Always" in the last column means the step has no extra condition.
 
 | # | Step | What it does | Runs when |
 |---|---|---|---|
@@ -43,7 +45,7 @@ The key setting is the database name: the job sets `DATACOVES__MAIN__DATABASE` t
 | 9 | Generate docs | `dbt-coves generate docs --merge-deferred --state logs` merges the production catalog with the PR catalog, or `dbt docs generate` when no production catalog exists. The catalog is needed by the governance checks | Always |
 | 10 | Run governance checks | `pre-commit run --from-ref origin/<target> --to-ref HEAD` runs the hooks in `.pre-commit-config.yaml` only on the files changed in the PR: [dbt-checkpoint](https://github.com/dbt-checkpoint/dbt-checkpoint) (descriptions, property files, columns), [SQLFluff](https://docs.sqlfluff.com/) and yamllint | Always |
 | 11 | dbt build | The real `dbt build --fail-fast`: Slim CI (`--defer --state logs --select state:modified+`) when the manifest exists, or a full build when it does not | Always |
-| 12 | Check orphaned schemas | `automate/dbt/orphaned_schemas.py` compares the production manifest with the PR manifest and reports schemas that dbt will stop managing once the PR is deployed. The result is posted as a PR comment | Manifest found |
+| 12 | Check orphaned schemas | `automate/dbt/orphaned_schemas.py` compares the production manifest with the PR manifest and reports schemas that dbt will stop managing once the PR is deployed. The result is posted as a PR comment | Manifest found, even if a previous step failed |
 | 13 | Grant access to PR database | `grant_access_to_pr_database` grants usage on the database and its schemas, and select on its tables and views, so reviewers can query the PR database | Always |
 | 14 | Drop PR database on failure | Drops the PR database if the grants failed. A failure here usually means models were built into the wrong schema | `DATACOVES__DROP_DB_ON_FAIL` is `true` and step 13 failed |
 
@@ -59,6 +61,8 @@ Steps 7, 8 and 11 rely on the production `manifest.json` that [stage 30](./deplo
 
 To build incremental models from scratch, add the `full-refresh` label to the PR. The job then appends `--full-refresh` to the `dbt build` commands.
 
+Adding the label does not start a new run of stage 10 by itself: the label is read the next time the workflow runs, after a new push or when you re-run it. The label on a feature PR only affects that PR's database. To run a full refresh in production, add the label to the release PR into `main` (see [stage 20](./release-checks.md#why-a-deploy-marker-in-the-pr-title)).
+
 ## Airflow checks
 
 The `airflow` job runs in the `datacoves/ci-airflow-dbt-snowflake` image, with `AIRFLOW__CORE__DAGS_FOLDER` pointing at `orchestrate/dags`.
@@ -67,8 +71,8 @@ The `airflow` job runs in the `datacoves/ci-airflow-dbt-snowflake` image, with `
 |---|---|---|
 | 1 | Checkout branch | Checks out the PR head commit |
 | 2 | Test DAG load time and variable usage | Runs `/usr/app/test_dags.py`, included in the image, with `--dag-loadtime-threshold 1` (fails DAGs that take more than one second to parse) and `--check-variable-usage` (fails on `Variable.get()` calls at the top level of a DAG file, outside `@task` functions). `--write-output` writes the results to a Markdown file |
-| 3 | Comment results | Posts the load-time results as a PR comment |
-| 4 | Custom Airflow validation tests | Runs `pytest` on `orchestrate/test_dags/validate_dags.py`, your own DAG tests. The Balboa example checks for import errors, approved tags (`APPROVED_TAGS`), retries, and allowed operators (`ALLOWED_OPERATORS`) |
+| 3 | Comment results | Posts the load-time results as a PR comment when step 2 succeeds |
+| 4 | Custom Airflow validation tests | Runs `pytest` on `orchestrate/test_dags/validate_dags.py`, your own DAG tests. The Balboa example checks for import errors, approved tags (`APPROVED_TAGS`), `catchup=False`, and allowed operators (`ALLOWED_OPERATORS`) |
 | 5 | Comment results | Posts the custom test results as a PR comment, even when the tests fail |
 
 See [Test Airflow DAGs in your CI/CD pipeline](/docs/how-tos/airflow/dags/test-dags) for how to write the custom tests.

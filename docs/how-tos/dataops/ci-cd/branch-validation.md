@@ -6,7 +6,7 @@ sidebar_position: 1
 ---
 # Branch validation
 
-Before any dbt or Airflow check runs, stages [10](./feature-checks.md) and [20](./release-checks.md) run a `validate-branch` job. It executes `automate/git/branch_validator.py`, and every other job in the pipeline depends on it: if the validation fails, nothing else runs.
+Before any dbt or Airflow check runs, stages [10](./feature-checks.md) and [20](./release-checks.md) run a `validate-branch` job. It executes `automate/git/branch_validator.py`, and the dbt and Airflow jobs depend on it: if the validation fails, they are skipped.
 
 ## What it checks
 
@@ -84,4 +84,4 @@ BRANCH_PATTERNS = {
 }
 ```
 
-This variant also checks that the `yyyymmdd` part is a valid date. Use it when you want branch names to carry a ticket, date and owner. That implementation also uses shorter prefixes (`fb`, `rb`, `hf`, `infra`), which shows that the prefixes are fully configurable. See [Change branch prefixes](./customize.md#change-branch-prefixes).
+The format is checked on both the source and the target branch, and the `yyyymmdd` part must be a valid date. Use it when you want branch names to carry a ticket, date and owner. That implementation also uses shorter prefixes (`fb`, `rb`, `hf`, `infra`), which shows that the prefixes are fully configurable. See [Change branch prefixes](./customize.md#change-branch-prefixes).

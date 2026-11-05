@@ -34,7 +34,7 @@ To use different prefixes, for example `fb/`, `rb/` and `hf/` instead of `featur
 
 2. **Pipeline triggers** for the release branch:
    - GitHub Actions: the `branches:` filter of stages 10 and 15, for example `- 'rb/**/*'` instead of `- 'release/**/*'`.
-   - Azure DevOps: the **Branch Policies › Build Validation** of the release branches, which must point at the stage 10 pipeline.
+   - Azure DevOps: the **Branch Policies › Build Validation** of the release branches, which must point at the stage 10 pipeline, and the `startsWith(variables['System.PullRequest.SourceBranch'], 'refs/heads/...')` conditions in stage 20 (which branches build, and the infra `transform/` block).
 
 3. **PR database cleanup scripts** used by [stage 30](./deploy-to-production.md#pr-database-cleanup):
    - `automate/git/get_feature_pr_ids.py`: the `release/` check of the deployed branch and the `feature/` filter of the PRs merged into it.
@@ -71,7 +71,7 @@ env:
   PR_HARD_MAX_AGE_DAYS: "45"  # drop past this age, even if in use
 ```
 
-See [stage 30](./deploy-to-production.md#2-sweep) for the full decision rules. To drop PR databases as soon as the PR is closed, merged or not, remove the `merged == false` condition from [stage 15](./drop-pr-database.md#in-github-actions).
+See [stage 30](./deploy-to-production.md#2-sweep) for the full decision rules. If QA does not need the feature PR databases during the release, you can drop them as soon as the PR is closed, merged or not, by removing the `merged == false` condition from [stage 15](./drop-pr-database.md#in-github-actions).
 
 ## Change the trigger paths
 
@@ -84,7 +84,7 @@ Each pipeline only runs when certain folders change. If your repository uses a d
 | 20 | `paths: - transform/**/*` | Path filter of the Build Validation policy, if any |
 | 30 | `paths:` under `on: push` | `trigger: paths: include:` |
 
-Keep in mind that a run with no changed files in those paths will not trigger the pipeline, for example an empty commit. See [Trigger CI/CD without code changes](/docs/how-tos/dataops/trigger-cicd-workflow).
+Keep in mind that a push that changes no files in those paths, such as an empty commit, does not trigger the pipeline. See [Trigger CI/CD without code changes](/docs/how-tos/dataops/trigger-cicd-workflow).
 
 ## Update the CI images
 

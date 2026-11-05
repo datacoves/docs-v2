@@ -6,7 +6,7 @@ sidebar_position: 65
 ---
 # CI/CD pipelines
 
-Datacoves provides a reference CI/CD implementation that validates every change before it reaches production and then deploys it with zero downtime. The reference implementation uses **GitHub Actions** and lives in the `.github/workflows` folder of the [Balboa demo repository](https://github.com/datacoves/balboa). The same logic has been adapted to **Azure DevOps Pipelines**: the stages, scripts and dbt macros are the same, and only the platform-specific pieces (triggers, variables, API calls) change.
+Datacoves provides a reference CI/CD implementation that validates every change before it reaches production and then deploys it with zero downtime. The reference implementation uses **GitHub Actions** and lives in the `.github/workflows` folder of the [Balboa demo repository](https://github.com/datacoves/balboa). The same logic has been adapted to **Azure DevOps Pipelines**: the stages and the decisions they make are the same, they use equivalent scripts and dbt macros, and the platform-specific pieces (triggers, variables, API calls) change. Some features exist in only one of the two implementations; they are marked as variants on each page.
 
 This section explains what each stage does, step by step, and how to adapt it to your team.
 
@@ -43,6 +43,8 @@ The pipelines enforce the release-based branching strategy described in [Git bes
 | `hotfix/*` | `main` | 20 |
 | `infra/*` | `main` | 20 |
 
+In the GitHub Actions reference, stages 10 and 20 only run when the PR changes the folders in their `paths` filter (`transform/` for dbt, `orchestrate/` for Airflow). A PR that changes nothing in those folders, such as an infra PR that only edits a workflow, runs no checks.
+
 The prefixes are defined in `automate/git/branch_validator.py`. See [Customize the pipelines](./customize.md#change-branch-prefixes) to change them.
 
 ## Database lifecycle
@@ -56,8 +58,8 @@ Every stage works against a different Snowflake database, all derived from the b
 | `<DATABASE>_PR_<pr number>` | Stage 10 | Building and reviewing a single feature PR | Stage 15 if the PR is abandoned; stage 30 after the release that includes it is deployed |
 | `<DATABASE>_QA_TEMP` | Stage 20 | Temporary clone of production where the release is built | Stage 20, after it is swapped into QA |
 | `<DATABASE>_QA` | Stage 20 | Stable QA database with the release candidate | Replaced on the next stage 20 run of a later day |
-| Blue/green staging database | Stage 30 (`dbt-coves blue-green`) | Building the new production version | Swapped with production by `dbt-coves blue-green` |
-| `<DATABASE>` | Stage 30 | Production | Never |
+| Blue/green staging database | Stage 30 (`dbt-coves blue-green`) | Building the new production version | Not dropped: it is swapped in and becomes production |
+| `<DATABASE>` | Exists before the first deployment | Production | On every deployment the previous production version is swapped out and dropped by `dbt-coves blue-green` |
 
 ## Required configuration
 
@@ -85,7 +87,7 @@ Jobs run inside Datacoves CI images, so the tools match what developers use in t
 
 | Image | Used by | Includes |
 |---|---|---|
-| `datacoves/ci-basic-dbt-snowflake:<version>` | dbt jobs in stages 10, 15, 20 and 30 | dbt, dbt-coves, pre-commit, SQLFluff, dbt-checkpoint |
+| `datacoves/ci-basic-dbt-snowflake:<version>` | dbt jobs in stages 10, 15, 20 and 30 | dbt, dbt-coves, pre-commit and SQLFluff. The other pre-commit hooks, such as dbt-checkpoint and yamllint, are installed by pre-commit from `.pre-commit-config.yaml` when the job runs |
 | `datacoves/ci-airflow-dbt-snowflake:<version>` | Airflow job in stage 10 | Airflow, the Datacoves Airflow providers, and the `/usr/app/test_dags.py` script |
 
 Pin the image tag to the Datacoves release your environment uses. See [Datacoves versioning](/docs/reference/datacoves/versioning) for the available tag formats.

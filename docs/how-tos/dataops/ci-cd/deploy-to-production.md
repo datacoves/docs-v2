@@ -43,7 +43,11 @@ The Balboa workflow includes additional steps that belong to that demo, such as 
 4. Swaps staging and production with `ALTER DATABASE ... SWAP WITH ...`.
 5. Drops the previous production database, which now has the staging name.
 
-If any model or test fails, the swap never happens and production is not touched. The failed staging database is left in place for debugging, unless `--drop-staging-db-on-failure` is used. See the [`dbt-coves blue-green` reference](https://github.com/datacoves/dbt-coves/tree/main/docs/commands/blue-green) for all options, such as `--staging-database` to use a fixed staging database name and `--keep-staging-db-on-success` to keep the previous production version as a rollback copy.
+If any model or test fails, the swap never happens and production is not touched. The failed staging database is left in place for debugging, unless `--drop-staging-db-on-failure` is used.
+
+:::warning
+While a failed staging database exists, the next `dbt-coves blue-green` run stops with an error because the staging database already exists. Drop it before re-running the deployment, or add `--drop-staging-db-at-start` or `--drop-staging-db-on-failure` to the command.
+::: See the [`dbt-coves blue-green` reference](https://github.com/datacoves/dbt-coves/tree/main/docs/commands/blue-green) for all options, such as `--staging-database` to use a fixed staging database name and `--keep-staging-db-on-success` to keep the previous production version as a rollback copy.
 
 ## Versioning
 
@@ -122,4 +126,4 @@ The Azure DevOps implementation (`.azure-pipelines/30_deploy_to_production.yml`)
 | Full refresh | [Commit markers](./feature-checks.md#variant-commit-markers-instead-of-labels) are read from every commit since the last deployment tag. Targeted models are refreshed before the blue/green run and excluded from it |
 | Blue/green selector | `dbt-coves blue-green --staging-database <name> --dbt-selector="--defer --state logs -s @state:modified"`, so every parent of a rebuilt model is rebuilt in the same run |
 | Failed deployment | A step with `condition: failed()` drops the staging database |
-| PR database cleanup | Same scripts and rules, using the Azure DevOps REST API with `System.AccessToken`. Each cleanup step uses `continueOnError: true`. Azure DevOps uses its own PR status names (active, completed, abandoned) for the same states |
+| PR database cleanup | Equivalent scripts with the same rules, using the Azure DevOps REST API with `System.AccessToken`. Each cleanup step uses `continueOnError: true`. Azure DevOps uses its own PR status names (active, completed, abandoned) for the same states |

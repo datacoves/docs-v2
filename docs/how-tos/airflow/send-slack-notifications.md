@@ -2,7 +2,7 @@
 title: Send Slack Notifications on Airflow DAG Status
 sidebar_label: Notifications - Slack
 description: "Set up Slack alerts for Airflow DAG events in Datacoves: connect a workspace, configure channel routing, and receive success or failure messages."
-sidebar_position: 36
+sidebar_position: 90
 ---
 # How to send Slack notifications on DAG's status
 

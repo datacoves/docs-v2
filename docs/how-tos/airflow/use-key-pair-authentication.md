@@ -2,7 +2,7 @@
 title: Use Key-Pair Authentication in Airflow
 sidebar_label: Key-Pair Authentication
 description: "Configure Snowflake key-pair authentication for Airflow connections in Datacoves instead of password-based credentials for improved security."
-sidebar_position: 10
+sidebar_position: 60
 ---
 # Using Key-Pair Authentication in Airflow
 

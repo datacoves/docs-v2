@@ -1,6 +1,6 @@
 ---
 title: Snowflake Cortex
-description: Enable and use Snowflake Cortex, Snowflake's AI coding assistant CLI, in your Datacoves VS Code workspace.
+description: Use Snowflake Cortex Code, Snowflake's AI coding assistant CLI, from the terminal of your Datacoves VS Code workspace in any dbt-snowflake environment.
 sidebar_position: 2
 ---
 

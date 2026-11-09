@@ -193,6 +193,8 @@ const config = {
     ({
       // Replace with your project's social card
       image: 'img/datacoves-open-graphic.png',
+      // Docusaurus emits og:title/description/image/url but no og:type.
+      metadata: [{property: 'og:type', content: 'website'}],
   
       navbar: {
   logo: {

@@ -4,4 +4,4 @@ link:
   type: generated-index
   slug: /category/datacoves
   title: Datacoves
-  description: These how to guides are dedicated to **Datacoves admin configurations**. 
+  description: How-to guides for Datacoves administrators: configure projects, environments, users, groups, invitations, service connections and secrets.

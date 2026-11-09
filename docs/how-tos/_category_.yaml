@@ -3,4 +3,4 @@ position: 1
 link:
   type: generated-index
   title: How-to Guides
-  description: Step-by-step how-to guides for Datacoves: configure Airflow, dbt, git, VS Code, Snowflake and DataOps tasks, assuming basic familiarity with the platform.
+  description: "Step-by-step how-to guides for Datacoves: configure Airflow, dbt, git, VS Code, Snowflake and DataOps tasks, assuming basic familiarity with the platform."

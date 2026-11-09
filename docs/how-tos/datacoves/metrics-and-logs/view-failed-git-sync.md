@@ -18,7 +18,7 @@ A user with Grafana access can navigate to the Grafana UI by clicking on the Eye
 
 Navigate to `Alerting` and select `Alerting rules`.
 
-<img src="/how-tos/metrics-and-logs/assets/grafana-alerting-menu.jpg" alt="Grafana Alerting Menu" width="300" height="600" />
+<img src={require('./assets/grafana-alerting-menu.jpg').default} alt="Grafana Alerting Menu" width="300" height="600" />
 
 
 ## Step 3

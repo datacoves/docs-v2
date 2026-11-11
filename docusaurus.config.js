@@ -193,6 +193,8 @@ const config = {
     ({
       // Replace with your project's social card
       image: 'img/datacoves-open-graphic.png',
+      // Docusaurus emits og:title/description/image/url but no og:type.
+      metadata: [{property: 'og:type', content: 'website'}],
   
       navbar: {
   logo: {
@@ -299,7 +301,7 @@ const config = {
         },
          {
           label: 'Snowflake',
-          to: '/docs/category/snowflake-1',
+          to: '/docs/category/snowflake-best-practices',
   
         },
         {
@@ -324,13 +326,13 @@ const config = {
         },
         {
           label: 'Airflow',
-          to: '/docs/category/airflow-1',
+          to: '/docs/category/airflow-reference',
 
   
         },
         {
           label: 'Datacoves',
-          to: '/docs/category/datacoves-1',
+          to: '/docs/category/datacoves-reference',
 
         },
         

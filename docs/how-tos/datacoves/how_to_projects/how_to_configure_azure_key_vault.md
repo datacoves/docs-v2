@@ -1,7 +1,7 @@
 ---
 title: "Add Azure Key Vault as a Datacoves Backend"
 sidebar_label: "Configure Azure Key Vault"
-description: "Connect Azure Key Vault to Datacoves as a project-level secrets backend so Airflow reads variables and connections directly from your vault, using Managed Identity or a service principal."
+description: "Connect Azure Key Vault to a Datacoves project as its secrets backend, so Airflow reads variables and connections via Managed Identity or a service principal."
 sidebar_position: 52
 ---
 # Configuring Azure Key Vault

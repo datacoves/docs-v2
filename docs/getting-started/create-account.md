@@ -9,7 +9,7 @@ sidebar_position: 1
 Your Datacoves account is configured during a setup call with the Datacoves team. We will guide you through the account setup wizard step by step. The wizard tests your data warehouse and git connections live, and will not let you continue until they succeed, so having the access and permissions below in place **before** the call is what keeps it short.
 
 :::caution
-A common blocker is git repository permissions. You need to be able to add a deploy key to the repository (see [Git](#git)). If you can't, make sure the person who can is available during the call.
+A common blocker is git repository permissions. You need to be able to add a deploy key to the repository (see [Git](#git)). When your organization disables deploy keys, you need an admin who can register a GitHub App. If you can't, make sure the person who can is available during the call.
 :::
 
 ## Before the Call
@@ -76,6 +76,10 @@ After the wizard, the project can be switched to authenticate with an Entra ID a
 Added to **your own user account** in your git provider. Your user needs to be able to clone and push to the repository. If your organization enforces SSO (e.g. on GitHub), you may need to authorize the key for your organization.
 
 See [How to configure an SSH Key](/docs/how-tos/git/ssh-keys) for details.
+
+:::note[GitHub App]
+When your GitHub organization disables deploy keys, use a GitHub App instead. Register a private App with read-only Contents access, install it on the repository, and have its client ID and private key ready. The wizard asks for them on the Git Repository step once **Authentication** is set to **GitHub App**; you need no deploy key and no personal git account. See [How to set up a GitHub App](/docs/how-tos/git/github-app).
+:::
 
 **Git Repo**
 Have the repository's **SSH** clone URL handy (e.g. `git@github.com:organization/repo.git`). If this will be a new dbt project, create a new repo and ensure at least one file is in the `main` branch such as a `README.md`.

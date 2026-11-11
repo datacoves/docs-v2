@@ -20,7 +20,7 @@ A Project configuration consists of the following fields:
 
 - **Name:** This is what will be displayed in the Datacoves landing page.
 - **Git Repo:** This is the git repository associated with this project.
-  - **Clone strategy:** Determines how Datacoves will communicate with your git repository (SSH, HTTPS, or Azure DevOps Secret/Certificate). Select your desired cloning strategy to see configuration instructions:
+  - **Clone strategy:** Determines how Datacoves will communicate with your git repository (SSH, HTTPS, GitHub App, or Azure DevOps Secret/Certificate). Select your desired cloning strategy to see configuration instructions:
 
 <Tabs>
 <TabItem value="ssh" label="SSH" default>
@@ -36,6 +36,21 @@ When SSH is selected, an SSH public key will be automatically generated for you 
 When HTTPS is selected, the following fields must be filled in: `Git HTTPS url`, `Username`, and `Password`.
 
 ![Repo User Password Prompt](../assets/projects_https_data.png)
+
+</TabItem>
+
+<TabItem value="github-app" label="GitHub App">
+
+When GitHub App is selected, Datacoves authenticates with a private GitHub App installed on the repository,
+which is what organizations that disable deploy keys need.
+
+- **Git SSH url:** SSH clone URL of the repository, which code-server uses
+- **Git HTTPS url:** HTTPS clone URL of the repository
+- **Client ID:** Client ID of the App
+- **Private key:** Private key generated on the App, empty on later edits to keep the stored one
+
+See this [how-to guide on configuring a GitHub App](/docs/how-tos/git/github-app) for the App registration,
+the installation and the private key.
 
 </TabItem>
 

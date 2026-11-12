@@ -24,7 +24,7 @@ The pipeline keeps the dbt manifest of the last production deployment. With it, 
 
 ### Governance checks
 
-Before the real build, every affected model is created empty to catch SQL and configuration errors in seconds. Then pre-commit hooks check only the files changed in the PR: descriptions and property files with [dbt-checkpoint](https://github.com/dbt-checkpoint/dbt-checkpoint), SQL style with [SQLFluff](https://docs.sqlfluff.com/), and YAML with yamllint. The pipeline can also report schemas that dbt would stop managing after the change.
+Before the real build, every affected model is created empty to catch SQL and configuration errors quickly, before spending warehouse time on the real build. Then pre-commit hooks check only the files changed in the PR: descriptions and property files with [dbt-checkpoint](https://github.com/dbt-checkpoint/dbt-checkpoint), SQL style with [SQLFluff](https://docs.sqlfluff.com/), and YAML with yamllint. The pipeline can also report schemas that dbt would stop managing after the change.
 
 ### Airflow DAG validation
 
@@ -104,7 +104,7 @@ Pipeline files are prefixed with a number that tells you when in the delivery li
 
 ## Works with your tools
 
-The stages and the decisions they make are plain dbt commands, dbt macros and Python scripts, so they are not tied to one CI/CD tool. Only the platform pieces change between tools: triggers, variables, API calls and how results are reported on the PR. Balboa uses GitHub Actions, and Datacoves has implemented the same design on **Azure DevOps** and **GitLab**.
+The stages and the decisions they make are plain dbt commands, dbt macros and Python scripts, so they are not tied to one CI/CD tool. Only the platform pieces change between tools: triggers, variables, API calls and how results are reported on the PR. Balboa uses GitHub Actions, and Datacoves has also implemented the same design on **Azure DevOps**.
 
 Every rule can also be changed to fit your team: branch naming, which folders trigger each pipeline, how long PR databases are kept, and new stages for your own checks.
 

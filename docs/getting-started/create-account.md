@@ -21,11 +21,16 @@ Email gomezn@datacoves.com with the answers to the following two questions so we
 1. What version of dbt are you using?
 2. Do you use Google / Google Workspace or Microsoft to authenticate? Datacoves leverages your existing authentication service.
 
+:::info[Microsoft 365 / Entra ID]
+If you authenticate with Microsoft, an administrator of your Microsoft Entra ID (formerly Azure AD) tenant needs to approve the Datacoves application (admin consent) before your users can log in. Make sure that admin is available before or during the call. This is not required for Google Workspace.
+:::
+
 ## Who Should Join the Call
 
 - The person who will administer the Datacoves account.
 - Someone with admin access to the git repository, if that's not you.
 - Someone who can create users and grant privileges in your data warehouse, if that's not you.
+- A Microsoft Entra ID administrator who can grant admin consent, if you authenticate with Microsoft 365.
 
 ## Prerequisites
 
@@ -79,6 +84,10 @@ See [How to configure an SSH Key](/docs/how-tos/git/ssh-keys) for details.
 
 **Git Repo**
 Have the repository's **SSH** clone URL handy (e.g. `git@github.com:organization/repo.git`). If this will be a new dbt project, create a new repo and ensure at least one file is in the `main` branch such as a `README.md`.
+
+:::note[SSH blocked in your organization?]
+If your organization blocks git over SSH, let us know before the call. The repository will be cloned over HTTPS instead, which requires a username and password. Use a Personal Access Token (PAT) from your git provider as the password, and have the repository's **HTTPS** clone URL handy (e.g. `https://github.com/organization/repo.git`).
+:::
 
 **dbt Docs**  
 Create a `dbt-docs` branch in your repo.

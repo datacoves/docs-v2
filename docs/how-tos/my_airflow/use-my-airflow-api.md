@@ -153,4 +153,4 @@ datacoves my api-key generate --name "My Script"
 datacoves my api-key delete abc12345
 ```
 
-See [Datacoves CLI Commands](/docs/reference/airflow/datacoves-commands#datacoves-my-api-key) for more details.
+See [Datacoves CLI Commands](/docs/reference/vscode/datacoves-cli#datacoves-my-api-key) for more details.

@@ -6,7 +6,7 @@ sidebar_position: 110
 ---
 # Run DAG tests in your CI/CD 
 
-In Datacoves you can easily test your Airflow DAGs using [pytest](/docs/reference/airflow/datacoves-commands#datacoves-my-pytest) in the command line. However you can also run these validations in your CI/CD pipeline. 
+In Datacoves you can easily test your Airflow DAGs using [pytest](/docs/reference/vscode/datacoves-cli#datacoves-my-pytest) in the command line. However you can also run these validations in your CI/CD pipeline. 
 
 To do this follow these steps:
 

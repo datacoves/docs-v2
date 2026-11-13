@@ -337,3 +337,41 @@ aside[class*="sidebar"] nav {
 }
 
 
+
+/* Code blocks: a thin border instead of the drop shadow, slightly smaller
+   type, and a quieter title bar, so they sit with the rest of the page. */
+:root {
+  --ifm-code-font-size: 88%;
+  --ifm-pre-padding: 1.1rem;
+  --dcv-code-border: #e3e8ef;
+}
+
+[data-theme='dark'] {
+  --dcv-code-border: #2f3542;
+}
+
+.theme-code-block {
+  border: 1px solid var(--dcv-code-border);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.theme-code-block pre {
+  line-height: 1.6;
+}
+
+.theme-code-block [class*='codeBlockTitle'] {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ifm-color-emphasis-700);
+  border-bottom: 1px solid var(--dcv-code-border);
+}
+
+/* Inline code */
+:not(pre) > code {
+  border: 1px solid var(--dcv-code-border);
+  border-radius: 6px;
+  padding: 0.1rem 0.35rem;
+  vertical-align: baseline;
+}

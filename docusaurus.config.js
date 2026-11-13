@@ -511,7 +511,7 @@ const config = {
       </span></div>`,
 },
       prism: {
-        theme: prismThemes.github,
+        theme: prismThemes.oneLight,
         darkTheme: prismThemes.oneDark,
         // Not bundled by default; markup-templating must load before django
         // (which also registers the jinja2 alias used for dbt Jinja).

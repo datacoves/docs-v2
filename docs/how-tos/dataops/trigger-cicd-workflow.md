@@ -24,9 +24,12 @@ git push
 
 :::warning
 
-This technique will **not work** if your workflow is configured with path filters. Workflows that use `paths:` only trigger when files matching those paths are changed. Since an empty commit has no file changes, it won't match any paths.
+How path filters (`paths:`) treat an empty commit depends on the event that triggers the workflow:
 
-For example, this workflow will not be triggered by an empty commit:
+- **`push`**: the filter only looks at the files changed by the push. An empty commit changes no files, so a workflow with path filters is **not** triggered.
+- **`pull_request`**: the filter looks at all the files changed in the pull request. An empty commit pushed to the PR's branch triggers the workflow if the PR changes any file that matches the paths.
+
+For example, this deployment workflow will not be triggered by an empty commit pushed to `main`:
 
 ```yaml
 on:
@@ -39,7 +42,7 @@ on:
       - transform/**
 ```
 
-If your workflow uses path filters, you'll need to either make an actual file change or modify the workflow to support manual triggers using `workflow_dispatch`.
+For a `push` workflow with path filters, you'll need to either make an actual file change or modify the workflow to support manual triggers using `workflow_dispatch`.
 
 :::
 

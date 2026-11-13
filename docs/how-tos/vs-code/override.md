@@ -50,7 +50,7 @@ Paste them in your .vscode/settings.json file
 
 Below you can see the structure of the command entry.
 
-```JSON
+```json
     {
       "id": "30",
       "label": "✔️ Run checks",

@@ -511,8 +511,11 @@ const config = {
       </span></div>`,
 },
       prism: {
-        theme: prismThemes.github,
-        darkTheme: prismThemes.dracula,
+        theme: prismThemes.oneLight,
+        darkTheme: prismThemes.oneDark,
+        // Not bundled by default; markup-templating must load before django
+        // (which also registers the jinja2 alias used for dbt Jinja).
+        additionalLanguages: ['bash', 'sql', 'markup-templating', 'django', 'ini'],
       },
       
     

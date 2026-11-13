@@ -37,7 +37,7 @@ For your target environment, copy the `My Airflow API URL`.
 
 Create a `.env` file inside your `orchestrate/` directory and be sure to add the file to your `.gitignore`. Add your credentials there.
 
-```env
+```ini
 MY_AIRFLOW_API_URL = "https://your-slug-api-airflow-env.domain.com/api/v1/"
 MY_AIRFLOW_API_KEY = "your-api-key-here"
 ```

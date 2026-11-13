@@ -38,7 +38,7 @@ Generate your API key and copy it somewhere secure. Once you click away it will 
 
 Create a `.env` file inside your `orchestrate/` directory and be sure to add the file to your `.gitignore`. Add your credentials there.
 
-```env
+```ini
 AIRFLOW_API_URL = "https://..."
 DATACOVES_API_KEY = "...."
 ```

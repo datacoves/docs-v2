@@ -30,7 +30,7 @@ Review your Jinja code for common issues:
 
 1. Verify bracket closure:
 
-```jinja
+```jinja2
 {# Correct #}
 {{ ref('model_name') }}
 
@@ -46,7 +46,7 @@ Review your Jinja code for common issues:
 
 2. Check macro syntax:
 
-```jinja
+```jinja2
  {# Correct #}
  {% set my_var = 'value' %}
  
@@ -134,7 +134,7 @@ If you have a long description, you can also make it a multi line string using `
 4. Document custom macros clearly
 
 ## Model Attribute Debugging
-```jinja
+```jinja2
 {# Debug specific model #}
 {% macro output_model_info(model_name) %}
     {% for model in graph.nodes.values() %}

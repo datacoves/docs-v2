@@ -337,3 +337,134 @@ aside[class*="sidebar"] nav {
 }
 
 
+
+/* Code blocks: a thin border instead of the drop shadow, slightly smaller
+   type, and a quieter title bar, so they sit with the rest of the page. */
+:root {
+  --ifm-code-font-size: 88%;
+  --ifm-pre-padding: 1.1rem;
+  --dcv-code-border: #e3e8ef;
+}
+
+[data-theme='dark'] {
+  --dcv-code-border: #2f3542;
+}
+
+.theme-code-block {
+  border: 1px solid var(--dcv-code-border);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.theme-code-block pre {
+  line-height: 1.6;
+}
+
+.theme-code-block [class*='codeBlockTitle'] {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ifm-color-emphasis-700);
+  border-bottom: 1px solid var(--dcv-code-border);
+}
+
+/* Inline code */
+:not(pre) > code {
+  border: 1px solid var(--dcv-code-border);
+  border-radius: 6px;
+  padding: 0.1rem 0.35rem;
+  vertical-align: baseline;
+}
+
+/* Screenshots in the docs: a thin frame and rounded corners so they read as
+   images of the product instead of blank rectangles, and in dark mode a
+   slightly dimmed version so a white UI capture does not glare. */
+.markdown img {
+  border: 1px solid var(--dcv-code-border);
+  border-radius: 8px;
+}
+
+[data-theme='dark'] .markdown img {
+  filter: brightness(0.88);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Admonitions: a tinted background with a colored left edge and title,
+   and the regular text color for the body, in both themes. */
+.theme-admonition {
+  --dcv-adm-accent: var(--ifm-color-emphasis-700);
+  --ifm-alert-foreground-color: var(--ifm-font-color-base);
+  border: 1px solid color-mix(in srgb, var(--ifm-alert-border-color) 30%, transparent);
+  border-left: 4px solid var(--ifm-alert-border-color);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.theme-admonition [class*='admonitionHeading'] {
+  color: var(--dcv-adm-accent);
+  letter-spacing: 0.04em;
+}
+
+.theme-admonition [class*='admonitionIcon'] svg {
+  fill: var(--dcv-adm-accent);
+}
+
+.alert--secondary.theme-admonition {
+  --ifm-alert-background-color: #f6f8fa;
+  --ifm-alert-border-color: #d0d7de;
+  --dcv-adm-accent: #57606a;
+}
+
+.alert--success.theme-admonition {
+  --ifm-alert-background-color: #effaf3;
+  --ifm-alert-border-color: #4ac26b;
+  --dcv-adm-accent: #1a7f37;
+}
+
+.alert--info.theme-admonition {
+  --ifm-alert-background-color: #eef6fd;
+  --ifm-alert-border-color: #3496e0;
+  --dcv-adm-accent: #1f6fb2;
+}
+
+.alert--warning.theme-admonition {
+  --ifm-alert-background-color: #fff8e6;
+  --ifm-alert-border-color: #e3a008;
+  --dcv-adm-accent: #9a6700;
+}
+
+.alert--danger.theme-admonition {
+  --ifm-alert-background-color: #fff1f0;
+  --ifm-alert-border-color: #e5534b;
+  --dcv-adm-accent: #c62828;
+}
+
+[data-theme='dark'] .alert--secondary.theme-admonition {
+  --ifm-alert-background-color: rgba(139, 148, 158, 0.08);
+  --ifm-alert-border-color: #4b5361;
+  --dcv-adm-accent: #a3adb9;
+}
+
+[data-theme='dark'] .alert--success.theme-admonition {
+  --ifm-alert-background-color: rgba(46, 160, 67, 0.1);
+  --ifm-alert-border-color: #2ea043;
+  --dcv-adm-accent: #56d364;
+}
+
+[data-theme='dark'] .alert--info.theme-admonition {
+  --ifm-alert-background-color: rgba(52, 150, 224, 0.1);
+  --ifm-alert-border-color: #3496e0;
+  --dcv-adm-accent: #6cb6f0;
+}
+
+[data-theme='dark'] .alert--warning.theme-admonition {
+  --ifm-alert-background-color: rgba(210, 153, 34, 0.1);
+  --ifm-alert-border-color: #d29922;
+  --dcv-adm-accent: #e3b341;
+}
+
+[data-theme='dark'] .alert--danger.theme-admonition {
+  --ifm-alert-background-color: rgba(248, 81, 73, 0.1);
+  --ifm-alert-border-color: #f85149;
+  --dcv-adm-accent: #ff7b72;
+}

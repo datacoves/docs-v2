@@ -104,7 +104,7 @@ Pipeline files are prefixed with a number that tells you when in the delivery li
 
 ## Works with your tools
 
-The stages and the decisions they make are plain dbt commands, dbt macros and Python scripts, so they are not tied to one CI/CD tool. Only the platform pieces change between tools: triggers, variables, API calls and how results are reported on the PR. Balboa uses GitHub Actions, and Datacoves has also implemented the same design on **Azure DevOps**.
+The stages and the decisions they make are plain dbt commands, dbt macros and Python scripts, so they are not tied to one CI/CD tool. Only the platform pieces change between tools: triggers, variables, API calls and how results are reported on the PR. Balboa uses GitHub Actions, and Datacoves has also implemented the same design on **Azure DevOps**, **GitLab** and **Jenkins**.
 
 Every rule can also be changed to fit your team: branch naming, which folders trigger each pipeline, how long PR databases are kept, and new stages for your own checks.
 

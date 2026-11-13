@@ -18,6 +18,8 @@ Also, make sure to select `Authentication mechanism: RSA Key-pair` and [assign t
 
 ![authentication_mechanism_copy](./assets/authentication_mechanism_copy.png)
 
+To keep the private key in your own secrets backend instead of in Datacoves, and rotate it there, see [Use warehouse credentials from your secrets backend](/docs/how-tos/datacoves/how_to_credentials_from_secrets_backend).
+
 Once you have properly configured your Service Connection, your Airflow instance will restart. This process may take up to 10 minutes.
 
 To confirm the above worked correctly, you can access your Airflow `Admin -> Connections` menu, and make sure your Service Connection  is now an Airflow Connection.

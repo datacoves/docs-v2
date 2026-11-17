@@ -55,7 +55,7 @@ Check out the Snowflake documentation on [finding the organization and account n
 
 ### Git
 
-Datacoves works with any git provider that supports SSH, such as GitHub, GitLab, Bitbucket, and Azure DevOps. During the wizard, Datacoves generates two SSH keys, and both are tested before you can continue:
+Datacoves works with any git provider that supports SSH, such as GitHub, GitLab, Bitbucket, and Azure DevOps. With SSH authentication, the Git step of the setup wizard needs a Deploy Key and a Developer Key. With a GitHub App, it needs only the Developer Key.
 
 **Deploy Key**
 Added to the repository and used by Datacoves services. You need the right role in your git provider to add it:
@@ -78,7 +78,7 @@ Added to **your own user account** in your git provider. Your user needs to be a
 See [How to configure an SSH Key](/docs/how-tos/git/ssh-keys) for details.
 
 :::note[GitHub App]
-When your GitHub organization disables deploy keys, use a GitHub App instead. Register a private App with read-only Contents access, install it on the repository, and have its client ID and private key ready. The wizard asks for them on the Git Repository step once **Authentication** is set to **GitHub App**; you need no deploy key and no personal git account. See [How to set up a GitHub App](/docs/how-tos/git/github-app).
+Some GitHub organizations disable deploy keys. In that case, use a GitHub App instead of the Deploy Key. Register a private GitHub App with read-only Contents access. Install it on the repository. Have its client ID and private key ready. In the wizard's Git Repository step, set **Authentication** to **GitHub App** and paste both values. You still add the Developer Key to your own account. See [How to set up a GitHub App](/docs/how-tos/git/github-app).
 :::
 
 **Git Repo**

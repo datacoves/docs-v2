@@ -6,9 +6,9 @@ sidebar_position: 72
 ---
 # How to set up a GitHub App for repository access
 
-Some GitHub organizations disable deploy keys. A project that authenticates with an SSH deploy key cannot
-clone there. A GitHub App gives Datacoves its own short lived tokens instead, with read only access to the
-repository contents and no personal git account needed.
+Some GitHub organizations disable deploy keys. Datacoves can't clone with a deploy key there. Use a GitHub
+App instead. The App gives Datacoves services read-only access to the repository contents. To run the setup
+wizard, you still add a developer SSH key to your own GitHub account.
 
 ## What you need
 
@@ -43,11 +43,13 @@ Datacoves finds the installation ID by itself from the repository, so there is n
 ### In the setup wizard
 
 1. Enter the repository SSH URL, for example `git@github.com:organization/repo.git`, and the release branch.
-   The HTTPS URL is derived from the SSH URL, so the URL must be on `github.com`.
+   The URL must be on `github.com`.
 2. Set **Authentication** to **GitHub App**.
 3. Paste the **Client ID** and the **Private key**.
-4. Continue. Datacoves tests the repository with a token minted from the App and lists the dbt projects it
-   finds.
+4. Select an **SSH key type**. The wizard shows your **SSH Developer Key**. Copy it.
+5. In GitHub, open Settings, SSH and GPG keys, and select **New SSH key**. Paste the key and save it.
+6. If your organization enforces SSO, authorize the key for the organization on the same page.
+7. Select **Next**.
 
 ### In an existing project
 
@@ -65,7 +67,8 @@ Datacoves finds the installation ID by itself from the repository, so there is n
 
 ## What a GitHub App does not cover
 
-- **Personal development clones.** Each developer still adds their own SSH key under User Settings, Git SSH
-  Keys, before code-server clones the repository for them.
+- **Personal development clones.** The App doesn't clone the repository for developers. Each developer adds
+  their own SSH key under User Settings, Git SSH Keys. Then code-server clones the repository for them. The
+  person who ran the setup wizard already added their key in that step.
 - **Repositories outside the installation.** A repository the App is not installed on fails the connection
   test with GitHub's answer. Add it to the installation.

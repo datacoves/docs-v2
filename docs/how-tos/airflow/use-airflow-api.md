@@ -38,20 +38,21 @@ Airflow 3 environments used to issue Airflow tokens on this page. They are liste
 
 ## Step 3: Copy the API URL
 
-On the right of the same page, under `How to use them`, copy the `Airflow API URL`. Airflow 2 and Airflow 3 differ in the URL and in how the key is sent:
+On the right of the same page, under `How to use them`, copy the `Airflow API URL`. It depends on the Airflow version:
 
-| | Airflow 2 | Airflow 3 |
-| --- | --- | --- |
-| API URL | `https://api-airflow-<environment>.<your domain>/api/v1/` | `https://airflow-<environment>.<your domain>/api/v2/` |
-| Header | `Authorization: Token <API key>` | `Authorization: Bearer <API key>` |
+| Airflow 2 | Airflow 3 |
+| --- | --- |
+| `https://api-airflow-<environment>.<your domain>/api/v1/` | `https://airflow-<environment>.<your domain>/api/v2/` |
+
+Send the API key in the `Authorization` header as a bearer token, on both versions:
 
 ```bash
-# Airflow 3
 curl "$AIRFLOW_API_URL/dags" -H "Authorization: Bearer $DATACOVES_API_KEY"
-
-# Airflow 2
-curl "$AIRFLOW_API_URL/dags" -H "Authorization: Token $DATACOVES_API_KEY"
 ```
+
+:::note
+Airflow 2 environments also accept the older `Authorization: Token <API key>` header, so existing integrations keep working.
+:::
 
 ## Step 4: Add your credentials to a .env file
 
@@ -60,7 +61,7 @@ Create a `.env` file inside your `orchestrate/` directory and be sure to add the
 ```ini
 AIRFLOW_API_URL = "https://..."
 DATACOVES_API_KEY = "...."
-# 3 for Airflow 3, 2 for Airflow 2
+# 3 for Airflow 3, 2 for Airflow 2 (only changes how a DAG run is triggered)
 AIRFLOW_VERSION = "3"
 ```
 
@@ -92,9 +93,7 @@ API_URL = os.getenv("AIRFLOW_API_URL").rstrip("/")
 API_KEY = os.getenv("DATACOVES_API_KEY")
 AIRFLOW_VERSION = os.getenv("AIRFLOW_VERSION", "3")
 
-# Airflow 3 takes the API key as a bearer, Airflow 2 as a Datacoves token.
-AUTH_SCHEME = "Bearer" if AIRFLOW_VERSION == "3" else "Token"
-HEADERS = {"Authorization": f"{AUTH_SCHEME} {API_KEY}"}
+HEADERS = {"Authorization": f"Bearer {API_KEY}"}
 
 
 def trigger_dag(dag_id):

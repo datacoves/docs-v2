@@ -64,7 +64,7 @@ On Airflow 3 environments, an external process publishes a dataset event with a 
 
 ```bash
 curl -X POST "https://api.<your domain>/api/v1/trigger-asset" \
-  -H "Authorization: Token $DATACOVES_API_KEY" \
+  -H "Authorization: Bearer $DATACOVES_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{"asset_uri": "s3://my_bucket/my_folder/my_file.csv", "extra": {"rows": 1200}}'
 ```
@@ -76,7 +76,7 @@ import requests
 
 response = requests.post(
     os.environ["DATACOVES_TRIGGER_ASSET_URL"],
-    headers={"Authorization": f"Token {os.environ['DATACOVES_API_KEY']}"},
+    headers={"Authorization": f"Bearer {os.environ['DATACOVES_API_KEY']}"},
     json={
         "asset_uri": "s3://my_bucket/my_folder/my_file.csv",
         "extra": {"rows": 1200},
@@ -109,7 +109,7 @@ The response is Airflow's: the created event on success. Errors:
 | `503` | Airflow could not be reached, for example while it restarts; retry later. |
 
 :::note
-On Airflow 2 environments the trigger-asset endpoint is not available. Send the event to Airflow's own API instead: `POST <Airflow API URL>/datasets/events` with `{"dataset_uri": "..."}` and the header `Authorization: Token <API key>`.
+On Airflow 2 environments the trigger-asset endpoint is not available. Send the event to Airflow's own API instead: `POST <Airflow API URL>/datasets/events` with `{"dataset_uri": "..."}` and the header `Authorization: Bearer <API key>`.
 :::
 
 ## Lambda Function
@@ -140,7 +140,7 @@ API_KEY = os.environ.get("DATACOVES_API_KEY")
 def trigger_asset(asset_uri, extra):
     response = requests.post(
         url=TRIGGER_ASSET_URL,
-        headers={"Authorization": f"Token {API_KEY}"},
+        headers={"Authorization": f"Bearer {API_KEY}"},
         json={"asset_uri": asset_uri, "extra": extra},
         timeout=60,
     )

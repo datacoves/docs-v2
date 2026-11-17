@@ -26,7 +26,7 @@ This how to will walk you through getting an API key for an environment and usin
 
 Generate your API key and copy it somewhere secure. Once you click away it will not be shown again.
 
-![Generate API](assets/environment_api_key.jpg)
+![Environment Keys page](assets/environment_api_key.jpg)
 
 API keys do not expire. To revoke one, delete it from the list: Datacoves rejects it right away, and Airflow 3 stops accepting it within a minute. Create one key per integration (for example one per CI pipeline) so you can revoke them independently.
 
@@ -38,14 +38,12 @@ Airflow 3 environments used to issue Airflow tokens on this page. They are liste
 
 ## Step 3: Copy the API URL
 
-Under `How to use them`, copy the `Airflow API URL`. Airflow 2 and Airflow 3 differ in the URL and in how the key is sent:
+On the right of the same page, under `How to use them`, copy the `Airflow API URL`. Airflow 2 and Airflow 3 differ in the URL and in how the key is sent:
 
 | | Airflow 2 | Airflow 3 |
 | --- | --- | --- |
 | API URL | `https://api-airflow-<environment>.<your domain>/api/v1/` | `https://airflow-<environment>.<your domain>/api/v2/` |
 | Header | `Authorization: Token <API key>` | `Authorization: Bearer <API key>` |
-
-![API URL](assets/environment_api_url.jpg)
 
 ```bash
 # Airflow 3

@@ -1,17 +1,23 @@
 ---
 title: How to Trigger an Airflow DAG Using Datasets
 sidebar_label: Trigger DAG via Datasets
-description: "Step-by-step guide to triggering Airflow DAGs via dataset events in Datacoves, enabling data-driven pipeline orchestration without time-based schedules."
+description: "Step-by-step guide to triggering Airflow DAGs via dataset (asset) events in Datacoves, from another DAG or from an external process with one API call, enabling data-driven pipeline orchestration without time-based schedules."
 sidebar_position: 6
 ---
 # How to Trigger a DAG using Datasets
 
 ## Overview
-This guide explains how to trigger Airflow DAGs with Datasets. DAGs can be triggered by another DAG using datasets or by an external process that sends a dataset event using the Airflow API.
+This guide explains how to trigger Airflow DAGs with Datasets, called **Assets** in Airflow 3. A dataset is a pointer to a piece of data, identified by a URI such as `s3://my_bucket/my_folder/my_file.csv`. A DAG scheduled on a dataset runs every time an event for that dataset is recorded. The event can come from another DAG (a producer) or from an external process (a script, a Lambda function, a CI job) that tells Airflow the data is ready.
+
+The external process does not need to know which DAGs depend on the data: it only says "this data is ready", and every DAG scheduled on it runs.
+
+:::note
+The examples import `Asset` from `airflow.sdk`, available in Airflow 3. On Airflow 2 use `from airflow.datasets import Dataset` instead; the rest of the code is the same.
+:::
 
 ## Producer DAG
 
-Airflow enables DAGs to be triggered dynamically based on dataset updates. A producer DAG updates a dataset, automatically triggering any consumer DAGs subscribed to it.
+A producer DAG updates a dataset, automatically triggering any consumer DAGs subscribed to it.
 
 To implement this, start by creating a DAG and defining the dataset it will update.
 
@@ -20,13 +26,12 @@ To implement this, start by creating a DAG and defining the dataset it will upda
 import datetime
 
 from airflow.decorators import dag, task
-from airflow.datasets import Dataset
+from airflow.sdk import Asset
 
-
-# A dataset can be anything, it will be a poiner in the Airflow db.
+# A dataset can be anything, it will be a pointer in the Airflow db.
 # If you need to access url like s3://my_bucket/my_file.txt then you can set
 # it with the proper path for reuse.
-DAG_UPDATED_DATASET = Dataset("upstream_data")
+DAG_UPDATED_DATASET = Asset("upstream_data")
 
 @dag(
     default_args={
@@ -51,11 +56,65 @@ def data_aware_producer_dag():
 dag = data_aware_producer_dag()
 ```
 
-Thats it, now you are ready to create your [Consumer DAG](#setting-up-the-airflow-dag)
+That's it, now you are ready to create your [Consumer DAG](#setting-up-the-airflow-dag).
+
+## Trigger from outside Airflow with Datacoves
+
+On Airflow 3 environments, an external process publishes a dataset event with a single request to Datacoves, authenticated with an [API key of the environment](/docs/how-tos/airflow/use-airflow-api#step-2-generate-an-api-key). Datacoves calls the environment's Airflow for it, so the process never handles Airflow credentials. The URL is on the environment's `Environment Keys` page, under `How to use them` > `Trigger asset`.
+
+```bash
+curl -X POST "https://api.<your domain>/api/v1/trigger-asset" \
+  -H "Authorization: Token $DATACOVES_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"asset_uri": "s3://my_bucket/my_folder/my_file.csv", "extra": {"rows": 1200}}'
+```
+
+```python
+import os
+
+import requests
+
+response = requests.post(
+    os.environ["DATACOVES_TRIGGER_ASSET_URL"],
+    headers={"Authorization": f"Token {os.environ['DATACOVES_API_KEY']}"},
+    json={
+        "asset_uri": "s3://my_bucket/my_folder/my_file.csv",
+        "extra": {"rows": 1200},
+    },
+    timeout=60,
+)
+response.raise_for_status()
+print(response.json())
+```
+
+The request body:
+
+| Field | Required | Description |
+| --- | --- | --- |
+| `asset_uri` | Yes | The URI of the dataset, exactly as the DAG declares it. |
+| `extra` | No | A JSON object stored with the event; DAGs can read it from the triggering event. |
+| `partition_key` | No | For partitioned assets. |
+| `environment` | No | The environment slug. Environment API keys can only publish to their own environment, so it is only needed with a project key. |
+
+The response is Airflow's: the created event on success. Errors:
+
+| Status | Meaning |
+| --- | --- |
+| `400` | The request is malformed, or the environment runs Airflow 2 (see below). |
+| `401` | The API key is missing, wrong or was deleted. |
+| `403` | The key belongs to another environment, or its owner cannot run DAGs in this Airflow. |
+| `404` | No dataset with that URI exists in Airflow yet (see the note at the end). |
+| `409` | Airflow is not enabled in the environment. |
+| `429` | Too many requests with this key; retry after a while. |
+| `503` | Airflow could not be reached, for example while it restarts; retry later. |
+
+:::note
+On Airflow 2 environments the trigger-asset endpoint is not available. Send the event to Airflow's own API instead: `POST <Airflow API URL>/datasets/events` with `{"dataset_uri": "..."}` and the header `Authorization: Token <API key>`.
+:::
 
 ## Lambda Function
 
-Alternatively, you can trigger a DAG externally using the [Airflow API](/docs/how-tos/airflow/use-airflow-api). In this example we will be using an AWS Lambda Function to trigger your DAG once data lands in an S3 Bucket.
+In this example we will be using an AWS Lambda Function to trigger your DAG once data lands in an S3 Bucket.
 
 ### Creating your zip files
 
@@ -67,55 +126,43 @@ along with your `lambda_function.py` file.
 **Example Lambda function:**
 
 ```python
-import requests
-import os
 import json
+import os
+
+import requests
 
 # In Lambda, environment variables are set in the Lambda configuration
 # rather than using dotenv
-API_URL = os.environ.get("AIRFLOW_API_URL")
+TRIGGER_ASSET_URL = os.environ.get("DATACOVES_TRIGGER_ASSET_URL")
 API_KEY = os.environ.get("DATACOVES_API_KEY")
 
-def update_dataset(dataset_name):
-    url = f"{API_URL}/datasets/events"
 
+def trigger_asset(asset_uri, extra):
     response = requests.post(
-        url=url,
-        headers={
-            "Authorization": f"Token {API_KEY}",
-        },
-        json={"dataset_uri": dataset_name,}
+        url=TRIGGER_ASSET_URL,
+        headers={"Authorization": f"Token {API_KEY}"},
+        json={"asset_uri": asset_uri, "extra": extra},
+        timeout=60,
     )
+    response.raise_for_status()
+    return response.json()
 
-    try:
-        return response.json()
-    except ValueError:
-        return response.text
-
-def print_response(response):
-    if response:
-        msg = json.dumps(response, indent=2)
-        print(f"Event posted successfully:\n{'='*30}\n\n {msg}")
 
 def lambda_handler(event, context):
     print("Lambda execution started")
 
     try:
-        print(f"Environment variables: API_URL={API_URL is not None}, API_KEY={API_KEY is not None}")
-
         # Extract S3 information
         bucket = event['Records'][0]['s3']['bucket']['name']
         key = event['Records'][0]['s3']['object']['key']
-        print(f"S3 event details: bucket={bucket}, key={key}")
-
         print(f"File uploaded: {bucket}/{key}")
 
-        # Airflow Dataset name must be static so if filename changes, that would have to
-        # be addressed above
-        dataset_name = f"s3://{bucket}/{key}"
+        # The dataset URI must match the one in the consumer DAG, so if the
+        # file name changes, map it to the static URI here.
+        asset_uri = f"s3://{bucket}/{key}"
 
-        response = update_dataset(dataset_name)
-        print_response(response)
+        response = trigger_asset(asset_uri, extra={"bucket": bucket, "key": key})
+        print(f"Event posted successfully:\n{json.dumps(response, indent=2)}")
 
         return {
             'statusCode': 200,
@@ -151,10 +198,10 @@ zip -g deployment-package.zip lambda_function.py
 
 ### Set Environment Variables
 
-- Gather your [API credentials](/docs/how-tos/airflow/use-airflow-api#step-1-navigate-to-your-target-environment) Configure the following environment variables in the Lambda Function's Configuration:
+- Gather your [API key](/docs/how-tos/airflow/use-airflow-api#step-2-generate-an-api-key) and the `Trigger Asset URL` from the environment's `Environment Keys` page. Configure the following environment variables in the Lambda Function's Configuration:
 
-     - `AIRFLOW_API_URL` (the API URL for Airflow)
-     - `AIRFLOW_API_KEY` (the API key for authentication)
+     - `DATACOVES_TRIGGER_ASSET_URL` (the Trigger Asset URL)
+     - `DATACOVES_API_KEY` (the API key for authentication)
 
 ## Configuring the S3 Event Notification
 
@@ -170,7 +217,7 @@ Now you are ready to set up your Consumer DAG.
 
 ## Setting Up the Airflow DAG
 
-Whether you decide to use a producer DAG or the Airflow API, the last step is to create an Airflow DAG that is triggered by a dataset event rather than a schedule. This particular example can be triggered with either a `LAMBDA_UPDATED_DATASET` or `DAG_UPDATED_DATASET`.
+Whether you decide to use a producer DAG or an external event, the last step is to create an Airflow DAG that is triggered by a dataset event rather than a schedule. This particular example can be triggered with either a `LAMBDA_UPDATED_DATASET` or `DAG_UPDATED_DATASET`.
 
 ![datasets graph](assets/datasets_graph.png)
 
@@ -180,10 +227,10 @@ Whether you decide to use a producer DAG or the Airflow API, the last step is to
 import datetime
 
 from airflow.decorators import dag, task
-from airflow.datasets import Dataset
+from airflow.sdk import Asset
 
-LAMBDA_UPDATED_DATASET = Dataset("s3://my_bucket/my_folder/my_file.csv")
-DAG_UPDATED_DATASET = Dataset("upstream_data")
+LAMBDA_UPDATED_DATASET = Asset("s3://my_bucket/my_folder/my_file.csv")
+DAG_UPDATED_DATASET = Asset("upstream_data")
 
 @dag(
     default_args={
@@ -192,7 +239,7 @@ DAG_UPDATED_DATASET = Dataset("upstream_data")
         "email": "gomezn@example.com",
         "retries": 1
     },
-    description="Sample Producer DAG",
+    description="Sample Consumer DAG",
     schedule=(LAMBDA_UPDATED_DATASET | DAG_UPDATED_DATASET),
     tags=["transform"],
     catchup=False,
@@ -210,6 +257,5 @@ dag = data_aware_consumer_dag()
 
 
 :::note
-Ensure the Dataset you are sending an event to exists in Airflow. It will be created automatically when a DAG is created. If a dataset does not exist when the API event is sent, the API call will fail.
+Ensure the Dataset you are sending an event to exists in Airflow. It will be created automatically when a DAG that uses it is parsed. If a dataset does not exist when the event is sent, the call fails (`404` from the trigger-asset endpoint).
 :::
-

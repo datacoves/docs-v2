@@ -18,13 +18,13 @@ Airflow 2 does not expose parse durations through its API; see [the note below](
 
 ## What you need
 
-1. An Airflow API token for the target environment: in the launchpad, go to **Environments**, open your environment's **Keys**, and click **Generate New Airflow Token**. Copy the token immediately -- it is only shown once.
+1. An API key for the target environment: in the launchpad, go to **Environments**, open your environment's **Keys**, and click **Generate New API Key**. Copy the key immediately -- it is only shown once. It does not expire; delete it to revoke it. See [How to use the Airflow API](/docs/how-tos/airflow/use-airflow-api).
 2. The **Airflow API URL** shown on that same page (`https://airflow-<env>.<your-domain>/api/v2/`).
 3. Store both in a `.env` file (and add it to `.gitignore`):
 
 ```env
 AIRFLOW_API_URL = "https://airflow-your-env.your-domain.com/api/v2/"
-AIRFLOW_API_TOKEN = "your-token-here"
+DATACOVES_API_KEY = "your-key-here"
 ```
 
 The script works the same from CI, from Datacoves VSCode, or from any environment you use to reach Datacoves -- the Airflow API endpoints are reachable from all of them.
@@ -42,7 +42,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 API_URL = os.getenv("AIRFLOW_API_URL").rstrip("/")
-HEADERS = {"Authorization": f"Bearer {os.getenv('AIRFLOW_API_TOKEN')}"}
+HEADERS = {"Authorization": f"Bearer {os.getenv('DATACOVES_API_KEY')}"}
 
 
 def fetch_all_dags():
@@ -92,20 +92,7 @@ A parse time consistently above ~1 second is worth investigating: the usual caus
 
 ## Alternative: authenticate as your own user
 
-The Airflow API token above belongs to the environment's service account and is a JWT with an expiration date, so long-lived automation would need re-generating it. As an alternative, you can authenticate with your personal Datacoves API key (generated under [User Settings > My Airflow API](/docs/how-tos/my_airflow/use-my-airflow-api) -- despite the name, it is a general Datacoves key): exchange it for a short-lived Airflow JWT at `POST /auth/token` using the special `__datacoves_token__` username. This authenticates you as **your own user** with your permissions, the key does not expire, and the same key works against **any environment you have access to**:
-
-```python
-def get_jwt(base_url, datacoves_api_key):
-    """Exchange a Datacoves API key for a short-lived Airflow JWT."""
-    response = requests.post(
-        f"{base_url}/auth/token",
-        json={"username": "__datacoves_token__", "password": datacoves_api_key},
-    )
-    response.raise_for_status()
-    return response.json()["access_token"]
-```
-
-Use the returned token in the same `Authorization: Bearer` header as above (`base_url` is the Airflow URL without `/api/v2`).
+The API key above belongs to the environment's service account. You can also use your personal Datacoves API key (generated under [User Settings > My Airflow API](/docs/how-tos/my_airflow/use-my-airflow-api) -- despite the name, it is a general Datacoves key) in the same `Authorization: Bearer` header. Airflow then runs the requests as **your own user**, with your permissions, and the same key works against **any environment you have access to**.
 
 ## Airflow 2 environments
 

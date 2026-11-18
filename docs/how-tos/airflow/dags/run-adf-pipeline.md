@@ -4,10 +4,6 @@ sidebar_label: Run ADF Pipeline
 description: "Use Azure Data Factory operators in Airflow DAGs within Datacoves to trigger and monitor ADF pipelines as part of your data orchestration workflow."
 sidebar_position: 120
 ---
-
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # Use Microsoft Azure Data Factory Operators 
 
 You can use Airflow in Datacoves to trigger a Microsoft Azure Data Factory pipeline. This guide will walk you through the configuration process. 
@@ -42,42 +38,7 @@ You can use Airflow in Datacoves to trigger a Microsoft Azure Data Factory pipel
 
  ![Airflow Connection](./assets/admin-connections.png)
 
-**Step 2:** Create a new connection. The form depends on your environment's Airflow version.
-
-<Tabs>
-<TabItem value="airflow3" label="Airflow 3" default>
-
-Click `Add Connection` and fill in:
-
-- **Connection ID:** `azure_data_factory_default` - this name will be used in the Airflow DAG and is the default name used by the ADF Operator
-- **Connection Type:** `Azure Data Factory`
-
-Under **Standard Fields**:
-
-- **Client ID:** Your `APPLICATION_CLIENT_ID`
-- **Secret:** Your `CLIENT_SECRET`
-
-![Airflow 3 ADF connection, standard fields](./assets/airflow3_adf_connection_standard.png)
-
-Open **Extra Fields** and fill in:
-
-- **Tenant ID:** Your `TENANT_ID`
-- **Subscription ID:** Your `SUBSCRIPTION_ID`
-- **Resource Group Name:** Your `RESOURCE_GROUP_NAME`
-- **Factory Name:** Your `DATA_FACTORY_NAME`
-
-Leave `Managed Identity Client ID` and `Workload Identity Tenant ID` empty when you authenticate with a client secret.
-
-![Airflow 3 ADF connection, extra fields](./assets/airflow3_adf_connection_extra.png)
-
-After you save it, the connections list shows the connection type by its id, `azure_data_factory`.
-
-![Airflow 3 connections list](./assets/airflow3_adf_connection_list.png)
-
-</TabItem>
-<TabItem value="airflow2" label="Airflow 2">
-
-Create a new connection using the following details.
+**Step 2:** Create a new connection using the following details.
 
 - **Connection Id:** `azure_data_factory_default` - this name will be used in the Airflow DAG and is the default name used by the ADF Operator
 
@@ -100,16 +61,13 @@ Create a new connection using the following details.
 :::
 
 ![adf connection](./assets/airflow_adf_connection.png)
-
-</TabItem>
-</Tabs>
  
 ## Example DAG 
 
 :::note
 You will need to update the `pipeline_name`, `resource_group_name`, and `factory_name` arguments below with the correct names.
 :::
-Once you have configured your Azure Data Factory connection, you are ready to create your DAG. Head into the `Transform` tab to begin writing your DAG inside `orchestrate/dags`.
+Once you have configured your Databricks connection and variables, you are ready to create your DAG. Head into the `Transform` tab to begin writing your DAG inside `orchestrate/dags`.
 
 ```python
 

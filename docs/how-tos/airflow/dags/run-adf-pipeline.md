@@ -94,23 +94,27 @@ Click `Add Connection` and fill in:
 - **Connection ID:** `azure_data_factory_default` - this name will be used in the Airflow DAG and is the default name used by the ADF Operator
 - **Connection Type:** `Azure Data Factory`
 
-Under **Standard Fields**:
+Under **Standard Fields**, the connection's login and password:
 
-- **Client ID:** Your `APPLICATION_CLIENT_ID`
-- **Secret:** Your `CLIENT_SECRET`
+- **Client ID** (login): Your `APPLICATION_CLIENT_ID`
+- **Secret** (password): Your `CLIENT_SECRET`
 
 ![Airflow 3 ADF connection, standard fields](./assets/airflow3_adf_connection_standard.png)
 
-Open **Extra Fields** and fill in:
+Open **Extra Fields JSON**. The editor already lists the Azure Data Factory fields with `null` values; replace them with yours. Leave `managed_identity_client_id` and `workload_identity_tenant_id` as `null` when you authenticate with a client secret.
 
-- **Tenant ID:** Your `TENANT_ID`
-- **Subscription ID:** Your `SUBSCRIPTION_ID`
-- **Resource Group Name:** Your `RESOURCE_GROUP_NAME`
-- **Factory Name:** Your `DATA_FACTORY_NAME`
+```json
+{
+  "tenantId": "<TENANT_ID>",
+  "subscriptionId": "<SUBSCRIPTION_ID>",
+  "resource_group_name": "<RESOURCE_GROUP_NAME>",
+  "factory_name": "<DATA_FACTORY_NAME>",
+  "managed_identity_client_id": null,
+  "workload_identity_tenant_id": null
+}
+```
 
-Leave `Managed Identity Client ID` and `Workload Identity Tenant ID` empty when you authenticate with a client secret.
-
-![Airflow 3 ADF connection, extra fields](./assets/airflow3_adf_connection_extra.png)
+![Airflow 3 ADF connection, extra fields JSON](./assets/airflow3_adf_connection_extra_json.png)
 
 After you save it, the connections list shows the connection type by its id, `azure_data_factory`.
 

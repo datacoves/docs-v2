@@ -31,3 +31,8 @@ Variables containing versions:
 - `DATACOVES__VERSION_MAJOR_MINOR`: Datacoves version excluding patch level (e.g. 5.0)
 - `DATACOVES__VERSION__ENV`: Complete version of Datacoves including patch level for this environment
 - `DATACOVES__VERSION_MAJOR_MINOR__ENV`: Datacoves version excluding patch level for this environment
+
+## Datacoves API token
+- `DATACOVES__API_TOKEN`: token Datacoves uses from inside Airflow, for example to read secrets from the Datacoves secrets manager and to upload the dbt manifest. From release 6.2 it belongs to a service user created for each environment with only those permissions: it can not manage Airflow users, connections or variables, and calls to the Airflow REST API with it are rejected.
+
+The Airflow tasks do not receive the credentials of the Datacoves admin service account. To call the Airflow API from your own code, generate an API key as described in [how to use the Airflow API](/docs/how-tos/airflow/use-airflow-api) and store it in your secrets backend.

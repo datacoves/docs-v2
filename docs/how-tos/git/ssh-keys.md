@@ -6,6 +6,8 @@ sidebar_position: 71
 ---
 # How to configure a SSH Key to clone a git repository
 
+Datacoves can generate the key for you, take a private key you provide, or read it from your own secrets backend; see [git SSH keys from your secrets backend](/docs/how-tos/datacoves/how_to_credentials_from_secrets_backend#git-ssh-keys).
+
 ## Clone a Git repository for development purposes (write access required)
 
 [Github SSH user keys](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)

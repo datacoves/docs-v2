@@ -27,6 +27,8 @@ A Project configuration consists of the following fields:
 
 When SSH is selected, an SSH public key will be automatically generated for you to configure in your git provider as a deployment key.
 
+If your cluster has it enabled, you can instead keep the deploy key in your own secrets backend: choose `From your secrets backend` under _Deploy key_. See [git SSH keys from your secrets backend](/docs/how-tos/datacoves/how_to_credentials_from_secrets_backend#git-ssh-keys).
+
 ![Repo SSH Key](../assets/projects_ssh_key.png)
 
 </TabItem>

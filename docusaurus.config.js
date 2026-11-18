@@ -314,6 +314,10 @@ const config = {
       position: 'left',
       items: [
         {
+          label: 'CI/CD',
+          to: '/docs/best-practices/ci-cd',
+        },
+        {
           label: 'Datacoves',
           to: '/docs/best-practices/datacoves',
 

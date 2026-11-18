@@ -30,6 +30,8 @@ A Service Connection consists of the following fields:
 
 ![Service Connection Connection Details](./assets/serviceconnection_editnew_details.png)
 
+Instead of entering the password, token, keyfile or Snowflake private key, you can reference it from your own secrets backend. See [Use warehouse credentials from your secrets backend](/docs/how-tos/datacoves/how_to_credentials_from_secrets_backend).
+
 ## Getting Started Next Steps 
 In the following step, you will update your repository by incorporating the necessary folders and files for Airflow. Specifically, you will add the `orchestrate/dags` directories along with `automate/dbt/profiles.yml`. 
 

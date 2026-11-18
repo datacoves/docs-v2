@@ -27,6 +27,8 @@ A Project configuration consists of the following fields:
 
 When SSH is selected, an SSH public key will be automatically generated for you to configure in your git provider as a deployment key.
 
+If your cluster has it enabled, you can instead keep the deploy key in your own secrets backend: choose `From your secrets backend` under _Deploy key_. See [git SSH keys from your secrets backend](/docs/how-tos/datacoves/how_to_credentials_from_secrets_backend#git-ssh-keys).
+
 ![Repo SSH Key](../assets/projects_ssh_key.png)
 
 </TabItem>
@@ -71,6 +73,6 @@ See this [how-to guide on configuring Azure DevOps](/docs/how-tos/datacoves/how_
 </Tabs>
 
 - **CI/CD Provider:** When provided, this will display a link to your CI/CD jobs on the Observe tab of a Datacoves environment. Once you choose your provider, you will be able to specify your `CI jobs home URL`.
-- **Secrets Backend:** Datacoves provides a Secrets Backend out of the box; you can also configure additional Secrets Backends at the project level, at the environment level, or both. See [AWS Secrets Manager](/docs/how-tos/datacoves/how_to_projects/how_to_configure_aws_secrets_manager) for details.
+- **Secrets Backend:** Datacoves provides a Secrets Backend out of the box; you can also configure additional Secrets Backends at the project level, at the environment level, or both. See [AWS Secrets Manager](/docs/how-tos/datacoves/how_to_projects/how_to_configure_aws_secrets_manager) for details. The same backend can also hold the warehouse credentials of your connections; see [Use warehouse credentials from your secrets backend](/docs/how-tos/datacoves/how_to_credentials_from_secrets_backend).
 
 ![Project Secrets Backend](../assets/edit_project_secrets_backend.jpg)

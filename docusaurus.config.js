@@ -5,6 +5,34 @@
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
 import {themes as prismThemes} from 'prism-react-renderer';
+import fs from 'node:fs';
+import path from 'node:path';
+
+// Old URLs that 404ed in Search Console. GitHub Pages can't send a 301, so each gets a
+// meta-refresh page at <from>.html, the way trailingSlash: false serves every page
+// (a <from>/index.html stub would loop: Pages adds the slash, Cloudflare strips it).
+function legacyRedirects() {
+  return {
+    name: 'legacy-redirects',
+    async postBuild({routesPaths, outDir}) {
+      const redirects = {'/docs/category/snowflake-1': '/docs/category/snowflake-best-practices'};
+      // The Airflow DAG how-tos moved into dags/. Cloudflare already sends the old
+      // .html URLs to /docs/how-tos/airflow/<page>, so that path is the one to cover.
+      for (const to of routesPaths) {
+        if (to.startsWith('/docs/how-tos/airflow/dags/')) redirects[to.replace('/dags/', '/')] = to;
+      }
+      for (const [from, to] of Object.entries(redirects)) {
+        const file = path.join(outDir, `${from}.html`);
+        if (fs.existsSync(file)) throw new Error(`redirect ${from} would overwrite a page`);
+        fs.writeFileSync(file, `<!doctype html><meta charset="utf-8"><title>Moved</title>` +
+          `<link rel="canonical" href="https://docs.datacoves.com${to}">` +
+          `<meta http-equiv="refresh" content="0; url=${to}">` +
+          `<script>location.replace(${JSON.stringify(to)} + location.search + location.hash)</script>` +
+          `<a href="${to}">This page moved.</a>`);
+      }
+    },
+  };
+}
 
 
 
@@ -171,6 +199,7 @@ const config = {
   ],
   
    plugins: [
+    legacyRedirects,
     [
       'docusaurus-plugin-generate-llms-txt',
       {

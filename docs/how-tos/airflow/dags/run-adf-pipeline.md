@@ -38,14 +38,56 @@ You can use Airflow in Datacoves to trigger a Microsoft Azure Data Factory pipel
 
 ## Create a Microsoft Azure Data Factory Connection in Airflow 
 
-**Step 1:** In Datacoves, a user with the `securityadmin` role must go to the `Airflow Admin -> Connection` menu.
+**Step 1:** In Datacoves, a user with the `securityadmin` role opens Airflow's connections. The menu depends on your environment's Airflow version.
 
- ![Airflow Connection](./assets/admin-connections.png)
+<Tabs groupId="airflow-version">
+<TabItem value="airflow2" label="Airflow 2" default>
+
+Go to the `Admin -> Connections` menu.
+
+![Airflow Connection](./assets/admin-connections.png)
+
+</TabItem>
+<TabItem value="airflow3" label="Airflow 3">
+
+In the left sidebar, click `Admin` and then `Connections`.
+
+![Airflow 3 Admin menu](./assets/airflow3_admin_connections_menu.png)
+
+</TabItem>
+</Tabs>
 
 **Step 2:** Create a new connection. The form depends on your environment's Airflow version.
 
-<Tabs>
-<TabItem value="airflow3" label="Airflow 3" default>
+<Tabs groupId="airflow-version">
+<TabItem value="airflow2" label="Airflow 2" default>
+
+Create a new connection using the following details.
+
+- **Connection Id:** `azure_data_factory_default` - this name will be used in the Airflow DAG and is the default name used by the ADF Operator
+
+- **Connection Type:** `Azure Data Factory` 
+
+- **Client ID:** Your `APPLICATION_CLIENT_ID` 
+
+- **Secret:**  Your `CLIENT_SECRET` 
+
+- **Tenant ID:** Your `TENANT_ID` 
+
+- **Factory Name**: Your `DATA_FACTORY_NAME`
+
+- **Resource Group Name**: Your `RESOURCE_GROUP_NAME`
+  
+- **Subscription ID:** Your `SUBSCRIPTION_ID` 
+
+:::note
+ Replace the values in the screenshot below with the actual values found above.
+:::
+
+![adf connection](./assets/airflow_adf_connection.png)
+
+</TabItem>
+<TabItem value="airflow3" label="Airflow 3">
 
 Click `Add Connection` and fill in:
 
@@ -73,33 +115,6 @@ Leave `Managed Identity Client ID` and `Workload Identity Tenant ID` empty when 
 After you save it, the connections list shows the connection type by its id, `azure_data_factory`.
 
 ![Airflow 3 connections list](./assets/airflow3_adf_connection_list.png)
-
-</TabItem>
-<TabItem value="airflow2" label="Airflow 2">
-
-Create a new connection using the following details.
-
-- **Connection Id:** `azure_data_factory_default` - this name will be used in the Airflow DAG and is the default name used by the ADF Operator
-
-- **Connection Type:** `Azure Data Factory` 
-
-- **Client ID:** Your `APPLICATION_CLIENT_ID` 
-
-- **Secret:**  Your `CLIENT_SECRET` 
-
-- **Tenant ID:** Your `TENANT_ID` 
-
-- **Factory Name**: Your `DATA_FACTORY_NAME`
-
-- **Resource Group Name**: Your `RESOURCE_GROUP_NAME`
-  
-- **Subscription ID:** Your `SUBSCRIPTION_ID` 
-
-:::note
- Replace the values in the screenshot below with the actual values found above.
-:::
-
-![adf connection](./assets/airflow_adf_connection.png)
 
 </TabItem>
 </Tabs>

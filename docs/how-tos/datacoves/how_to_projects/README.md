@@ -25,7 +25,16 @@ A Project configuration consists of the following fields:
 <Tabs>
 <TabItem value="github-app" label="GitHub App" default>
 
-When GitHub App is selected, the following fields must be filled in: `Git SSH url`, `Git HTTPS url`, `Client ID`, and `Private key`.
+When GitHub App is selected, Datacoves authenticates with a private GitHub App installed on the repository. The
+following fields must be filled in:
+
+- **Git SSH url:** SSH clone URL of the repository, which code-server uses
+- **Git HTTPS url:** HTTPS clone URL of the repository
+- **Client ID:** Client ID of the App
+- **Private key:** Private key generated on the App, empty on later edits to keep the stored one
+
+See this [how-to guide on configuring a GitHub App](/docs/how-tos/git/github-app) for the App registration,
+the installation and the private key.
 
 </TabItem>
 

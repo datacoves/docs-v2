@@ -126,7 +126,7 @@ After you save it, the connections list shows the connection type by its id, `az
 ## Example DAG 
 
 :::note
-Change `pipeline_name` in the example below to the name of your pipeline. The DAG reads the Resource Group Name and Factory Name from the `azure_data_factory_default` connection, so you don't set them in the code.
+Change `"myTestPipeline"` in `adf_pipeline("myTestPipeline")` to the name of your pipeline. The DAG reads the Resource Group Name and Factory Name from the `azure_data_factory_default` connection, so you don't set them in the code.
 :::
 Once you have configured your Azure Data Factory connection, you are ready to create your DAG. Head into the `Transform` tab to begin writing your DAG inside `orchestrate/dags`.
 
@@ -302,7 +302,7 @@ run_adf_pipeline()
 ## Understanding the Airflow DAG 
 
 - Understand how to [authenticate with ADF](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-azure/stable/connections/adf.html).
-- The DAG makes use of the [AzureDataFactoryRunPipelineOperator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-azure/stable/operators/adf_run_pipeline.html) to start the Azure Data Factory pipeline. With `wait_for_termination=False` the task finishes as soon as the run starts and pushes its `run_id` to XCom.
+- The DAG makes use of the [AzureDataFactoryRunPipelineOperator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-azure/stable/operators/adf_run_pipeline.html) to start the Azure Data Factory pipeline. With `wait_for_termination=False` the task finishes as soon as ADF creates the run and pushes its `run_id` to XCom.
 - To pass values to the pipeline, uncomment `parameters`. Use only parameters that your pipeline declares.
 - The `AzureDataFactoryPipelineRunStatusSensor` waits for that `run_id`. With `deferrable=True`, the wait runs in the Airflow triggerer instead of holding a worker slot. It checks the run every `poke_interval` seconds (60) and fails if the pipeline run fails, is cancelled, or takes longer than `timeout` (2 hours).
 - Both tasks are in a reusable task group, `adf_pipeline`, so you can call it once per pipeline.

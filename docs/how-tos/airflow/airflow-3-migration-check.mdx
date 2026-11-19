@@ -19,7 +19,7 @@ When an environment is upgraded from Airflow 2 to Airflow 3, DAG code written fo
 | `from airflow.operators.bash import BashOperator` | `from airflow.providers.standard.operators.bash import BashOperator` |
 | `schedule_interval="@daily"` | `schedule="@daily"` |
 | `from airflow.datasets import Dataset` | `from airflow.sdk import Asset` |
-| `from airflow.operators.dummy import DummyOperator` | `EmptyOperator` |
+| `from airflow.operators.dummy import DummyOperator` | `from airflow.providers.standard.operators.empty import EmptyOperator` |
 | Runtime-varying values in DAG definitions (e.g. `datetime.today()` in `start_date`) | Static values; Airflow 3 creates a new DAG version on every parse otherwise |
 
 Finding every occurrence across a repository by hand is tedious. The Datacoves code-server image ships the `datacoves airflow3-check` command, which scans your DAG code for these patterns using [ruff's Airflow lint rules](https://docs.astral.sh/ruff/rules/#airflow-air), maintained alongside the Airflow project itself.
@@ -66,13 +66,13 @@ datacoves airflow3-check path/to/dags
 
 Some issues have fixes that ruff classifies as safe: `schedule_interval` -> `schedule`, `DummyOperator` -> `EmptyOperator` and `Dataset` -> `Asset`. In the check's output, `[*]` marks the findings `--fix` will apply, and the last line says how many are fixable. Apply them with:
 
-```bash
-datacoves airflow3-check --fix
-```
-
 :::warning
 Only `schedule_interval` -> `schedule` is safe to apply while the environment runs Airflow 2. The other automatic fixes write Airflow 3-only imports (`airflow.sdk`, `airflow.providers.standard`) that fail on Airflow 2. Run `--fix` on a branch you merge together with the upgrade, or use the portable patterns in the workflow below.
 :::
+
+```bash
+datacoves airflow3-check --fix
+```
 
 `Dataset` and `DummyOperator` must be migrated before upgrading: `airflow.datasets` and `airflow.operators.dummy` no longer exist in the Airflow 3 version Datacoves runs, even though the check reports `Dataset` as a suggested update.
 
@@ -96,30 +96,24 @@ Full rule coverage needs ruff 0.15 or later; the Datacoves 6.1 code-server image
 
 ## Recommended workflow
 
-1. Run `datacoves airflow3-check` on your repository while the environment is still on Airflow 2 and work through the findings. Fixes like `schedule_interval` -> `schedule` already work on recent Airflow 2 releases; for new-location imports such as `airflow.sdk` (Airflow 3 only), use a portable pattern while both versions are in play:
+1. Run `datacoves airflow3-check` on your repository while the environment is still on Airflow 2 and work through the findings. Fixes like `schedule_interval` -> `schedule` already work on recent Airflow 2 releases; for any import whose new location exists only in Airflow 3 (`airflow.sdk`, `airflow.providers.standard`), use a `try/except` import while both versions are in play:
 
    ```python
    try:
        # Airflow 3
-       from airflow.sdk import dag, task
+       from airflow.sdk import DAG, Asset, dag, task
+       from airflow.providers.standard.operators.empty import EmptyOperator
+       from airflow.providers.standard.operators.bash import BashOperator
    except ImportError:
        # Airflow 2
-       from airflow.decorators import dag, task
-   ```
-
-   The check recognizes this pattern and will not flag the Airflow 2 import inside the `except` branch. These portable patterns also work on both versions and are not flagged:
-
-   ```python
-   # DummyOperator: EmptyOperator from this module works on Airflow 2.11 and 3
-   # (with a deprecation warning on Airflow 3)
-   from airflow.operators.empty import EmptyOperator
-
-   # Dataset -> Asset
-   try:
-       from airflow.sdk import Asset
-   except ImportError:
+       from airflow import DAG
        from airflow.datasets import Dataset as Asset
+       from airflow.decorators import dag, task
+       from airflow.operators.empty import EmptyOperator
+       from airflow.operators.bash import BashOperator
    ```
+
+   The check recognizes this pattern and does not flag the Airflow 2 imports inside the `except` branch. Importing `EmptyOperator` from `airflow.operators.empty` without the `try/except` is flagged, because it also moved to `airflow.providers.standard`.
 
 2. Re-run it until it reports no issues.
 3. Coordinate the environment upgrade with your Datacoves administrator.

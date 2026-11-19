@@ -1,36 +1,392 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- */
+/* Homepage. Colors come from the Datacoves palette in custom.css:
+   blue #3496E0, navy #00044A, yellow #FFD101. */
 
-.heroBanner {
-  padding: 4rem 0;
+.hero {
+  background:
+    radial-gradient(1200px 400px at 50% -10%, rgba(52, 150, 224, 0.18), transparent 70%),
+    linear-gradient(180deg, #f3f9ff 0%, var(--ifm-background-color) 100%);
+  padding: 4.5rem 0 3.5rem;
   text-align: center;
-  position: relative;
-  overflow: hidden;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
+[data-theme='dark'] .hero {
+  background:
+    radial-gradient(1200px 400px at 50% -10%, rgba(52, 150, 224, 0.25), transparent 70%),
+    linear-gradient(180deg, #0b1020 0%, var(--ifm-background-color) 100%);
+}
+
+.eyebrow {
+  color: var(--ifm-color-primary);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.heroTitle {
+  font-size: 2.75rem;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #00044a;
+  margin: 0 auto 1rem;
+  max-width: 760px;
+}
+
+[data-theme='dark'] .heroTitle {
+  color: #ffffff;
+}
+
+.heroSubtitle {
+  font-size: 1.15rem;
+  color: var(--ifm-color-emphasis-700);
+  max-width: 620px;
+  margin: 0 auto 2rem;
+}
+
+.searchButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 12px;
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-color-emphasis-600);
+  font: inherit;
+  font-size: 1.05rem;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 4, 74, 0.04), 0 8px 24px rgba(0, 4, 74, 0.06);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.searchButton:hover {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 4px rgba(52, 150, 224, 0.15);
+}
+
+.searchButton span {
+  flex: 1;
+  text-align: left;
+}
+
+.kbd {
+  font-size: 0.8rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  background: var(--ifm-color-emphasis-100);
+  color: var(--ifm-color-emphasis-700);
+  box-shadow: none;
+}
+
+.heroActions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.primaryButton,
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.primaryButton {
+  background: #ffd101;
+  color: #00044a;
+}
+
+.primaryButton:hover {
+  background: #e6bc00;
+  color: #00044a;
+  text-decoration: none;
+}
+
+.secondaryButton {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  color: var(--ifm-font-color-base);
+  background: var(--ifm-background-surface-color);
+}
+
+.secondaryButton:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+.main {
+  padding-bottom: 2rem;
+}
+
+.section {
+  padding: 2.5rem 0 0;
+}
+
+.sectionTitle {
+  font-size: 1.35rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Start here */
+
+.startGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.startCard {
+  display: flex;
+  gap: 1.1rem;
+  padding: 1.5rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 14px;
+  background: var(--ifm-background-surface-color);
+}
+
+.iconBadge {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(52, 150, 224, 0.12);
+  color: var(--ifm-color-primary);
+}
+
+.cardEyebrow {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ifm-color-emphasis-600);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  margin: 0.2rem 0 0.6rem;
+}
+
+.cardTitle a {
+  color: var(--ifm-heading-color);
+}
+
+.linkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.linkList li {
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+}
+
+.linkList a {
+  color: var(--ifm-color-emphasis-800);
+}
+
+.linkList a:hover {
+  color: var(--ifm-color-primary);
+}
+
+/* Topics */
+
+.topicGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.topicCard {
+  padding: 1.1rem 1.2rem 1rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  background: var(--ifm-background-surface-color);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.topicCard:hover {
+  border-color: rgba(52, 150, 224, 0.6);
+  box-shadow: 0 6px 20px rgba(0, 4, 74, 0.06);
+}
+
+.topicHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+  color: var(--ifm-heading-color);
+  text-decoration: none;
+}
+
+.topicHeader:hover {
+  text-decoration: none;
+  color: var(--ifm-color-primary);
+}
+
+.topicIcon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: rgba(52, 150, 224, 0.12);
+  color: var(--ifm-color-primary);
+}
+
+.topicTitle {
+  flex: 1;
+  font-weight: 600;
+  font-size: 1.02rem;
+}
+
+.topicArrow {
+  color: var(--ifm-color-emphasis-500);
+  transition: transform 0.15s ease;
+}
+
+.topicHeader:hover .topicArrow {
+  transform: translateX(2px);
+  color: var(--ifm-color-primary);
+}
+
+/* Documentation types */
+
+.typeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.typeCard {
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  padding: 0.5rem 0.25rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.typeCard:hover {
+  text-decoration: none;
+}
+
+.typeIcon {
+  flex: none;
+  color: var(--ifm-color-primary);
+  margin-top: 2px;
+}
+
+.typeTitle {
+  display: block;
+  font-weight: 600;
+  color: var(--ifm-heading-color);
+}
+
+.typeCard:hover .typeTitle {
+  color: var(--ifm-color-primary);
+}
+
+.typeText {
+  display: block;
+  font-size: 0.92rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+/* Demo band */
+
+.demoBand {
+  margin-top: 2.5rem;
+  /* custom.css gives .footer a 3rem top margin, which leaves a white strip
+     between this band and the footer; sit the band right on the footer. */
+  margin-bottom: -3rem;
+  background: #e8f4fe;
+  border-top: 1px solid rgba(52, 150, 224, 0.2);
+}
+
+[data-theme='dark'] .demoBand {
+  background: #10182b;
+  border-top-color: var(--ifm-color-emphasis-200);
+}
+
+.demoInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.demoInner p {
+  margin: 0;
+}
+
+.demoLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: var(--ifm-color-primary);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.demoLink:hover {
+  color: #ffffff;
+  text-decoration: none;
+  background: #2a85cc;
+}
+
+/* Smaller screens */
+
+@media (max-width: 996px) {
+  .heroTitle {
+    font-size: 2.1rem;
+  }
+
+  .startGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .topicGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .typeGrid {
+    grid-template-columns: 1fr;
   }
 }
 
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+@media (max-width: 600px) {
+  .hero {
+    padding: 3rem 0 2.5rem;
+  }
 
-.heroButton {
-  background-color: #FFD101; /* yellow */
-  color: #000; /* black text for contrast */
-  border: none; /* remove white border */
-  border-radius: 8px;
-  transition: background 0.2s ease, transform 0.15s ease;
-}
+  .topicGrid {
+    grid-template-columns: 1fr;
+  }
 
-.heroButton:hover {
-  background-color: #e6bc00; /* slightly darker yellow on hover */
-  transform: translateY(-2px); /* subtle lift */
+  .demoInner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

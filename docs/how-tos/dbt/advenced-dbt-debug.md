@@ -51,7 +51,7 @@ dbt compile --inline '{{ ref("us_population") }}' -t prd
 
 Insert logging statements to track execution:
 
-```jinja
+```jinja2
 {# Basic logging #}
 {{ print("Debug message") }}
 
@@ -66,7 +66,7 @@ Insert logging statements to track execution:
 
 Insert breakpoints in your code with `debug()`:
 
-```jinja
+```jinja2
 {% macro my_macro() %}
 ... your macro code ...
 

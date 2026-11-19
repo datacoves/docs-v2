@@ -2,7 +2,7 @@
 title: Set Up a Custom Environment for Airflow Workers
 sidebar_label: Worker - Custom Environment
 description: "Configure a custom Docker image for Airflow workers in Datacoves to include specific Python packages, libraries, or dependencies your DAGs require."
-sidebar_position: 39
+sidebar_position: 150
 ---
 # How to set up a custom environment for your Airflow workers
 

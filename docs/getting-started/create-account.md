@@ -9,7 +9,7 @@ sidebar_position: 1
 Your Datacoves account is configured during a setup call with the Datacoves team. We will guide you through the account setup wizard step by step. The wizard tests your data warehouse and git connections live, and will not let you continue until they succeed, so having the access and permissions below in place **before** the call is what keeps it short.
 
 :::caution
-A common blocker is git repository permissions. You need to be able to add a deploy key to the repository (see [Git](#git)). If you can't, make sure the person who can is available during the call.
+A common blocker is git repository permissions. Datacoves reaches the repository through a deploy key added to it or a GitHub App installed on it (see [Git](#git)). If you can't do either, make sure the person who can is available during the call.
 :::
 
 ## Before the Call
@@ -40,7 +40,7 @@ To set up your Datacoves account, you will need to know your data warehouse prov
 
 | Data Warehouse Provider | Information Needed |
 | --- | --- |
-| Snowflake | Account, Warehouse, Database, Role, Schema, User, Password |
+| Snowflake | Account, Warehouse, Database, Role, Schema, and [an authentication method](/docs/how-tos/snowflake/snowflake-sign-in): User and Password, User and a key pair, or a Snowflake sign-in |
 | Redshift | Host, Database, Schema, User, Password |
 | Databricks | Host, HTTP Path, Schema, Catalog (optional), Token |
 | BigQuery | Dataset, Keyfile JSON |
@@ -52,7 +52,7 @@ For the Snowflake `Account` field, use the `orgname-accountname` format (e.g. `m
 Check out the Snowflake documentation on [finding the organization and account name for an account](https://docs.snowflake.com/en/user-guide/admin-account-identifier#finding-the-organization-and-account-name-for-an-account).
 :::
 
-**Snowflake authentication:** The setup wizard only supports username and password authentication. Make sure your Snowflake user can log in with a password. The Airflow service account can also use key-pair authentication.
+**Snowflake authentication:** The setup wizard supports password, key pair and Sign in with Snowflake. For key pair, add a key in the wizard and register its public key on your Snowflake user before testing the connection. The Airflow service account can also use key-pair authentication.
 - Your personal Snowflake user needs MFA (e.g. Duo) enabled. This does not apply to the Airflow service account. Have your phone handy, since you'll need to approve the push notification when the connection is tested.
 - We recommend that your Snowflake administrator enables [MFA token caching](https://docs.snowflake.com/en/user-guide/security-mfa#using-mfa-token-caching-to-minimize-the-number-of-prompts-during-authentication-optional) to avoid an MFA prompt on every connection.
 
@@ -60,7 +60,13 @@ Check out the Snowflake documentation on [finding the organization and account n
 
 ### Git
 
-Datacoves works with any git provider that supports SSH, such as GitHub, GitLab, Bitbucket, and Azure DevOps. During the wizard, Datacoves generates two SSH keys, and both are tested before you can continue:
+Datacoves works with any git provider that supports SSH, such as GitHub, GitLab, Bitbucket, and Azure DevOps. For a repository on github.com, the wizard's Git Repository step authenticates with a GitHub App, and the Authentication select starts on GitHub App.
+
+**GitHub App**
+Register a private GitHub App in your organization with read-only Contents access, install it on the repository, and have its client ID and private key ready. See [How to configure a GitHub App](/docs/how-tos/git/github-app) for the steps. The wizard also generates a Developer Key, and you add it to your own git account as described below.
+
+**SSH keys**
+Use SSH keys for any other git provider, such as GitLab, Bitbucket, or Azure DevOps, and for a github.com organization that cannot use an App. With SSH keys, the wizard generates a Deploy Key and a Developer Key, tests both before you can continue, and the SSH key type is selectable for both.
 
 **Deploy Key**
 Added to the repository and used by Datacoves services. You need the right role in your git provider to add it:

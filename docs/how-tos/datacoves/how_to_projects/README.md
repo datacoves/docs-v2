@@ -20,12 +20,27 @@ A Project configuration consists of the following fields:
 
 - **Name:** This is what will be displayed in the Datacoves landing page.
 - **Git Repo:** This is the git repository associated with this project.
-  - **Clone strategy:** Determines how Datacoves will communicate with your git repository (SSH, HTTPS, or Azure DevOps Secret/Certificate). Select your desired cloning strategy to see configuration instructions:
+  - **Clone strategy:** Determines how Datacoves will communicate with your git repository (GitHub App, SSH, HTTPS, or Azure DevOps Secret/Certificate). New projects start on GitHub App. Select your desired cloning strategy to see configuration instructions:
 
 <Tabs>
-<TabItem value="ssh" label="SSH" default>
+<TabItem value="github-app" label="GitHub App" default>
 
-When SSH is selected, an SSH public key will be automatically generated for you to configure in your git provider as a deployment key.
+When GitHub App is selected, Datacoves authenticates with a private GitHub App installed on the repository. The
+following fields must be filled in:
+
+- **Git SSH url:** SSH clone URL of the repository, which code-server uses
+- **Git HTTPS url:** HTTPS clone URL of the repository
+- **Client ID:** Client ID of the App
+- **Private key:** Private key generated on the App, empty on later edits to keep the stored one
+
+See this [how-to guide on configuring a GitHub App](/docs/how-tos/git/github-app) for the App registration,
+the installation and the private key.
+
+</TabItem>
+
+<TabItem value="ssh" label="SSH">
+
+When SSH is selected, an SSH public key will be automatically generated for you to configure in your git provider as a deployment key. You can choose the SSH key type for the generated key.
 
 ![Repo SSH Key](../assets/projects_ssh_key.png)
 

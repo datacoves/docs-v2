@@ -51,6 +51,9 @@ To create a new connection template click the `Create Connection Template` in th
 - `Database` - The default connection template database 
 - `Role`- The default connection template role
   ![Snowflake Connection Type](./assets/connections_editnew_snowflake.png)
+- `Client id` and `Client secret` (under **Sign in with Snowflake**) - Optional. Leave them empty to use Snowflake's
+  built-in sign-in, or enter the client of your own security integration. See
+  [Sign in with Snowflake](/docs/how-tos/snowflake/snowflake-sign-in).
 
 ## For Redshift, the available fields are: 
 

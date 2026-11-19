@@ -17,10 +17,17 @@ When an environment is upgraded from Airflow 2 to Airflow 3, DAG code written fo
 | `from airflow.decorators import dag, task` | `from airflow.sdk import dag, task` |
 | `from airflow.operators.bash import BashOperator` | `from airflow.providers.standard.operators.bash import BashOperator` |
 | `schedule_interval="@daily"` | `schedule="@daily"` |
-| `email_on_failure` / `email_on_retry` in `default_args` | SMTP notifications (`SmtpNotifier`) |
 | Runtime-varying values in DAG definitions (e.g. `datetime.today()` in `start_date`) | Static values; Airflow 3 creates a new DAG version on every parse otherwise |
 
-Finding every occurrence across a repository by hand is tedious. The Datacoves code-server image ships the `datacoves airflow3-check` command, which scans your DAG code for all of these using [ruff's Airflow lint rules](https://docs.astral.sh/ruff/rules/#airflow-air), maintained alongside the Airflow project itself.
+Finding every occurrence across a repository by hand is tedious. The Datacoves code-server image ships the `datacoves airflow3-check` command, which scans your DAG code for these patterns using [ruff's Airflow lint rules](https://docs.astral.sh/ruff/rules/#airflow-air), maintained alongside the Airflow project itself.
+
+Some Airflow 3 changes are not detected by those rules, so check for them by hand:
+
+| Airflow 2 pattern | Airflow 3 replacement |
+| --- | --- |
+| `email_on_failure` / `email_on_retry`, in `default_args` or passed to an operator | SMTP notifications (`SmtpNotifier`) |
+| `sla` inside `default_args` | Removed. `sla` passed directly to an operator and `sla_miss_callback` are detected. |
+| `context["execution_date"]` | `context["logical_date"]` |
 
 ## Run the check
 
@@ -30,7 +37,7 @@ Open a terminal in your Datacoves workbench and run:
 datacoves airflow3-check
 ```
 
-By default it checks the DAGs folder configured for your environment. Each finding shows the file, line, offending pattern, and the suggested replacement:
+By default it checks the DAGs folder configured for your environment. If Airflow is not enabled in the environment there is no configured DAGs folder, so pass the path to check (see below). Each finding shows the file, line, offending pattern, and the suggested replacement:
 
 ```
 airflow3-suggested-update: `airflow.decorators.dag` is removed in Airflow 3.0
@@ -38,7 +45,13 @@ airflow3-suggested-update: `airflow.decorators.dag` is removed in Airflow 3.0
 help: `dag` has been moved to `airflow.sdk` since Airflow 3.0
 ```
 
-The command exits with code `0` when no issues are found and `1` when there are findings, so you can also use it in scripts or CI.
+The exit code tells the result, so you can also use it in scripts or CI:
+
+| Exit code | Meaning |
+| --- | --- |
+| `0` | No issues found |
+| `1` | Issues found |
+| `2` | The check could not run, for example because no DAGs folder could be determined |
 
 To check a different directory (for example a scratch folder, or a repo with a non-standard layout), pass it explicitly:
 
@@ -48,16 +61,26 @@ datacoves airflow3-check path/to/dags
 
 ## Apply automatic fixes
 
-Some issues have unambiguous, safe fixes (for example `schedule_interval` -> `schedule`). Apply them with:
+Some issues have fixes that ruff classifies as safe, for example `schedule_interval` -> `schedule`, `DummyOperator` -> `EmptyOperator` or `Dataset` -> `Asset`. Apply them with:
 
 ```bash
 datacoves airflow3-check --fix
 ```
 
-Changes that could alter behavior, such as rewriting imports to their new locations, are reported but not applied automatically; review each finding's `help:` line and update the code by hand.
+Fixes that could alter behavior, such as moving `airflow.decorators` or `BashOperator` imports to their new locations, are reported but not applied; review each finding's `help:` line and update the code by hand.
+
+When `--fix` rewrites an import, it adds the new one and leaves the old import in place, now unused, because only the Airflow rules run. Remove the leftovers with:
+
+```bash
+ruff check --select F401 --fix path/to/dags
+```
 
 :::tip
 Commit or stash your work before running `--fix` so you can review the changes with `git diff`.
+:::
+
+:::note
+Full rule coverage needs ruff 0.15 or later; the Datacoves 6.1 code-server image ships ruff 0.16. With an older ruff the command still runs, but warns that results may be missing rules.
 :::
 
 ## Recommended workflow

@@ -26,15 +26,15 @@ You can use Airflow in Datacoves to trigger a Microsoft Azure Data Factory pipel
 
 ### How to get the ADF information 
 
-**Step 1:**  Login to your Microsoft Azure console and navigate to the [Data Factories service](https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.DataFactory%2FdataFactories).
+**Step 1:**  Log in to your Microsoft Azure console and navigate to the [Data Factories service](https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.DataFactory%2FdataFactories).
 
-**Step 2:** Copy the`DATA_FACTORY_NAME` for the factory which holds your data pipeline.
+**Step 2:** Copy the `DATA_FACTORY_NAME` for the factory which holds your data pipeline.
 
 **Step 3:** Open the factory and copy the `RESOURCE_GROUP_NAME`, and the `SUBSCRIPTION_ID` from the Overview tab 
 
-**Step 4:** Navigate to the Microsoft Entra ID service, click on number next to *Applicaitons* on the Overview tab. Next click the *All Applications* tab, open the application or register a new application then open it and copy the `APPLICATION_CLIENT_ID` and Directory`TENANT_ID`.
+**Step 4:** Browse to **Entra ID** > **App registrations** and open your application, or register a new one. On the application's **Overview** page, copy the **Application (client) ID**, which is the `APPLICATION_CLIENT_ID`, and the **Directory (tenant) ID**, which is the `TENANT_ID`.
 
-**Step 5:** Click on *Certificates and Secrets* and generate a new secret for your Microsoft Entra Application and copy the *Value*. This is the `CLIENT_SECRET`.
+**Step 5:** In the application, select **Certificates & secrets** > **Client secrets** > **New client secret**. After you add it, copy its **Value**. This is the `CLIENT_SECRET`. Azure shows the value only once, so copy it right away.
 
 ## Create a Microsoft Azure Data Factory Connection in Airflow 
 

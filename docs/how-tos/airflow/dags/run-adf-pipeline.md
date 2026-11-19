@@ -126,58 +126,184 @@ After you save it, the connections list shows the connection type by its id, `az
 ## Example DAG 
 
 :::note
-You will need to update the `pipeline_name`, `resource_group_name`, and `factory_name` arguments below with the correct names.
+Change `pipeline_name` in the example below to the name of your pipeline. The DAG reads the Resource Group Name and Factory Name from the `azure_data_factory_default` connection, so you don't set them in the code.
 :::
 Once you have configured your Azure Data Factory connection, you are ready to create your DAG. Head into the `Transform` tab to begin writing your DAG inside `orchestrate/dags`.
 
+<Tabs groupId="airflow-version">
+<TabItem value="airflow2" label="Airflow 2" default>
+
 ```python
+"""
+## Run an Azure Data Factory pipeline
+Starts an ADF pipeline, then waits for it with a deferrable sensor. While the sensor waits, it runs in
+the Airflow triggerer instead of holding a worker slot. The sensor fails if the pipeline run fails.
+When the pipeline succeeds, a dbt task runs.
 
-"""Example Airflow Azure Data Factory DAG."""
+Requires `apache-airflow-providers-microsoft-azure` and an `Azure Data Factory` connection with the
+Client ID, Secret, Tenant ID and Subscription ID of a service principal that has the
+`Data Factory Contributor` role on the factory's resource group.
+Set Resource Group Name and Factory Name in the connection too.
+"""
 
-from datetime import datetime
-from airflow.decorators import dag, task_group
+from datetime import timedelta
+
+import pendulum
+from airflow.decorators import dag, task, task_group
 from airflow.providers.microsoft.azure.operators.data_factory import AzureDataFactoryRunPipelineOperator
 from airflow.providers.microsoft.azure.sensors.data_factory import AzureDataFactoryPipelineRunStatusSensor
 
+# The operator and sensor require resource_group_name and factory_name, but None makes the
+# hook use the Resource Group Name and Factory Name set in the connection
+ADF_ARGS = {
+    "azure_data_factory_conn_id": "azure_data_factory_default",
+    "resource_group_name": None,
+    "factory_name": None,
+}
+
+
 @dag(
-    schedule="@daily",
-    start_date=datetime(2024, 1, 1),
-    tags=["version_1"],
+    doc_md=__doc__,
+    start_date=pendulum.datetime(2025, 1, 1, tz="UTC"),
+    schedule="0 0 1 */12 *",  # once a year, Jan 1 at midnight UTC
     catchup=False,
     default_args={
-        "azure_data_factory_conn_id": "azure_data_factory_default",
-        "factory_name": "your-factory-name", 
-        "resource_group_name": "your-resource-name",
+        "owner": "airflow",
+        "retries": 2,
+        "retry_delay": timedelta(minutes=5),
     },
+    description="Trigger an Azure Data Factory pipeline, wait for it with a deferrable sensor, then run dbt",
+    tags=["extract_and_load"],
 )
-def adf_example_run():
-    """Run an Azure Data Factory pipeline with async status checking."""
+def run_adf_pipeline():
 
-    @task_group(group_id="adf_pipeline_group", tooltip="ADF Pipeline Group")
-    def adf_pipeline_tasks():
+    @task_group
+    def adf_pipeline(pipeline_name):
+        # Start the pipeline and return immediately; the run_id is pushed to XCom
         run_pipeline = AzureDataFactoryRunPipelineOperator(
             task_id="run_pipeline",
-            pipeline_name="myTestPipeline",  # Rename to your Pipeline name
-            parameters={"myParam": "value"},
+            pipeline_name=pipeline_name,
+            # parameters={"my_param": "value"},  # only parameters the pipeline declares
             wait_for_termination=False,
+            **ADF_ARGS,
         )
 
-        # Deferrable sensor for async pipeline status checking
-        pipeline_run_async_sensor = AzureDataFactoryPipelineRunStatusSensor(
-            task_id="pipeline_run_async_sensor",
+        # Wait for the run to finish in the triggerer
+        wait_for_pipeline = AzureDataFactoryPipelineRunStatusSensor(
+            task_id="wait_for_pipeline",
             run_id=run_pipeline.output["run_id"],
             deferrable=True,
+            poke_interval=60,          # seconds between status checks
+            timeout=60 * 60 * 2,       # fail if the run takes more than 2 hours
+            **ADF_ARGS,
         )
 
-        run_pipeline >> pipeline_run_async_sensor
+        run_pipeline >> wait_for_pipeline
 
-    adf_pipeline_group = adf_pipeline_tasks()
+    # Runs only after both tasks in the group succeed
+    @task.datacoves_dbt(
+        connection_id="main"
+    )
+    def run_dbt():
+        return "dbt debug"
 
-DAG = adf_example_run()
+    adf_pipeline("myTestPipeline") >> run_dbt()
+
+
+run_adf_pipeline()
 ```
- 
+
+</TabItem>
+<TabItem value="airflow3" label="Airflow 3">
+
+```python
+"""
+## Run an Azure Data Factory pipeline
+Starts an ADF pipeline, then waits for it with a deferrable sensor. While the sensor waits, it runs in
+the Airflow triggerer instead of holding a worker slot. The sensor fails if the pipeline run fails.
+When the pipeline succeeds, a dbt task runs.
+
+Requires `apache-airflow-providers-microsoft-azure` and an `Azure Data Factory` connection with the
+Client ID, Secret, Tenant ID and Subscription ID of a service principal that has the
+`Data Factory Contributor` role on the factory's resource group.
+Set Resource Group Name and Factory Name in the connection too.
+"""
+
+from datetime import timedelta
+
+import pendulum
+from airflow.sdk import dag, task, task_group
+from airflow.providers.microsoft.azure.operators.data_factory import AzureDataFactoryRunPipelineOperator
+from airflow.providers.microsoft.azure.sensors.data_factory import AzureDataFactoryPipelineRunStatusSensor
+
+# The operator and sensor require resource_group_name and factory_name, but None makes the
+# hook use the Resource Group Name and Factory Name set in the connection
+ADF_ARGS = {
+    "azure_data_factory_conn_id": "azure_data_factory_default",
+    "resource_group_name": None,
+    "factory_name": None,
+}
+
+
+@dag(
+    doc_md=__doc__,
+    start_date=pendulum.datetime(2025, 1, 1, tz="UTC"),
+    schedule="0 0 1 */12 *",  # once a year, Jan 1 at midnight UTC
+    catchup=False,
+    default_args={
+        "owner": "airflow",
+        "retries": 2,
+        "retry_delay": timedelta(minutes=5),
+    },
+    description="Trigger an Azure Data Factory pipeline, wait for it with a deferrable sensor, then run dbt",
+    tags=["extract_and_load"],
+)
+def run_adf_pipeline():
+
+    @task_group
+    def adf_pipeline(pipeline_name):
+        # Start the pipeline and return immediately; the run_id is pushed to XCom
+        run_pipeline = AzureDataFactoryRunPipelineOperator(
+            task_id="run_pipeline",
+            pipeline_name=pipeline_name,
+            # parameters={"my_param": "value"},  # only parameters the pipeline declares
+            wait_for_termination=False,
+            **ADF_ARGS,
+        )
+
+        # Wait for the run to finish in the triggerer
+        wait_for_pipeline = AzureDataFactoryPipelineRunStatusSensor(
+            task_id="wait_for_pipeline",
+            run_id=run_pipeline.output["run_id"],
+            deferrable=True,
+            poke_interval=60,          # seconds between status checks
+            timeout=60 * 60 * 2,       # fail if the run takes more than 2 hours
+            **ADF_ARGS,
+        )
+
+        run_pipeline >> wait_for_pipeline
+
+    # Runs only after both tasks in the group succeed
+    @task.datacoves_dbt(
+        connection_id="main"
+    )
+    def run_dbt():
+        return "dbt debug"
+
+    adf_pipeline("myTestPipeline") >> run_dbt()
+
+
+run_adf_pipeline()
+```
+
+</TabItem>
+</Tabs>
+
 ## Understanding the Airflow DAG 
 
 - Understand how to [authenticate with ADF](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-azure/stable/connections/adf.html).
-- The DAG makes use of the [AzureDataFactoryRunPipelineOperator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-azure/stable/operators/adf_run_pipeline.html) to run an Azure Data Factory pipeline. It also shows how it’s possible to pass parameters that can be used in the pipeline. 
-  
+- The DAG makes use of the [AzureDataFactoryRunPipelineOperator](https://airflow.apache.org/docs/apache-airflow-providers-microsoft-azure/stable/operators/adf_run_pipeline.html) to start the Azure Data Factory pipeline. With `wait_for_termination=False` the task finishes as soon as the run starts and pushes its `run_id` to XCom.
+- To pass values to the pipeline, uncomment `parameters`. Use only parameters that your pipeline declares.
+- The `AzureDataFactoryPipelineRunStatusSensor` waits for that `run_id`. With `deferrable=True`, the wait runs in the Airflow triggerer instead of holding a worker slot. It checks the run every `poke_interval` seconds (60) and fails if the pipeline run fails, is cancelled, or takes longer than `timeout` (2 hours).
+- Both tasks are in a reusable task group, `adf_pipeline`, so you can call it once per pipeline.
+- `run_dbt` runs only after the pipeline succeeds. Replace `dbt debug` with the dbt command you need. See [Run dbt](./run-dbt.md) for more on the `datacoves_dbt` decorator.

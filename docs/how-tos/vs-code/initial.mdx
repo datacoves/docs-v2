@@ -200,6 +200,10 @@ If using key based authentication, you will need to provide or generate a key wh
 
 Provide or automatically generate your keys. Then add the public key to Snowflake.
 
+:::warning
+Elliptic curve keys don't work with the [Snowflake VS Code extension](/docs/getting-started/developer/snowflake-extension) or the [Snowflake MCP server](/docs/how-tos/vs-code/mcp/snowflake). The default **Auto-generate key pairs** creates an elliptic curve key. To use either, pick **Auto-generate RSA key pairs (Compatibility)** or provide an RSA private key. Datacoves shows this warning when you generate, paste, or select an elliptic curve key.
+:::
+
 <div style={{ maxWidth: "700px", margin: "0 auto" }}>
   ![Snowflake Settings Generate Keys](./assets/user_settings_snowflake.png)
 </div>

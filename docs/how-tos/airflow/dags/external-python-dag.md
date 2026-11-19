@@ -2,7 +2,7 @@
 title: Call External Python Scripts from Airflow DAGs
 sidebar_label: External Python Scripts
 description: "Use DatacovesBashOperator to run external Python scripts from Airflow DAGs in Datacoves, with custom packages pre-installed in the worker environment."
-sidebar_position: 21
+sidebar_position: 20
 ---
 # External Python DAG 
 

@@ -2,7 +2,7 @@
 title: Retry Failed dbt Tasks in Airflow DAGs
 sidebar_label: Retry dbt Tasks
 description: "Configure automatic retries for failed dbt tasks in Airflow DAGs in Datacoves, including retry count, delay settings, and email-on-retry behavior."
-sidebar_position: 29
+sidebar_position: 80
 ---
 # Retry a dbt task
 

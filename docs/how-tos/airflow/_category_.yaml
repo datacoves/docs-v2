@@ -2,5 +2,6 @@ label: Airflow
 position: 1
 link:
   type: generated-index
+  slug: /category/airflow
   title: Airflow in Datacoves
   description: These how-to guides are dedicated to Airflow within Datacoves. Here you will find information on how to enable and configure Airflow.

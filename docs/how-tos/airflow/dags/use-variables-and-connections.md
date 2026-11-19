@@ -2,7 +2,7 @@
 title: Use Airflow Variables and Connections in DAGs
 sidebar_label: Variables & Connections
 description: "How to access and use Airflow Variables and Connections in Datacoves DAGs, with best practices for avoiding performance issues during DAG parsing."
-sidebar_position: 33
+sidebar_position: 150
 ---
 # Variables and Connections
 

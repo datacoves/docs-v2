@@ -353,7 +353,7 @@ Datacoves Copilot supports a wide range of AI model providers that offer APIs co
 
 Where:
 
-1. `openAiBaseUrl`: This is the API endpoint for the provider. It will not be https://api.openai.com/v1 (that's for the official OpenAI API).
+1. `openAiBaseUrl`: This is the API endpoint for the provider. It will not be `https://api.openai.com/v1` (that's for the official OpenAI API).
 2. `openAiApiKey`: This is the secret key you obtain from the provider.
 3. `openAiModelId`: This is the model name of the specific model, each provider will expose a different set of models, please check provider's documentation.
 

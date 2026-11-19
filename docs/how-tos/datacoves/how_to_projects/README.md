@@ -33,7 +33,7 @@ When SSH is selected, an SSH public key will be automatically generated for you 
 
 <TabItem value="https" label="HTTPS">
 
-When HTTPS is selected, the following fields must be filled in: `Git HTTPS url`, `Username`, and `Password`.
+When HTTPS is selected, the following fields must be filled in: `Git HTTPS url`, `Username`, and `Password or personal access token`.
 
 ![Repo User Password Prompt](../assets/projects_https_data.png)
 

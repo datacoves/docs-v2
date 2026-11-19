@@ -1,7 +1,8 @@
-label: Snowflake
+label: Snowflake best practices
 position: 1
 link:
   type: generated-index
+  slug: /category/snowflake-best-practices
   title: Snowflake
   description: Best practices for Snowflake, including setting up a scalable security model, managing time-travel while meeting GDPR requirements, and comparing tables.
 

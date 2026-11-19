@@ -1,7 +1,7 @@
 ---
 title: "Datacoves CLI Commands Reference"
 sidebar_label: CLI Commands
-description: "Reference for the datacoves CLI in the VS Code terminal: check_size_folder and the datacoves my commands to import, test, clean and inspect My Airflow."
+description: "Reference for the datacoves CLI in the VS Code terminal: check_size_folder, airflow3-check and the datacoves my commands for My Airflow."
 sidebar_position: 138
 ---
 # Datacoves CLI Commands
@@ -19,6 +19,7 @@ datacoves my parse-logs --help
 | Command | Description |
 |---|---|
 | [`datacoves check_size_folder`](#datacoves-check_size_folder) | Check size of a directory. |
+| [`datacoves airflow3-check`](#datacoves-airflow3-check) | Check DAG code for Airflow 3 migration issues (ruff AIR rules). |
 | [`datacoves my import`](#datacoves-my-import) | Import connections and variables from Team Airflow. |
 | [`datacoves my pytest`](#datacoves-my-pytest) | Run pytest in My Airflow. |
 | [`datacoves my db-clean`](#datacoves-my-db-clean) | Clean the local Airflow database. |
@@ -53,6 +54,39 @@ The report includes:
 - The 5 largest files over 10 MB, if there are any
 
 Hidden folders such as `.git` are included in the totals. This command only reads the folder. It does not modify or delete anything.
+
+## datacoves airflow3-check
+
+:::info
+Available in Datacoves 6.1 and later.
+:::
+
+Checks your DAG code for patterns that were removed or changed in Airflow 3, such as `schedule_interval` or imports that moved to `airflow.sdk` or the standard provider. It runs [ruff's Airflow rules](https://docs.astral.sh/ruff/rules/#airflow-air) on the files in your workspace, so it doesn't need My Airflow and you can use it while your environment is still on Airflow 2. See [Check your DAGs for Airflow 3 migration issues](/docs/how-tos/airflow/airflow-3-migration-check) for how to work through the results.
+
+| Argument or option | Description |
+|---|---|
+| `PATHS` | Files or directories to check. Defaults to the environment's configured DAGs folder. |
+| `--fix` | Apply the fixes ruff classifies as safe. |
+
+```bash
+# Check the environment's DAGs folder
+datacoves airflow3-check
+
+# Check specific files or folders
+datacoves airflow3-check orchestrate/dags/my_dag.py
+
+# Apply the safe fixes
+datacoves airflow3-check --fix
+```
+
+- If Airflow is not enabled in your environment, there is no configured DAGs folder, so pass the path to check.
+- `--fix` changes only what ruff considers safe, such as renaming `schedule_interval` to `schedule`. The remaining findings are listed for you to fix by hand. Commit your work first so you can review the changes with `git diff`.
+- The exit code is `0` when no issues are found, `1` when there are findings, and `2` when the check could not run (for example, no DAGs folder could be determined). You can use it in scripts and CI.
+- The checks are complete only with ruff 0.15 or later; the Datacoves 6.1 image includes ruff 0.16. With an older ruff, for example in a customized image, the command warns that some rules may be missing.
+
+:::note
+The check doesn't catch every Airflow 3 change. For example, it doesn't flag `context["execution_date"]`, or `email_on_failure` and `sla` inside `default_args`. Test your DAGs after the upgrade.
+:::
 
 ## datacoves my
 
@@ -96,7 +130,7 @@ For each secret variable, the command asks you to enter its value. Type or paste
 
 #### Connections
 
-My Airflow uses your own credentials, not the service credentials used by Team Airflow. For each supported Team Airflow connection, the command creates a connection with the same ID in My Airflow using the details and credentials from your [database connection](/docs/how-tos/vs-code/initial#set-up-database-connection) in your Datacoves User Settings. Snowflake, Redshift, Databricks and BigQuery connections are supported.
+My Airflow uses your own credentials, not the service credentials used by Team Airflow. For each supported Team Airflow connection, the command creates a connection with the same ID in My Airflow using the details and credentials from your [database connection](/docs/how-tos/vs-code/initial#set-up-database-connection) in your Datacoves User Settings. Snowflake, Redshift, Databricks and BigQuery connections are supported, including Snowflake connections that sign in with OAuth.
 
 - If you have more than one database connection of the same type, you will be asked to choose one. With `--quiet`, the first one is used.
 - If you don't have a database connection of the right type, or the connection type is not supported, the connection is skipped with a warning and you need to add it manually in My Airflow.

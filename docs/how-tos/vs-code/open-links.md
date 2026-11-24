@@ -11,7 +11,7 @@ want to open it:
 
 ![Open links picker](assets/link_picker.png)
 
-The picker shows the URL and 4 choices. A `localhost` URL adds a fifth one, `Open in Simple Browser`.
+The picker shows the URL and 4 choices. A `localhost` URL adds a fifth one, `Open in simple browser`.
 
 ## Open in VS Code browser
 

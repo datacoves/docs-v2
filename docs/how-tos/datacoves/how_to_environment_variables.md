@@ -34,3 +34,28 @@ To configure custom VSCode environment variables:
 That's all! Now you can use this new persistent variable in your VSCode instance.
 
 ![VSCode](./assets/env_vars_4.png)
+
+## Airflow Environment Variables
+
+Admins can also set Airflow environment variables as key and value pairs. These go to Airflow, and never to
+the VS Code terminal.
+
+You can set them in 2 different places:
+
+- `Project Settings`: applies to every Environment of the project
+- `Environment Settings`: applies to the desired Environment, in the `Airflow Environment Variables` tab next
+  to `VS Code Environment Variables`
+
+When the same key is set in both places, the Environment value wins.
+
+![Airflow Environment Variables tab](./assets/airflow_env_vars_1.png)
+
+The variables reach Team Airflow, every Airflow pod of the environment, and My Airflow, the Airflow in your
+VS Code, which gets them without a prefix. My Airflow also gets every VS Code Environment Variable of the
+user. Team Airflow does not.
+
+Datacoves' own variables win over a same-named Airflow Environment Variable. Setting
+`DATACOVES__ENVIRONMENT_SLUG` leaves the real slug in place.
+
+Saving the page shows the warning `Saving changes could result in users' environments being restarted.` and
+restarts the Airflow Deployments.

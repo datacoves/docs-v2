@@ -34,5 +34,6 @@ Press Escape to close the picker and open nothing.
 
 ## Sign-in pages
 
-Sign-in pages, such as `https://github.com/login/device`, show the same picker. A sign-in page that finishes
-on a `localhost` callback only completes when you open it in the VS Code browser.
+Sign-in pages, such as `https://github.com/login/device`, show the same picker. So do the pages that a command
+in the terminal opens for you, such as the sign-in page of `claude login`. A sign-in page that finishes on a
+`localhost` callback only completes when you open it in the VS Code browser.

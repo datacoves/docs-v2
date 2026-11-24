@@ -24,10 +24,10 @@ sidebar_position: 2
    claude login
    ```
 
-3. Pick the login method. The Claude sign-in page opens by itself in a VS Code tab. Sign in there.
+3. Pick the login method. A [picker](/docs/how-tos/vs-code/open-links) asks how to open the Claude sign-in page.
+   Choose **Open in VS Code browser** and sign in there.
 
-4. If the page does not open, Ctrl-click (Cmd-click on Mac) the URL the terminal prints and
-   [pick where to open it](/docs/how-tos/vs-code/open-links). Sign in there.
+4. If you closed the picker, Ctrl-click (Cmd-click on Mac) the URL the terminal prints to bring it back.
 
 5. Copy the code shown after you sign in, paste it at **Paste code here if prompted**, and press **Enter**.
 

@@ -4,7 +4,7 @@ sidebar_label: Configure Env Vars
 description: "Configure custom environment variables for the VS Code IDE and for Airflow in Datacoves environments to pass secrets, settings, or tool configuration to developers and DAGs."
 sidebar_position: 52
 ---
-# How to use custom VSCode Environment Variables
+# How to use custom VS Code and Airflow Environment Variables
 
 Even though you can create environment variables in your VSCode instance by using the traditional `export` command, having your Environment configured with custom variables can be an important time-saver, as these are not cleared when your Environment restarts (due to inactivity, maintenance, or changes in its settings)
 
@@ -50,9 +50,10 @@ When the same key is set in both places, the Environment value wins.
 
 ![Airflow Environment Variables tab](./assets/airflow_env_vars_1.png)
 
-The variables reach Team Airflow, except its cleanup job, and My Airflow, the Airflow in your
-VS Code, which gets them without a prefix. My Airflow also gets every VS Code Environment Variable, from the project, the environment and the
-user. Team Airflow does not.
+The variables reach Team Airflow, except its cleanup job.
+
+They also reach My Airflow, the Airflow in your VS Code, without a prefix. My Airflow also gets every VS Code
+Environment Variable, from the project, the environment and the user. Team Airflow does not.
 
 Datacoves' own variables win over a same-named Airflow Environment Variable. Setting
 `DATACOVES__ENVIRONMENT_SLUG` leaves the real slug in place.

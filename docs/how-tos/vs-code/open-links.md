@@ -6,11 +6,12 @@ sidebar_position: 25
 ---
 # How to open links from VS Code
 
-Clicking a link in the VS Code terminal or editor opens a picker that asks how you want to open it:
+Ctrl-clicking a link (Cmd-click on Mac) in the VS Code terminal or editor opens a picker that asks how you
+want to open it:
 
 ![Open links picker](assets/link_picker.png)
 
-The picker shows the URL and 4 choices.
+The picker shows the URL and 4 choices. A `localhost` URL adds a fifth one, `Open in Simple Browser`.
 
 ## Open in VS Code browser
 

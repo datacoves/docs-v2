@@ -50,7 +50,7 @@ When the same key is set in both places, the Environment value wins.
 
 ![Airflow Environment Variables tab](./assets/airflow_env_vars_1.png)
 
-The variables reach Team Airflow, every Airflow pod of the environment, and My Airflow, the Airflow in your
+The variables reach Team Airflow, except its cleanup job, and My Airflow, the Airflow in your
 VS Code, which gets them without a prefix. My Airflow also gets every VS Code Environment Variable of the
 user. Team Airflow does not.
 

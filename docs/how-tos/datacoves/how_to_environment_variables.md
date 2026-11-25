@@ -58,5 +58,8 @@ Environment Variable, from the project, the environment and the user. Team Airfl
 Datacoves' own variables win over a same-named Airflow Environment Variable. Setting
 `DATACOVES__ENVIRONMENT_SLUG` leaves the real slug in place.
 
+When a key is set both as an Airflow Environment Variable and as a VS Code Environment Variable, My Airflow gets
+the Airflow value and the VS Code terminal keeps the VS Code value.
+
 The form warns `Saving changes could result in users' environments being restarted.` Saving restarts the Airflow
 Deployments.

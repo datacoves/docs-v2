@@ -22,7 +22,8 @@ However, you may need to add additional variables to run scripts, test code etc.
 through adding your own environment variables at the user, environment and project level. My Airflow also
 gets every VS Code variable. Team Airflow does not. It gets the
 [Airflow Environment Variables](/docs/how-tos/datacoves/how_to_environment_variables#airflow-environment-variables)
-set on the project and environment. For values your DAGs read, we recommend Airflow Variables or
+set on the project and environment. When a key is in both sets, My Airflow gets the Airflow value and the VS Code
+terminal keeps the VS Code value. For values your DAGs read, we recommend Airflow Variables or
 [Datacoves Secrets](/docs/reference/admin-menu/secrets).
 
 ## User Level 

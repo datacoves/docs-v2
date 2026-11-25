@@ -513,9 +513,9 @@ const config = {
       prism: {
         theme: prismThemes.oneLight,
         darkTheme: prismThemes.oneDark,
-        // Not bundled by default; markup-templating must load before django
-        // (which also registers the jinja2 alias used for dbt Jinja).
-        additionalLanguages: ['bash', 'sql', 'markup-templating', 'django', 'ini'],
+        // Languages prism-react-renderer doesn't bundle. Jinja is defined in
+        // src/theme/prism-include-languages.js, along with fence aliases.
+        additionalLanguages: ['bash', 'ini', 'kusto'],
       },
       
     

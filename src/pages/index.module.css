@@ -313,9 +313,9 @@
 
 .demoBand {
   margin-top: 2.5rem;
-  /* custom.css gives .footer a 3rem top margin, which leaves a white strip
-     between this band and the footer; sit the band right on the footer. */
-  margin-bottom: -3rem;
+  /* Cancels the footer's top margin (--dcv-footer-gap in custom.css) so the
+     band sits right on the footer with no white strip between them. */
+  margin-bottom: calc(-1 * var(--dcv-footer-gap));
   background: #e8f4fe;
   border-top: 1px solid rgba(52, 150, 224, 0.2);
 }
@@ -377,6 +377,11 @@
 }
 
 @media (max-width: 600px) {
+  /* No keyboard shortcut to hint at on phones. */
+  .kbd {
+    display: none;
+  }
+
   .hero {
     padding: 3rem 0 2.5rem;
   }

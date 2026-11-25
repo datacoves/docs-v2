@@ -7,6 +7,7 @@
 /* You can override the default Infima variables here. */
 :root {
   --ifm-color-primary: #3496E0;
+  --dcv-footer-gap: 3rem;
   --ifm-color-primary-dark: #626262;
   --ifm-color-primary-darker: #53BAB9 ;
   --ifm-color-primary-darkest: #00044A;
@@ -65,7 +66,8 @@
 }
 .footer {
   background-color: #00044A; /* Datacoves navy brand color */
-  margin-top: 3rem;
+  /* The homepage demo band (src/pages/index.module.css) cancels this gap. */
+  margin-top: var(--dcv-footer-gap);
 }
 
 .footer__logo img,

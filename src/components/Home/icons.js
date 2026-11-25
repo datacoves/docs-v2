@@ -1,7 +1,11 @@
 import React from 'react';
 
-// Line icons from Lucide (https://lucide.dev, ISC license), inlined so the
-// homepage needs no new dependency. They inherit currentColor.
+// Line icons from Lucide (https://lucide.dev), inlined so the homepage needs
+// no new dependency. They inherit currentColor.
+//
+// Copyright (c) Lucide Icons and Contributors, ISC License. Some icons derive
+// from Feather, Copyright (c) 2013-present Cole Bemis, MIT License. The full
+// copyright and permission notices are in ./LICENSE-lucide.txt.
 const PATHS = {
   search: (
     <>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
@@ -13,7 +13,7 @@ const START_HERE = [
     to: '/docs/category/administrator',
     links: [
       {label: 'Create your account', to: '/docs/getting-started/create-account'},
-      {label: 'Configure your repository', to: '/docs/getting-started/admin/configure-repository'},
+      {label: 'Update your repository for Airflow', to: '/docs/getting-started/admin/configure-repository'},
       {label: 'Configure Airflow', to: '/docs/getting-started/admin/configure-airflow'},
       {label: 'Manage users', to: '/docs/getting-started/admin/user-management'},
     ],
@@ -126,13 +126,31 @@ const DOC_TYPES = [
   },
 ];
 
-// The navbar search listens for Cmd/Ctrl+K on the window; send it the same
-// shortcut so the hero opens that one modal instead of a second search bar.
+// Open the navbar's search modal instead of rendering a second search bar.
+// Clicking the navbar button is the stable path. If it isn't in the DOM, fall
+// back to the Cmd/Ctrl+K shortcut that docusaurus-search-local listens for on
+// the window. If the search plugin changes, re-check both of these.
 function openSearch() {
+  const navbarButton = document.querySelector('.navbar .DocSearch-Button');
+  if (navbarButton) {
+    navbarButton.click();
+    return;
+  }
   window.dispatchEvent(new KeyboardEvent('keydown', {key: 'k', metaKey: true, ctrlKey: true}));
 }
 
+// Same check the search plugin uses for its own ⌘K / Ctrl K hint. It runs
+// after hydration so the server render and the first client render match.
+function useShortcutLabel() {
+  const [label, setLabel] = useState(null);
+  useEffect(() => {
+    setLabel(/(Mac|iPhone|iPod|iPad)/i.test(navigator.platform) ? '⌘ K' : 'Ctrl K');
+  }, []);
+  return label;
+}
+
 function Hero() {
+  const shortcut = useShortcutLabel();
   return (
     <header className={styles.hero}>
       <div className="container">
@@ -147,7 +165,7 @@ function Hero() {
         <button type="button" className={styles.searchButton} onClick={openSearch}>
           <Icon name="search" size={20} />
           <span>Search the docs</span>
-          <kbd className={styles.kbd}>Ctrl K</kbd>
+          {shortcut && <kbd className={styles.kbd}>{shortcut}</kbd>}
         </button>
         <div className={styles.heroActions}>
           <Link className={styles.primaryButton} to="/docs/category/getting-started">

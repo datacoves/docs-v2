@@ -37,27 +37,22 @@ That's all! Now you can use this new persistent variable in your VSCode instance
 
 ## Airflow Environment Variables
 
-Admins can also set Airflow environment variables as key and value pairs. These go to Airflow, and never to
-the VS Code terminal.
+Admins can also add environment variables that Airflow tasks can read.
 
-You can set them in 2 different places:
+Add them in one of these places:
 
-- `Project Settings`: applies to every Environment of the project
-- `Environment Settings`: applies to the desired Environment, in the `Airflow Environment Variables` tab next
-  to `VS Code Environment Variables`
+- `Project Settings`: for every environment in the project
+- `Environment Settings`, `Airflow Environment Variables` tab: for that environment only
 
-When the same key is set in both places, the Environment value wins.
+If a key is in both, the environment value is used.
 
 ![Airflow Environment Variables tab](./assets/airflow_env_vars_1.png)
 
-The variables reach Team Airflow, except its cleanup job.
+Team Airflow and My Airflow get these variables, except the Team Airflow cleanup job.
 
-They also reach My Airflow, the Airflow in your VS Code, without a prefix. My Airflow also gets every VS Code
-Environment Variable, from the project, the environment and the user. Team Airflow does not. When a key is
-set both as a VS Code and as an Airflow Environment Variable, My Airflow gets the Airflow value.
+My Airflow also gets your VS Code Environment Variables. If a key is both a VS Code and an Airflow variable,
+My Airflow uses the Airflow value.
 
-Datacoves' own variables win over a same-named Airflow Environment Variable. Setting
-`DATACOVES__ENVIRONMENT_SLUG` leaves the real slug in place.
+Datacoves variables can't be overridden. For example, setting `DATACOVES__ENVIRONMENT_SLUG` has no effect.
 
-The form warns `Saving changes could result in users' environments being restarted.` Saving restarts the
-Airflow Deployments.
+Saving changes restarts Team Airflow.

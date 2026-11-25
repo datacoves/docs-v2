@@ -24,13 +24,12 @@ sidebar_position: 2
    claude login
    ```
 
-3. Pick the login method. A [popup](/docs/how-tos/vs-code/open-links) asks how to open the Claude sign-in
-   page. Choose **Open in VS Code browser** and sign in there.
+3. Pick the login method. A [popup](/docs/how-tos/vs-code/open-links) asks where to open the Claude sign-in
+   page. Click **Open in VS Code browser** and sign in.
 
-4. If you closed the popup, Ctrl-click (Cmd-click on Mac) the URL the terminal prints to bring it back.
+4. If you closed the popup, Ctrl-click (Cmd-click on Mac) the link in the terminal to open it again.
 
-5. If the sign-in page shows a code, copy it, paste it at **Paste code here if prompted**, and press
-   **Enter**.
+5. If the sign-in page shows a code, paste it after **Paste code here if prompted** and press **Enter**.
 
 Both the CLI and the VS Code extension are now authenticated.
 

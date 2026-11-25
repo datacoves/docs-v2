@@ -29,7 +29,7 @@ sidebar_position: 2
 
 4. If you closed the popup, Ctrl-click (Cmd-click on Mac) the URL the terminal prints to bring it back.
 
-5. Copy the code shown after you sign in, paste it at **Paste code here if prompted**, and press **Enter**.
+5. If the sign-in page shows a code, copy it, paste it at **Paste code here if prompted**, and press **Enter**.
 
 Both the CLI and the VS Code extension are now authenticated.
 

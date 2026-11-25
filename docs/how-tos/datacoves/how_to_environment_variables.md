@@ -1,10 +1,10 @@
 ---
-title: Add Custom Environment Variables to VS Code
-sidebar_label: Configure VS Code Env Vars
-description: "Configure custom environment variables for the VS Code IDE in Datacoves environments to pass secrets, settings, or tool configuration to developers."
+title: Add Custom Environment Variables to VS Code and Airflow
+sidebar_label: Configure VS Code and Airflow Env Vars
+description: "Configure custom environment variables for the VS Code IDE and for Airflow in Datacoves environments to pass secrets, settings, or tool configuration."
 sidebar_position: 52
 ---
-# How to use custom VSCode Environment Variables
+# How to use custom VS Code and Airflow Environment Variables
 
 Even though you can create environment variables in your VSCode instance by using the traditional `export` command, having your Environment configured with custom variables can be an important time-saver, as these are not cleared when your Environment restarts (due to inactivity, maintenance, or changes in its settings)
 
@@ -50,12 +50,13 @@ When the same key is set in both places, the Environment value wins.
 
 ![Airflow Environment Variables tab](./assets/airflow_env_vars_1.png)
 
-The variables reach Team Airflow, every Airflow pod of the environment, and My Airflow, the Airflow in your
-VS Code, which gets them without a prefix. My Airflow also gets every VS Code Environment Variable of the
-user. Team Airflow does not.
+The variables reach Team Airflow, except its cleanup job.
+
+They also reach My Airflow, the Airflow in your VS Code, without a prefix. My Airflow also gets every VS Code
+Environment Variable, from the project, the environment and the user. Team Airflow does not.
 
 Datacoves' own variables win over a same-named Airflow Environment Variable. Setting
 `DATACOVES__ENVIRONMENT_SLUG` leaves the real slug in place.
 
-Saving the page shows the warning `Saving changes could result in users' environments being restarted.` and
-restarts the Airflow Deployments.
+The form warns `Saving changes could result in users' environments being restarted.` Saving restarts the Airflow
+Deployments.

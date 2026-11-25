@@ -6,7 +6,8 @@ sidebar_position: 25
 ---
 # How to open links from VS Code
 
-Clicking a link in the VS Code terminal or editor opens a popup that asks how you want to open it:
+Ctrl-clicking a link (Cmd-click on Mac) in the VS Code terminal or editor opens a popup that asks how you want
+to open it:
 
 ![Open links popup](assets/link_popup.png)
 
@@ -31,5 +32,5 @@ Click **Cancel**, press Escape or close the popup to open nothing.
 ## Sign-in pages
 
 Sign-in pages, such as `https://github.com/login/device`, show the same popup. So do the pages that a command
-in the terminal opens for you, such as the sign-in page of `claude login`. A sign-in page that finishes on a
+in the terminal opens for you, such as the sign-in page of `claude login`, and the links other VS Code extensions open. A sign-in page that finishes on a
 `localhost` callback only completes when you open it in the VS Code browser.

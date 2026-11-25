@@ -24,7 +24,7 @@ The pipeline keeps the dbt manifest of the last production deployment. With it, 
 
 ### Governance checks
 
-Before the real build, every affected model is created empty to catch SQL and configuration errors quickly, before spending warehouse time on the real build. Then pre-commit hooks check only the files changed in the PR: descriptions and property files with [dbt-checkpoint](https://github.com/dbt-checkpoint/dbt-checkpoint), SQL style with [SQLFluff](https://docs.sqlfluff.com/), and YAML with yamllint. The pipeline can also report schemas that dbt would stop managing after the change.
+Before the real build, every affected model is created empty to catch SQL and configuration errors quickly, before spending warehouse time on the real build. Then pre-commit hooks check only the files changed in the PR: descriptions and property files with [dbt-checkpoint](https://github.com/dbt-checkpoint/dbt-checkpoint), SQL style with [SQLFluff](https://docs.sqlfluff.com/), and YAML with yamllint. The pipeline also comments on the PR with any schemas that dbt would stop managing after the change, so reviewers know they will be dropped when the change is deployed.
 
 ### Airflow DAG validation
 
@@ -40,7 +40,11 @@ A group of changes is built together in a QA database that is a zero-copy clone 
 
 ### Zero-downtime deployments
 
-Production is deployed with a blue/green strategy, using [`dbt-coves blue-green`](https://github.com/datacoves/dbt-coves/tree/main/docs/commands/blue-green): the new version is built next to the current one and swapped in only if every model and test succeeded. If anything fails, production is not touched. The deployment also drops tables, views and schemas that are no longer defined in dbt.
+Production is deployed with a blue/green strategy, using [`dbt-coves blue-green`](https://github.com/datacoves/dbt-coves/tree/main/docs/commands/blue-green): the new version is built next to the current one and swapped in only if every model and test succeeded. If anything fails, production is not touched.
+
+### Cleanup of objects removed from dbt
+
+After a successful deployment, a separate step drops the tables and views that are no longer defined in dbt, and the schemas whose models were all removed. Only schemas that dbt created are considered, and a schema that holds objects dbt did not build is kept. The PR check described in [Governance checks](#governance-checks) lists these schemas ahead of time.
 
 ### Versioning and documentation
 
@@ -62,7 +66,7 @@ Developers open a PR from their feature branch straight into `main`. Each PR is 
 |---|---|---|
 | **10** | A PR targets `main` | Builds and tests the change in a PR database, runs governance and Airflow checks |
 | **15** | The PR is closed | Drops the PR database |
-| **30** | A change lands on `main` | Deploys to production with blue/green, publishes docs and artifacts |
+| **30** | A change lands on `main` | Deploys to production with blue/green, drops tables, views and schemas no longer defined in dbt, and publishes docs and artifacts |
 
 This flow suits small teams that review each change on its own and don't need a separate business sign-off. It has fewer moving parts, fewer databases and a shorter path to production.
 
@@ -77,7 +81,7 @@ Developers merge feature branches into a release branch, and the release goes to
 | **10** | A feature PR targets a release branch | Validates the branch, builds and tests the change in a PR database, runs governance and Airflow checks |
 | **15** | A feature PR is closed without merging | Drops the PR database of abandoned work |
 | **20** | A release, hotfix or infra PR targets `main` | Builds the whole release in a QA database cloned from production |
-| **30** | A change lands on `main` | Deploys to production with blue/green, tags the version, publishes docs and artifacts, and drops the PR databases of the shipped release |
+| **30** | A change lands on `main` | Deploys to production with blue/green, drops tables, views and schemas no longer defined in dbt, tags the version, publishes docs and artifacts, and drops the PR databases of the shipped release |
 
 Each stage uses its own database, all derived from your production database name:
 

@@ -17,7 +17,7 @@ You must have [initiated My Airflow](/docs/how-tos/my_airflow/start-my-airflow) 
 
 This command will import your Data Warehouse connections and Airflow variables over from Team Airflow to My Airflow. While the tool will do most of the work for you, sensitive variables will not be ported over for security reasons. You will be prompted to provide those secrets in the terminal.
 
-Only connections that correspont to dbt adapter will be imported to My Airflow. Other connections will need to be re-created manually. Use the following command in your Datacoves VS Code terminal to start importing your Team Airflow variables and connections.
+Only connections that correspond to a dbt adapter will be imported to My Airflow. Other connections will need to be re-created manually. Use the following command in your Datacoves VS Code terminal to start importing your Team Airflow variables and connections.
 
 ```bash
 datacoves my import

@@ -11,7 +11,7 @@ Every DAG file is re-parsed regularly by the dag-processor. A DAG that is slow t
 On Airflow 3 environments, the dag-processor records each DAG's most recent parse duration and the REST API exposes it, so you can get the real parsing-time report with a simple API call: no access to the dag-processor pod is needed.
 
 :::info
-This guide targets **Team Airflow** on Airflow 3 environments. For **My Airflow**, use the [`datacoves my parse-logs`](/docs/reference/airflow/datacoves-commands#datacoves-my-parse-logs) command instead, which shows the same report plus the parse log of individual DAG files.
+This guide targets **Team Airflow** on Airflow 3 environments. For **My Airflow**, use the [`datacoves my parse-logs`](/docs/reference/vscode/datacoves-cli#datacoves-my-parse-logs) command instead, which shows the same report plus the parse log of individual DAG files.
 
 Airflow 2 does not expose parse durations through its API; see [the note below](#airflow-2-environments).
 :::

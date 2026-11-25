@@ -4,7 +4,11 @@ sidebar_label: Variables
 description: "Reference for Datacoves-injected Airflow variables: DAG paths, dbt settings, environment slugs, version info, and notification configuration."
 sidebar_position: 123
 ---
-Datacoves injects several environment variables into Apache Airflow to streamline workflow configurations. Below is a list of important variables you may encounter:
+Datacoves injects several environment variables into Apache Airflow to streamline workflow configurations. To
+add your own, see
+[Airflow Environment Variables](/docs/how-tos/datacoves/how_to_environment_variables#airflow-environment-variables).
+
+Below is a list of important variables you may encounter:
 
 ## Airflow information
 Variables containing information about Airflow:

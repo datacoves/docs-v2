@@ -1,10 +1,10 @@
 ---
-title: Add Custom Environment Variables to VS Code
-sidebar_label: Configure VS Code Env Vars
-description: "Configure custom environment variables for the VS Code IDE in Datacoves environments to pass secrets, settings, or tool configuration to developers."
+title: Add Custom Environment Variables to VS Code and Airflow
+sidebar_label: Configure VS Code and Airflow Env Vars
+description: "Configure custom environment variables for the VS Code IDE and for Airflow in Datacoves environments to pass secrets, settings, or tool configuration."
 sidebar_position: 52
 ---
-# How to use custom VSCode Environment Variables
+# How to use custom VS Code and Airflow Environment Variables
 
 Even though you can create environment variables in your VSCode instance by using the traditional `export` command, having your Environment configured with custom variables can be an important time-saver, as these are not cleared when your Environment restarts (due to inactivity, maintenance, or changes in its settings)
 
@@ -34,3 +34,23 @@ To configure custom VSCode environment variables:
 That's all! Now you can use this new persistent variable in your VSCode instance.
 
 ![VSCode](./assets/env_vars_4.png)
+
+## Airflow Environment Variables
+
+Admins can also add environment variables that Airflow tasks can read.
+
+Add them in one of these places:
+
+- `Project Settings`: for every environment in the project
+- `Environment Settings`, `Airflow Environment Variables` tab: for that environment only
+
+If a key is in both, the environment value is used.
+
+![Airflow Environment Variables tab](./assets/airflow_env_vars_1.png)
+
+Team Airflow and My Airflow get these variables, except the Team Airflow cleanup job.
+
+My Airflow also gets your VS Code Environment Variables. If a key is both a VS Code and an Airflow variable,
+My Airflow uses the Airflow value.
+
+Saving changes restarts Team Airflow.

@@ -6,8 +6,7 @@ sidebar_position: 25
 ---
 # How to open links from VS Code
 
-Ctrl-clicking a link (Cmd-click on Mac) in the VS Code terminal or editor opens a popup that asks how you want
-to open it:
+Clicking a link in the VS Code terminal or editor opens a popup that asks how you want to open it:
 
 ![Open links popup](assets/link_popup.png)
 

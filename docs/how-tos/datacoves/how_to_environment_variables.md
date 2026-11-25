@@ -53,6 +53,4 @@ Team Airflow and My Airflow get these variables, except the Team Airflow cleanup
 My Airflow also gets your VS Code Environment Variables. If a key is both a VS Code and an Airflow variable,
 My Airflow uses the Airflow value.
 
-Datacoves variables can't be overridden. For example, setting `DATACOVES__ENVIRONMENT_SLUG` has no effect.
-
 Saving changes restarts Team Airflow.

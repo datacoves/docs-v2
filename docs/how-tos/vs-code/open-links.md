@@ -29,6 +29,6 @@ Closes the popup without opening the link. Escape does the same.
 
 ## Sign-in pages
 
-Links opened by terminal commands, like the sign-in page of `claude auth login`, and by other VS Code
-extensions show the same popup. A sign-in page that returns to `localhost` when you finish only completes in the VS Code
-browser.
+Links opened by terminal commands, like the sign-in page of `claude login`, and by other VS Code
+extensions show the same popup. A sign-in page that returns to `localhost` when you finish only completes in
+the VS Code browser.

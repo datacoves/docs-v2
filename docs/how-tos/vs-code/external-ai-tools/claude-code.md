@@ -21,20 +21,28 @@ sidebar_position: 2
 2. Run:
 
    ```bash
+   claude login
+   ```
+
+   Or run:
+
+   ```bash
    claude auth login
    ```
 
-   To sign in with an Anthropic Console account (API usage billing), run `claude auth login --console`. For
-   your organization's SSO, run `claude auth login --sso`.
+   To sign in with an Anthropic Console account (API usage billing), run `claude auth login --console`. To
+   sign in with your organization's SSO, run `claude auth login --sso`.
 
-3. A [popup](/docs/how-tos/vs-code/open-links) asks where to open the Claude sign-in page. Click **Open in VS
+3. With `claude login`, pick a theme and a login method in the terminal.
+
+4. A [popup](/docs/how-tos/vs-code/open-links) asks where to open the Claude sign-in page. Click **Open in VS
    Code browser** and sign in.
 
-4. If you closed the popup, Ctrl-click (Cmd-click on Mac) the link in the terminal to open it again.
+5. If you closed the popup, Ctrl-click (Cmd-click on Mac) the link in the terminal to open it again.
 
-5. If the sign-in page shows a code, paste it after **Paste code here if prompted** and press **Enter**.
+6. If the sign-in page shows a code, paste it after **Paste code here if prompted** and press **Enter**.
 
-6. Run `claude auth status --text` to check that you're signed in.
+7. Run `claude auth status --text` to check that you're signed in.
 
 Both the CLI and the VS Code extension are now authenticated. To sign out, run `claude auth logout`.
 

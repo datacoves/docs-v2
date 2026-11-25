@@ -16,8 +16,8 @@ sidebar_position: 71
 
 ### GitHub organizations with SAML SSO
 
-If your GitHub organization uses SAML single sign-on, the key test in User Settings, Git SSH Keys fails with
-`Could not connect to the Git repository` and this error:
+If your GitHub organization uses SAML single sign-on, clicking **Test** in User Settings, Git SSH Keys shows
+`Could not connect to the Git repository`, and its details show this error:
 
 ```
 ERROR: The '<organization>' organization has enabled or enforced SAML SSO. To access this repository, you must
@@ -32,7 +32,7 @@ Authorize the key for your organization in GitHub:
 3. Next to the key you added from Datacoves, click **Configure SSO**.
 4. Next to your organization, click **Authorize**.
 
-Then run the key test in Datacoves again. See
+Then click **Test** in Datacoves again. See
 [Authorizing an SSH key for use with single sign-on](https://docs.github.com/en/authentication/authenticating-with-single-sign-on/authorizing-an-ssh-key-for-use-with-single-sign-on).
 
 ## Clone a Git repository for deployment purposes (read-only access)

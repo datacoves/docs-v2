@@ -53,10 +53,11 @@ When the same key is set in both places, the Environment value wins.
 The variables reach Team Airflow, except its cleanup job.
 
 They also reach My Airflow, the Airflow in your VS Code, without a prefix. My Airflow also gets every VS Code
-Environment Variable, from the project, the environment and the user. Team Airflow does not.
+Environment Variable, from the project, the environment and the user. Team Airflow does not. When a key is
+set both as a VS Code and as an Airflow Environment Variable, My Airflow gets the Airflow value.
 
 Datacoves' own variables win over a same-named Airflow Environment Variable. Setting
 `DATACOVES__ENVIRONMENT_SLUG` leaves the real slug in place.
 
-The form warns `Saving changes could result in users' environments being restarted.` Saving restarts the Airflow
-Deployments.
+The form warns `Saving changes could result in users' environments being restarted.` Saving restarts the
+Airflow Deployments.

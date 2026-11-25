@@ -32,5 +32,6 @@ Click **Cancel**, press Escape or close the popup to open nothing.
 ## Sign-in pages
 
 Sign-in pages, such as `https://github.com/login/device`, show the same popup. So do the pages that a command
-in the terminal opens for you, such as the sign-in page of `claude login`, and the links other VS Code extensions open. A sign-in page that finishes on a
-`localhost` callback only completes when you open it in the VS Code browser.
+in the terminal opens for you, such as the sign-in page of `claude login`, and the links other VS Code
+extensions open. A sign-in page that finishes on a `localhost` callback only completes when you open it in the
+VS Code browser.

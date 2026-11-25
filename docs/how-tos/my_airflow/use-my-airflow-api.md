@@ -143,13 +143,13 @@ Your API keys work for both My Airflow and Team Airflow (if you have access). Th
 You can also manage API keys directly from the terminal using the `datacoves` CLI:
 
 ```bash
-# List existing keys
+# List existing keys (Airflow 2 only)
 datacoves my api-key list
 
 # Generate a new key
 datacoves my api-key generate --name "My Script"
 
-# Delete a key (use the prefix shown in list)
+# Delete a key (Airflow 2 only; use the prefix shown in list)
 datacoves my api-key delete abc12345
 ```
 

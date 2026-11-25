@@ -226,13 +226,13 @@ On Airflow 3 environments, My Airflow uses short-lived tokens (JWT) that are gen
 The command detects Airflow 3 by contacting My Airflow, so make sure [My Airflow is running](/docs/how-tos/my_airflow/start-my-airflow) first.
 :::
 
-#### List existing keys
+#### List existing keys (Airflow 2 only) {#list-existing-keys}
 
 ```bash
 datacoves my api-key list
 ```
 
-On Airflow 2, this displays all environments where you have My Airflow enabled, along with the API URL and the first 8 characters and name of each existing key.
+Displays all environments where you have My Airflow enabled, along with the API URL and the first 8 characters and name of each existing key.
 
 #### Generate a new key
 
@@ -255,13 +255,13 @@ The command prints the API URL and key, plus `MY_AIRFLOW_API_URL` and `MY_AIRFLO
 - **Airflow 2:** the key doesn't expire until you delete it, and it won't be shown again, so save it immediately.
 - **Airflow 3:** the command generates a short-lived token and shows when it expires. From inside your workspace the My Airflow API also works without a token. If you do send one, it must be valid, so prefer generating a fresh token at runtime over hardcoding this one.
 
-#### Delete a key
+#### Delete a key (Airflow 2 only) {#delete-a-key}
 
 ```bash
 datacoves my api-key delete <token-prefix>
 ```
 
-On Airflow 2, use the first 8 characters of the token (shown by the list command) to identify which key to delete. If the prefix matches more than one key, the command asks you to be more specific.
+Use the first 8 characters of the token (shown by the list command) to identify which key to delete. If the prefix matches more than one key, the command asks you to be more specific.
 
 ```bash
 datacoves my api-key delete abc12345

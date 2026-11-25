@@ -19,15 +19,21 @@ datacoves my parse-logs --help
 | Command | Description |
 |---|---|
 | [`datacoves check_size_folder`](#datacoves-check_size_folder) | Check size of a directory. |
-| [`datacoves my import`](#datacoves-my-import) | Import connections and variables from Team Airflow. |
+| [`datacoves my import`](#datacoves-my-import) | Import connections and variables from Team Airflow into My Airflow. |
 | [`datacoves my pytest`](#datacoves-my-pytest) | Run pytest in My Airflow. |
-| [`datacoves my db-clean`](#datacoves-my-db-clean) | Clean the local Airflow database. |
+| [`datacoves my db-clean`](#datacoves-my-db-clean) | Delete old records from the My Airflow database. |
 | [`datacoves my parse-logs`](#datacoves-my-parse-logs) | Show My Airflow DAG parsing times, or the parse log of one DAG file. |
 | [`datacoves my api-key`](#datacoves-my-api-key) | Manage My Airflow API keys. |
 
-:::tip
-Run `datacoves --install-completion` once to enable tab completion for `datacoves` commands in your shell. Open a new terminal for it to take effect.
-:::
+`datacoves --help` also links to this page.
+
+## Tab completion
+
+Press `Tab` in the VS Code terminal to complete `datacoves` commands, subcommands and options. Press it twice to list what is available.
+
+![Tab completion of datacoves commands](./assets/datacoves-cli-completion.gif)
+
+Tab completion is enabled by default in every new terminal since Datacoves 6.1. On earlier versions, run `datacoves --install-completion` once and open a new terminal. `datacoves --show-completion` prints the completion script instead, in case you want to add it to your shell configuration yourself.
 
 ## datacoves check_size_folder
 
@@ -44,6 +50,8 @@ datacoves check_size_folder --folder .
 # The target folder of the dbt project you are in
 datacoves check_size_folder --folder target
 ```
+
+![datacoves check_size_folder on the workspace and on a dbt target folder](./assets/datacoves-cli-check-size-folder.gif)
 
 The report includes:
 
@@ -88,6 +96,8 @@ By default both variables and connections are imported, and items that already e
 datacoves my import --variables --force
 ```
 
+![datacoves my import, then re-importing connections with --force](./assets/datacoves-cli-import.gif)
+
 #### Secret variables
 
 For security purposes, secret values are not imported automatically. A variable is treated as secret when its name contains words such as `password`, `secret`, `token`, `api_key` or `private_key`.
@@ -118,6 +128,8 @@ You can pass any pytest options. The `--` is required when you do, otherwise the
 datacoves my pytest -- orchestrate/test_dags/validate_dags.py -k test_dag_tags -v
 ```
 
+![datacoves my pytest running the DAG validation tests](./assets/datacoves-cli-pytest.gif)
+
 :::note
 The pytest output is shown when the run finishes, not while it runs. Read it to see whether your tests passed: the exit code of `datacoves my pytest` is always `0`, even when tests fail.
 :::
@@ -130,7 +142,7 @@ Deletes old records, such as DAG runs, task instances, XComs and audit log entri
 
 | Option | Description |
 |---|---|
-| `--days` | Number of days to keep. Records older than this are deleted. Default: `5`. |
+| `--days` | Number of days to keep. Records older than this are deleted. Default: `5`, minimum: `1`. |
 
 ```bash
 # Keep only the last 5 days (default)
@@ -140,9 +152,13 @@ datacoves my db-clean
 datacoves my db-clean --days 1
 ```
 
+![datacoves my db-clean](./assets/datacoves-cli-db-clean.gif)
+
 :::warning
 The cleanup runs without asking for confirmation, and deleted records are not archived. They cannot be recovered.
 :::
+
+My Airflow keeps running while the database is cleaned: the records of its running scheduler, triggerer and DAG processor are never deleted. Before Datacoves 6.1, running `db-clean --days 0` deleted them and stopped those processes, so the Airflow UI showed no DAGs until My Airflow was restarted; `--days` now must be at least `1`.
 
 If My Airflow was upgraded from Airflow 2 to Airflow 3, a backup of the previous database may still be on disk. `db-clean` shows its size and asks whether you want to delete it to free up space. The default answer is No. Delete it once you have confirmed that your DAG run history survived the upgrade.
 
@@ -164,6 +180,8 @@ Without `--file`, the command shows a table of all DAG files sorted slowest firs
 ```bash
 datacoves my parse-logs
 ```
+
+![The parse time report and the parse log of one DAG file](./assets/datacoves-cli-parse-logs.gif)
 
 If no report is available yet, give My Airflow a moment to parse your DAGs and try again.
 
@@ -215,6 +233,8 @@ On Airflow 2 you can optionally provide a name for the key. On Airflow 3 the nam
 ```bash
 datacoves my api-key generate --name "My Script"
 ```
+
+![datacoves my api-key generate and list on Airflow 3](./assets/datacoves-cli-api-key.gif)
 
 The command prints the API URL and key, plus `MY_AIRFLOW_API_URL` and `MY_AIRFLOW_API_KEY` lines ready to paste into a `.env` file.
 

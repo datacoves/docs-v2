@@ -58,5 +58,5 @@ Environment Variable, from the project, the environment and the user. Team Airfl
 Datacoves' own variables win over a same-named Airflow Environment Variable. Setting
 `DATACOVES__ENVIRONMENT_SLUG` leaves the real slug in place.
 
-Saving the page shows the warning `Saving changes could result in users' environments being restarted.` and
-restarts the Airflow Deployments.
+The form warns `Saving changes could result in users' environments being restarted.` Saving restarts the Airflow
+Deployments.

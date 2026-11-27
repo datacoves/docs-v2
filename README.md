@@ -16,6 +16,12 @@ npm run start
 
 This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
 
+## Code blocks
+
+Always give a fenced code block a language so it gets syntax highlighting. Common ones: `bash`, `sql`, `yaml`, `python`, `json`, `jinja2` (dbt Jinja), `ini` (`.env` files) and `kusto`. The aliases `jinja`, `env`, `dotenv` and `kql` also work.
+
+A language that isn't loaded renders as plain text. To add one, put its [Prism](https://prismjs.com/#supported-languages) name in `prism.additionalLanguages` in `docusaurus.config.js`. Jinja and the aliases are defined in `src/theme/prism-include-languages.js`.
+
 ## Build
 
 ```bash

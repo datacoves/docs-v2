@@ -544,8 +544,11 @@ const config = {
       </span></div>`,
 },
       prism: {
-        theme: prismThemes.github,
-        darkTheme: prismThemes.dracula,
+        theme: prismThemes.oneLight,
+        darkTheme: prismThemes.oneDark,
+        // Languages prism-react-renderer doesn't bundle. Jinja is defined in
+        // src/theme/prism-include-languages.js, along with fence aliases.
+        additionalLanguages: ['bash', 'ini', 'kusto'],
       },
       
     

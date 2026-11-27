@@ -22,7 +22,7 @@ Airflow 2 does not expose parse durations through its API; see [the note below](
 2. The **Airflow API URL** shown on that same page (`https://airflow-<env>.<your-domain>/api/v2/`).
 3. Store both in a `.env` file (and add it to `.gitignore`):
 
-```env
+```ini
 AIRFLOW_API_URL = "https://airflow-your-env.your-domain.com/api/v2/"
 AIRFLOW_API_TOKEN = "your-token-here"
 ```

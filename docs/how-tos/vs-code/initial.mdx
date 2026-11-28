@@ -29,12 +29,15 @@ At the top right corner of the page, click the User icon and select _Settings_
 ## Setup git connection credentials
 
 
-On the settings page scroll down to the Git SSH keys section.
+On the settings page, open the _Git Access_ tab and pick a _Clone method_: SSH or HTTPS. Use HTTPS when your organization blocks git over SSH.
 
 
 <div style={{ maxWidth: "700px", margin: "0 auto" }}>
 ![Git Settings](./assets/user_settings_git.png)
 </div>
+
+
+### SSH
 
 
 Click the Add drop down and select whether you want to provide an existing private key or have Datacoves auto generate one for you.
@@ -83,6 +86,40 @@ If Datacoves is able to connect to your Git repository, you will see _Tested_ ne
 <div style={{ maxWidth: "700px", margin: "0 auto" }}>
 ![Git Settings Tested](./assets/user_settings_git5.png)
 </div>
+
+
+### HTTPS
+
+
+Select _HTTPS_ as the clone method and click _Add_. Enter your git username and a personal access token from your git provider, then click _Save_. The token needs read and write access to the repository.
+
+
+<div style={{ maxWidth: "400px", margin: "0 auto" }}>
+![Git Settings HTTPS Add](./assets/user_settings_git_https_add.png)
+</div>
+
+
+[Github Personal Access Token Instructions](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
+
+
+[Gitlab Personal Access Token Instructions](https://docs.gitlab.com/user/profile/personal_access_tokens/)
+
+
+[Bitbucket API Token Instructions](https://support.atlassian.com/bitbucket-cloud/docs/create-an-api-token/)
+
+
+[Azure DevOps Personal Access Token Instructions](https://learn.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate)
+
+
+Datacoves saves the token and lists the project repositories by their HTTPS URL. Click _Test_ next to a repository to check the connection. You will see _Tested_ when Datacoves can clone it.
+
+
+<div style={{ maxWidth: "700px", margin: "0 auto" }}>
+![Git Settings HTTPS](./assets/user_settings_git_https.png)
+</div>
+
+
+To replace the token, click _Delete token_ and add a new one. Switching the clone method back to SSH removes the saved token.
 
 ## Set up Database Connection 
 

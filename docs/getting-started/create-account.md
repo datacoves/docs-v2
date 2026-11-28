@@ -82,12 +82,20 @@ Added to **your own user account** in your git provider. Your user needs to be a
 
 See [How to configure an SSH Key](/docs/how-tos/git/ssh-keys) for details.
 
+<div style={{ maxWidth: "450px", margin: "0 auto" }}>
+![Setup wizard git step with SSH](./assets/setup_wizard_git_ssh.png)
+</div>
+
 **Git Repo**
 Have the repository's **SSH** clone URL handy (e.g. `git@github.com:organization/repo.git`). If this will be a new dbt project, create a new repo and ensure at least one file is in the `main` branch such as a `README.md`.
 
 :::note[SSH blocked in your organization?]
-If your organization blocks git over SSH, let us know before the call. The repository will be cloned over HTTPS instead, which requires a username and password. Use a Personal Access Token (PAT) from your git provider as the password, and have the repository's **HTTPS** clone URL handy (e.g. `https://github.com/organization/repo.git`).
+If your organization blocks git over SSH, select **HTTPS** as **Your clone method** in the wizard. You then enter the repository's **HTTPS** clone URL (e.g. `https://github.com/organization/repo.git`), your git username and a Personal Access Token (PAT) from your git provider in place of the developer key. Your token needs to be able to clone and push to the repository.
 :::
+
+<div style={{ maxWidth: "450px", margin: "0 auto" }}>
+![Setup wizard git step with HTTPS](./assets/setup_wizard_git_https.png)
+</div>
 
 **dbt Docs**  
 Create a `dbt-docs` branch in your repo.
